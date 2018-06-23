@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class KiohubApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) extends SpringBootServletInitializer {
 		SpringApplication.run(KiohubApplication.class, args);
 	}
 	
