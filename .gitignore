@@ -1,5 +1,5 @@
 /target/
-!.mvn/wrapper/maven-wrapper.jar
+kiohub/!.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated
@@ -25,4 +25,9 @@
 /.nb-gradle/
 /target/
 
-src/main/resources/application.properties
+kiohub/src/main/resources/application.properties
+/kiohub/target/
+
+###Angular###
+yarn-error.log
+node_modules
