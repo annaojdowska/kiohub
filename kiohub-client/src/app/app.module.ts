@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
+import { MatButtonModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { MenuBarComponent } from './menu-bar/menu-bar.component';
     MenuButtonComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
