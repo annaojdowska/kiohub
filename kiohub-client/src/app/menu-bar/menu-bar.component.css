@@ -1,0 +1,33 @@
+#menu_bar{
+    width: 100%;
+    height: 55px;
+    background-color: orange;
+}
+
+#menu_bar_content{
+    width: var(--page-content-width);
+    margin-left: auto;
+    margin-right:auto;
+    display: table;
+}
+
+#logo_content {
+    width: 50px;
+    height: 50px;
+}
+
+.child_vertical_position {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.margin_extreme_right {
+    float: right;
+    margin-right: 10px;
+}
+
+#img_logo {
+    margin-top: 2px;
+    max-width: 100%;
+    max-height: 100%;
+}
