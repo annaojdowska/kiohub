@@ -1,12 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url("https://fonts.googleapis.com/css?family=PT+Sans");
+
+
 body {
     --page-content-width: 65%;
     --margin-bar-elements: 10px;
     --menu-bar-height: 55px;
+    --normal-font-size: 16px;
+    --main-font-name: 'PT Sans';
 
     margin: 0px;
+    padding: 0px;
     background-color: rgb(219, 211, 200);
+}
+
+
+h1 {
+    font-family: var(--main-font-name), sans-serif;
+    color: orange;
+    font-size: 35px;
+    font-weight: bold;
+    margin: 0;
+    padding-top: 0;
+}
+
+h2 {
+    font-family: var(--main-font-name), sans-serif;
+    color: orange;
+    font-size: 25px;
+    font-weight: normal;
+    font-weight: 400;
+    margin: 0;
+    padding-top: 0;
+}
+
+h3 {
+    font-family: var(--main-font-name), sans-serif;
+    color: black;
+    font-size: var(--normal-font-size);
+    font-weight: normal;
+    margin: 0;
+    padding-top: 0;
+}
+
+h4 {
+    font-family: var(--main-font-name), sans-serif;
+    color: #72bcf0;
+    font-size: var(--normal-font-size);
+    font-weight: normal;
+    margin: 0;
+    padding-top: 0;
+}
+
+h5 {
+    font-family: var(--main-font-name), sans-serif;
+    color: #7a7a7a;
+    font-size: var(--normal-font-size);
+    font-weight: normal;
+    margin: 0;
+    padding-top: 0;
 }
 
 a, a:hover, a:visited, a:link, a:active {
