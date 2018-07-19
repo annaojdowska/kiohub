@@ -3,7 +3,7 @@
     background-color:whitesmoke;
     margin-left: auto;
     margin-right:auto;
-    min-height: 100em;
+    min-height: calc(100vh - var(--menu-bar-height));
 }
 
 #content {

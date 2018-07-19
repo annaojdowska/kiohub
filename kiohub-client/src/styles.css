@@ -3,6 +3,7 @@
 body {
     --page-content-width: 65%;
     --margin-bar-elements: 10px;
+    --menu-bar-height: 55px;
 
     margin: 0px;
     background-color: rgb(219, 211, 200);
