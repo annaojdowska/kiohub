@@ -1,5 +1,7 @@
 .menu-button {
     float: left;
-    color: rgb(247, 245, 245);
+    color: rgb(82, 84, 87);
     margin-left: 10px;
+    font-weight: bold;
+    height: 40px;
 }

@@ -1,10 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 body {
-    --page-content-width: 70%;
+    --page-content-width: 65%;
     --margin-bar-elements: 10px;
 
     margin: 0px;
+    background-color: rgb(219, 211, 200);
 }
 
 a, a:hover, a:visited, a:link, a:active {

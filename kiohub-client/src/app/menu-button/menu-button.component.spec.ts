@@ -8,9 +8,7 @@ let fixture: ComponentFixture<MenuButtonComponent>;
 
 // register all needed dependencies
 beforeEach(() => {
-TestBed.configureTestingModule({
-providers: [MenuButtonComponent]
-});
+TestBed.configureTestingModule({providers: [MenuButtonComponent]});
 });
 
 // instantiation through framework injection

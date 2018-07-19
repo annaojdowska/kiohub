@@ -2,19 +2,27 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+
+import { MatButtonModule, MatInputModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
+import { SearchInputComponent } from './search-input/search-input.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
-import { MatButtonModule } from '@angular/material';
+import { MenuBarNotLoggedComponent } from './menu-bar-not-logged/menu-bar-not-logged.component';
+import { ContentContainerComponent } from './content-container/content-container.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuBarComponent,
-    MenuButtonComponent
+    MenuBarNotLoggedComponent,
+    MenuButtonComponent,
+    SearchInputComponent,
+    ContentContainerComponent
   ],
   imports: [
     BrowserModule,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
