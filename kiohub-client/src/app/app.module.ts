@@ -11,6 +11,8 @@ import { MenuBarNotLoggedComponent } from './menu-bar-not-logged/menu-bar-not-lo
 import { ContentContainerComponent } from './content-container/content-container.component';
 import { AppRoutingModule } from './/app-routing.module';
 
+import { SearchService } from './search-service/search.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +28,7 @@ import { AppRoutingModule } from './/app-routing.module';
     MatInputModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ SearchService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
