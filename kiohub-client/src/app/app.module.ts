@@ -9,6 +9,7 @@ import { SearchInputComponent } from './search-input/search-input.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { MenuBarNotLoggedComponent } from './menu-bar-not-logged/menu-bar-not-logged.component';
 import { ContentContainerComponent } from './content-container/content-container.component';
+import { AppRoutingModule } from './/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ContentContainerComponent } from './content-container/content-container
   imports: [
     BrowserModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
