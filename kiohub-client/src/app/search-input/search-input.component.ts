@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { SearchService } from '../search-service/search.service';
 
 @Component({
 selector: 'app-search-input',
@@ -8,5 +9,9 @@ styleUrls: ['./search-input.component.css']
 
 export class SearchInputComponent implements OnInit {
 
-ngOnInit() { }
+constructor(@Inject(SearchService) private searchService: SearchService) { }
+
+ngOnInit() {
+  this.searchService.getCos();
+ }
 }

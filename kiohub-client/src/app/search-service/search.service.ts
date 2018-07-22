@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SearchService {
 
   constructor() { }
+
+  getCos(): number {
+    return 5;
+  }
 }
