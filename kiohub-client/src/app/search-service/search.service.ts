@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SearchService {
 
-  constructor() { }
+  constructor(@Inject(HttpClient) private http: HttpClient) { }
 
-  getCos(): number {
-    return 5;
+  search(query: string) {
+     return this.http.get('http://kiohub.eti.pg.gda.pl/project/all');
   }
 }

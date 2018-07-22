@@ -1,9 +1,7 @@
 <div>
-    <input tabindex="-1" class=search-input placeholder="Wpisz szukaną frazę"/>
+    <input type=text tabindex="-1" class=search-input placeholder="Wpisz szukaną frazę" [formControl]="queryField"/>
 </div>
 <ul class="filter-select">
-        <li class="filter-select-list">
-            <!-- <img src="" alt="" width="50" height="50"> -->
+        <li *ngFor="let result of results" class="filter-select-list">
             <p class="project-name"></p>
-      <span class="tags"></span>
 </ul>
