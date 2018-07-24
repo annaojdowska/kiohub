@@ -1,0 +1,16 @@
+<img src='assets/add.png'/><br/>
+<h2>Dodaj projekt</h2><br/>  
+<form >
+    <div class=container>
+      <mat-form-field>
+        <input matInput placeholder="Wpisz tytuł projektu w języku polskim">
+      </mat-form-field>
+      <form class=inner-container #sendemail="ngForm" (ngSubmit)="onClickSubmit(sendemail.value)" >
+          <mat-form-field class="left_child">
+              <input name="email" ngModel matInput placeholder="Wpisz adres e-mail współtwórcy projektu "><br/>
+          </mat-form-field>
+          <button type="submit" mat-stroked-button class="submit-button right_child" >Wyślij zaproszenie do edycji</button>
+      </form><br><br>
+      <button type="submit" mat-stroked-button class="wrapper1 submit-button ">Dodaj i przejdź do edycji </button>
+    </div>
+</form>

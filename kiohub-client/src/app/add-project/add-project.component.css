@@ -1,0 +1,56 @@
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:60px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.container {   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    
+}
+
+.left_child {
+    width: 80% !important;
+
+}
+
+.right_child {
+    width: 50% !important;
+
+}
+  
+.container > * {
+    width: 60%;
+}
+
+.inner-container {   
+    display: flex;
+    align-items: center;
+}
+
+.inner-container > * {
+    width: 50%;
+}
+
+.submit-button {
+    margin-left: 10px;
+    background-color: rgb(208, 211, 233);
+    color: rgb(7, 26, 56);
+    font-weight: bold;
+    height: 40px;
+    font-family: var(--main-font-name), sans-serif;
+}
+
+.wrapper1 {
+    display: flex;
+    justify-content: center;
+    width: 200px !important;
+}
