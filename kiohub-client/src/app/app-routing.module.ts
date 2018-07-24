@@ -6,7 +6,8 @@ import { UnloggedSearchComponent } from './unlogged-search/unlogged-search.compo
 
 
 const routes: Routes = [
-  { path: 'home', component: UnloggedSearchComponent }
+  { path: 'home', component: UnloggedSearchComponent },
+  { path: '**', component: UnloggedSearchComponent }
 ];
 
 

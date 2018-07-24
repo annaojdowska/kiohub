@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UnloggedSearchComponent implements OnInit {
 
-  constructor() { }
+  pathToSearchIcon: string;
+  constructor() {
+    this.pathToSearchIcon = '../../assets/search_icon.svg';
+  }
 
   ngOnInit() {
   }
