@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
-import { MatButtonModule, MatInputModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { MenuBarNotLoggedComponent } from './menu-bar-not-logged/menu-bar-not-logged.component';
@@ -37,6 +37,7 @@ import { AddProjectComponent } from './add-project/add-project.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     FormsModule,
+    MatAutocompleteModule
   ],
   providers: [ SearchService ],
   bootstrap: [AppComponent]

@@ -1,8 +1,6 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
 .search-input {
     font-size: 16px;
-    width: 300px;
+    width: 350px;
     height: 40px;
     font-family: var(--main-font-name), sans-serif;
     border-radius:10px;
@@ -11,49 +9,3 @@
     -moz-box-sizing: border-box;   
     box-sizing: border-box;    
 }
-
-.filter-select {
-    width: 50%;
-    list-style: none;
-    font-size: 1.1em;
-    color: rgb(105, 105, 105);
-    border: 1px solid #ccc;
-    border-top: none;
-    /*so things don't jump around*/
-    position: absolute;
-    left: 25%;
-    top: calc(50% + 25px);
-    max-height: calc(50% - 15px);
-    overflow-y: auto;
-    background: #fff
-  }
-
-.filter-select-list:hover .tags {
-    color: #fff;
-  }
-  .filter-select-list {
-    cursor: pointer;
-    padding: 5px 10px;
-  }
-  .project-name {
-    display: inline-block;
-    position: absolute;
-  }
-  .filter-select-list:hover {
-    background:  #C0C0C0;
-    color: #fff
-  }
-  .list-highlight,
-  .list-highlight:hover {
-    background: rgb(55, 55, 55);
-    color: #fff
-  }
-
-  .tags {
-    font-size: 12px;
-    font-style: italic;
-    color: #c6c6c6;
-    margin-right: 10px;
-    position: relative;
-    top: -10px;
-  }

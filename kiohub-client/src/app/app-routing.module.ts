@@ -7,7 +7,8 @@ import { AddProjectComponent } from './add-project/add-project.component';
 
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
-  { path: 'add-project', component: AddProjectComponent }
+  { path: 'add-project', component: AddProjectComponent },
+  { path: '**', component: UnloggedSearchComponent }
 ];
 
 
