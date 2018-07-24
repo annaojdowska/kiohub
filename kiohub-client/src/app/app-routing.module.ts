@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SearchInputComponent } from './search-input/search-input.component';
+import { UnloggedSearchComponent } from './unlogged-search/unlogged-search.component';
 
 
 
 const routes: Routes = [
-  { path: 'home', component: SearchInputComponent }
+  { path: 'home', component: UnloggedSearchComponent }
 ];
 
 

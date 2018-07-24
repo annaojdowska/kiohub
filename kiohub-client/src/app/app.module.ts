@@ -14,6 +14,7 @@ import { AppRoutingModule } from './/app-routing.module';
 
 import { SearchService } from './search-service/search.service';
 import { SearchInputComponent } from 'src/app/search-input/search-input.component';
+import { UnloggedSearchComponent } from './unlogged-search/unlogged-search.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { SearchInputComponent } from 'src/app/search-input/search-input.componen
     MenuBarNotLoggedComponent,
     MenuButtonComponent,
     SearchInputComponent,
-    ContentContainerComponent
+    ContentContainerComponent,
+    UnloggedSearchComponent
   ],
   imports: [
     BrowserModule,
