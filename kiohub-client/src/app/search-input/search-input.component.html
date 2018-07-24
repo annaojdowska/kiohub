@@ -1,7 +1,7 @@
-<div>
-    <input type=text tabindex="-1" class=search-input placeholder="Wpisz szukaną frazę" [formControl]="queryField"/>
-</div>
-<ul class="filter-select">
-        <li *ngFor="let result of results" class="filter-select-list">
-            <p class="project-name"></p>
-</ul>
+<input type=text tabindex="-1" class=search-input placeholder="Wpisz szukaną frazę" [formControl]="queryField" [matAutocomplete]="auto"/>
+
+<mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let result of results" [value]="result.titlePL">
+      {{ result.titlePL }}
+    </mat-option>
+</mat-autocomplete>
