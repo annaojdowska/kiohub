@@ -25,12 +25,9 @@ label {
 }
 
 .submit-button {
-    margin-left: 10px;
     background-color: rgb(208, 211, 233);
     color: rgb(7, 26, 56);
     font-weight: bold;
-    height: 40px;
-    width: 20%;
     font-family: var(--main-font-name), sans-serif;
 }
 

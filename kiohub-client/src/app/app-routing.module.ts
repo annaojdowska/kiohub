@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { UnloggedSearchComponent } from './unlogged-search/unlogged-search.component';
 import { AddProjectComponent } from './add-project/add-project.component';
+import { EditProjectTabComponent } from './edit-project-tab/edit-project-tab.component';
 
 
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
   { path: 'add-project', component: AddProjectComponent },
+  { path: 'edit-project', component: EditProjectTabComponent },
   { path: '**', component: UnloggedSearchComponent }
 ];
 

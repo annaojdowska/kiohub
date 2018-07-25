@@ -5,7 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
-import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { MenuBarNotLoggedComponent } from './menu-bar-not-logged/menu-bar-not-logged.component';
@@ -16,6 +17,9 @@ import { SearchService } from './search-service/search.service';
 import { SearchInputComponent } from 'src/app/search-input/search-input.component';
 import { UnloggedSearchComponent } from './unlogged-search/unlogged-search.component';
 import { AddProjectComponent } from './add-project/add-project.component';
+import { EditProjectTabComponent } from './edit-project-tab/edit-project-tab.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditProjectGeneralTabComponent } from './edit-project-general-tab/edit-project-general-tab.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,9 @@ import { AddProjectComponent } from './add-project/add-project.component';
     SearchInputComponent,
     ContentContainerComponent,
     UnloggedSearchComponent,
-    AddProjectComponent
+    AddProjectComponent,
+    EditProjectTabComponent,
+    EditProjectGeneralTabComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +43,10 @@ import { AddProjectComponent } from './add-project/add-project.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     FormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTabsModule,
+    BrowserAnimationsModule,
+    MatSelectModule
   ],
   providers: [ SearchService ],
   bootstrap: [AppComponent]
