@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { SearchService } from '../search-service/search.service';
 import { debounceTime } from 'rxjs/operators';
 import { Project } from '../model/project.interface';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 
 @Component({
