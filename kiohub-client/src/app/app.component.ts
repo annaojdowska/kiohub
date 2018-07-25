@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { UserService } from './user-data/user.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  isLogged = false;
+  public constructor(@Inject(UserService) userService: UserService) {
+    this.isLogged = userService.getCurrentUser(); // we'll have to change it to some Observable or smth
+  }
 }

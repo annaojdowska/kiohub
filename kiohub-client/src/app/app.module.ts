@@ -20,6 +20,7 @@ import { AddProjectComponent } from './add-project/add-project.component';
 import { EditProjectTabComponent } from './edit-project-tab/edit-project-tab.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditProjectGeneralTabComponent } from './edit-project-general-tab/edit-project-general-tab.component';
+import { UserService } from './user-data/user.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,10 @@ import { EditProjectGeneralTabComponent } from './edit-project-general-tab/edit-
     BrowserAnimationsModule,
     MatSelectModule
   ],
-  providers: [ SearchService ],
+  providers: [
+    SearchService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
