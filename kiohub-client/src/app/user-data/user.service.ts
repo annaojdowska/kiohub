@@ -11,6 +11,6 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
         // return this.currentUser
         // ? this.currentUser
         // : this.http.get('api/login/currentUser', {responseType: 'json'}).subscribe(user => this.currentUser = user);
-        return false; // loggged/unlogged
+        return true; // loggged/unlogged
     }
 }
