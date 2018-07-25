@@ -69,3 +69,10 @@ a, a:hover, a:visited, a:link, a:active {
 *:focus {
     outline: none;
 }
+
+.submit-button {
+    background-color: rgb(208, 211, 233);
+    color: rgb(7, 26, 56);
+    font-weight: bold;
+    font-family: var(--main-font-name), sans-serif;
+}
