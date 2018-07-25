@@ -1,15 +1,54 @@
-<h2>Edycja projektu</h2>
-<label>Status projektu: </label> 
-<mat-form-field>
-    <mat-select placeholder="Wybierz rodzaj statusu">
-      <mat-option *ngFor="let status of statuses" [value]="status.value">
-        {{status.viewValue}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+<br/><label id="h2">Edycja projektu</label>
+<mat-form-field class="wrapper-right">
+  <mat-select placeholder="Status projektu">
+    <mat-option *ngFor="let status of statuses" [value]="status.value">{{status.viewValue}}</mat-option>
+  </mat-select>
+</mat-form-field><br/><br/>
 <form>
-    <label class="left_element">Tytuł: &nbsp;&nbsp;&nbsp;</label>
+    <label class="left_element">Tytuł:</label>
+    <mat-form-field class="wrapper-width"><input matInput name="title"></mat-form-field><br/>
+    <label class="left_element">Opis:&nbsp;</label>
+    <mat-form-field class="wrapper-width"><textarea matInput name="description"></textarea></mat-form-field><br/>
+    <label>Typ projektu: </label> 
     <mat-form-field>
-        <input matInput name="title">
-    </mat-form-field>
+        <mat-select [(value)]="selected">
+          <mat-option value="option1">Praca inżynierska</mat-option>
+          <mat-option value="option2">Praca magisterska</mat-option>
+          <mat-option value="option3">Projekt grupowy</mat-option>
+        </mat-select>
+      </mat-form-field><br/>
+    <label class="image-upload">
+        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <input id="file-input" type="file"/>
+    </label> 
+    <label>Dodaj pracę </label><br/>
+    <label class="image-upload">
+        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <input id="file-input" type="file"/>
+    </label>
+    <label>Dodaj program i/lub kod programu </label><br/>
+    <label class="image-upload">
+        <label for="file-input"><img src="assets/add-photo.png"/></label>    
+        <input id="file-input" type="file"/>
+    </label>
+    <label>Dodaj zdjęcia program: </label><br/>
+    <label class="image-upload">
+        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <input id="file-input" type="file"/>
+    </label>
+    <label>Dodaj instrukcję obsługi programu </label><br/>
+    <label class="image-upload">
+        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <input id="file-input" type="file"/>
+    </label>
+    <label>Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego </label><br/>
+    <label class="image-upload">
+        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <input id="file-input" type="file"/>
+    </label>
+    <label>Dodaj inne załączniki </label><br/>
+
+    <br/>
+    <button type="submit" mat-stroked-button class="submit-button">Zatwierdź zmiany</button>
+    <button type="submit" mat-stroked-button class="submit-button">Publikuj na stronie</button>
 </form>

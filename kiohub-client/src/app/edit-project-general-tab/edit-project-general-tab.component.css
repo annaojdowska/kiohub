@@ -1,14 +1,26 @@
-h2 {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-
 label {
     font-family: var(--main-font-name), sans-serif;
-    color: black;
-    font-size: var(--normal-font-size);
+    margin-right: 10px;
+}
+
+#h2 {
+    font-family: var(--main-font-name), sans-serif;
+    color: orange;
+    font-size: 25px;
     font-weight: normal;
-    padding-top: 20px;
-    margin-right: 5px;
+    font-weight: 400;
+}
+
+.wrapper-right {
+    position: absolute;
+    right: 0;
+}
+
+.wrapper-width {
+    width: 80%;
+}
+
+.image-upload > input
+{
+    display: none;
 }
