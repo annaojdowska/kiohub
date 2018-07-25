@@ -1,0 +1,15 @@
+<h2>Edycja projektu</h2>
+<label>Status projektu: </label> 
+<mat-form-field>
+    <mat-select placeholder="Wybierz rodzaj statusu">
+      <mat-option *ngFor="let status of statuses" [value]="status.value">
+        {{status.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+<form>
+    <label class="left_element">Tytuł: &nbsp;&nbsp;&nbsp;</label>
+    <mat-form-field>
+        <input matInput name="title">
+    </mat-form-field>
+</form>

@@ -1,0 +1,14 @@
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+label {
+    font-family: var(--main-font-name), sans-serif;
+    color: black;
+    font-size: var(--normal-font-size);
+    font-weight: normal;
+    padding-top: 20px;
+    margin-right: 5px;
+}
