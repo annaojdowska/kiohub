@@ -6,9 +6,7 @@
 package pg.eti.kiohub.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.*;
 
 /**
@@ -44,11 +42,15 @@ public class Project implements Serializable {
     @JoinColumn(name = "status_id", nullable = false)
     private ProjectStatus projectStatus;    
     
-    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "licence_id", nullable = false)
+    private Licence licence;    
 //    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
 //    private List<UserPinnedProject> userPinnedProjects = new ArrayList<>();
     
-    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id",  referencedColumnName = "id")
+    private ProjectSettings projectSettings;
     
     
     /*
@@ -73,6 +75,7 @@ public class Project implements Serializable {
     //TODO problem z boolean
     @Column(name = "is_published")
     private Boolean published;
+
 
 
 }

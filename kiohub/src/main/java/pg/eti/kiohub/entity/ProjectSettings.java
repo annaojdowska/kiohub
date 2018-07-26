@@ -5,9 +5,9 @@
  */
 package pg.eti.kiohub.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,21 +16,21 @@ import lombok.Setter;
  *
  * @author Aleksander Kania
  */
-@Entity(name = "USER_PINNED_PROJECTS")
+@Entity(name = "PROJECT_SETTINGS")
 @Getter
 @Setter
 @NoArgsConstructor
-@IdClass(UserProjectPK.class)
-public class UserPinnedProject {
+public class ProjectSettings {
 
     @Id
-    private Long userId;
-    @Id
-    private Long projectId;
-
-    public UserPinnedProject(Long userId, Long projectId) {
-        this.userId = userId;
-        this.projectId = projectId;
-    }
+    @Column(name = "project_id")
+    private Long id;
+    
+    private Boolean licenceVisible;
+    private Boolean supervisorVisible;
+    private Boolean publicationDateVisible;
+    private Boolean tagsVisible;
+    private Boolean semestersVisible;
+    private Boolean relatedProjectsVisible;
 
 }

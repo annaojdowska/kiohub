@@ -108,6 +108,8 @@ CREATE TABLE users (
 CREATE TABLE project_collaborators (
 	project_id INT UNSIGNED NOT NULL REFERENCES projects,
     user_id INT UNSIGNED NOT NULL REFERENCES users,
+	user_data_visible SMALLINT(1),
+	is_supervisor SMALLINT(1),
     PRIMARY KEY(project_id, user_id)
 );
 

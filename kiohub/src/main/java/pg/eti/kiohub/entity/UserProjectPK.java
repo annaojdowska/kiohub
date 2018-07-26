@@ -19,23 +19,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserProjectPK implements Serializable {
 
-    //@Column(name = "user_id")
     private Long userId;
-    //@Column(name = "pinned_project_id")
     private Long projectId;
-
-//    public UserProjectPK(Long userId, Long projectId) {
-//        this.userId = userId;
-//        this.projectId = projectId;
-//    }
-//
-//    public void setUserId(Long userId) {
-//        this.userId = userId;
-//    }
-//
-//    public void setProjectId(Long projectId) {
-//        this.projectId = projectId;
-//    }
 
     @Override
     public int hashCode() {
