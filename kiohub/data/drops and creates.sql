@@ -39,7 +39,7 @@ CREATE TABLE projects (
     description_PL NVARCHAR(2000),
 	description_ENG NVARCHAR(2000),
     publication_date DATE,
-    is_published BIT,
+    is_published SMALLINT(1),
     licence_id INT UNSIGNED REFERENCES licences,
     type_id INT UNSIGNED REFERENCES project_types,
     status_id INT UNSIGNED REFERENCES project_status
@@ -47,12 +47,12 @@ CREATE TABLE projects (
 
 CREATE TABLE project_settings (
 	project_id INT UNSIGNED NOT NULL PRIMARY KEY REFERENCES projects,
-    licence_visible BIT,
-    supervisor_visible BIT,
-    publication_date_visible BIT,
-    tags_visible BIT,
-    semesters_visible BIT,
-	related_projects_visible BIT
+    licence_visible SMALLINT(1),
+    supervisor_visible SMALLINT(1),
+    publication_date_visible SMALLINT(1),
+    tags_visible SMALLINT(1),
+    semesters_visible SMALLINT(1),
+	related_projects_visible SMALLINT(1)
 );
 
 CREATE TABLE tags (
@@ -89,7 +89,7 @@ CREATE TABLE attachments (
     file_size MEDIUMINT UNSIGNED NOT NULL,
     type NVARCHAR(30) NOT NULL,
     visibility INT,    
-    is_main_photo BIT,
+    is_main_photo SMALLINT(1),
     project_id INT NOT NULL REFERENCES projects
 );
 
@@ -121,7 +121,7 @@ CREATE TABLE notes (
 	note_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
     content NVARCHAR(500) NOT NULL,
     publication_date DATE NOT NULL,
-    is_private BIT,
+    is_private SMALLINT(1),
     owner_id INT UNSIGNED NOT NULL REFERENCES users,
     project_id INT UNSIGNED NOT NULL REFERENCES projects
 );
