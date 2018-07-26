@@ -6,7 +6,9 @@
 package pg.eti.kiohub.entity.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.*;
@@ -52,11 +56,12 @@ public class Project implements Serializable {
     @JoinColumn(name = "project_id",  referencedColumnName = "id")
     private ProjectSettings projectSettings;
     
+    @ManyToMany
+    @JoinTable(name = "project_tags",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
     
-    /*
-        TODO
-        licence_id
-     */
     @Column(name = "title_PL")
     private String title;
 
@@ -76,6 +81,9 @@ public class Project implements Serializable {
     @Column(name = "is_published")
     private Boolean published;
 
-
+    public void addTag(Tag tag) {
+        tags.add(tag);
+        tag.getProjects().add(this);
+    }
 
 }

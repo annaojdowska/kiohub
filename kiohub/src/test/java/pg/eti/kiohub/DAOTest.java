@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import pg.eti.kiohub.entity.model.Tag;
 import pg.eti.kiohub.entity.repository.LicenceRepository;
 import pg.eti.kiohub.entity.repository.NoteRepository;
 import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
@@ -31,6 +32,7 @@ import pg.eti.kiohub.entity.repository.ProjectRepository;
 import pg.eti.kiohub.entity.repository.ProjectSettingsRepository;
 import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
 import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
+import pg.eti.kiohub.entity.repository.TagRepository;
 import pg.eti.kiohub.entity.repository.UserPinnedProjectRepository;
 import pg.eti.kiohub.entity.repository.UserRepository;
 import pg.eti.kiohub.utils.DateUtills;
@@ -62,6 +64,8 @@ public class DAOTest {
     private LicenceRepository licenceRepository;
     @Autowired
     private ProjectSettingsRepository projectSettingsRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     private Project project;
     private Long projectId;
@@ -124,6 +128,7 @@ public class DAOTest {
         project.setProjectStatus(createSaveProjectStatus());
         project.setLicence(createSaveLicence());
         project.setProjectSettings(createSaveProjectSettings());
+        project.setTags(createSaveTags());
         return project;
     }
 
@@ -215,6 +220,17 @@ public class DAOTest {
         
         projectSettingsRepository.save(settings);
         return settings;
+    }
+
+    private List<Tag> createSaveTags() {
+        List<Tag> tags = new ArrayList<>();
+        Tag tag1 = new Tag("spring");
+        //tag1.addProject(project);
+        Tag tag2 = new Tag("web-app");
+        tags.addAll(Arrays.asList(tag1, tag2));
+        tagRepository.saveAll(tags);
+        
+        return tags;
     }
 
 }
