@@ -1,13 +1,21 @@
 package pg.eti.kiohub;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.*;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.*;
 
 
 
-@SpringBootApplication
+@SpringBootApplication// = @Configuration, @ComponentScan, @EnableAutoConfiguration
+//@Configuration
+//@ComponentScan(basePackages = {
+//    "pg.eti.kiohub.controller",
+//    "pg.eti.kiohub.entity",
+//    "pg.eti.kiohub.repository",
+//    "pg.eti.kiohub.service"
+//})
 public class KiohubApplication extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {

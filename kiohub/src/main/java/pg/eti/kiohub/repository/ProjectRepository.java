@@ -6,12 +6,15 @@
 package pg.eti.kiohub.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import pg.eti.kiohub.entity.Project;
 
 /**
  *
  * @author Aleksander Kania <kania>
  */
+//adnotacja potrzebna po to, aby Spring mógł zinterpretować klasę jako springowe repozytorium
+@Repository
 public interface ProjectRepository extends CrudRepository<Project, Long>{
         
 }

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.repository.ProjectRepository;
+import pg.eti.kiohub.repository.ProjectStatusRepository;
+import pg.eti.kiohub.repository.ProjectTypeRepository;
+import pg.eti.kiohub.repository.UserRepository;
 
 /**
  *
@@ -17,11 +20,20 @@ import pg.eti.kiohub.repository.ProjectRepository;
 @Controller
 public class MainController {
 
-        @Autowired
-        protected ProjectRepository projectRepository;
+    @Autowired
+    protected ProjectRepository projectRepository;
 
-        @RequestMapping(path = "/")
-        public String homePage() {
-                return "index.html";
-        }
+    @Autowired
+    protected ProjectTypeRepository projectTypeRepository;
+
+    @Autowired
+    protected ProjectStatusRepository projectStatusRepository;
+    
+    @Autowired
+    protected UserRepository userRepository;
+
+    @RequestMapping(path = "/")
+    public String homePage() {
+        return "index.html";
+    }
 }
