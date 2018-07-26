@@ -12,4 +12,8 @@ export class EditProjectManagementTabComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteProject() {
+    alert('Usunięto projekt :(');
+  }
+
 }

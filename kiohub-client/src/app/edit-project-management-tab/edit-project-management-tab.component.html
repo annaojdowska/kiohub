@@ -1,2 +1,20 @@
-<label>Promotor pracy:</label>
-<mat-form-field class="wrapper-width"><input matInput name="title"></mat-form-field><br/>
+<br/><label id="h2">Zarządzanie projektem</label><br/><br/>
+<form>
+  <label class="wrapper-left">Promotor pracy:</label>
+  <mat-form-field class="wrapper-width"><input matInput name="supervisor"></mat-form-field><br/>
+  <label class="wrapper-left">Autorzy pracy:</label>
+  <mat-form-field class="wrapper-width"><input matInput name="student"></mat-form-field><br/>
+  <br/><br/>
+  <div id="button-container">
+    <button type="submit" mat-stroked-button class="submit-button">Zatwierdź zmiany</button>
+  </div>
+</form>
+<br/><br/><br/>
+<div id="border">
+  <h3>Usuń projekt</h3>
+  <h5>Proszę, bądź pewien, że chcesz usunąć ten projekt, ponieważ po jego usunięciu nie możesz już do niego powrócić. 
+    Wszystkie dane z nim związane (metadane projektu oraz załączniki) zostaną usunięte.</h5><br/>
+  <div id="button-container-right">
+    <button id="button-delete" mat-stroked-button (click)="deleteProject()">Bezpowrotnie usuń ten projekt</button>
+  </div>
+</div>
