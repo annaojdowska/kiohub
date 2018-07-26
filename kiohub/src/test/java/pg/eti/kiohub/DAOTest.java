@@ -32,6 +32,8 @@ import pg.eti.kiohub.entity.repository.ProjectRepository;
 import pg.eti.kiohub.entity.repository.ProjectSettingsRepository;
 import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
 import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
+import pg.eti.kiohub.entity.model.Semester;
+import pg.eti.kiohub.entity.repository.SemesterRepository;
 import pg.eti.kiohub.entity.repository.TagRepository;
 import pg.eti.kiohub.entity.repository.UserPinnedProjectRepository;
 import pg.eti.kiohub.entity.repository.UserRepository;
@@ -66,6 +68,8 @@ public class DAOTest {
     private ProjectSettingsRepository projectSettingsRepository;
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private SemesterRepository semesterRepository;
 
     private Project project;
     private Long projectId;
@@ -129,6 +133,7 @@ public class DAOTest {
         project.setLicence(createSaveLicence());
         project.setProjectSettings(createSaveProjectSettings());
         project.setTags(createSaveTags());
+        project.setSemesters(createSaveSemesters());
         return project;
     }
 
@@ -228,9 +233,17 @@ public class DAOTest {
         //tag1.addProject(project);
         Tag tag2 = new Tag("web-app");
         tags.addAll(Arrays.asList(tag1, tag2));
-        tagRepository.saveAll(tags);
         
+        tagRepository.saveAll(tags);        
         return tags;
+    }
+
+    private List<Semester> createSaveSemesters() {
+        Semester semester = new Semester("1993/1994 - zimowy");
+        List<Semester> semesters = new ArrayList<>(Arrays.asList(semester));
+        
+        semesterRepository.saveAll(semesters);
+        return semesters;
     }
 
 }
