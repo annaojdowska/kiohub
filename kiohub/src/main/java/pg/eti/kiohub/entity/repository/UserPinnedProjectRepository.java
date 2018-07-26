@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pg.eti.kiohub.repository;
+package pg.eti.kiohub.entity.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pg.eti.kiohub.entity.Project;
+import pg.eti.kiohub.entity.model.UserPinnedProject;
 
 /**
  *
- * @author Aleksander Kania <kania>
+ * @author Aleksander Kania
  */
-//adnotacja potrzebna po to, aby Spring mógł zinterpretować klasę jako springowe repozytorium
 @Repository
-public interface ProjectRepository extends CrudRepository<Project, Long>{
-        
+public interface UserPinnedProjectRepository extends CrudRepository<UserPinnedProject, Long> { 
+    
 }

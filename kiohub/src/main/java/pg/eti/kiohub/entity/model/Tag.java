@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pg.eti.kiohub.service;
-
-import org.springframework.stereotype.Service;
+package pg.eti.kiohub.entity.model;
 
 /**
  *
- * @author Aleksander Kania <kania>
+ * @author Aleksander Kania
  */
-@Service
-public interface ProjectService {
+public class Tag {
     
 }

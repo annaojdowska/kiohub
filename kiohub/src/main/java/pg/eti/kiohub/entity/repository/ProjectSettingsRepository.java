@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pg.eti.kiohub.repository;
+package pg.eti.kiohub.entity.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pg.eti.kiohub.entity.ProjectSettings;
+import pg.eti.kiohub.entity.model.ProjectSettings;
 
 /**
  *

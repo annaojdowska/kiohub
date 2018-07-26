@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pg.eti.kiohub.entity;
+package pg.eti.kiohub.entity.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,19 +22,19 @@ import lombok.Setter;
  *
  * @author Aleksander Kania <kania>
  */
-@Entity(name = "PROJECT_TYPES")
+@Entity(name = "PROJECT_STATUS")
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProjectType {
+public class ProjectStatus {
     @Id
-    @Column(name = "type_id")
+    @Column(name = "status_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
+    private Long id;
     
     @Column(name = "name")
     private String name;
     
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "projectType")
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "projectStatus")
     private List<Project> projects;
 }
