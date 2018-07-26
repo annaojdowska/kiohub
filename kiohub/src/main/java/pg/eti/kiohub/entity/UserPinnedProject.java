@@ -26,11 +26,11 @@ public class UserPinnedProject {
     @Id
     private Long userId;
     @Id
-    private Long pinnedProjectId;
+    private Long projectId;
 
     public UserPinnedProject(Long userId, Long pinnedProjectId) {
         this.userId = userId;
-        this.pinnedProjectId = pinnedProjectId;
+        this.projectId = pinnedProjectId;
     }
 
 }

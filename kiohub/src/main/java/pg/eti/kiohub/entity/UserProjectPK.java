@@ -17,14 +17,14 @@ import lombok.NoArgsConstructor;
  */
 //@Embeddable
 @NoArgsConstructor
-public class UserPinnedProjectPK implements Serializable {
+public class UserProjectPK implements Serializable {
 
     //@Column(name = "user_id")
     private Long userId;
     //@Column(name = "pinned_project_id")
-    private Long pinnedProjectId;
+    private Long projectId;
 
-//    public UserPinnedProjectPK(Long userId, Long projectId) {
+//    public UserProjectPK(Long userId, Long projectId) {
 //        this.userId = userId;
 //        this.projectId = projectId;
 //    }
@@ -41,7 +41,7 @@ public class UserPinnedProjectPK implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 37 * hash + Objects.hashCode(this.userId);
-        hash = 37 * hash + Objects.hashCode(this.pinnedProjectId);
+        hash = 37 * hash + Objects.hashCode(this.projectId);
         return hash;
     }
 
@@ -56,11 +56,11 @@ public class UserPinnedProjectPK implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final UserPinnedProjectPK other = (UserPinnedProjectPK) obj;
+        final UserProjectPK other = (UserProjectPK) obj;
         if (!Objects.equals(this.userId, other.userId)) {
             return false;
         }
-        if (!Objects.equals(this.pinnedProjectId, other.pinnedProjectId)) {
+        if (!Objects.equals(this.projectId, other.projectId)) {
             return false;
         }
         return true;

@@ -99,7 +99,7 @@ CREATE TABLE attachments_files (
 );
 
 CREATE TABLE users (
-	user_id INT UNSIGNED NOT NULL PRIMARY KEY,
+	user_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
     first_name NVARCHAR(20) NOT NULL,
     last_name NVARCHAR(30) NOT NULL,
     email VARCHAR(50) NOT NULL
@@ -113,8 +113,8 @@ CREATE TABLE project_collaborators (
 
 CREATE TABLE user_pinned_projects (
     user_id INT UNSIGNED NOT NULL REFERENCES users,
-	pinned_project_id INT UNSIGNED NOT NULL REFERENCES projects,
-    PRIMARY KEY(user_id, pinned_project_id)
+	project_id INT UNSIGNED NOT NULL REFERENCES projects,
+    PRIMARY KEY(user_id, project_id)
 );
 
 CREATE TABLE notes (
