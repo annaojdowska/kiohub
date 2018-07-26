@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@IdClass(UserPinnedProjectPK.class)
+@IdClass(UserProjectPK.class)
 public class UserPinnedProject {
 
     @Id
