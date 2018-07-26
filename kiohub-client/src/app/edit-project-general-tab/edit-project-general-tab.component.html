@@ -5,50 +5,59 @@
   </mat-select>
 </mat-form-field><br/><br/>
 <form>
-    <label class="left_element">Tytuł:</label>
+    <label>Tytuł:</label>
     <mat-form-field class="wrapper-width"><input matInput name="title"></mat-form-field><br/>
-    <label class="left_element">Opis:&nbsp;</label>
+    <label>Opis:&nbsp;</label>
     <mat-form-field class="wrapper-width"><textarea matInput name="description"></textarea></mat-form-field><br/>
     <label>Typ projektu: </label> 
     <mat-form-field>
-        <mat-select [(value)]="selected">
-          <mat-option value="option1">Praca inżynierska</mat-option>
-          <mat-option value="option2">Praca magisterska</mat-option>
-          <mat-option value="option3">Projekt grupowy</mat-option>
+        <mat-select [(value)]="selected-type">
+            <mat-option *ngFor="let type of project_types" [value]="type.value">{{type.viewValue}}</mat-option>
         </mat-select>
-      </mat-form-field><br/>
+    </mat-form-field><br/>
     <label class="image-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input id="file-input" type="file"/>
+        <input (change)="onFileChange($event)"  id="file-input" type="file"/>
     </label> 
     <label>Dodaj pracę </label><br/>
     <label class="image-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input id="file-input" type="file"/>
+        <input (change)="onFileChange($event)" id="file-input" type="file"/>
     </label>
     <label>Dodaj program i/lub kod programu </label><br/>
     <label class="image-upload">
         <label for="file-input"><img src="assets/add-photo.png"/></label>    
-        <input id="file-input" type="file"/>
+        <input (change)="onFileChange($event)" id="file-input" type="file"/>
     </label>
-    <label>Dodaj zdjęcia program: </label><br/>
+    <label>Dodaj zdjęcia programu </label><br/>
     <label class="image-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input id="file-input" type="file"/>
+        <input (change)="onFileChange($event)" id="file-input" type="file"/>
     </label>
     <label>Dodaj instrukcję obsługi programu </label><br/>
     <label class="image-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input id="file-input" type="file"/>
+        <input (change)="onFileChange($event)" id="file-input" type="file"/>
     </label>
     <label>Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego </label><br/>
     <label class="image-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input id="file-input" type="file"/>
+        <input (change)="onFileChange($event)" id="file-input" type="file"/>
     </label>
-    <label>Dodaj inne załączniki </label><br/>
-
-    <br/>
-    <button type="submit" mat-stroked-button class="submit-button">Zatwierdź zmiany</button>
-    <button type="submit" mat-stroked-button class="submit-button">Publikuj na stronie</button>
+    <label>Dodaj inne załączniki </label><br/><br/>
+    <label>Wybierz licencję: </label>
+    <mat-form-field>
+        <mat-select [(value)]="selected-licence">
+            <mat-option *ngFor="let licence of licences" [value]="licence.value">{{licence.viewValue}}</mat-option>
+        </mat-select>
+    </mat-form-field><br/>
+    <label>Semestry wywtarzania: </label> <img src='assets/calendar.png'/><br/><br/>
+    <label>Tagi:</label>
+    <mat-form-field class="wrapper-width-smaller"><input matInput name="tags"></mat-form-field><br/>
+    <br/> <br/> <br/> <br/>
+    <div id="button-container">
+        <button type="submit" mat-stroked-button class="submit-button">Zatwierdź zmiany</button>
+        <div id="divider"></div>
+        <button type="submit" mat-stroked-button class="submit-button">Publikuj na stronie</button>
+    </div>  
 </form>

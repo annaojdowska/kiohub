@@ -24,3 +24,13 @@ label {
 {
     display: none;
 }
+
+#button-container {
+    text-align: center;
+}
+  
+#divider{
+    width: 50px;
+    height: auto;
+    display: inline-block;
+}

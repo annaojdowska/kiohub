@@ -21,6 +21,7 @@ import { EditProjectTabComponent } from './edit-project-tab/edit-project-tab.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditProjectGeneralTabComponent } from './edit-project-general-tab/edit-project-general-tab.component';
 import { UserService } from './user-data/user.service';
+import { EditProjectManagementTabComponent } from './edit-project-management-tab/edit-project-management-tab.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { UserService } from './user-data/user.service';
     UnloggedSearchComponent,
     AddProjectComponent,
     EditProjectTabComponent,
-    EditProjectGeneralTabComponent
+    EditProjectGeneralTabComponent,
+    EditProjectManagementTabComponent
   ],
   imports: [
     BrowserModule,
