@@ -34,3 +34,26 @@ label {
     height: auto;
     display: inline-block;
 }
+
+.fileContainer {
+    overflow: hidden;
+    position: relative;
+    border-radius: .2em;
+    float: left;
+    padding: .3em;
+    width: 100px;
+    text-align: center;
+    background-color: rgb(208, 211, 233);
+    color: rgb(7, 26, 56);
+    font-weight: bold;
+    font-family: var(--main-font-name), sans-serif;
+}
+
+.fileContainer [type=file] {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    cursor: pointer;
+}

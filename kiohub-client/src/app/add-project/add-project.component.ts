@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-add-project',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddProjectComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(Router) private router: Router) { }
 
   ngOnInit() {
   }
@@ -15,4 +16,8 @@ export class AddProjectComponent implements OnInit {
   onClickSubmit(data) {
     alert('Entered Email: ' + data.email);
   }
+
+  btnClick = function () {
+    this.router.navigateByUrl('edit-project');
+  };
 }
