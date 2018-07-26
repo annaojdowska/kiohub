@@ -5,6 +5,7 @@
  */
 package pg.eti.kiohub.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,21 +21,34 @@ import lombok.Setter;
 
 /**
  *
- * @author Aleksander Kania <kania>
+ * @author Aleksander Kania
  */
-@Entity(name = "PROJECT_STATUS")
+@Entity(name = "USERS")
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProjectStatus {
+public class User {
     @Id
-    @Column(name = "status_id")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;     
+ 
+//    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+//    private List<UserPinnedProject> userPinnedProjects = new ArrayList<>();
     
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
     
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "projectStatus")
-    private List<Project> projects;
+    @Column(name = "last_name")
+    private String lastName;
+    
+    @Column(name = "email")
+    private String email;
+
+    public User(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }   
+    
 }
