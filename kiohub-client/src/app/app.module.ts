@@ -39,8 +39,8 @@ import {ENTER, COMMA} from '@angular/cdk/keycodes';
     AddProjectComponent,
     EditProjectTabComponent,
     EditProjectGeneralTabComponent,
-    EditProjectManagementTabComponent,
-    InputListComponent
+    EditProjectManagementTabComponent
+
   ],
   imports: [
     BrowserModule,
