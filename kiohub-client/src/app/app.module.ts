@@ -67,7 +67,7 @@ import { InputListComponent } from './input-list/input-list.component';
       useValue: {
         separatorKeyCodes: [ENTER, COMMA]
       }
-
+    }
 
   ],
   bootstrap: [AppComponent]
