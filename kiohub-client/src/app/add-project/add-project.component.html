@@ -1,16 +1,43 @@
 <img src='assets/add.png'/><br/>
 <h2>Dodaj projekt</h2><br/>  
 
-<form id="form">
+<form #createproject="ngForm">
     <label class="left_element">Tytuł projektu</label>
     <mat-form-field class="right_element">
-        <input matInput name="title">
+        <input name="title" ngModel matInput>
     </mat-form-field>
-    <form #sendemail="ngForm" (ngSubmit)="onClickSubmit(sendemail.value)" >
-        <label>Współtwórcy </label>
-        <mat-form-field  class="right_element">
-            <input name="email" ngModel matInput>
-        </mat-form-field><br/>
+    <form #addemail="ngForm">
+        <label>Twórcy </label>
+        <mat-form-field class="example-chip-list right_element" >
+                <mat-chip-list #chipList>
+                  <mat-chip
+                    *ngFor="let fruit of fruits"
+                    [selectable]="selectable"
+                    [removable]="removable"
+                    (removed)="remove(fruit)">
+                    {{fruit}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                    placeholder="New fruit..."
+                    #fruitInput
+                    [formControl]="fruitCtrl"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                    {{fruit}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
     </form><br/><br/>
-    <button type="submit" (click)="btnClick();" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
+    <button type="submit" (click)="createProjectClick(createproject.value);" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
 </form>
+
+
+<!-- 
+<input name="newEmail" ngModel matInput [matChipInputFor]="chipList"> -->

@@ -5,7 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
-import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
+  MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -22,6 +23,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditProjectGeneralTabComponent } from './edit-project-general-tab/edit-project-general-tab.component';
 import { UserService } from './user-data/user.service';
 import { EditProjectManagementTabComponent } from './edit-project-management-tab/edit-project-management-tab.component';
+import { EmailInvitationService } from './email-invitation-service/email-invitation.service';
+import {ENTER, COMMA} from '@angular/cdk/keycodes';
+import { InputListComponent } from './input-list/input-list.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,8 @@ import { EditProjectManagementTabComponent } from './edit-project-management-tab
     AddProjectComponent,
     EditProjectTabComponent,
     EditProjectGeneralTabComponent,
-    EditProjectManagementTabComponent
+    EditProjectManagementTabComponent,
+    InputListComponent
   ],
   imports: [
     BrowserModule,
@@ -50,11 +55,20 @@ import { EditProjectManagementTabComponent } from './edit-project-management-tab
     MatTabsModule,
     BrowserAnimationsModule,
     MatSelectModule,
-    MatDialogModule
+    MatDialogModule,
+    MatChipsModule
   ],
   providers: [
     SearchService,
-    UserService
+    UserService,
+    EmailInvitationService,
+    {
+      provide: MAT_CHIPS_DEFAULT_OPTIONS,
+      useValue: {
+        separatorKeyCodes: [ENTER, COMMA]
+      }
+
+
   ],
   bootstrap: [AppComponent]
 })
