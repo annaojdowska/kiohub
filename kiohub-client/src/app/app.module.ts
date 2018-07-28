@@ -25,7 +25,7 @@ import { UserService } from './user-data/user.service';
 import { EditProjectManagementTabComponent } from './edit-project-management-tab/edit-project-management-tab.component';
 import { EmailInvitationService } from './email-invitation-service/email-invitation.service';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
-import { InputListComponent } from './input-list/input-list.component';
+
 
 @NgModule({
   declarations: [
