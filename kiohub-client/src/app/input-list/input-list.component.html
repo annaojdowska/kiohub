@@ -1,0 +1,35 @@
+      <input
+    #elementInput
+    [formControl]="elementCtrl"
+    [matAutocomplete]="auto"
+    [matChipInputFor]="chipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    [matChipInputAddOnBlur]="addOnBlur"
+    [placeholder]="_placeholder"
+    (matChipInputTokenEnd)="add($event)"
+    class='chip-input'
+    /> 
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let fruit of filteredElements | async" [value]="fruit">
+        {{fruit}}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-chip-list #chipList>
+      <div class='chip-list-wrapper'>
+        <mat-chip
+          *ngFor="let fruit of _elements"
+          [selectable]="selectable"
+          [removable]="_removable"
+          (removed)="remove(fruit)"
+          [disableRipple]="true"
+          class = "chip-{{orientation}} chip">
+          
+          <div class='chip-text'>
+              {{fruit}}
+          </div>
+          <img src="assets/delete-button-smaller.png" matChipRemove *ngIf="_removable == 'true'" class="chip-remove"/>
+        </mat-chip>
+      </div>
+      </mat-chip-list>
+
+

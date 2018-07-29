@@ -18,11 +18,12 @@ label {
     color: black;
     font-size: var(--normal-font-size);
     font-weight: normal;
-    padding-top: 20px;
+    padding-top: 14px;
     display: inline-block;
     width: 140px;
     text-align: right;
     margin-right:20px;
+    vertical-align: top;
 }
 
 .right_element {

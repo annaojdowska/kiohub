@@ -7,37 +7,12 @@
         <input name="title" ngModel matInput>
     </mat-form-field>
     <form #addemail="ngForm">
-        <label>Twórcy </label>
-        <mat-form-field class="example-chip-list right_element" >
-                <mat-chip-list #chipList>
-                  <mat-chip
-                    *ngFor="let fruit of fruits"
-                    [selectable]="selectable"
-                    [removable]="removable"
-                    (removed)="remove(fruit)">
-                    {{fruit}}
-                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                  </mat-chip>
-                  <input
-                    placeholder="New fruit..."
-                    #fruitInput
-                    [formControl]="fruitCtrl"
-                    [matAutocomplete]="auto"
-                    [matChipInputFor]="chipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                    [matChipInputAddOnBlur]="addOnBlur"
-                    (matChipInputTokenEnd)="add($event)">
-                </mat-chip-list>
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                  <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-                    {{fruit}}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
+        <label class="left_element">Twórcy </label>
+            <app-input-list orientation="vertical" removable="true" placeholder="Wpisz adresy e-mail" elements="s111,s222,s333" class="right_element ng-untouched ng-pristine ng-valid mat-form-field ng-tns-c10-0 mat-primary mat-form-field-type-mat-input mat-form-field-appearance-legacy mat-form-field-can-float"></app-input-list>
+        <br/>
     </form><br/><br/>
     <button type="submit" (click)="createProjectClick(createproject.value);" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
 </form>
 
 
-<!-- 
-<input name="newEmail" ngModel matInput [matChipInputFor]="chipList"> -->
+
