@@ -72,7 +72,9 @@ public class DAOTest {
     private SemesterRepository semesterRepository;
 
     private Project project;
+    private Project project2;
     private Long projectId;
+    private Long project2Id;
     private Long userId1;
     private Long userId2;
 
@@ -81,11 +83,14 @@ public class DAOTest {
         findNewEntityIds();
 
         project = createProject();
+        project2 = new Project();
+        project2.setTitle("Kolejny taki projekt");
+        
         List<User> users = createUsers();
         ProjectCollaborator projectCollaborator = createProjectCollaborators();
         List<Note> notes = createNotes();
 
-        persistEntities(users, project, projectCollaborator, notes);
+        persistEntities(users, projectCollaborator, notes);
         assertEntities();
     }
 
@@ -97,12 +102,16 @@ public class DAOTest {
 
     private void findNewEntityIds() {
         projectId = findNewProjectId();
+        project2Id = findNewProjectId();
         userId1 = findNewUserId();
         userId2 = userId1 + 1;
     }
 
-    private void persistEntities(List<User> users, Project project, ProjectCollaborator projectCollaborator, List<Note> notes) {
+    private void persistEntities(List<User> users, ProjectCollaborator projectCollaborator, List<Note> notes) {
         projectRepository.save(project);
+        projectRepository.save(project2);
+        project2.addRelationWithProject(project);
+        
         userRepository.saveAll(users);
         userPinnedProjectRepository.save(new UserPinnedProject(userId1, projectId));
         projectCollaboratorRepository.save(projectCollaborator);
