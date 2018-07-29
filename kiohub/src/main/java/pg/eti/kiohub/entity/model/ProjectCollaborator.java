@@ -12,6 +12,7 @@ import javax.persistence.IdClass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pg.eti.kiohub.entity.enums.Visibility;
 
 /**
  *
@@ -29,7 +30,7 @@ public class ProjectCollaborator {
     @Id
     private Long projectId;
     @Column(name = "user_data_visible")
-    private Boolean userDataVisible;
+    private Visibility userDataVisible;
     @Column(name = "is_supervisor")
     private Boolean isSupervisor;
 

@@ -18,12 +18,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import static org.apache.coyote.http11.Constants.a;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import pg.eti.kiohub.entity.enums.Type;
+import pg.eti.kiohub.entity.enums.Visibility;
+import pg.eti.kiohub.entity.model.Attachment;
 import pg.eti.kiohub.entity.model.Tag;
 import pg.eti.kiohub.entity.repository.LicenceRepository;
 import pg.eti.kiohub.entity.repository.NoteRepository;
@@ -33,6 +37,7 @@ import pg.eti.kiohub.entity.repository.ProjectSettingsRepository;
 import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
 import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
 import pg.eti.kiohub.entity.model.Semester;
+import pg.eti.kiohub.entity.repository.AttachmentRepository;
 import pg.eti.kiohub.entity.repository.SemesterRepository;
 import pg.eti.kiohub.entity.repository.TagRepository;
 import pg.eti.kiohub.entity.repository.UserPinnedProjectRepository;
@@ -70,6 +75,8 @@ public class DAOTest {
     private TagRepository tagRepository;
     @Autowired
     private SemesterRepository semesterRepository;
+    @Autowired
+    private AttachmentRepository attachmentRepository;
 
     private Project project;
     private Project project2;
@@ -85,7 +92,7 @@ public class DAOTest {
         project = createProject();
         project2 = new Project();
         project2.setTitle("Kolejny taki projekt");
-        
+
         List<User> users = createUsers();
         ProjectCollaborator projectCollaborator = createProjectCollaborators();
         List<Note> notes = createNotes();
@@ -111,11 +118,13 @@ public class DAOTest {
         projectRepository.save(project);
         projectRepository.save(project2);
         project2.addRelationWithProject(project);
-        
+
         userRepository.saveAll(users);
         userPinnedProjectRepository.save(new UserPinnedProject(userId1, projectId));
         projectCollaboratorRepository.save(projectCollaborator);
         noteRepository.saveAll(notes);
+        
+        saveAttachments();
     }
 
     private Project createProject() {
@@ -151,7 +160,7 @@ public class DAOTest {
         projectCollaborator.setProjectId(projectId);
         projectCollaborator.setUserId(userId2);
         projectCollaborator.setIsSupervisor(Boolean.FALSE);
-        projectCollaborator.setUserDataVisible(Boolean.TRUE);
+        projectCollaborator.setUserDataVisible(Visibility.COLLABORATORS);
 
         return projectCollaborator;
     }
@@ -225,13 +234,13 @@ public class DAOTest {
     private ProjectSettings createSaveProjectSettings() {
         ProjectSettings settings = new ProjectSettings();
         settings.setId(projectId);
-        settings.setLicenceVisible(Boolean.FALSE);
-        settings.setPublicationDateVisible(Boolean.FALSE);
-        settings.setRelatedProjectsVisible(Boolean.TRUE);
-        settings.setSemestersVisible(Boolean.TRUE);
-        settings.setSupervisorVisible(Boolean.FALSE);
-        settings.setTagsVisible(Boolean.FALSE);
-        
+        settings.setLicenceVisible(Visibility.COLLABORATORS);
+        settings.setPublicationDateVisible(Visibility.EVERYONE);
+        settings.setRelatedProjectsVisible(Visibility.COLLABORATORS);
+        settings.setSemestersVisible(Visibility.LOGGED_USERS);
+        settings.setSupervisorVisible(Visibility.COLLABORATORS);
+        settings.setTagsVisible(Visibility.EVERYONE);
+
         projectSettingsRepository.save(settings);
         return settings;
     }
@@ -242,17 +251,41 @@ public class DAOTest {
         //tag1.addProject(project);
         Tag tag2 = new Tag("web-app");
         tags.addAll(Arrays.asList(tag1, tag2));
-        
-        tagRepository.saveAll(tags);        
+
+        tagRepository.saveAll(tags);
         return tags;
     }
 
     private List<Semester> createSaveSemesters() {
         Semester semester = new Semester("1993/1994 - zimowy");
         List<Semester> semesters = new ArrayList<>(Arrays.asList(semester));
-        
+
         semesterRepository.saveAll(semesters);
         return semesters;
+    }
+
+    private List<Attachment> saveAttachments() {
+        List<Attachment> attachments = new ArrayList<>();
+        Attachment at1 = new Attachment();
+        at1.setFileName("obrazek.png");
+        at1.setFileSize(Integer.valueOf(31));
+        at1.setMainPhoto(Boolean.TRUE);
+        at1.setProject(project);
+        at1.setVisibility(Visibility.EVERYONE);
+        at1.setType(Type.PHOTO);
+
+        Attachment at2 = new Attachment();
+        at2.setFileName("instrukcja.pdf");
+        at2.setFileSize(Integer.valueOf(33));
+        at2.setMainPhoto(Boolean.FALSE);
+        at2.setProject(project);
+        at2.setVisibility(Visibility.COLLABORATORS);
+        at2.setType(Type.MANUAL_STARTUP);
+        
+        attachments.addAll(Arrays.asList(at1, at2));
+        attachmentRepository.saveAll(attachments);
+        
+        return attachments;
     }
 
 }

@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import lombok.*;
 
@@ -50,9 +51,13 @@ public class Project implements Serializable {
     @JoinColumn(name = "licence_id", nullable = false)
     private Licence licence;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    private List<Attachment> attachments;
+
+
     /*
     Projekty, z którymi jest powiązany projekt (on z nimi)
-    */
+     */
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "RELATED_PROJECTS",
             joinColumns = {
@@ -63,7 +68,7 @@ public class Project implements Serializable {
 
     /*
     Projekty, z którymi jest powiązany projekt (one z nim)
-    */
+     */
     @ManyToMany(mappedBy = "relatedToProjects")
     private List<Project> relatedFromProjects = new ArrayList<Project>();
 
@@ -111,7 +116,7 @@ public class Project implements Serializable {
         semesters.add(semester);
         semester.getProjects().add(this);
     }
-    
+
     public void addRelationWithProject(Project project) {
         this.getRelatedToProjects().add(project);
         project.getRelatedToProjects().add(this);
