@@ -20,16 +20,16 @@ label {
     width: 80%;
 }
 
-.image-upload > input
+.file-upload > input
 {
-    display: none;
+    display: none;    
 }
 
 #button-container {
     text-align: center;
 }
   
-#divider{
+#divider {
     width: 50px;
     height: auto;
     display: inline-block;
@@ -38,15 +38,12 @@ label {
 .fileContainer {
     overflow: hidden;
     position: relative;
-    border-radius: .2em;
-    float: left;
-    padding: .3em;
-    width: 100px;
     text-align: center;
-    background-color: rgb(208, 211, 233);
+    background-color:whitesmoke;
     color: rgb(7, 26, 56);
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
+    cursor: pointer;
 }
 
 .fileContainer [type=file] {

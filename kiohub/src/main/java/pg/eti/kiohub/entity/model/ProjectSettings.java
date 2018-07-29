@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pg.eti.kiohub.entity.enums.Visibility;
 
 /**
  *
@@ -26,11 +27,11 @@ public class ProjectSettings {
     @Column(name = "project_id")
     private Long id;
     
-    private Boolean licenceVisible;
-    private Boolean supervisorVisible;
-    private Boolean publicationDateVisible;
-    private Boolean tagsVisible;
-    private Boolean semestersVisible;
-    private Boolean relatedProjectsVisible;
+    private Visibility licenceVisible;
+    private Visibility supervisorVisible;
+    private Visibility publicationDateVisible;
+    private Visibility tagsVisible;
+    private Visibility semestersVisible;
+    private Visibility relatedProjectsVisible;
 
 }
