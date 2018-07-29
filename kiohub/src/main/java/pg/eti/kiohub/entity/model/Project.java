@@ -49,8 +49,23 @@ public class Project implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "licence_id", nullable = false)
     private Licence licence;
-//    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
-//    private List<UserPinnedProject> userPinnedProjects = new ArrayList<>();
+
+    /*
+    Projekty, z którymi jest powiązany projekt (on z nimi)
+    */
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "RELATED_PROJECTS",
+            joinColumns = {
+                @JoinColumn(name = "project_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "related_project_id")})
+    private List<Project> relatedToProjects = new ArrayList<Project>();
+
+    /*
+    Projekty, z którymi jest powiązany projekt (one z nim)
+    */
+    @ManyToMany(mappedBy = "relatedToProjects")
+    private List<Project> relatedFromProjects = new ArrayList<Project>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
@@ -91,10 +106,15 @@ public class Project implements Serializable {
         tags.add(tag);
         tag.getProjects().add(this);
     }
-    
+
     public void addSemester(Semester semester) {
         semesters.add(semester);
         semester.getProjects().add(this);
+    }
+    
+    public void addRelationWithProject(Project project) {
+        this.getRelatedToProjects().add(project);
+        project.getRelatedToProjects().add(this);
     }
 
 }
