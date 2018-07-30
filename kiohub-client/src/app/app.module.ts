@@ -25,8 +25,12 @@ import { UserService } from './user-data/user.service';
 import { EditProjectManagementTabComponent } from './edit-project-management-tab/edit-project-management-tab.component';
 import { EmailInvitationService } from './email-invitation-service/email-invitation.service';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
+<<<<<<< HEAD
 import { SemesterChooserComponent } from './semester-chooser/semester-chooser.component';
 
+=======
+import { InputListComponent } from './input-list/input-list.component';
+>>>>>>> 9935ca8d982fbeb86f6cbdeadddb7e84f1344384
 
 @NgModule({
   declarations: [
@@ -41,8 +45,8 @@ import { SemesterChooserComponent } from './semester-chooser/semester-chooser.co
     EditProjectTabComponent,
     EditProjectGeneralTabComponent,
     EditProjectManagementTabComponent,
-    SemesterChooserComponent
-
+    SemesterChooserComponent,
+    InputListComponent
   ],
   imports: [
     BrowserModule,

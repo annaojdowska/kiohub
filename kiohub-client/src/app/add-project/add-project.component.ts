@@ -33,7 +33,6 @@ export class AddProjectComponent implements OnInit {
   createProjectClick(data) {
     console.log(data);
     alert('Entered Button: ' + data.title);
-
     // let projectTitle: string = data.title;
     const recipients: string[] = [];
     recipients.push(data.email0);
@@ -42,7 +41,7 @@ export class AddProjectComponent implements OnInit {
         this.router.navigateByUrl('edit-project');
       },
       error => {
-
+        this.router.navigateByUrl('edit-project');
       }
     );
   }

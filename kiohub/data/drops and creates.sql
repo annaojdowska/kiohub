@@ -87,10 +87,10 @@ CREATE TABLE attachments (
 	attachment_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
     file_name NVARCHAR(255) NOT NULL,
     file_size MEDIUMINT UNSIGNED NOT NULL,
-    type NVARCHAR(30) NOT NULL,
+    type INT NOT NULL,
     visibility INT,    
     is_main_photo SMALLINT(1),
-    project_id INT NOT NULL REFERENCES projects
+    project_id INT UNSIGNED NOT NULL REFERENCES projects
 );
 
 CREATE TABLE attachments_files (

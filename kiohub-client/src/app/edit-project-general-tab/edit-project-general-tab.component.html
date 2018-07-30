@@ -11,56 +11,50 @@
     <label>Opis:&nbsp;</label>
     <mat-form-field class="wrapper-width"><textarea matInput name="description"></textarea></mat-form-field><br/>
     
-    <label>Typ projektu: </label> 
+    <label>Typ projektu:</label> 
     <mat-form-field>
         <mat-select [(value)]="selected-type">
             <mat-option *ngFor="let type of project_types" [value]="type.value">{{type.viewValue}}</mat-option>
         </mat-select>
-    </mat-form-field><br/>
+    </mat-form-field><br/><br/>
     
-    <label class="image-upload">
+    <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
         <input (change)="onFileChange($event)"  id="file-input" type="file"/>
     </label> 
-    <label (change)="onFileChange($event)" class="fileContainer">Wybierz plik<input type="file"/></label>
-    <label>Dodaj pracę </label><br/><br/>
-   
-    <label class="image-upload">
+    <label (change)="onFileChange($event)" class="fileContainer">Dodaj pracę<input type="file"/></label><br/><br/>
+
+    <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
         <input (change)="onFileChange($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Wybierz plik<input type="file"/></label>
-    <label>Dodaj program i/lub kod programu </label><br/><br/>
-    
-    <label class="image-upload">
+    <label (change)="onFileChange($event)" class="fileContainer">Dodaj program i/lub kod programu<input type="file"/></label><br/><br/>
+
+    <label class="file-upload">
         <label for="file-input"><img src="assets/add-photo.png"/></label>    
         <input (change)="onFileChange($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Wybierz plik<input type="file"/></label>
-    <label>Dodaj zdjęcia programu </label><br/><br/>
-    
-    <label class="image-upload">
-        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="onFileChange($event)" id="file-input" type="file"/>
-    </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Wybierz plik<input type="file"/></label>
-    <label>Dodaj instrukcję obsługi programu </label><br/><br/>
-    
-    <label class="image-upload">
-        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="onFileChange($event)" id="file-input" type="file"/>
-    </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Wybierz plik <input type="file"/></label>
-    <label>Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego </label><br/><br/>
-    
-    <label class="image-upload">
-        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="onFileChange($event)" id="file-input" type="file"/>
-    </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Wybierz plik<input type="file"/></label>
-    <label>Dodaj inne załączniki </label><br/><br/>
+    <label (change)="onFileChange($event)" class="fileContainer">Dodaj zdjęcia programu<input type="file"/></label><br/><br/>
 
-    <label>Wybierz licencję: </label>
+    <label class="file-upload">
+        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <input (change)="onFileChange($event)" id="file-input" type="file"/>
+    </label>
+    <label (change)="onFileChange($event)" class="fileContainer">Dodaj instrukcję obsługi programu<input type="file"/></label><br/><br/>
+
+    <label class="file-upload">
+        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <input (change)="onFileChange($event)" id="file-input" type="file"/>
+    </label>
+    <label (change)="onFileChange($event)" class="fileContainer">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label><br/><br/>
+
+    <label class="file-upload">
+        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <input (change)="onFileChange($event)" id="file-input" type="file"/>
+    </label>
+    <label (change)="onFileChange($event)" class="fileContainer">Dodaj inne załączniki<input type="file"/></label><br/><br/>
+
+    <label>Wybierz licencję:</label>
     <mat-form-field>
         <mat-select [(value)]="selected-licence">
             <mat-option *ngFor="let licence of licences" [value]="licence.value">{{licence.viewValue}}</mat-option>
