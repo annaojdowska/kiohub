@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
-  MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS} from '@angular/material';
+  MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -25,6 +25,7 @@ import { UserService } from './user-data/user.service';
 import { EditProjectManagementTabComponent } from './edit-project-management-tab/edit-project-management-tab.component';
 import { EmailInvitationService } from './email-invitation-service/email-invitation.service';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
+import { SemesterChooserComponent } from './semester-chooser/semester-chooser.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {ENTER, COMMA} from '@angular/cdk/keycodes';
     AddProjectComponent,
     EditProjectTabComponent,
     EditProjectGeneralTabComponent,
-    EditProjectManagementTabComponent
+    EditProjectManagementTabComponent,
+    SemesterChooserComponent
 
   ],
   imports: [
@@ -56,7 +58,8 @@ import {ENTER, COMMA} from '@angular/cdk/keycodes';
     BrowserAnimationsModule,
     MatSelectModule,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule,
+    MatIconModule
   ],
   providers: [
     SearchService,
