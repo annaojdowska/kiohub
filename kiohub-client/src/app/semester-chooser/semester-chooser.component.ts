@@ -10,15 +10,16 @@ import { SemesterService } from './semester-service';
 })
 export class SemesterChooserComponent implements OnInit {
   semesters: Semester[];
+  chosenSemesters: Semester[];
   pageScope = 12;
   beginIndex = 0;
   endIndex = this.beginIndex + this.pageScope;
-  numberOfPages = 51;
   pathToLeftArrow = '../../assets/left-arrow.png';
   pathToRightArrow = '../../assets/right-arrow.png';
-  page = 0;
 
-  constructor(@Inject(SemesterService) private semesterService: SemesterService)  { }
+  constructor(@Inject(SemesterService) private semesterService: SemesterService)  {
+    this.chosenSemesters = [];
+   }
 
   ngOnInit() {
     this.semesterService.getSemesters().subscribe(result => this.semesters = result);
@@ -31,11 +32,28 @@ export class SemesterChooserComponent implements OnInit {
   moveToNext() {
     this.beginIndex += this.pageScope;
     this.endIndex += this.pageScope;
-    this.page += 1;
-    console.log(this.page);
   }
   moveToPrevious() {
     this.beginIndex -= this.pageScope;
     this.endIndex -= this.pageScope;
+  }
+
+  chooseSemester(chosenSemester: Semester) {
+    const index = this.chosenSemesters.findIndex(sem => sem.id === chosenSemester.id);
+    if (index !== -1) {
+      this.chosenSemesters.splice(index, 1);
+    } else {
+      this.chosenSemesters.push(chosenSemester);
+    }
+    console.log(this.chosenSemesters);
+  }
+
+  getColor(chosenSemester: Semester) {
+    const index = this.chosenSemesters.findIndex(sem => sem.id === chosenSemester.id);
+    if (index !== -1) {
+      return 'bisque';
+    } else {
+      return 'white';
+    }
   }
 }

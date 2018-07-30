@@ -5,6 +5,6 @@
 
 mat-grid-tile{
     background-color: white;
-    border-style: solid;
-    border-color: black;
+    padding: 0px;
+    margin: 0px;
 }
