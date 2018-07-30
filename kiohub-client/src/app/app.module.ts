@@ -27,6 +27,7 @@ import { EmailInvitationService } from './email-invitation-service/email-invitat
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
 import { SemesterChooserComponent } from './semester-chooser/semester-chooser.component';
 import { InputListComponent } from './input-list/input-list.component';
+import { SemesterService } from './semester-chooser/semester-service';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { InputListComponent } from './input-list/input-list.component';
   providers: [
     SearchService,
     UserService,
+    SemesterService,
     EmailInvitationService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.repository.ProjectRepository;
 import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
 import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
+import pg.eti.kiohub.entity.repository.SemesterRepository;
 import pg.eti.kiohub.entity.repository.UserRepository;
 
 /**
@@ -31,6 +32,9 @@ public class MainController {
     
     @Autowired
     protected UserRepository userRepository;
+    
+    @Autowired
+    protected SemesterRepository semesterRepository;
 
     @RequestMapping(path = "/")
     public String homePage() {

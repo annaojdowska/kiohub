@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.entity.model.Semester;
 
 /**
  *
@@ -27,5 +28,10 @@ public class ProjectController extends MainController {
 
         return new ResponseEntity<>(projectRepository.findAll(), HttpStatus.OK);
 
+    }
+            
+    @GetMapping(path = "/semesters/all")
+    public ResponseEntity<Iterable<Semester>> getAllSemesters() {
+        return new ResponseEntity<>(semesterRepository.findAll(), HttpStatus.OK);
     }
 }
