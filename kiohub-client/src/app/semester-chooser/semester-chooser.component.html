@@ -6,8 +6,8 @@
       </mat-grid-tile>
   </mat-grid-list>
   <mat-grid-tile-footer>
-  <img src={{pathToLeftArrow}} *ngIf="beginIndex > 0" (click)="moveToPrevious()"/>
-  <img src={{pathToRightArrow}} *ngIf="endIndex < this.semesters.length" (click)="moveToNext()"/>
+        <img src={{pathToLeftArrow}} *ngIf="beginIndex > 0" (click)="moveToPrevious()"/>
+        <img src={{pathToRightArrow}} *ngIf="endIndex < this.semesters.length" (click)="moveToNext()"/>
 </mat-grid-tile-footer>
 </div>
 

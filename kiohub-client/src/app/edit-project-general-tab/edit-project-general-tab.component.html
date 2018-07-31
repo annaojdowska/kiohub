@@ -60,7 +60,8 @@
             <mat-option *ngFor="let licence of licences" [value]="licence.value">{{licence.viewValue}}</mat-option>
         </mat-select>
     </mat-form-field><br/>
-    <label>Semestry wywtarzania: </label> <img src='assets/calendar.png'/><br/><br/>
+    <label>Semestry wywtarzania: </label> <img src='assets/calendar.png' (click)="toggleSemesters()"/><br/><br/>
+    <app-semester-chooser [hidden]="semestersHidden"></app-semester-chooser>
     <label>Tagi:</label>
     <mat-form-field class="wrapper-width-smaller"><input matInput name="tags"></mat-form-field><br/>
     <br/> <br/> <br/> <br/>

@@ -1,18 +1,33 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Semester } from '../model/semester.interface';
 import { SemesterService } from './semester-service';
+import { trigger, transition, style, animate } from '../../../node_modules/@angular/animations';
 
 
 @Component({
   selector: 'app-semester-chooser',
   templateUrl: './semester-chooser.component.html',
-  styleUrls: ['./semester-chooser.component.css']
+  styleUrls: ['./semester-chooser.component.css'],
+  animations: [
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({transform: 'translateX(100%)', opacity: 0}),
+          animate('500ms', style({transform: 'translateX(0)', opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({transform: 'translateX(0)', opacity: 1}),
+          animate('500ms', style({transform: 'translateX(100%)', opacity: 0}))
+        ]),
+      ]
+    )
+  ],
 })
 export class SemesterChooserComponent implements OnInit {
   semesters: Semester[];
   chosenSemesters: Semester[];
   pageScope = 12;
-  beginIndex = 0;
+  beginIndex = 4 * 12;
   endIndex = this.beginIndex + this.pageScope;
   pathToLeftArrow = '../../assets/left-arrow.png';
   pathToRightArrow = '../../assets/right-arrow.png';
@@ -51,9 +66,9 @@ export class SemesterChooserComponent implements OnInit {
   getColor(chosenSemester: Semester) {
     const index = this.chosenSemesters.findIndex(sem => sem.id === chosenSemester.id);
     if (index !== -1) {
-      return 'bisque';
+      return 'rgb(208, 211, 233)';
     } else {
-      return 'white';
+      return 'whitesmoke';
     }
   }
 }

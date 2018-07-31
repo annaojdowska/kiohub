@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 export interface Status {
   value: number;
   viewValue: string;
@@ -42,8 +41,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
   ];
 
   constructor() { }
-
+    semestersHidden: boolean;
   ngOnInit() {
+    this.semestersHidden = true;
   }
 
   onFileChange(event) {
@@ -51,4 +51,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     alert(files);
   }
 
+  toggleSemesters() {
+    this.semestersHidden = !this.semestersHidden;
+  }
 }

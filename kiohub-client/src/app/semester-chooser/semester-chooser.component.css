@@ -1,9 +1,9 @@
 #container{
     width:50%;
+    height: auto;
 }
 
 mat-grid-tile{
-    background-color: white;
     padding: 0px;
     margin: 0px;
     width:auto;
