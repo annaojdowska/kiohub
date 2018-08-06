@@ -20,39 +20,59 @@
     
     <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="onFileChange($event)"  id="file-input" type="file"/>
+        <input (change)="addThesis($event)"  id="file-input" type="file"/>
     </label> 
-    <label (change)="onFileChange($event)" class="fileContainer">Dodaj pracę<input type="file"/></label><br/><br/>
+    <label (change)="addThesis($event)" class="fileContainer">Dodaj pracę<input type="file"/></label>
+    <div class="list">
+        <app-input-list #thesisList orientation="vertical" (changeElements)="recieveThesis($event)" removable="true" hideInput="true"></app-input-list>
+    </div>
+    
+
 
     <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="onFileChange($event)" id="file-input" type="file"/>
+        <input (change)="addProgram($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Dodaj program i/lub kod programu<input type="file"/></label><br/><br/>
+    <label (change)="addProgram($event)" class="fileContainer">Dodaj program i/lub kod programu<input type="file"/></label>
+    <div class="list">
+        <app-input-list #programsList orientation="vertical" (changeElements)="recievePrograms($event)" removable="true" hideInput="true"></app-input-list>
+    </div>
 
     <label class="file-upload">
         <label for="file-input"><img src="assets/add-photo.png"/></label>    
-        <input (change)="onFileChange($event)" id="file-input" type="file"/>
+        <input (change)="addImage($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Dodaj zdjęcia programu<input type="file"/></label><br/><br/>
+    <label (change)="addImage($event)" class="fileContainer">Dodaj zdjęcia programu<input type="file"/></label>
+    <div class="list">
+        <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true" hideInput="true"></app-input-list>
+    </div>
 
     <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="onFileChange($event)" id="file-input" type="file"/>
+        <input (change)="addInstruction($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Dodaj instrukcję obsługi programu<input type="file"/></label><br/><br/>
+    <label (change)="addInstruction($event)" class="fileContainer">Dodaj instrukcję obsługi programu<input type="file"/></label>
+    <div class="list">
+        <app-input-list #instructionsList orientation="vertical" (changeElements)="recieveInstructions($event)" removable="true" hideInput="true"></app-input-list>
+    </div>
 
     <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="onFileChange($event)" id="file-input" type="file"/>
+        <input (change)="addinstructionStart($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label><br/><br/>
+    <label (change)="addinstructionStart($event)" class="fileContainer">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label>
+    <div class="list">
+        <app-input-list #instructionsStartList orientation="vertical" (changeElements)="recieveInstructionsStart($event)" removable="true" hideInput="true"></app-input-list>
+    </div>
 
     <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="onFileChange($event)" id="file-input" type="file"/>
+        <input (change)="addOther($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="onFileChange($event)" class="fileContainer">Dodaj inne załączniki<input type="file"/></label><br/><br/>
+    <label (change)="addOther($event)" class="fileContainer">Dodaj inne załączniki<input type="file"/></label>
+    <div class="list">
+        <app-input-list #othersList orientation="vertical" (changeElements)="recieveOthers($event)" removable="true" hideInput="true"></app-input-list>
+    </div>
 
     <label>Wybierz licencję:</label>
     <mat-form-field>
@@ -62,8 +82,33 @@
     </mat-form-field><br/>
     <label>Semestry wywtarzania: </label> <img src='assets/calendar.png'/><br/><br/>
     <label>Tagi:</label>
-    <mat-form-field class="wrapper-width-smaller"><input matInput name="tags"></mat-form-field><br/>
-    <br/> <br/> <br/> <br/>
+
+
+    <mat-form-field class="example-full-width" name="tags">
+            <input type="text" aria-label="Number" matInput [formControl]="tagControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
+              <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+    
+    <div class="list">
+            <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true" hideInput="true"></app-input-list>
+        </div>
+
+
+
+
+
+        <!-- <mat-form-field class="wrapper-width-smaller"><input matInput name="tags" (keyup)="keyUpTag($event)"></mat-form-field>
+        <div class="list">
+                <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true" hideInput="true"></app-input-list>
+            </div> -->
+
+
+    
     <div id="button-container">
         <button type="submit" mat-stroked-button class="submit-button">Zatwierdź zmiany</button>
         <div id="divider"></div>

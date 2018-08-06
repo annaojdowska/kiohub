@@ -18,7 +18,7 @@ label {
     color: black;
     font-size: var(--normal-font-size);
     font-weight: normal;
-    padding-top: 14px;
+    padding-top: 20px;
     display: inline-block;
     width: 140px;
     text-align: right;
@@ -28,4 +28,5 @@ label {
 
 .right_element {
     width: 50%;
+    display: inline-block;
 }

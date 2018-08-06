@@ -54,3 +54,9 @@ label {
     top: 0;
     cursor: pointer;
 }
+
+.list {
+    max-width: 99%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}

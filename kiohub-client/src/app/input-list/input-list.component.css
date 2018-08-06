@@ -65,6 +65,15 @@ cursor: pointer;
     border-width: 1px;
 }
 
+.chip-form-angular {
+    width: 100%;
+}
+
+.chip-input-angular {
+    width: 100%;
+    margin: 0;
+}
+
 
 .chip-form {
     

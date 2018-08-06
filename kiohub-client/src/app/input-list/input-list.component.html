@@ -1,20 +1,40 @@
-      <input
-    #elementInput
-    [formControl]="elementCtrl"
-    [matAutocomplete]="auto"
-    [matChipInputFor]="chipList"
-    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-    [matChipInputAddOnBlur]="addOnBlur"
-    [placeholder]="_placeholder"
-    (matChipInputTokenEnd)="add($event)"
-    class='chip-input'
-    /> 
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+<!-- <div 
+*ngIf="hideInput == 'false'"
+id="fff" class="{{focusedStyle}} chip-form-angular mat-form-field ng-tns-c10-0 mat-primary mat-form-field-type-mat-input mat-form-field-appearance-legacy mat-form-field-can-float ng-pristine ng-valid ng-touched">
+    <div class="mat-form-field-wrapper">
+        <div class="mat-form-field-flex">
+            <div class="mat-form-field-infix">
+                <input 
+              #elementInput
+              [formControl]="elementCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              [placeholder]="_placeholder"
+              (matChipInputTokenEnd)="add($event)"
+              class="chip-input-angular mat-input-element mat-form-field-autofill-control cdk-text-field-autofill-monitored ng-pristine ng-valid ng-touched"
+              (focus)="inputFocus()" 
+              (focusout)="inputFocusOut()"
+              /> 
+              <span class="s mat-form-field-label-wrapper"></span>
+            </div> 
+        
+        </div>
+        <div class="mat-form-field-underline ng-tns-c10-0 ng-star-inserted">
+        
+          <span class="mat-form-field-ripple"></span>
+        </div>
+        </div>
+</div>
+
+    <mat-autocomplete *ngIf="hideInput == 'false'" #auto="matAutocomplete" (optionSelected)="selected($event)">
       <mat-option *ngFor="let fruit of filteredElements | async" [value]="fruit">
         {{fruit}}
       </mat-option>
-    </mat-autocomplete>
-    <mat-chip-list #chipList>
+    </mat-autocomplete> -->
+
+    <mat-chip-list #chipList name="chip-list">
       <div class='chip-list-wrapper'>
         <mat-chip
           *ngFor="let fruit of _elements"
@@ -31,5 +51,7 @@
         </mat-chip>
       </div>
       </mat-chip-list>
+
+
 
 

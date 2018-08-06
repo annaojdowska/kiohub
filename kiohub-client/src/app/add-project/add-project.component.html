@@ -2,17 +2,24 @@
 <h2>Dodaj projekt</h2><br/>  
 
 <form #createproject="ngForm">
-    <label class="left_element">Tytuł projektu</label>
-    <mat-form-field class="right_element">
-        <input name="title" ngModel matInput>
-    </mat-form-field>
-    <form #addemail="ngForm">
-        <label class="left_element">Twórcy </label>
-            <app-input-list orientation="vertical" removable="true" placeholder="Wpisz adresy e-mail" elements="s111,s222,s333" class="right_element ng-untouched ng-pristine ng-valid mat-form-field ng-tns-c10-0 mat-primary mat-form-field-type-mat-input mat-form-field-appearance-legacy mat-form-field-can-float"></app-input-list>
-        <br/>
-    </form><br/><br/>
-    <button type="submit" (click)="createProjectClick(createproject.value);" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
-</form>
+        <label class="left_element">Tytuł projektu</label>
+        <mat-form-field class="right_element">
+            <input #titleInput matInput name="title" ngModel>
+        </mat-form-field>
+        <form #authors="ngForm" (ngSubmit)="addAuthor(authors.value.author)" >
+            <label class="left_element">Współtwórcy </label>
+            <mat-form-field class="right_element">
+                <input #authorInput name="author" ngModel matInput>
+            </mat-form-field><br/>
+            <label class="left_element"> </label>
+            <div class="right_element">
+                    <app-input-list #authorsList orientation="vertical" (changeElements)="recieveElements($event)" removable="true" hideInput="true"></app-input-list>
+            </div>
+            
+
+                    </form><br/><br/>
+        <button type="button" (click)="createProjectClick();" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
+    </form>
 
 
 

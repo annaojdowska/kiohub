@@ -15,7 +15,11 @@ export class EmailInvitationService {
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   send(topic: string, recipients: string[]): Observable<string> {
-     return this.http.get<string>('http://localhost:8080/sendinvitation?topic=' + topic, {responseType: 'json'});
+    console.log('http://localhost:8080/sendinvitation?topic=' + topic + '&recipient=' + recipients[0]);
+     return this.http.get<string>(
+       'http://localhost:8080/sendinvitation?topic=' + topic + '&recipient=' + recipients[0],
+       {responseType: 'json'}
+      );
   }
 
 
