@@ -1,6 +1,13 @@
 <div id=container>
-  <ul>
-    <li *ngFor></li>
-  </ul>
+  <mat-grid-list cols="4" rowHeight="3:1" >
+      <mat-grid-tile mat-stroked-button *ngFor="let semester of getSemestersToDisplay(beginIndex, endIndex)" 
+      (click)="chooseSemester(semester)" [style.background]="getColor(semester)">
+        <h5>{{semester.name}}</h5>
+      </mat-grid-tile>
+  </mat-grid-list>
+  <mat-grid-tile-footer>
+        <img src={{pathToLeftArrow}} *ngIf="beginIndex > 0" (click)="moveToPrevious()"/>
+        <img src={{pathToRightArrow}} *ngIf="endIndex < this.semesters.length" (click)="moveToNext()"/>
+</mat-grid-tile-footer>
 </div>
 

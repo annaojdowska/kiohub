@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
-  MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule} from '@angular/material';
+  MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -60,7 +60,8 @@ import { SemesterService } from './semester-chooser/semester-service';
     MatSelectModule,
     MatDialogModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatGridListModule
   ],
   providers: [
     SearchService,
