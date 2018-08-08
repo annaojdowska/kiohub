@@ -34,6 +34,7 @@ export class SemesterChooserComponent implements OnInit {
 
   constructor(@Inject(SemesterService) private semesterService: SemesterService)  {
     this.chosenSemesters = [];
+    this.semesters = [];
    }
 
   ngOnInit() {
@@ -41,6 +42,7 @@ export class SemesterChooserComponent implements OnInit {
   }
 
   getSemestersToDisplay(begin: number, end: number) {
+    if (!this.semesters) { return; }
     return this.semesters.slice(begin, end);
   }
 

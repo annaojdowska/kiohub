@@ -91,7 +91,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   tagControl = new FormControl();
   tagOptions: string[] = ['aplikacja', 'sztucznainteligencja', 'java'];
   tagFilteredOptions: Observable<string[]>;
-
+  semestersHidden = false;
   constructor() { }
 
   ngOnInit() {
@@ -204,4 +204,7 @@ recieveTags(event) {
   event.map(name => this.tags.tag.push({name: name}));
 }
 
+toggleSemesters() {
+  this.semestersHidden = !this.semestersHidden;
+}
 }
