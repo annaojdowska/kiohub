@@ -81,7 +81,7 @@
         </mat-select>
     </mat-form-field><br/>
     <label>Semestry wywtarzania: </label> <img src='assets/calendar.png' (click)="toggleSemesters()"/><br/><br/>
-    <app-semester-chooser [hidden]="semestersHidden"></app-semester-chooser>
+    <app-semester-chooser *ngIf="semestersHidden != false"></app-semester-chooser>
     <label>Tagi:</label>
 
 
