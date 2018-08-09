@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
 import { FormControl } from '../../../node_modules/@angular/forms';
 import { Observable } from '../../../node_modules/rxjs';
@@ -92,9 +92,16 @@ export class EditProjectGeneralTabComponent implements OnInit {
   tagOptions: string[] = ['aplikacja', 'sztucznainteligencja', 'java'];
   tagFilteredOptions: Observable<string[]>;
 
+  semestersHidden: boolean;
+
   constructor() { }
 
+  toggleSemesters() {
+    this.semestersHidden = !this.semestersHidden;
+  }
+
   ngOnInit() {
+    this.semestersHidden = true;
     this.tagFilteredOptions = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((value: string | null) => value ? this._filter(value) : this.tagOptions));
@@ -203,5 +210,6 @@ recieveTags(event) {
   this.tags.tag = [];
   event.map(name => this.tags.tag.push({name: name}));
 }
+
 
 }
