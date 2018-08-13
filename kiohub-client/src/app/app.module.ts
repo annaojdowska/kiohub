@@ -28,6 +28,8 @@ import {ENTER, COMMA} from '@angular/cdk/keycodes';
 import { SemesterChooserComponent } from './semester-chooser/semester-chooser.component';
 import { InputListComponent } from './input-list/input-list.component';
 import { SemesterService } from './semester-chooser/semester-service';
+import { SearchResultSingleProjectComponent } from './search-result-single-project/search-result-single-project.component';
+import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { SemesterService } from './semester-chooser/semester-service';
     EditProjectGeneralTabComponent,
     EditProjectManagementTabComponent,
     SemesterChooserComponent,
-    InputListComponent
+    InputListComponent,
+    SearchResultSingleProjectComponent,
+    AdvancedSearchComponent
   ],
   imports: [
     BrowserModule,

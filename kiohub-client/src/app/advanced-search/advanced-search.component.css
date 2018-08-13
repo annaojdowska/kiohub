@@ -1,0 +1,6 @@
+li {
+    float: none;
+    display: block;
+    overflow: hidden;
+    padding: 1vw;
+}

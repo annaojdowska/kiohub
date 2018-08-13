@@ -1,0 +1,37 @@
+[{
+    "id"  :"1",
+    "titlePL" :"Super duper ekstra polski tytuł",
+    "titleENG" : "Super duper extra english title",
+    "descriptionPL" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla enim metus, maximus a tellus a, semper pulvinar enim. Donec sollicitudin risus id dui scelerisque faucibus. Nullam iaculis facilisis dui ut sodales. Curabitur sit amet ultrices ipsum. Etiam et auctor velit, eu pulvinar orci. Quisque id convallis ligula. Integer quis sodales turpis. Nullam in enim sed nulla condimentum facilisis. Cras condimentum luctus enim. Fusce id massa quis leo finibus rutrum. Vestibulum elementum a augue id ullamcorper. Nam scelerisque dui purus, a ornare nisl condimentum ut. Fusce convallis dolor imperdiet tortor pellentesque pretium. Proin suscipit, metus sit amet dictum pellentesque, libero neque dapibus est, id finibus tellus libero ut ipsum. In eu dignissim massa. Suspendisse a magna a tortor lacinia hendrerit. Phasellus viverra maximus aliquet. Donec id felis dictum, ullamcorper justo quis, tempor libero. Curabitur convallis odio vel dolor pretium ultricies. Nulla ornare mauris ut ipsum elementum vehicula. Integer ac tortor quis neque rutrum dapibus. Maecenas eget laoreet nibh, vitae consequat eros. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed nulla sapien. Vivamus eget sem nulla.",
+    "descriptionENG" : "descriptionENG Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla enim metus, maximus a tellus a, semper pulvinar enim. Donec sollicitudin risus id dui scelerisque faucibus. Nullam iaculis facilisis dui ut sodales. Curabitur sit amet ultrices ipsum. Etiam et auctor velit, eu pulvinar orci. Quisque id convallis ligula. Integer quis sodales turpis. Nullam in enim sed nulla condimentum facilisis. Cras condimentum luctus enim. Fusce id massa quis leo finibus rutrum. Vestibulum elementum a augue id ullamcorper. Nam scelerisque dui purus, a ornare nisl condimentum ut. Fusce convallis dolor imperdiet tortor pellentesque pretium. Proin suscipit, metus sit",
+    "publicationDate" : "2000-12-09",
+    "isPublished" : "true",
+    "licence" : "licenceSracence",
+    "type" : 
+    {
+        "id" : 1
+    },
+    "status" : 
+    {
+        "id" : 1
+    }
+},
+{
+    "id"  :"2",
+    "titlePL" :"Super duper ekstra polski tytuł 2",
+    "titleENG" : "Super duper extra english title 2",
+    "descriptionPL" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla enim metus, maximus a tellus a, semper pulvinar enim. Donec sollicitudin risus id dui scelerisque faucibus. Nullam iaculis facilisis dui ut sodales. Curabitur sit amet ultrices ipsum. Etiam et auctor velit, eu pulvinar orci. Quisque id convallis ligula. Integer quis sodales turpis. Nullam in enim sed nulla condimentum facilisis. Cras condimentum luctus enim. Fusce id massa quis leo finibus rutrum. Vestibulum elementum a augue id ullamcorper. Nam scelerisque dui purus, a ornare nisl condimentum ut. Fusce convallis dolor imperdiet tortor pellentesque pretium. Proin suscipit, metus sit amet dictum pellentesque, libero neque dapibus est, id finibus tellus libero ut ipsum. In eu dignissim massa. Suspendisse a magna a tortor lacinia hendrerit. Phasellus viverra maximus aliquet. Donec id felis dictum, ullamcorper justo quis, tempor libero. Curabitur convallis odio vel dolor pretium ultricies. Nulla ornare mauris ut ipsum elementum vehicula. Integer ac tortor quis neque rutrum dapibus. Maecenas eget laoreet nibh, vitae consequat eros. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed nulla sapien. Vivamus eget sem nulla.",
+    "descriptionENG" : "descriptionENG Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla enim metus, maximus a tellus a, semper pulvinar enim. Donec sollicitudin risus id dui scelerisque faucibus. Nullam iaculis facilisis dui ut sodales. Curabitur sit amet ultrices ipsum. Etiam et auctor velit, eu pulvinar orci. Quisque id convallis ligula. Integer quis sodales turpis. Nullam in enim sed nulla condimentum facilisis. Cras condimentum luctus enim. Fusce id massa quis leo finibus rutrum. Vestibulum elementum a augue id ullamcorper. Nam scelerisque dui purus, a ornare nisl condimentum ut. Fusce convallis dolor imperdiet tortor pellentesque pretium. Proin suscipit, metus sit",
+    "publicationDate" : "2003-10-09",
+    "isPublished" : "true",
+    "licence" : "licenceSracence",
+    "type" : 
+    {
+        "id" : 1
+    },
+    "status" : 
+    {
+        "id" : 1
+    }
+}
+]
