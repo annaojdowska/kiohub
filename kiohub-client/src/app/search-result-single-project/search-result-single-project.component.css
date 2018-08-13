@@ -3,3 +3,19 @@
     float: left;
     margin-right: 1vw;
 }
+
+#project_result_container {
+    background-color: blueviolet;
+    height: 17vh;
+    width: 23wv;
+    overflow: hidden;
+    flex-wrap: wrap;
+    text-overflow: ellipsis; 
+}
+
+p {
+    padding-left: 1vw;
+    padding-right: 1vw;
+    text-align: justify;
+    line-height: 4vh;
+}
