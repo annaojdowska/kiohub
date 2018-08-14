@@ -115,7 +115,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       case ENTER:
       case SPACE:
       case COMMA: {
-        const value = (<HTMLInputElement>event.target).value;
+        const value = (<HTMLInputElement>event.target).value.replace(/[^a-zA-Z0-9]/g, '');
         (<HTMLInputElement>event.target).value = '';
         this.addTag(value);
         break;
@@ -126,13 +126,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
   tagSelectionChanged(event: MatAutocompleteSelectedEvent) {
     this.addTag(event.option.viewValue);
     this.tagControl.setValue(null);
-    // It doesn't work
-    this.tagControl.disable();
-    this.tagControl.enable();
-    this.tagControl.markAsUntouched();
-    console.log(document.getElementsByName('tags')[0]);
-    document.getElementsByName('tags')[0].classList.remove('mat-focused');
-    console.log(document.getElementsByName('tags')[0]);
   }
 
   private _filter(value: string): string[] {

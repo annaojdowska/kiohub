@@ -86,7 +86,7 @@
 
 
     <mat-form-field class="example-full-width" name="tags">
-            <input type="text" aria-label="Number" matInput [formControl]="tagControl" [matAutocomplete]="auto">
+            <input type="text" aria-label="Number" matInput [formControl]="tagControl" [matAutocomplete]="auto" (keyup)="keyUpTag($event)">
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
               <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
                 {{option}}
