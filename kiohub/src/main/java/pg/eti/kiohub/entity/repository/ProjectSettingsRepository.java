@@ -5,7 +5,7 @@
  */
 package pg.eti.kiohub.entity.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pg.eti.kiohub.entity.model.ProjectSettings;
 
@@ -14,6 +14,6 @@ import pg.eti.kiohub.entity.model.ProjectSettings;
  * @author Aleksander Kania
  */
 @Repository
-public interface ProjectSettingsRepository extends CrudRepository<ProjectSettings, Long> {
+public interface ProjectSettingsRepository extends JpaRepository<ProjectSettings, Long> {
     
 }

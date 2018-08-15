@@ -5,7 +5,7 @@
  */
 package pg.eti.kiohub.entity.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pg.eti.kiohub.entity.model.UserPinnedProject;
 
@@ -14,6 +14,6 @@ import pg.eti.kiohub.entity.model.UserPinnedProject;
  * @author Aleksander Kania
  */
 @Repository
-public interface UserPinnedProjectRepository extends CrudRepository<UserPinnedProject, Long> { 
+public interface UserPinnedProjectRepository extends JpaRepository<UserPinnedProject, Long> { 
     
 }

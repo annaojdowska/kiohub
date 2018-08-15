@@ -5,7 +5,7 @@
  */
 package pg.eti.kiohub.entity.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pg.eti.kiohub.entity.model.Project;
 
@@ -15,6 +15,6 @@ import pg.eti.kiohub.entity.model.Project;
  */
 //adnotacja potrzebna po to, aby Spring mógł zinterpretować klasę jako springowe repozytorium
 @Repository
-public interface ProjectRepository extends CrudRepository<Project, Long>{
+public interface ProjectRepository extends JpaRepository<Project, Long>{
         
 }

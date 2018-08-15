@@ -31,7 +31,7 @@ public class Attachment {
 
     @Id
     @Column(name = "attachment_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)
