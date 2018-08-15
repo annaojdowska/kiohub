@@ -42,6 +42,6 @@ public class MainController {
 
     @RequestMapping(path = "/")
     public String homePage() {
-        return "homePage.html";
+        return "index.html";
     }
 }
