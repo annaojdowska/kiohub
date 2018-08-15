@@ -1,5 +1,8 @@
-<app-advanced-search-form></app-advanced-search-form>
 
+<img (click)="show = !show" [src]="show ? 'assets/up-arrow.png' :'assets/down-arrow.png'"/> 
+<label> {{ show ? 'Zwiń filtry' : 'Pokaż filtry' }}</label>
+<div *ngIf="show" [@fadeInOut]><app-advanced-search-form></app-advanced-search-form></div>
+    
 <div>
   <ul>
     <li *ngFor="let result of searchResults">

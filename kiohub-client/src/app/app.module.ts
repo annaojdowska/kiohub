@@ -6,7 +6,8 @@ import {HttpModule} from '@angular/http';
 import { AppComponent } from './app.component';
 
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
-  MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule} from '@angular/material';
+  MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule, MatDatepickerModule,
+  MatNativeDateModule} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -70,7 +71,9 @@ import { AdvancedSearchFormComponent } from './advanced-search-form/advanced-sea
     MatChipsModule,
     MatIconModule,
     MatGridListModule,
-    HttpModule
+    HttpModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     SearchService,

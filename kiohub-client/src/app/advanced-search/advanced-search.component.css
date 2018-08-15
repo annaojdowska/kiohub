@@ -4,3 +4,12 @@ li {
     overflow: hidden;
     padding: 1vw;
 }
+
+label {
+    font-family: var(--main-font-name), sans-serif;
+    vertical-align: middle;
+}
+
+img {
+    vertical-align: middle;
+}

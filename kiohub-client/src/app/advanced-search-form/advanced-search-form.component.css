@@ -1,0 +1,38 @@
+#advanced-search {
+    border: 1px solid rgb(213, 213, 195);
+    padding: 15px;
+    background:rgb(234, 234, 225);
+    text-align: center;
+}
+
+.leftLabel {
+    float: left;
+    width: 30%;
+}
+
+.centerLabel {
+    width: 30%;
+}
+
+.rightLabel {
+    float: right;
+    width: 30%;
+}
+
+label {
+    font-family: var(--main-font-name), sans-serif;
+    margin-top: 15px;    
+}
+
+.submit-button {
+    display: block;
+    margin: 0 auto;
+    margin-top: 70px;
+    text-align: center;
+    justify-content: center;
+}
+
+#center {
+    float: left;
+    width: 60%;
+}

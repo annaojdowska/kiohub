@@ -1,8 +1,38 @@
-<label>HELLO</label><div>
-  <form id="advanced-search">
-    <mat-form-field>
-      <input matInput placeholder="Promotor">
-    </mat-form-field>
-  </form>
 
+<div id="advanced-search">
+
+  <form>
+    <mat-form-field class="leftLabel"><input matInput placeholder="Promotor"></mat-form-field>
+    <mat-form-field class="centerLabel"><input matInput placeholder="Tag"></mat-form-field>
+    <mat-form-field class="rightLabel"><input matInput placeholder="Opis zawiera..."></mat-form-field>
+    <mat-form-field class="leftLabel">
+        <mat-select [(value)]="selected-licence" placeholder="Licencja">
+            <mat-option *ngFor="let licence of licences" [value]="licence.value">{{licence.viewValue}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="centerLabel" id="move">
+        <mat-select [(value)]="selected-type" placeholder="Typ pracy"> 
+            <mat-option *ngFor="let type of project_types" [value]="type.value">{{type.viewValue}}</mat-option>
+        </mat-select>
+    </mat-form-field> <br/>
+      
+
+    <label id="center">Data publikacji: </label><br/><br/>
+    <mat-form-field class="leftLabel">
+      <input matInput [matDatepicker]="picker1" placeholder="od">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="centerLabel">
+      <input matInput [matDatepicker]="picker2" placeholder="do">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>     
+   
+    <label class="rightLabel">Semestry wytwarzania: &nbsp; <img src='assets/calendar.png' (click)="toggleSemesters()"/></label>
+    <app-semester-chooser *ngIf="semestersHidden != false"></app-semester-chooser>
+
+    <button  class="centerLabel" type="submit" mat-stroked-button class="submit-button">Zastosuj filtry</button>
+
+  </form>
 </div>
