@@ -12,6 +12,7 @@ import pg.eti.kiohub.entity.repository.ProjectRepository;
 import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
 import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
 import pg.eti.kiohub.entity.repository.SemesterRepository;
+import pg.eti.kiohub.entity.repository.TagRepository;
 import pg.eti.kiohub.entity.repository.UserRepository;
 
 /**
@@ -35,9 +36,12 @@ public class MainController {
     
     @Autowired
     protected SemesterRepository semesterRepository;
+    
+    @Autowired
+    protected TagRepository tagRepository;
 
     @RequestMapping(path = "/")
     public String homePage() {
-        return "index.html";
+        return "homePage.html";
     }
 }

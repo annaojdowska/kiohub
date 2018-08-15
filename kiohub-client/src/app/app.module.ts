@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import {HttpModule} from '@angular/http';
 import { AppComponent } from './app.component';
 
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
@@ -30,6 +30,8 @@ import { InputListComponent } from './input-list/input-list.component';
 import { SemesterService } from './semester-chooser/semester-service';
 import { SearchResultSingleProjectComponent } from './search-result-single-project/search-result-single-project.component';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
+import { TestPostComponent } from './test-post/test-post.component';
+import { AdvancedSearchFormComponent } from './advanced-search-form/advanced-search-form.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search.compo
     SemesterChooserComponent,
     InputListComponent,
     SearchResultSingleProjectComponent,
-    AdvancedSearchComponent
+    AdvancedSearchComponent,
+    TestPostComponent,
+    AdvancedSearchFormComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,8 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search.compo
     MatDialogModule,
     MatChipsModule,
     MatIconModule,
-    MatGridListModule
+    MatGridListModule,
+    HttpModule
   ],
   providers: [
     SearchService,

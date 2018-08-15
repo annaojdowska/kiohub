@@ -4,13 +4,14 @@ import { UnloggedSearchComponent } from './unlogged-search/unlogged-search.compo
 import { AddProjectComponent } from './add-project/add-project.component';
 import { EditProjectTabComponent } from './edit-project-tab/edit-project-tab.component';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
-
+import { TestPostComponent } from './test-post/test-post.component';
 
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
   { path: 'add-project', component: AddProjectComponent },
   { path: 'edit-project', component: EditProjectTabComponent },
   { path: 'projects-base', component: AdvancedSearchComponent },
+  { path: 'test-post', component: TestPostComponent },
   { path: '**', component: UnloggedSearchComponent }
 ];
 
