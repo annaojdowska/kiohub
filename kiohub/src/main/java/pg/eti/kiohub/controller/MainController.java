@@ -38,6 +38,6 @@ public class MainController {
 
     @RequestMapping(path = "/")
     public String homePage() {
-        return "index.html";
+        return "homePage.html";
     }
 }
