@@ -8,6 +8,7 @@ package pg.eti.kiohub.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pg.eti.kiohub.entity.repository.LicenceRepository;
 import pg.eti.kiohub.entity.repository.ProjectRepository;
 import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
 import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
@@ -39,7 +40,10 @@ public class MainController {
     
     @Autowired
     protected TagRepository tagRepository;
-
+    
+    @Autowired
+    protected LicenceRepository licenceRepository;
+    
     @RequestMapping(path = "/")
     public String homePage() {
         return "index.html";

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import pg.eti.kiohub.entity.model.Licence;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.entity.model.ProjectType;
 import pg.eti.kiohub.entity.model.Semester;
 import pg.eti.kiohub.entity.model.Tag;
 
@@ -57,5 +59,15 @@ public class ProjectController extends MainController {
             tagRepository.save(new Tag(parameters.get(key)));
         
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/licences/all")
+    public ResponseEntity<Iterable<Licence>> getAllLicences() {
+        return new ResponseEntity<>(licenceRepository.findAll(), HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/types/all")
+    public ResponseEntity<Iterable<ProjectType>> getAllProjectTypes() {
+        return new ResponseEntity<>(projectTypeRepository.findAll(), HttpStatus.OK);
     }
 }
