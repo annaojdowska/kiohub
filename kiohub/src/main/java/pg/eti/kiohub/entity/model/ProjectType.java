@@ -30,7 +30,7 @@ import lombok.Setter;
 public class ProjectType {
     @Id
     @Column(name = "type_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; 
     
     @Column(name = "name")

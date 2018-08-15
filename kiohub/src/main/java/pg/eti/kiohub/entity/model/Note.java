@@ -27,7 +27,7 @@ public class Note {
 
     @Id
     @Column(name = "note_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Column(name = "owner_id")
