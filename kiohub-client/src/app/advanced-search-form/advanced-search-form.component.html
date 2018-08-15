@@ -14,9 +14,7 @@
         <mat-select [(value)]="selected-type" placeholder="Typ pracy"> 
             <mat-option *ngFor="let type of project_types" [value]="type.value">{{type.viewValue}}</mat-option>
         </mat-select>
-    </mat-form-field> <br/>
-      
-
+    </mat-form-field> <br/>   
     <label id="center">Data publikacji: </label><br/><br/>
     <mat-form-field class="leftLabel">
       <input matInput [matDatepicker]="picker1" placeholder="od">

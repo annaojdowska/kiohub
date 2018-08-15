@@ -33,7 +33,7 @@ import { SearchResultSingleProjectComponent } from './search-result-single-proje
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 import { TestPostComponent } from './test-post/test-post.component';
 import { AdvancedSearchFormComponent } from './advanced-search-form/advanced-search-form.component';
-
+import { MAT_DATE_LOCALE} from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,8 +85,8 @@ import { AdvancedSearchFormComponent } from './advanced-search-form/advanced-sea
       useValue: {
         separatorKeyCodes: [ENTER, COMMA]
       }
-    }
-
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'pl' },
   ],
   bootstrap: [AppComponent]
 })
