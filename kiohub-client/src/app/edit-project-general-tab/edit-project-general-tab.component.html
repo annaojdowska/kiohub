@@ -22,18 +22,16 @@
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
         <input (change)="addThesis($event)"  id="file-input" type="file"/>
     </label> 
-    <label (change)="addThesis($event)" class="fileContainer">Dodaj pracę<input type="file"/></label>
+    <label (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę<input type="file"/></label>
     <div class="list">
         <app-input-list #thesisList orientation="vertical" (changeElements)="recieveThesis($event)" removable="true" hideInput="true"></app-input-list>
-    </div>
-    
-
+    </div> 
 
     <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
         <input (change)="addProgram($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="addProgram($event)" class="fileContainer">Dodaj program i/lub kod programu<input type="file"/></label>
+    <label (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu<input type="file"/></label>
     <div class="list">
         <app-input-list #programsList orientation="vertical" (changeElements)="recievePrograms($event)" removable="true" hideInput="true"></app-input-list>
     </div>
@@ -42,7 +40,7 @@
         <label for="file-input"><img src="assets/add-photo.png"/></label>    
         <input (change)="addImage($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="addImage($event)" class="fileContainer">Dodaj zdjęcia programu<input type="file"/></label>
+    <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu<input type="file"/></label>
     <div class="list">
         <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true" hideInput="true"></app-input-list>
     </div>
@@ -51,7 +49,7 @@
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
         <input (change)="addInstruction($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="addInstruction($event)" class="fileContainer">Dodaj instrukcję obsługi programu<input type="file"/></label>
+    <label (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi programu<input type="file"/></label>
     <div class="list">
         <app-input-list #instructionsList orientation="vertical" (changeElements)="recieveInstructions($event)" removable="true" hideInput="true"></app-input-list>
     </div>
@@ -60,7 +58,7 @@
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
         <input (change)="addinstructionStart($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="addinstructionStart($event)" class="fileContainer">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label>
+    <label (change)="addinstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label>
     <div class="list">
         <app-input-list #instructionsStartList orientation="vertical" (changeElements)="recieveInstructionsStart($event)" removable="true" hideInput="true"></app-input-list>
     </div>
@@ -69,7 +67,7 @@
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
         <input (change)="addOther($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="addOther($event)" class="fileContainer">Dodaj inne załączniki<input type="file"/></label>
+    <label (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki<input type="file"/></label>
     <div class="list">
         <app-input-list #othersList orientation="vertical" (changeElements)="recieveOthers($event)" removable="true" hideInput="true"></app-input-list>
     </div>
