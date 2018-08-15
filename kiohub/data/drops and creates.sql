@@ -1,21 +1,21 @@
 USE kiohub;
 
-DROP TABLE IF EXISTS licences;
-DROP TABLE IF EXISTS project_status;
-DROP TABLE IF EXISTS project_types;
-DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS project_settings;
-DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS project_tags;
-DROP TABLE IF EXISTS semesters;
-DROP TABLE IF EXISTS project_semesters;
-DROP TABLE IF EXISTS related_projects;
 DROP TABLE IF EXISTS attachments;
+DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS attachments_files;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS project_semesters;
+DROP TABLE IF EXISTS related_projects;
 DROP TABLE IF EXISTS project_collaborators;
 DROP TABLE IF EXISTS user_pinned_projects;
 DROP TABLE IF EXISTS notes;
+DROP TABLE IF EXISTS semesters;
+DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS licences;
+DROP TABLE IF EXISTS project_status;
+DROP TABLE IF EXISTS project_types;
 
 CREATE TABLE licences (
 	licence_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,

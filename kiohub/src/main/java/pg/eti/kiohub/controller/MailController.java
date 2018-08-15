@@ -48,7 +48,6 @@ public class MailController {
     @Value("${mail.invitation.text:Bierzesz udział w projekcie - {projectName}}")
     private String text; 
   
-    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(method = RequestMethod.GET, value = "/sendinvitation", params = {"topic", "recipient"}) 
     public ResponseEntity<String> sendinvitation(
             @RequestParam("topic") String topic,
