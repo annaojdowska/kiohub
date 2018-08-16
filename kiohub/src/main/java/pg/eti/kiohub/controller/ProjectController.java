@@ -6,6 +6,7 @@
 package pg.eti.kiohub.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,11 @@ import pg.eti.kiohub.entity.model.Tag;
 public class ProjectController extends MainController {
 
     @GetMapping(path = "/all")
-    public ResponseEntity<Iterable<Project>>
+    public ResponseEntity<List<Project>>
             getAllProjects() {
-        
-        return new ResponseEntity<>(projectRepository.findAll(), HttpStatus.OK);
+                
+          
+        return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
 
     }
             

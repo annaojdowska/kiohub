@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +38,7 @@ public class Semester {
     private String name;
 
     @ManyToMany(mappedBy = "semesters")
+    @JsonBackReference
     private List<Project> projects = new ArrayList<>();
 
     public void addProject(Project project) {

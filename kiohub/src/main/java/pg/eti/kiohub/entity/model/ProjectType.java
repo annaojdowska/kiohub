@@ -5,6 +5,8 @@
  */
 package pg.eti.kiohub.entity.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -27,6 +29,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProjectType {
     @Id
     @Column(name = "type_id")
@@ -36,6 +39,7 @@ public class ProjectType {
     @Column(name = "name")
     private String name;
     
+    @JsonBackReference
     @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "projectType")
     private List<Project> projects;
 }

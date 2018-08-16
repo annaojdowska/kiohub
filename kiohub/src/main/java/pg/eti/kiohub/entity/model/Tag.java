@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +35,7 @@ public class Tag {
     private Long id;
 
     @ManyToMany(mappedBy = "tags")
+    @JsonBackReference
     private List<Project> projects = new ArrayList<>();
 
     private String name;
