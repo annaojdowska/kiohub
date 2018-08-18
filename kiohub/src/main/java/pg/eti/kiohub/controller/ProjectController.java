@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import pg.eti.kiohub.entity.model.Licence;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.ProjectType;
 import pg.eti.kiohub.entity.model.Semester;
 import pg.eti.kiohub.entity.model.Tag;
+import pg.eti.kiohub.service.ProjectService;
 
 /**
  *
@@ -30,6 +33,9 @@ import pg.eti.kiohub.entity.model.Tag;
 @RequestMapping(path = "/project")
 public class ProjectController extends MainController {
 
+    @Autowired
+    private ProjectService projectService;
+    
     @GetMapping(path = "/all")
     public ResponseEntity<List<Project>>
             getAllProjects() {
@@ -71,5 +77,10 @@ public class ProjectController extends MainController {
     @GetMapping(path = "/types/all")
     public ResponseEntity<Iterable<ProjectType>> getAllProjectTypes() {
         return new ResponseEntity<>(projectTypeRepository.findAll(), HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/quick-search")
+    public ResponseEntity<Iterable<Project>> getMatchingProjects(@RequestParam("phrase") String phrase) {
+       return new ResponseEntity<>(projectService.getAllMatchingProjects(phrase), HttpStatus.OK);
     }
 }
