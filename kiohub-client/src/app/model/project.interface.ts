@@ -10,6 +10,7 @@ export interface Project {
     projectType: ProjectType;
     projectStatus: ProjectStatus;
     licence: Licence;
+    attachments: any[];
     relatedToProjects: Project[];
     relatedFromProjects: Project[];
     projectSettings: ProjectSettings;
