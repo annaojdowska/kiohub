@@ -4,13 +4,14 @@ import { ProjectStatus } from './project-status.interface';
 import { ProjectSettings } from './project-settings.interface';
 import { Tag } from './tag.interface';
 import { Semester } from './semester.interface';
+import { Attachment } from './attachment.interface';
 
 export interface Project {
     id: number;
     projectType: ProjectType;
     projectStatus: ProjectStatus;
     licence: Licence;
-    attachments: any[];
+    attachments: Attachment[];
     relatedToProjects: Project[];
     relatedFromProjects: Project[];
     projectSettings: ProjectSettings;

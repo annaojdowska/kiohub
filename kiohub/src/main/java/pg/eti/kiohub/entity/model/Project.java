@@ -43,17 +43,14 @@ public class Project implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id", nullable = false)
     private ProjectType projectType;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id", nullable = false)
     private ProjectStatus projectStatus;
 
-    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "licence_id", nullable = false)
     private Licence licence;
@@ -82,21 +79,21 @@ public class Project implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
-    @JsonManagedReference
+
     private ProjectSettings projectSettings;
 
     @ManyToMany
     @JoinTable(name = "project_tags",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    @JsonManagedReference
+
     private List<Tag> tags = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "project_semesters",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "semester_id"))
-    @JsonManagedReference
+
     private List<Semester> semesters = new ArrayList<>();
 
     @Column(name = "title_PL")
