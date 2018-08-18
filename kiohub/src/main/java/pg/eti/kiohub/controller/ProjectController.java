@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.model.Licence;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.ProjectType;
@@ -89,6 +91,13 @@ public class ProjectController extends MainController {
     @CrossOrigin
     @PostMapping(path = "/post")
     public ResponseEntity examplePost(@RequestBody Project project){
+        
+    return new ResponseEntity<Project>(project, HttpStatus.OK);
+    }
+    
+    @CrossOrigin
+    @PostMapping(path = "/post-multipart", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity examplePostMultipart(@RequestParam("File") MultipartFile project){
         
     return new ResponseEntity<>(HttpStatus.OK);
     }
