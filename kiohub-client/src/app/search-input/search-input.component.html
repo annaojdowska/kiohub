@@ -1,7 +1,8 @@
-<input type=text tabindex="-1" class=search-input placeholder="Wpisz szukaną frazę" [formControl]="queryField" [matAutocomplete]="auto"/>
+<input mdInput type=text tabindex="-1" class=search-input placeholder="Wpisz szukaną frazę" [formControl]="queryField" 
+  [matAutocomplete]="auto" (keydown.enter)="goToSearchResults()" />
 
 <mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let result of results" [value]="result.titlePL">
+    <mat-option *ngFor="let result of results">
       {{ result.title }}
     </mat-option>
 </mat-autocomplete>
