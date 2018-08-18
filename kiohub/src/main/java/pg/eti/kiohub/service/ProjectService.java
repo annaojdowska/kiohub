@@ -24,6 +24,7 @@ public class ProjectService {
     private ProjectRepository projectRepository;
     
     public List<Project> getAllMatchingProjects(String phrase){
+        if(phrase.isEmpty()) return new ArrayList<Project>();
         return projectRepository.findAll().stream().filter(project -> project.getTitle().toLowerCase().contains(phrase.toLowerCase())).collect(Collectors.toList());
     } 
 }
