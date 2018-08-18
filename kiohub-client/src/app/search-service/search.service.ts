@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Project } from '../model/project.interface';
 import { Observable } from 'rxjs';
 
@@ -8,12 +8,14 @@ export class SearchService {
   chosenResult: any;
   searchResults: Observable<Project[]>;
   constructor(@Inject(HttpClient) private http: HttpClient) {
-    this.searchResults = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
+    this.searchResults = new Observable<Project[]>();
    }
 
-  search(query: string): Observable<Project[]> {
-    // this.searchResults = this.http.get<Project[]>('http://localhost:8080/project/all', {responseType: 'json'});
-    this.searchResults = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
+  search(phrase: string): Observable<Project[]> {
+    const params = new HttpParams().set('phrase', phrase);
+    this.searchResults = this.http.get<Project[]>('http://kiohub.eti.pg.gda.pl:8080/project/quick-search',
+    {responseType: 'json', params: params});
+    // this.searchResults = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
      return this.searchResults;
   }
 

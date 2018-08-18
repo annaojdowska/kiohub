@@ -19,7 +19,7 @@ constructor(@Inject(SearchService) private searchService: SearchService) { }
 
 ngOnInit() {
   this.queryField.valueChanges
-  .pipe(debounceTime(200))
+  .pipe(debounceTime(50))
   .subscribe(queryField => this.searchService.search(queryField).subscribe(res => this.results = res));
  }
 }
