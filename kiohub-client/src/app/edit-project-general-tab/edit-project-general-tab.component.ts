@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
-import { FormControl } from '../../../node_modules/@angular/forms';
-import { Observable } from '../../../node_modules/rxjs';
-import { startWith, map } from '../../../node_modules/rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '../../../node_modules/@angular/material';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 export interface Status {
   value: number;

@@ -1,4 +1,4 @@
-export interface Licence {
+export interface Tag {
     id: number;
     name: string;
 }

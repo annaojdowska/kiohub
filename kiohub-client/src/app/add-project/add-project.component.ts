@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 import { EmailInvitationService } from '../email-invitation-service/email-invitation.service';
 
 @Component({

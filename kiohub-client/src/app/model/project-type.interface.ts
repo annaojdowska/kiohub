@@ -1,4 +1,4 @@
-export interface Licence {
+export interface ProjectType {
     id: number;
     name: string;
 }

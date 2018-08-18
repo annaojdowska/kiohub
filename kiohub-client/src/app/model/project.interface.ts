@@ -1,16 +1,24 @@
-import { Type } from './type.interface';
+import { ProjectType } from './project-type.interface';
 import { Licence } from './licence.interface';
-import { Status } from './status.interface';
+import { ProjectStatus } from './project-status.interface';
+import { ProjectSettings } from './project-settings.interface';
+import { Tag } from './tag.interface';
+import { Semester } from './semester.interface';
 
 export interface Project {
     id: number;
-    titlePL: string;
-    titleENG: string;
-    descriptionPL: string;
-    descriptionENG: string;
-    publicationDate: Date;
-    isPublished: boolean;
+    projectType: ProjectType;
+    projectStatus: ProjectStatus;
     licence: Licence;
-    type: Type;
-    status: Status;
+    relatedToProjects: Project[];
+    relatedFromProjects: Project[];
+    projectSettings: ProjectSettings;
+    tags: Tag[];
+    semesters: Semester[];
+    title: string;
+    titleEng: string;
+    description: string;
+    descriptionEng: string;
+    publicationDate: Date;
+    published: boolean;
 }

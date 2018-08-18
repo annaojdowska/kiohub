@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Semester } from '../model/semester.interface';
 import { SemesterService } from './semester-service';
-import { trigger, transition, style, animate } from '../../../node_modules/@angular/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 
 @Component({

@@ -1,4 +1,4 @@
-export interface Licence {
+export interface ProjectStatus {
     id: number;
     name: string;
 }
