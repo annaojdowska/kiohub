@@ -24,7 +24,7 @@ export class TestPostComponent implements OnInit {
   }
 
   send2() {
-    this.http.post<Project>('http://localhost:8080/project/post', this.results[0], httpOptions)
+    this.http.post<Project>('http://kiohub.eti.pg.gda.pl:8080/project/post', this.results[0], httpOptions)
     .subscribe(data => {
       alert('ok');
     },
