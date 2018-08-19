@@ -1,24 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
-
-export interface Status {
-  value: number;
-  viewValue: string;
-}
-
-export interface Type {
-  value: number;
-  viewValue: string;
-}
-
-export interface Licence {
-  value: number;
-  viewValue: string;
-}
+import { Licence } from '../model/licence.interface';
+import { ProjectType } from '../model/project-type.interface';
+import { Status } from '../model/status.interface';
+import { ProjectTypeService } from '../services/project-type-service';
+import { LicenceService } from '../services/licence-service';
+import { ProjectStatusService } from '../services/project-status-service';
 
 export interface Attachment {
   name: string;
@@ -48,24 +39,9 @@ export interface Tags {
 })
 
 export class EditProjectGeneralTabComponent implements OnInit {
-  statuses: Status[] = [
-    {value: 0, viewValue: 'W trakcie'},
-    {value: 1, viewValue: 'Zakończony'},
-    {value: 2, viewValue: 'Problematyczny'},
-    {value: 3, viewValue: 'Skasowany'}
-  ];
-
-  project_types: Type[] = [
-    {value: 0, viewValue: 'Praca inżynierska'},
-    {value: 1, viewValue: 'Praca magisterska'},
-    {value: 2, viewValue: 'Projekt grupowy'},
-  ];
-
-  licences: Licence[] = [
-    {value: 0, viewValue: 'Licencja 1'},
-    {value: 1, viewValue: 'Licencja 2'},
-    {value: 2, viewValue: 'Licencja 3'},
-  ];
+  statuses: Status[];
+  licences: Licence[];
+  project_types: ProjectType[];
 
   @ViewChild('thesisList') thesisList: any;
   @ViewChild('programsList') programsList: any;
@@ -94,13 +70,18 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   semestersHidden: boolean;
 
-  constructor() { }
+  constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
+              @Inject(LicenceService) private licenceService: LicenceService,
+              @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService) { }
 
   toggleSemesters() {
     this.semestersHidden = !this.semestersHidden;
   }
 
   ngOnInit() {
+    this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
+    this.licenceService.getLicences().subscribe(result => this.licences = result);
+    this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
     this.semestersHidden = true;
     this.tagFilteredOptions = this.tagControl.valueChanges.pipe(
       startWith(null),

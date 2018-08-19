@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
-export interface Licence {
-  value: number;
-  viewValue: string;
-}
+import { ProjectType } from '../model/project-type.interface';
 
-export interface Type {
-  value: number;
-  viewValue: string;
-}
+import { Licence } from '../model/licence.interface';
+import { ProjectTypeService } from '../services/project-type-service';
+import { LicenceService } from '../services/licence-service';
 
 @Component({
   selector: 'app-advanced-search-form',
@@ -17,22 +13,16 @@ export interface Type {
 })
 
 export class AdvancedSearchFormComponent implements OnInit {
-  licences: Licence[] = [
-    {value: 0, viewValue: 'Licencja 1'},
-    {value: 1, viewValue: 'Licencja 2'},
-    {value: 2, viewValue: 'Licencja 3'},
-  ];
-
-  project_types: Type[] = [
-    {value: 0, viewValue: 'Praca inżynierska'},
-    {value: 1, viewValue: 'Praca magisterska'},
-    {value: 2, viewValue: 'Projekt grupowy'},
-  ];
+  licences: Licence[];
+  project_types: ProjectType[];
   semestersHidden: boolean;
-  constructor() { }
+  constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
+              @Inject(LicenceService) private licenceService: LicenceService) { }
 
   ngOnInit() {
     this.semestersHidden = false;
+    this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
+    this.licenceService.getLicences().subscribe(result => this.licences = result);
   }
 
   toggleSemesters() {

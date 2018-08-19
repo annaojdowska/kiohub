@@ -25,7 +25,7 @@ import { EditProjectGeneralTabComponent } from './edit-project-general-tab/edit-
 import { UserService } from './user-data/user.service';
 import { EditProjectManagementTabComponent } from './edit-project-management-tab/edit-project-management-tab.component';
 import { EmailInvitationService } from './email-invitation-service/email-invitation.service';
-import {ENTER, COMMA} from '@angular/cdk/keycodes';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { SemesterChooserComponent } from './semester-chooser/semester-chooser.component';
 import { InputListComponent } from './input-list/input-list.component';
 import { SemesterService } from './semester-chooser/semester-service';
@@ -34,6 +34,11 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search.compo
 import { TestPostComponent } from './test-post/test-post.component';
 import { AdvancedSearchFormComponent } from './advanced-search-form/advanced-search-form.component';
 import { MAT_DATE_LOCALE} from '@angular/material/core';
+import { ProjectTypeService } from './services/project-type-service';
+import { LicenceService } from './services/licence-service';
+import { ProjectStatusService } from './services/project-status-service';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,6 +85,9 @@ import { MAT_DATE_LOCALE} from '@angular/material/core';
     UserService,
     SemesterService,
     EmailInvitationService,
+    ProjectTypeService,
+    LicenceService,
+    ProjectStatusService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {

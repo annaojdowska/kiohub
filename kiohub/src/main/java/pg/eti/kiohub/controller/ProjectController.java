@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.model.Licence;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.entity.model.ProjectStatus;
 import pg.eti.kiohub.entity.model.ProjectType;
 import pg.eti.kiohub.entity.model.Semester;
 import pg.eti.kiohub.entity.model.Tag;
@@ -81,6 +82,11 @@ public class ProjectController extends MainController {
     @GetMapping(path = "/types/all")
     public ResponseEntity<Iterable<ProjectType>> getAllProjectTypes() {
         return new ResponseEntity<>(projectTypeRepository.findAll(), HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/statuses/all")
+    public ResponseEntity<Iterable<ProjectStatus>> getAllProjectStatuses() {
+        return new ResponseEntity<>(projectStatusRepository.findAll(), HttpStatus.OK);
     }
     
     @GetMapping(path = "/quick-search")

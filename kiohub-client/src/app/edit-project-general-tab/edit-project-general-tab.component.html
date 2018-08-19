@@ -1,7 +1,7 @@
 <br/><label id="h2">Edycja projektu</label>
 <mat-form-field class="wrapper-right">
   <mat-select placeholder="Status projektu">
-    <mat-option *ngFor="let status of statuses" [value]="status.value">{{status.viewValue}}</mat-option>
+    <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
   </mat-select>
 </mat-form-field><br/><br/>
 <form>
@@ -14,7 +14,7 @@
     <label>Typ projektu:</label> 
     <mat-form-field>
         <mat-select [(value)]="selected-type">
-            <mat-option *ngFor="let type of project_types" [value]="type.value">{{type.viewValue}}</mat-option>
+            <mat-option *ngFor="let type of project_types" [value]="type.id">{{type.name}}</mat-option>
         </mat-select>
     </mat-form-field><br/><br/>
     
@@ -75,7 +75,7 @@
     <label>Wybierz licencję:</label>
     <mat-form-field>
         <mat-select [(value)]="selected-licence">
-            <mat-option *ngFor="let licence of licences" [value]="licence.value">{{licence.viewValue}}</mat-option>
+            <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
         </mat-select>
     </mat-form-field><br/>
     <label>Semestry wywtarzania: </label> <img src='assets/calendar.png' (click)="toggleSemesters()"/><br/><br/>
