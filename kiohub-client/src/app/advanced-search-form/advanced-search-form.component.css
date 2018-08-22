@@ -2,7 +2,9 @@
     border: 1px solid rgba(255, 166, 0, 0.39);
     padding: 15px;
     background:rgba(230, 227, 222, 0.282);
-    text-align: center;
+    
+    margin-left: calc(-1 * var(--page-content-padding));
+    margin-right: calc(-1 * var(--page-content-padding));
 }
 
 .leftLabel {
@@ -10,13 +12,19 @@
     width: 30%;
 }
 
-.centerLabel {
-    width: 30%;
-}
-
 .rightLabel {
     float: right;
     width: 30%;
+}
+
+.paddingLeft {
+    float: left;
+    padding-left: 5%;
+    width: 30%;
+}
+
+.paddingBottom {
+    margin-bottom: 15px;
 }
 
 label {
@@ -32,7 +40,8 @@ label {
     justify-content: center;
 }
 
-#center {
-    float: left;
+.center {
+    text-align: center;  
+    display: block;
     width: 60%;
 }

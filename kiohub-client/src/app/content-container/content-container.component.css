@@ -7,5 +7,5 @@
 }
 
 #content {
-    padding: 20px;
+    padding: var(--page-content-padding);
 }
