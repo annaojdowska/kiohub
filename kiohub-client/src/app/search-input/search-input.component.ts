@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { SearchService } from '../search-service/search.service';
+import { SearchService } from '../services/search.service';
 import { debounceTime } from 'rxjs/operators';
 import { Project } from '../model/project.interface';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
+import { MatOption } from '@angular/material';
 
 @Component({
 selector: 'app-search-input',

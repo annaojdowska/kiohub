@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Project } from '../model/project.interface';
-import { SearchService } from '../search-service/search.service';
+import { SearchService } from '../services/search.service';
 
 const httpOptions = {
   headers: new HttpHeaders({

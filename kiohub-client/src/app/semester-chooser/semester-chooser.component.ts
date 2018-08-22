@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Semester } from '../model/semester.interface';
-import { SemesterService } from './semester-service';
+import { SemesterService } from '../services/semester-service';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 

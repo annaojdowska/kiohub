@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { SearchService } from '../search-service/search.service';
+import { SearchService } from '../services/search.service';
 import { Project } from '../model/project.interface';
 import { trigger, style, animate, transition } from '@angular/animations';
 
