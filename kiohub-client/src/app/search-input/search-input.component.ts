@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SearchService } from '../services/search.service';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, startWith, map } from 'rxjs/operators';
 import { Project } from '../model/project.interface';
 import { Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ProjectDetailsService } from '../services/project-details-service';
+import { Observable } from '../../../node_modules/rxjs';
 
 @Component({
 selector: 'app-search-input',
@@ -15,18 +16,34 @@ styleUrls: ['./search-input.component.css']
 
 export class SearchInputComponent implements OnInit {
   results: Project[] = [];
+  filteredResults: Observable<Project[]>;
   queryField: FormControl = new FormControl();
   proxyValue: any;
 
 constructor(@Inject(SearchService) private searchService: SearchService, @Inject(Router) private router: Router,
-@Inject(ProjectDetailsService) private projectDetailsService: ProjectDetailsService) { }
+@Inject(ProjectDetailsService) private projectDetailsService: ProjectDetailsService) {
+
+}
 
 ngOnInit() {
-  this.queryField.valueChanges
-  .pipe(debounceTime(100))
-  .subscribe(queryField => this.searchService.search(queryField).subscribe(res => this.mapResults(res, queryField)));
+  this.searchService.getSearchResults().subscribe(res => this.results = res);
+  this.filteredResults = this.queryField.valueChanges
+  .pipe(
+    debounceTime(100),
+    startWith(''),
+    map(value => this.filter(value))
+  );
+  // this.queryField.valueChanges
+  // .pipe(debounceTime(100))
+  // .subscribe(queryField => this.searchService.search(queryField).subscribe(res => this.mapResults(res, queryField)));
  }
 
+ filter(phrase: string): Project[] {
+    if (phrase === '') {
+      return [];
+    }
+    return this.results.filter(option => option.title.toLowerCase().includes(phrase.toLowerCase()));
+ }
  goToSearchResults() {
     this.router.navigate(['/projects-base']);
  }
