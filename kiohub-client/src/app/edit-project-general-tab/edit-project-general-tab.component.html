@@ -78,7 +78,7 @@
             <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
         </mat-select>
     </mat-form-field><br/>
-    <label>Semestry wywtarzania: </label> <img src='assets/calendar.png' (click)="toggleSemesters()"/><br/><br/>
+    <label>Semestry wytwarzania: </label> <img src='assets/calendar.png' (click)="toggleSemesters()"/><br/><br/>
     <app-semester-chooser *ngIf="semestersHidden != false"></app-semester-chooser>
     <label>Tagi:</label>
 

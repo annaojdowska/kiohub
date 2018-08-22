@@ -19,7 +19,7 @@ import pg.eti.kiohub.entity.model.Semester;
 @Controller
 @RequestMapping(path = "/semester")
 public class SemesterController extends MainController {
-    
+
     @GetMapping(path = "/all")
     public ResponseEntity<Iterable<Semester>> getAllSemesters() {
         return new ResponseEntity<>(semesterRepository.findAll(), HttpStatus.OK);

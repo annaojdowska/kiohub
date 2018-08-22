@@ -15,6 +15,7 @@
 .rightLabel {
     float: right;
     width: 30%;
+    text-align: center;
 }
 
 .paddingLeft {
@@ -25,6 +26,10 @@
 
 .paddingBottom {
     margin-bottom: 15px;
+}
+
+.paddingTop {
+    margin-top: 70px;
 }
 
 label {
