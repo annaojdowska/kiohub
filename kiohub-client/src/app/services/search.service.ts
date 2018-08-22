@@ -7,10 +7,9 @@ import { ProjectDetailsService } from './project-details-service';
 @Injectable()
 export class SearchService {
   private allProjects: Observable<Project[]>;
-  constructor(@Inject(HttpClient) private http: HttpClient) {
-    this.allProjects = this.http.get<Project[]>('http://kiohub.eti.pg.gda.pl:8080/project/all', {responseType: 'json'});
-   }
+  constructor(@Inject(HttpClient) private http: HttpClient) { }
 
+  // not used right now
   search(phrase: string): Observable<Project[]> {
     const params = new HttpParams().set('phrase', phrase);
     this.allProjects = this.http.get<Project[]>('http://kiohub.eti.pg.gda.pl:8080/project/quick-search',
@@ -19,6 +18,7 @@ export class SearchService {
   }
 
   getAllProjects() {
+    this.allProjects = this.http.get<Project[]>('http://kiohub.eti.pg.gda.pl:8080/project/all', {responseType: 'json'});
     return this.allProjects;
   }
 }
