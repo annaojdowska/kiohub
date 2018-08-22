@@ -43,16 +43,8 @@ public class ProjectController extends MainController {
     
     @GetMapping(path = "/all")
     public ResponseEntity<List<Project>>
-            getAllProjects() {
-                
-          
+    getAllProjects() {
         return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
-
-    }
-            
-    @GetMapping(path = "/semesters/all")
-    public ResponseEntity<Iterable<Semester>> getAllSemesters() {
-        return new ResponseEntity<>(semesterRepository.findAll(), HttpStatus.OK);
     }
     
     public static Map<String, String> getQueryMap(String query)

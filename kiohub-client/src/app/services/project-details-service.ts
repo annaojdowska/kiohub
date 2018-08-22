@@ -8,7 +8,6 @@ export class ProjectDetailsService {
 
     setSelectedProject(project: Project) {
         this.subject.next(project);
-
     }
 
     getSelectedProject() {

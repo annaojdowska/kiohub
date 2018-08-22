@@ -9,7 +9,7 @@ export class SearchService {
   private searchResults: Observable<Project[]>;
   constructor(@Inject(HttpClient) private http: HttpClient) {
     // this.searchResults = new Observable<Project[]>();
-    this.searchResults = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
+    this.searchResults = this.http.get<Project[]>('http://kiohub.eti.pg.gda.pl:8080/project/all', {responseType: 'json'});
    }
 
   search(phrase: string): Observable<Project[]> {
