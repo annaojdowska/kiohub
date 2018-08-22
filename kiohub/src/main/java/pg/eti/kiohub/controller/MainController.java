@@ -43,6 +43,8 @@ public class MainController {
     
     @Autowired
     protected LicenceRepository licenceRepository;
+
+
     
     @RequestMapping(path = "/")
     public String homePage() {

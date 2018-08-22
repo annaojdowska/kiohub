@@ -46,6 +46,31 @@ public class ProjectController extends MainController {
     getAllProjects() {
         return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/checkTitleUniqueness")
+    public ResponseEntity checkTitleuniqueness(
+            @RequestParam("titlePl") String titlePl) {
+        Long rowsMatchingTitle = projectRepository.checkIfUniqueTitle(titlePl);
+
+        if (rowsMatchingTitle > 0) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @PostMapping(path = "/add")
+    public ResponseEntity<Project> addProject(
+            @RequestParam("titlePl") String titlePl,
+            @RequestParam("collaborators") String[] collaborators) {
+        Project project = new Project();
+        project.setTitle(titlePl);
+
+        System.out.println(collaborators.toString());
+
+
+        return new ResponseEntity<Project>(HttpStatus.CREATED);
+    }
     
     public static Map<String, String> getQueryMap(String query)
     {
@@ -90,7 +115,7 @@ public class ProjectController extends MainController {
     @PostMapping(path = "/post")
     public ResponseEntity examplePost(@RequestBody Project project){
         
-    return new ResponseEntity<Project>(project, HttpStatus.OK);
+    return new ResponseEntity<>(project, HttpStatus.OK);
     }
     
     @CrossOrigin

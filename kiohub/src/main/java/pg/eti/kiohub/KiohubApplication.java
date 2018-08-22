@@ -8,14 +8,7 @@ import org.springframework.context.annotation.*;
 
 
 
-@SpringBootApplication// = @Configuration, @ComponentScan, @EnableAutoConfiguration
-//@Configuration
-//@ComponentScan(basePackages = {
-//    "pg.eti.kiohub.controller",
-//    "pg.eti.kiohub.entity",
-//    "pg.eti.kiohub.repository",
-//    "pg.eti.kiohub.service"
-//})
+@SpringBootApplication
 public class KiohubApplication extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {

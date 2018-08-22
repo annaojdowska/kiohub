@@ -4,6 +4,7 @@
 
 
 body {
+    --page-content-padding: 20px;
     --page-content-width: 65%;
     --margin-bar-elements: 10px;
     --menu-bar-height: 55px;
