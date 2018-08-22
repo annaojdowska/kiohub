@@ -8,6 +8,8 @@ package pg.eti.kiohub.entity.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Table;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +18,8 @@ import lombok.Setter;
  *
  * @author Aleksander Kania
  */
-@Entity(name = "USER_PINNED_PROJECTS")
+@Entity
+@Table(name = "user_pinned_projects")
 @Getter
 @Setter
 @NoArgsConstructor

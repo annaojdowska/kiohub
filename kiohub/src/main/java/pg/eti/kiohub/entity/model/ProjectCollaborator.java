@@ -5,10 +5,8 @@
  */
 package pg.eti.kiohub.entity.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +16,8 @@ import pg.eti.kiohub.entity.enums.Visibility;
  *
  * @author Aleksander Kania
  */
-@Entity(name = "PROJECT_COLLABORATORS")
+@Entity
+@Table(name = "project_collaborators")
 @Getter
 @Setter
 @NoArgsConstructor
