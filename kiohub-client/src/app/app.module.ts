@@ -15,20 +15,20 @@ import { MenuBarNotLoggedComponent } from './menu-bar-not-logged/menu-bar-not-lo
 import { ContentContainerComponent } from './content-container/content-container.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-import { SearchService } from './search-service/search.service';
+import { SearchService } from './services/search.service';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { UnloggedSearchComponent } from './unlogged-search/unlogged-search.component';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { EditProjectTabComponent } from './edit-project-tab/edit-project-tab.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditProjectGeneralTabComponent } from './edit-project-general-tab/edit-project-general-tab.component';
-import { UserService } from './user-data/user.service';
+import { UserService } from './services/user.service';
 import { EditProjectManagementTabComponent } from './edit-project-management-tab/edit-project-management-tab.component';
 import { EmailInvitationService } from './email-invitation-service/email-invitation.service';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { SemesterChooserComponent } from './semester-chooser/semester-chooser.component';
 import { InputListComponent } from './input-list/input-list.component';
-import { SemesterService } from './semester-chooser/semester-service';
+import { SemesterService } from './services/semester-service';
 import { SearchResultSingleProjectComponent } from './search-result-single-project/search-result-single-project.component';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 import { TestPostComponent } from './test-post/test-post.component';
@@ -37,6 +37,8 @@ import { MAT_DATE_LOCALE} from '@angular/material/core';
 import { ProjectTypeService } from './services/project-type-service';
 import { LicenceService } from './services/licence-service';
 import { ProjectStatusService } from './services/project-status-service';
+import { ProjectViewComponent } from './project-view/project-view.component';
+import { ProjectDetailsService } from './services/project-details-service';
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import { ProjectStatusService } from './services/project-status-service';
     SearchResultSingleProjectComponent,
     AdvancedSearchComponent,
     TestPostComponent,
-    AdvancedSearchFormComponent
+    AdvancedSearchFormComponent,
+    ProjectViewComponent
   ],
   imports: [
     BrowserModule,
@@ -88,6 +91,7 @@ import { ProjectStatusService } from './services/project-status-service';
     ProjectTypeService,
     LicenceService,
     ProjectStatusService,
+    ProjectDetailsService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {

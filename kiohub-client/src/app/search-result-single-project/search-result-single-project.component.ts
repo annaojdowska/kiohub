@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Project } from '../model/project.interface';
+import { Router } from '../../../node_modules/@angular/router';
+import { ProjectDetailsService } from '../services/project-details-service';
 
 @Component({
   selector: 'app-search-result-single-project',
@@ -8,9 +10,15 @@ import { Project } from '../model/project.interface';
 })
 export class SearchResultSingleProjectComponent implements OnInit {
   @Input() project: Project;
-  constructor() { }
+  constructor(@Inject(Router) private router: Router,
+   @Inject(ProjectDetailsService) private projectDetailsService: ProjectDetailsService) { }
 
   ngOnInit() {
   }
 
+  navigateToDetails() {
+    console.log(this.project);
+    this.projectDetailsService.setSelectedProject(this.project);
+    this.router.navigate(['/project-details', this.project.id]);
+  }
 }
