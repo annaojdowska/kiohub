@@ -17,6 +17,7 @@ export class ProjectViewComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
+    this.project = this.projectDetailsService.currentProject;
   }
 
   ngOnDestroy() {
