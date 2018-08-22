@@ -20,7 +20,7 @@ import lombok.Setter;
  * @author Aleksander Kania <kania>
  */
 @Entity
-@Table(name = "project_type")
+@Table(name = "project_types")
 @Getter
 @Setter
 @NoArgsConstructor
