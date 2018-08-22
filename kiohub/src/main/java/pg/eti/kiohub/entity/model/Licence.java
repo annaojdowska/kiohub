@@ -27,10 +27,10 @@ import lombok.Setter;
  * @author Anna
  */
 @Entity
+@Table(name = "licences")
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "licences")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Licence {
 
