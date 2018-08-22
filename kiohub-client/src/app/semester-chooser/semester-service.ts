@@ -9,6 +9,6 @@ export class SemesterService {
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   getSemesters(): Observable<Semester[]> {
-     return this.http.get<Semester[]>('http://kiohub.eti.pg.gda.pl:8080/project/semesters/all', {responseType: 'json'});
+     return this.http.get<Semester[]>('http://kiohub.eti.pg.gda.pl:8080/semester/all', {responseType: 'json'});
   }
 }
