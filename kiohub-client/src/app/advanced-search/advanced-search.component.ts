@@ -27,6 +27,6 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchService.getSearchResults().subscribe(result => this.searchResults = result);
+    this.searchService.getAllProjects().subscribe(result => this.searchResults = result);
   }
 }

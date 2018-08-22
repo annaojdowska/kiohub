@@ -26,16 +26,13 @@ constructor(@Inject(SearchService) private searchService: SearchService, @Inject
 }
 
 ngOnInit() {
-  this.searchService.getSearchResults().subscribe(res => this.results = res);
+  this.searchService.getAllProjects().subscribe(res => this.results = res);
   this.filteredResults = this.queryField.valueChanges
-  .pipe(
-    debounceTime(100),
-    startWith(''),
-    map(value => this.filter(value))
-  );
-  // this.queryField.valueChanges
-  // .pipe(debounceTime(100))
-  // .subscribe(queryField => this.searchService.search(queryField).subscribe(res => this.mapResults(res, queryField)));
+    .pipe(
+      debounceTime(100),
+      startWith(''),
+      map(value => this.filter(value))
+    );
  }
 
  filter(phrase: string): Project[] {

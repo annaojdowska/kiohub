@@ -20,7 +20,7 @@ export class TestPostComponent implements OnInit {
   constructor(@Inject(HttpClient) private http: HttpClient, @Inject(SearchService) private searchService: SearchService) { }
 
   ngOnInit() {
-    this.searchService.getSearchResults().subscribe(res => this.results = res);
+    this.searchService.getAllProjects().subscribe(res => this.results = res);
   }
 
   send2() {
