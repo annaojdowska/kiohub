@@ -37,6 +37,8 @@ import { MAT_DATE_LOCALE} from '@angular/material/core';
 import { ProjectTypeService } from './services/project-type-service';
 import { LicenceService } from './services/licence-service';
 import { ProjectStatusService } from './services/project-status-service';
+import { ProjectViewComponent } from './project-view/project-view.component';
+import { ProjectDetailsService } from './services/project-details-service';
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import { ProjectStatusService } from './services/project-status-service';
     SearchResultSingleProjectComponent,
     AdvancedSearchComponent,
     TestPostComponent,
-    AdvancedSearchFormComponent
+    AdvancedSearchFormComponent,
+    ProjectViewComponent
   ],
   imports: [
     BrowserModule,
@@ -88,6 +91,7 @@ import { ProjectStatusService } from './services/project-status-service';
     ProjectTypeService,
     LicenceService,
     ProjectStatusService,
+    ProjectDetailsService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {

@@ -2,10 +2,11 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Project } from '../model/project.interface';
 import { Observable } from 'rxjs';
+import { ProjectDetailsService } from './project-details-service';
 
 @Injectable()
 export class SearchService {
-  searchResults: Observable<Project[]>;
+  private searchResults: Observable<Project[]>;
   constructor(@Inject(HttpClient) private http: HttpClient) {
     // this.searchResults = new Observable<Project[]>();
     this.searchResults = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
