@@ -6,7 +6,7 @@
 </mat-form-field><br/><br/>
 <form>
     <label>Tytuł:</label>
-    <mat-form-field class="wrapper-width"><input matInput name="title">{{editedProject?.title}}</mat-form-field><br/>
+    <mat-form-field class="wrapper-width"><input matInput name="title" value="{{editedProject?.title}}"></mat-form-field><br/>
     
     <label>Opis:&nbsp;</label>
     <mat-form-field class="wrapper-width"><textarea matInput id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea></mat-form-field><br/>
