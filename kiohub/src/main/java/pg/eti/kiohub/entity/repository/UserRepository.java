@@ -6,6 +6,8 @@
 package pg.eti.kiohub.entity.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pg.eti.kiohub.entity.model.User;
 
@@ -15,5 +17,9 @@ import pg.eti.kiohub.entity.model.User;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    
+    @Query("SELECT count(u) FROM User u WHERE u.email = :email")
+    Long checkIfUserExistsByEmail(@Param("email") String email);
+
+    @Query("SELECT u FROM User u WHERE u.email = :email")
+    User findUserByEmail(@Param("email") String email);
 }
