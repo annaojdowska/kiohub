@@ -86,10 +86,14 @@ export class InputListComponent implements OnInit {
   }
 
   add(element: string): void {
-    if ((element || '').trim()) {
-      this._elements.push(element.trim());
+    // console.log(element);
+    // if ((element || '').trim()) {
+    //   this._elements.push(element.trim());
+    //   this.sendElements();
+    // }
+
+      this._elements.push(element);
       this.sendElements();
-    }
   }
 
   inputFocus(): void {

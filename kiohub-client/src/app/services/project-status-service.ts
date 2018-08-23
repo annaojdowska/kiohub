@@ -10,6 +10,6 @@ export class ProjectStatusService {
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   getStatuses(): Observable<ProjectStatus[]> {
-    return this.http.get<ProjectStatus[]>('http://kiohub.eti.pg.gda.pl:8080/project/statuses/all', {responseType: 'json'});
+    return this.http.get<ProjectStatus[]>('http://kiohub.eti.pg.gda.pl:8080/status/all', {responseType: 'json'});
  }
 }

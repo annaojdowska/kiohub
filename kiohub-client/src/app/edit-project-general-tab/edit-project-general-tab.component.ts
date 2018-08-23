@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import {COMMA, ENTER, SPACE} from '@angular/cdk/keycodes';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -10,6 +10,8 @@ import { Status } from '../model/status.interface';
 import { ProjectTypeService } from '../services/project-type-service';
 import { LicenceService } from '../services/licence-service';
 import { ProjectStatusService } from '../services/project-status-service';
+import { ProjectService } from '../services/project-service';
+import { Project } from '../model/project.interface';
 
 export interface Attachment {
   name: string;
@@ -39,10 +41,10 @@ export interface Tags {
 })
 
 export class EditProjectGeneralTabComponent implements OnInit {
+  editedProject: Project;
   statuses: Status[];
   licences: Licence[];
   project_types: ProjectType[];
-
   @ViewChild('thesisList') thesisList: any;
   @ViewChild('programsList') programsList: any;
   @ViewChild('imagesList') imagesList: any;
@@ -72,13 +74,20 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
               @Inject(LicenceService) private licenceService: LicenceService,
-              @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService) { }
+              @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
+              @Inject(ProjectService) private projectService: ProjectService) { }
 
   toggleSemesters() {
     this.semestersHidden = !this.semestersHidden;
   }
 
   ngOnInit() {
+    this.projectService.getProjectById(1).subscribe(result => {
+      this.editedProject = result;
+      result.tags.forEach(tag => {
+        this.tagsList.add(tag.name);
+      });
+   });
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
@@ -86,8 +95,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.tagFilteredOptions = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((value: string | null) => value ? this._filter(value) : this.tagOptions));
-  }
 
+    }
 
   // Functions for tag input
 

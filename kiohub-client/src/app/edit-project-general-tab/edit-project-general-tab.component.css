@@ -68,3 +68,11 @@ img {
 .verticalMiddle {
     vertical-align: middle;
 }
+
+#wrapper-width-licence {
+    width: 400px;
+}
+
+#wrapper-height {
+    height: 100px;
+}

@@ -9,6 +9,6 @@ export class ProjectTypeService {
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   getTypes(): Observable<ProjectType[]> {
-    return this.http.get<ProjectType[]>('http://kiohub.eti.pg.gda.pl:8080/project/types/all', {responseType: 'json'});
+    return this.http.get<ProjectType[]>('http://kiohub.eti.pg.gda.pl:8080/type/all', {responseType: 'json'});
  }
 }

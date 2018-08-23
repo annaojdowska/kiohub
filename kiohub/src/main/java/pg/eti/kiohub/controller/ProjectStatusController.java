@@ -19,7 +19,7 @@ import pg.eti.kiohub.entity.model.ProjectStatus;
 
 @Controller
 @RequestMapping(path = "/status")
-public class StatusController extends MainController {
+public class ProjectStatusController extends MainController {
         
     @GetMapping(path = "/all")
     public ResponseEntity<Iterable<ProjectStatus>> getAllProjectStatuses() {

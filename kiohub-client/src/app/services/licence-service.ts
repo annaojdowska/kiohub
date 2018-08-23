@@ -9,6 +9,6 @@ export class LicenceService {
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   getLicences(): Observable<Licence[]> {
-    return this.http.get<Licence[]>('http://kiohub.eti.pg.gda.pl:8080/project/licences/all', {responseType: 'json'});
+    return this.http.get<Licence[]>('http://kiohub.eti.pg.gda.pl:8080/licence/all', {responseType: 'json'});
  }
 }

@@ -5,10 +5,8 @@
  */
 package pg.eti.kiohub.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,18 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import pg.eti.kiohub.entity.model.Licence;
 import pg.eti.kiohub.entity.model.Project;
-import pg.eti.kiohub.entity.model.ProjectStatus;
-import pg.eti.kiohub.entity.model.ProjectType;
-import pg.eti.kiohub.entity.model.Semester;
-import pg.eti.kiohub.entity.model.Tag;
 import pg.eti.kiohub.service.ProjectService;
 
 /**
@@ -47,6 +40,11 @@ public class ProjectController extends MainController {
         return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(projectRepository.findById(id), HttpStatus.OK);
+    }    
+    
     @GetMapping(path = "/checkTitleUniqueness")
     public ResponseEntity checkTitleuniqueness(
             @RequestParam("titlePl") String titlePl) {
@@ -70,40 +68,6 @@ public class ProjectController extends MainController {
 
 
         return new ResponseEntity<Project>(HttpStatus.CREATED);
-    }
-    
-    public static Map<String, String> getQueryMap(String query)
-    {
-        String[] params = query.split("&");
-        Map<String, String> map = new HashMap<String, String>();
-        for (String param : params)
-            map.put(param.split("=")[0], param.split("=")[1]);
-        return map;
-    }
-    
-    @RequestMapping(value = "/addTag" , method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> addTag(@RequestBody String params) {
-        Map<String, String> parameters = getQueryMap(params);
-        Set<String> keys = parameters.keySet();
-        for (String key : keys)
-            tagRepository.save(new Tag(parameters.get(key)));
-        
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    
-    @GetMapping(path = "/licences/all")
-    public ResponseEntity<Iterable<Licence>> getAllLicences() {
-        return new ResponseEntity<>(licenceRepository.findAll(), HttpStatus.OK);
-    }
-    
-    @GetMapping(path = "/types/all")
-    public ResponseEntity<Iterable<ProjectType>> getAllProjectTypes() {
-        return new ResponseEntity<>(projectTypeRepository.findAll(), HttpStatus.OK);
-    }
-    
-    @GetMapping(path = "/statuses/all")
-    public ResponseEntity<Iterable<ProjectStatus>> getAllProjectStatuses() {
-        return new ResponseEntity<>(projectStatusRepository.findAll(), HttpStatus.OK);
     }
     
     @GetMapping(path = "/quick-search")
