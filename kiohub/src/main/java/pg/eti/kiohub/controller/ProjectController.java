@@ -5,10 +5,8 @@
  */
 package pg.eti.kiohub.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,12 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import pg.eti.kiohub.entity.model.Licence;
-import pg.eti.kiohub.entity.model.Project;
-import pg.eti.kiohub.entity.model.ProjectStatus;
-import pg.eti.kiohub.entity.model.ProjectType;
-import pg.eti.kiohub.entity.model.Semester;
-import pg.eti.kiohub.entity.model.Tag;
+import pg.eti.kiohub.entity.model.*;
 import pg.eti.kiohub.service.ProjectService;
 
 /**
@@ -40,7 +33,7 @@ public class ProjectController extends MainController {
 
     @Autowired
     private ProjectService projectService;
-    
+
     @GetMapping(path = "/all")
     public ResponseEntity<List<Project>>
     getAllProjects() {
@@ -62,14 +55,49 @@ public class ProjectController extends MainController {
     @PostMapping(path = "/add")
     public ResponseEntity<Project> addProject(
             @RequestParam("titlePl") String titlePl,
-            @RequestParam("collaborators") String[] collaborators) {
+            @RequestParam("collaborators") String emailsArray) {
         Project project = new Project();
         project.setTitle(titlePl);
+        project.setPublicationDate(new Date());
+        project.setPublished(Boolean.FALSE);
+        project = projectRepository.saveAndFlush(project);
 
-        System.out.println(collaborators.toString());
+        List<String> emails = Arrays.asList(emailsArray.split(", "));
+        List<User> users = createNewUsersAndGetAllByEmails(emails);
+        createAndSaveCollaborators(project, users);
 
+        return new ResponseEntity<>(project, HttpStatus.CREATED);
+    }
 
-        return new ResponseEntity<Project>(HttpStatus.CREATED);
+    private void createAndSaveCollaborators(Project project, List<User> users) {
+        for (User user : users) {
+            ProjectCollaborator collaborator = new ProjectCollaborator();
+            collaborator.setUserId(user.getId());
+            collaborator.setProjectId(project.getId());
+            collaborator.setIsSupervisor(Boolean.FALSE);
+            collaboratorsRepository.saveAndFlush(collaborator);
+        }
+    }
+
+    private User createNewUserUsingEmail(String email) {
+        User user = new User();
+        user.setEmail(email);
+        user = userRepository.saveAndFlush(user);
+        return user;
+    }
+
+    private List<User> createNewUsersAndGetAllByEmails(List<String> emails) {
+        List<User> users = new ArrayList<>();
+        for (String email : emails) {
+            User user = null;
+            if (userRepository.checkIfUserExistsByEmail(email) > 0) {
+                user = userRepository.findUserByEmail(email);
+            } else {
+                user = createNewUserUsingEmail(email);
+            }
+            users.add(user);
+        }
+        return users;
     }
     
     public static Map<String, String> getQueryMap(String query)

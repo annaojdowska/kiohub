@@ -20,7 +20,6 @@
         </div>
 
     </form>
-    <br/>
-    <br/>
-    <button type="button" (click)="createProjectClick();" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
+    <app-error-info #errorInfo id="errorInfo"></app-error-info>
+    <button type="button" (click)="actionAddProject();" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
 </form>

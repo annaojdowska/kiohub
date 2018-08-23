@@ -1,0 +1,11 @@
+#error {
+    background-color: crimson;
+    color: whitesmoke;
+    width: var(--page-content-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 5px;
+    visibility: hidden;
+}

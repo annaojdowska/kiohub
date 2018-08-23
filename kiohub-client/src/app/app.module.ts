@@ -39,6 +39,8 @@ import { LicenceService } from './services/licence-service';
 import { ProjectStatusService } from './services/project-status-service';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { ProjectDetailsService } from './services/project-details-service';
+import { ProjectService } from './services/project.service';
+import { ErrorInfoComponent } from './error-info/error-info.component';
 
 
 @NgModule({
@@ -60,7 +62,8 @@ import { ProjectDetailsService } from './services/project-details-service';
     AdvancedSearchComponent,
     TestPostComponent,
     AdvancedSearchFormComponent,
-    ProjectViewComponent
+    ProjectViewComponent,
+    ErrorInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -92,6 +95,7 @@ import { ProjectDetailsService } from './services/project-details-service';
     LicenceService,
     ProjectStatusService,
     ProjectDetailsService,
+    ProjectService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {
