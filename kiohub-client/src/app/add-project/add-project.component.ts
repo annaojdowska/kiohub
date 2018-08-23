@@ -70,6 +70,6 @@ export class AddProjectComponent implements OnInit {
       error => {
         this.router.navigateByUrl('edit-project');
       }
-    )
+    );
   }
 }
