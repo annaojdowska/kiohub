@@ -9,7 +9,8 @@ export class ProjectService {
   address: string;
 
   constructor(@Inject(HttpClient) private http: HttpClient) {
-    this.address = 'http://localhost:8443';
+    // this.address = 'http://localhost:8443';
+    this.address = 'http://kiohub.eti.pg.gda.pl:8080';
   }
 
   addProject(titlePl: string, collaborators: string[]) {
@@ -27,4 +28,8 @@ export class ProjectService {
     return this.http.get(this.address + '/project/checkTitleUniqueness',
       { responseType: 'json', params: params });
   }
+
+  getProjectById(id: number): Observable<Project> {
+    return this.http.get<Project>(this.address + '/project/' + id, {responseType: 'json'});
+ }
 }

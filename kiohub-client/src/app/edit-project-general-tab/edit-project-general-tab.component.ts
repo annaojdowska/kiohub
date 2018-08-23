@@ -10,7 +10,7 @@ import { Status } from '../model/status.interface';
 import { ProjectTypeService } from '../services/project-type-service';
 import { LicenceService } from '../services/licence-service';
 import { ProjectStatusService } from '../services/project-status-service';
-import { ProjectService } from '../services/project-service';
+import { ProjectService } from '../services/project.service';
 import { Project } from '../model/project.interface';
 
 export interface Attachment {
