@@ -21,7 +21,5 @@ public interface ProjectRepository extends JpaRepository<Project, Long>{
     @Query("select count(p) from Project p where p.title = :titlePl")
     Long checkIfUniqueTitle(@Param("titlePl") String titlePl);
 
-    @Query("select count(u) from User u where u.email = :email")
-    Long checkIfEmailExistsByEmail(@Param("email") String email);
 
 }
