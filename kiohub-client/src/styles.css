@@ -84,3 +84,12 @@ a:link, a:visited, a:hover, a:active {
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
 }
+
+.center_vertically_parent {
+    min-height: calc(100vh - (var(--menu-bar-height) + var(--footer-height) + var(--page-content-padding) *2));
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
