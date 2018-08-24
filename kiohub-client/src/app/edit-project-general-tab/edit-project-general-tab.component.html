@@ -1,9 +1,9 @@
-<br/><label id="h2">Edycja projektu </label>
+<p id="h2">Edycja projektu </p>
 <mat-form-field class="wrapper-right">
   <mat-select [value]="editedProject?.projectStatus?.id" placeholder="Status projektu">
     <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
   </mat-select>
-</mat-form-field><br/><br/>
+</mat-form-field>
 <form>
     <label>Tytuł:</label>
     <mat-form-field class="wrapper-width"><input matInput name="title" value="{{editedProject?.title}}"></mat-form-field><br/>
@@ -19,7 +19,7 @@
     </mat-form-field><br/><br/>
     
     <label class="file-upload">
-        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <img class="cursor" src="assets/add-attachment.png"/>  
         <input (change)="addThesis($event)"  id="file-input" type="file"/>
     </label> 
     <label (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę<input type="file"/></label>
@@ -28,7 +28,7 @@
     </div> 
 
     <label class="file-upload">
-        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <img class="cursor" src="assets/add-attachment.png"/>   
         <input (change)="addProgram($event)" id="file-input" type="file"/>
     </label>
     <label (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu<input type="file"/></label>
@@ -37,7 +37,7 @@
     </div>
 
     <label class="file-upload">
-        <label for="file-input"><img src="assets/add-photo.png"/></label>    
+        <img class="cursor" src="assets/add-photo.png"/>
         <input (change)="addImage($event)" id="file-input" type="file"/>
     </label>
     <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu<input type="file"/></label>
@@ -46,7 +46,7 @@
     </div>
 
     <label class="file-upload">
-        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <img class="cursor" src="assets/add-attachment.png"/> 
         <input (change)="addInstruction($event)" id="file-input" type="file"/>
     </label>
     <label (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi programu<input type="file"/></label>
@@ -55,7 +55,7 @@
     </div>
 
     <label class="file-upload">
-        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <img class="cursor" src="assets/add-attachment.png"/>  
         <input (change)="addInstructionStart($event)" id="file-input" type="file"/>
     </label>
     <label (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label>
@@ -64,7 +64,7 @@
     </div>
 
     <label class="file-upload">
-        <label for="file-input"><img src="assets/add-attachment.png"/></label>    
+        <img class="cursor" src="assets/add-attachment.png"/>
         <input (change)="addOther($event)" id="file-input" type="file"/>
     </label>
     <label (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki<input type="file"/></label>
@@ -78,7 +78,7 @@
             <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
         </mat-select>
     </mat-form-field><br/>
-    <label>Semestry wytwarzania: </label> <img src='assets/calendar.png' (click)="toggleSemesters()"/><br/><br/>
+    <label>Semestry wytwarzania: </label> <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()"/><br/><br/>
     <app-semester-chooser *ngIf="semestersHidden != false"></app-semester-chooser>
     <label>Tagi:</label>
 
