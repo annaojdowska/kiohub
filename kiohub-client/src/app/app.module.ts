@@ -42,6 +42,7 @@ import { ProjectDetailsService } from './services/project-details-service';
 import { ProjectService } from './services/project.service';
 import { ErrorInfoComponent } from './error-info/error-info.component';
 import { FooterComponent } from './footer/footer.component';
+import { FooterMainPageComponent } from './footer-main-page/footer-main-page.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { FooterComponent } from './footer/footer.component';
     AdvancedSearchFormComponent,
     ProjectViewComponent,
     ErrorInfoComponent,
-    FooterComponent
+    FooterComponent,
+    FooterMainPageComponent
   ],
   imports: [
     BrowserModule,
