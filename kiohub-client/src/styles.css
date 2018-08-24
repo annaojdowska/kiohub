@@ -8,8 +8,14 @@ body {
     --page-content-width: 65%;
     --margin-bar-elements: 10px;
     --menu-bar-height: 55px;
+    --footer-height: 100px;
     --normal-font-size: 16px;
     --main-font-name: 'PT Sans';
+
+    --color-azure: #72bcf0;
+    --color-blue: #309ae6;
+    --color-gray: #7a7a7a;
+    --color-orange: orange;
 
     margin: 0px;
     padding: 0px;
@@ -19,7 +25,7 @@ body {
 
 h1 {
     font-family: var(--main-font-name), sans-serif;
-    color: orange;
+    color: var(--color-orange);
     font-size: 35px;
     font-weight: bold;
     margin: 0;
@@ -28,7 +34,7 @@ h1 {
 
 h2 {
     font-family: var(--main-font-name), sans-serif;
-    color: orange;
+    color: var(--color-orange);
     font-size: 25px;
     font-weight: normal;
     font-weight: 400;
@@ -47,7 +53,7 @@ h3 {
 
 h4 {
     font-family: var(--main-font-name), sans-serif;
-    color: #72bcf0;
+    color: var(--color-azure);
     font-size: var(--normal-font-size);
     font-weight: normal;
     margin: 0;
@@ -56,7 +62,7 @@ h4 {
 
 h5 {
     font-family: var(--main-font-name), sans-serif;
-    color: #7a7a7a;
+    color: var(--color-gray);
     font-size: var(--normal-font-size);
     font-weight: normal;
     margin: 0;
@@ -72,8 +78,9 @@ h6 {
     padding-top: 0;
 }
 
-a, a:hover, a:visited, a:link, a:active {
+a:link, a:visited, a:hover, a:active {
     text-decoration: none;
+    color: inherit;
 }
 
 *:focus {
@@ -85,4 +92,13 @@ a, a:hover, a:visited, a:link, a:active {
     color: rgb(7, 26, 56);
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
+}
+
+.center_vertically_parent {
+    min-height: calc(100vh - (var(--menu-bar-height) + var(--footer-height) + var(--page-content-padding) *2));
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
 }

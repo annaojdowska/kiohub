@@ -9,3 +9,23 @@ img{
 h2{
     margin-bottom: 2%;
 }
+
+#search_container {
+    /* background-color: grey; nie było tego */
+    text-align: center;
+    width: 100%;
+    /*wysokość = wysokość ekranu - (wysokość belki + wysokość stopki + odstęp między zawartością a belką + odstęp między zawartością a stopką)*/
+    min-height: calc(100vh - (var(--menu-bar-height) + var(--footer-height) + var(--page-content-padding) *2));
+    overflow: hidden;
+    position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+#content {
+    /* width: 50%;
+    position: absolute;
+    right: 0;
+    top: 0; */
+}

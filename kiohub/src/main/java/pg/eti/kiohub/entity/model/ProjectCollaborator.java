@@ -23,7 +23,6 @@ import pg.eti.kiohub.entity.enums.Visibility;
 @NoArgsConstructor
 @IdClass(UserProjectPK.class)
 public class ProjectCollaborator {
-
     @Id
     private Long userId;
     @Id
