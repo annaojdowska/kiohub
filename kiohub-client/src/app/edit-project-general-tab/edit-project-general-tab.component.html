@@ -56,9 +56,9 @@
 
     <label class="file-upload">
         <label for="file-input"><img src="assets/add-attachment.png"/></label>    
-        <input (change)="addinstructionStart($event)" id="file-input" type="file"/>
+        <input (change)="addInstructionStart($event)" id="file-input" type="file"/>
     </label>
-    <label (change)="addinstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label>
+    <label (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label>
     <div class="list">
         <app-input-list #instructionsStartList orientation="vertical" (changeElements)="recieveInstructionsStart($event)" removable="true" hideInput="true"></app-input-list>
     </div>
@@ -87,7 +87,7 @@
             <input type="text" aria-label="Number" matInput [formControl]="tagControl" [matAutocomplete]="auto" (keyup)="keyUpTag($event)">
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
               <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
-                {{option}}
+                {{option.name}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

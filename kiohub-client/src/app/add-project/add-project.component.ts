@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { EmailInvitationService } from '../email-invitation-service/email-invitation.service';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../model/project.interface';
+import { InputListComponent } from '../input-list/input-list.component';
 
 @Component({
   selector: 'app-add-project',
@@ -13,7 +14,7 @@ export class AddProjectComponent implements OnInit {
   collaborators: string[];
   project: Project;
 
-  @ViewChild('authorsList') authorsList: any;
+  @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
   @ViewChild('titleInput') titleInput: any;
   @ViewChild('errorInput') errorInput: any;
@@ -31,11 +32,11 @@ export class AddProjectComponent implements OnInit {
 
   addAuthor(author) {
     this.authorInput.nativeElement.value = '';
-    this.authorsList.add(author);
+    this.authorsList.add({name: author});
   }
 
   recieveElements($event) {
-    this.collaborators = $event;
+    this.collaborators = $event.map(c => c.name);
   }
 
   actionAddProject() {

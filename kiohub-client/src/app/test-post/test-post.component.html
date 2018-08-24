@@ -1,3 +1,4 @@
 <input #nameInput type="text">
 <input #name2Input type="text">
 <button (click)="send2();" >Submit</button>
+<input (change)="addFile($event, 1)" id="file-input" type="file"/>

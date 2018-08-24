@@ -12,26 +12,20 @@ import { LicenceService } from '../services/licence-service';
 import { ProjectStatusService } from '../services/project-status-service';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../model/project.interface';
-
-export interface Attachment {
-  name: string;
-}
+import { InputListElement } from '../model/input-list-element';
+import { InputListComponent } from '../input-list/input-list.component';
 
 export interface Attachments {
-  thesis: Attachment[];
-  programs: Attachment[];
-  images: Attachment[];
-  instructions: Attachment[];
-  instructionsStart: Attachment[];
-  others: Attachment[];
-}
-
-export interface Tag {
-  name: string;
+  thesis: InputListElement[];
+  programs: InputListElement[];
+  images: InputListElement[];
+  instructions: InputListElement[];
+  instructionsStart: InputListElement[];
+  others: InputListElement[];
 }
 
 export interface Tags {
-  tag: Tag[];
+  tag: InputListElement[];
 }
 
 @Component({
@@ -45,13 +39,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
   statuses: Status[];
   licences: Licence[];
   project_types: ProjectType[];
-  @ViewChild('thesisList') thesisList: any;
-  @ViewChild('programsList') programsList: any;
-  @ViewChild('imagesList') imagesList: any;
-  @ViewChild('instructionsList') instructionsList: any;
-  @ViewChild('instructionsStartList') instructionsStartList: any;
-  @ViewChild('othersList') othersList: any;
-  @ViewChild('tagsList') tagsList: any;
+  @ViewChild('thesisList') thesisList: InputListComponent;
+  @ViewChild('programsList') programsList: InputListComponent;
+  @ViewChild('imagesList') imagesList: InputListComponent;
+  @ViewChild('instructionsList') instructionsList: InputListComponent;
+  @ViewChild('instructionsStartList') instructionsStartList: InputListComponent;
+  @ViewChild('othersList') othersList: InputListComponent;
+  @ViewChild('tagsList') tagsList: InputListComponent;
 
   attachments: Attachments = {
     thesis: [],
@@ -68,7 +62,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   tagControl = new FormControl();
   tagOptions: string[] = ['aplikacja', 'sztucznainteligencja', 'java'];
-  tagFilteredOptions: Observable<string[]>;
+  tagFilteredOptions: Observable<InputListElement[]>;
 
   semestersHidden: boolean;
 
@@ -85,7 +79,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.projectService.getProjectById(1).subscribe(result => {
       this.editedProject = result;
       result.tags.forEach(tag => {
-        this.tagsList.add(tag.name);
+        this.tagsList.add({ name: tag.name});
       });
    });
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
@@ -94,7 +88,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.semestersHidden = true;
     this.tagFilteredOptions = this.tagControl.valueChanges.pipe(
       startWith(null),
-      map((value: string | null) => value ? this._filter(value) : this.tagOptions));
+      map((value: InputListElement | null) => value ? this._filter(value) : this.tagOptions.map(t => <InputListElement>{ name: t})));
 
     }
 
@@ -118,80 +112,79 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.tagControl.setValue(null);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.tagOptions.filter(option => option.toLowerCase().includes(filterValue));
+  private _filter(value: InputListElement): InputListElement[] {
+    const filterValue = value.name.toLowerCase();
+    return this.tagOptions.filter(option => option.toLowerCase().includes(filterValue)).map(o => <InputListElement>{ name: o});
   }
 
   // Functions for itemsList (add and recive attachments and tags)
+  // Add function automatically invoke recive function
+
+  private getInputListElementFile(event): InputListElement {
+    return { name: event.target.files[0].name, file: event.target.files[0]};
+  }
 
   addThesis(event) {
-    const filename = event.target.files[0].name;
-    this.thesisList.add(filename);
+    this.thesisList.add(this.getInputListElementFile(event));
   }
 
   addProgram(event) {
-    const filename = event.target.files[0].name;
-    this.programsList.add(filename);
+    this.programsList.add(this.getInputListElementFile(event));
   }
 
   addImage(event) {
-    const filename = event.target.files[0].name;
-    this.imagesList.add(filename);
+    this.imagesList.add(this.getInputListElementFile(event));
   }
 
   addInstruction(event) {
-    const filename = event.target.files[0].name;
-    this.instructionsList.add(filename);
+    this.instructionsList.add(this.getInputListElementFile(event));
   }
 
   addInstructionStart(event) {
-    const filename = event.target.files[0].name;
-    this.instructionsStartList.add(filename);
+    this.instructionsStartList.add(this.getInputListElementFile(event));
   }
 
   addOther(event) {
-    const filename = event.target.files[0].name;
-    this.othersList.add(filename);
+    this.othersList.add(this.getInputListElementFile(event));
   }
 
   addTag(event) {
-    this.tagsList.add(event);
+    this.tagsList.add({name: event});
   }
 
-  recieveThesis(event) {
+  recieveThesis(elements: InputListElement[]) {
     this.attachments.thesis = [];
-    event.map(name => this.attachments.thesis.push({name: name}));
+    elements.map(e => this.attachments.thesis.push(e));
   }
 
-  recievePrograms(event) {
+  recievePrograms(elements: InputListElement[]) {
     this.attachments.programs = [];
-    event.map(name => this.attachments.programs.push({name: name}));
+    elements.map(e => this.attachments.programs.push(e));
   }
 
-  recieveImages(event) {
+  recieveImages(elements: InputListElement[]) {
     this.attachments.images = [];
-    event.map(name => this.attachments.images.push({name: name}));
+    elements.map(e => this.attachments.images.push(e));
  }
 
- recieveInstructions(event) {
+ recieveInstructions(elements: InputListElement[]) {
   this.attachments.instructions = [];
-  event.map(name => this.attachments.instructions.push({name: name}));
+  elements.map(e => this.attachments.instructions.push(e));
 }
 
-recieveInstructionsStart(event) {
+recieveInstructionsStart(elements: InputListElement[]) {
   this.attachments.instructionsStart = [];
-  event.map(name => this.attachments.instructionsStart.push({name: name}));
+  elements.map(e => this.attachments.instructionsStart.push(e));
 }
 
-recieveOthers(event) {
+recieveOthers(elements: InputListElement[]) {
   this.attachments.others = [];
-  event.map(name => this.attachments.others.push({name: name}));
+  elements.map(e => this.attachments.others.push(e));
 }
 
-recieveTags(event) {
+recieveTags(elements: InputListElement[]) {
   this.tags.tag = [];
-  event.map(name => this.tags.tag.push({name: name}));
+  elements.map(e => this.tags.tag.push(e));
 }
 
 
