@@ -1,0 +1,48 @@
+h2 {
+    padding-bottom: 20px;
+}
+
+h4 {
+    display: inline;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+img {
+    vertical-align: middle;
+    padding-right: 5px;
+}
+
+.wrapper_width_element {
+    width: 50%;
+    display: inline-block;
+}
+
+table {
+    margin-top: 10px;
+}
+
+table > *:first-child:not(thead) th:first-child { /*h5*/
+    text-align: right;
+    vertical-align: top;
+    font-family: var(--main-font-name), sans-serif;
+    color: #7a7a7a;
+    font-size: var(--normal-font-size);
+    font-weight: normal;
+    padding-right: 10px;
+  }
+
+  table > *:first-child:not(thead) th:nth-child(2) { /*h6*/
+    text-align: left;
+    font-family: var(--main-font-name), sans-serif;
+    color: black;
+    font-size: var(--normal-font-size);
+    font-weight: normal;
+    list-style-type: none;
+  }
+
+  #wrapper_width {
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+  }
