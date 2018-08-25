@@ -38,7 +38,7 @@ public class Attachment {
     private Project project;
     
     private String fileName;    
-    private Integer fileSize;    
+    private Long fileSize;    
     private Type type;    
     private Visibility visibility;
     

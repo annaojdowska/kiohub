@@ -1,0 +1,5 @@
+export enum Visibility {
+    EVERYONE = 'EVERYONE',
+    LOGGED_USERS = 'LOGGED_USERS',
+    COLLABORATORS = 'COLLABORATORS'
+}
