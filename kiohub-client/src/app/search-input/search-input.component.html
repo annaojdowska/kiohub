@@ -1,4 +1,4 @@
-<input mdInput type=text tabindex="-1" [(ngModel)]="proxyValue" class=search-input placeholder="Wpisz szukaną frazę" [formControl]="queryField" 
+<input type=text tabindex="-1" [(ngModel)]="proxyValue" class=search-input placeholder="Wpisz szukaną frazę" [formControl]="queryField" 
   [matAutocomplete]="auto" />
 
 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="goToProjectView($event, result)">

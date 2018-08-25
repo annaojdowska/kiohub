@@ -1,11 +1,15 @@
 .search-input {
-    font-size: 16px;
+    background: url('../../assets/search-grey-smaller.png') no-repeat 5px 5px #fcfcfc;
+    background-position: 10px;
+    padding-left: 40px;
+    font-size: var(--normal-font-size);
     width: 350px;
     height: 40px;
     font-family: var(--main-font-name), sans-serif;
-    border-radius:10px;
-    padding: 5px;
     -webkit-box-sizing: border-box; 
     -moz-box-sizing: border-box;   
     box-sizing: border-box;    
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(107, 104, 97, 0.644);
+    border-radius: 20px;
 }
