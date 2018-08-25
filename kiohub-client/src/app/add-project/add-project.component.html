@@ -1,9 +1,8 @@
 <div class="center_vertically_parent">
     <div id="content">
         <img src='assets/add.png' />
-                <br/>
-            <h2>Dodaj projekt</h2>
-            <br/>
+        <h2>Dodaj projekt</h2>
+
         <form #createproject="ngForm">
             <label class="left_element">Tytuł projektu</label>
             <mat-form-field class="right_element">
@@ -14,13 +13,11 @@
                 <mat-form-field class="right_element">
                     <input #authorInput name="author" ngModel matInput>
                 </mat-form-field>
-                <br/>
                 <label class="left_element"> </label>
                 <div class="right_element">
                     <app-input-list #authorsList orientation="vertical" (changeElements)="recieveElements($event)" removable="true" hideInput="true"></app-input-list>
                 </div>
-
-            </form>
+        </form>
             <app-error-info #errorInfo id="errorInfo"></app-error-info>
             <button type="button" (click)="actionAddProject();" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
         </form>
