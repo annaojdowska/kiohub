@@ -7,9 +7,11 @@ package pg.eti.kiohub.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -87,15 +89,19 @@ public class Project implements Serializable {
 
     private List<Semester> semesters = new ArrayList<>();
 
+    @Setter(AccessLevel.NONE)
     @Column(name = "title_PL")
     private String title;
 
+    @Setter(AccessLevel.NONE)
     @Column(name = "title_ENG")
     private String titleEng;
 
+    @Setter(AccessLevel.NONE)
     @Column(name = "description_PL")
     private String description;
 
+    @Setter(AccessLevel.NONE)
     @Column(name = "description_ENG")
     private String descriptionEng;
 
@@ -128,4 +134,19 @@ public class Project implements Serializable {
         project.getRelatedToProjects().add(this);
     }
 
+    public void setTitle(String title) {
+        this.title = StringUtils.capitalize(title);
+    }
+
+    public void setTitleEng(String titleEng) {
+        this.titleEng = StringUtils.capitalize(titleEng);
+    }
+
+    public void setDescription(String description) {
+        this.description = StringUtils.capitalize(description);
+    }
+
+    public void setDescriptionEng(String descriptionEng) {
+        this.descriptionEng = StringUtils.capitalize(descriptionEng);
+    }
 }

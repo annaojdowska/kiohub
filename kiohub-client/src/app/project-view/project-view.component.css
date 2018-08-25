@@ -13,31 +13,34 @@ img {
     padding-right: 5px;
 }
 
+.component {
+    margin-bottom: 30px;
+}
+
 .wrapper_width_element {
     width: 50%;
     display: inline-block;
 }
 
-table {
+th, .description_content {
     margin-top: 10px;
+    font-weight: normal;
+    font-size: var(--normal-font-size);
+    font-family: var(--main-font-name), sans-serif;
 }
 
+/* #1 ?  #2 pierwsza kolumna  */
 table > *:first-child:not(thead) th:first-child { /*h5*/
     text-align: right;
     vertical-align: top;
-    font-family: var(--main-font-name), sans-serif;
     color: #7a7a7a;
-    font-size: var(--normal-font-size);
-    font-weight: normal;
     padding-right: 10px;
   }
 
-  table > *:first-child:not(thead) th:nth-child(2) { /*h6*/
+  /* #1 ?  #2 n-ta kolumna, n = 2  */
+  table > *:first-child:not(thead) th:nth-child(2), .description_content { /*h6*/
     text-align: left;
-    font-family: var(--main-font-name), sans-serif;
     color: black;
-    font-size: var(--normal-font-size);
-    font-weight: normal;
     list-style-type: none;
   }
 

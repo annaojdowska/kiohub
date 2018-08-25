@@ -10,7 +10,7 @@ export class ProjectService {
 
   constructor(@Inject(HttpClient) private http: HttpClient) {
     // this.address = 'http://localhost:8443';
-    this.address = 'http://kiohub.eti.pg.gda.pl:8080';
+     this.address = 'http://kiohub.eti.pg.gda.pl:8080';
   }
 
   addProject(titlePl: string, collaborators: string[]) {
