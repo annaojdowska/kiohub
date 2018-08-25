@@ -1,6 +1,6 @@
 
 .footer {
-    background-color:#343a40;
+    background-color: #343a40;
     width: 100%;
     margin-left: calc(-1 * var(--page-content-padding));
     margin-right: calc(-1 * var(--page-content-padding));
@@ -9,6 +9,7 @@
     font: bold 16px sans-serif;
     padding: var(--page-content-padding) var(--page-content-padding);    
     font-family: var(--main-font-name), sans-serif;
+    height: var(--footer-main-page);
 }
 
 .footer_left, .footer_right {
