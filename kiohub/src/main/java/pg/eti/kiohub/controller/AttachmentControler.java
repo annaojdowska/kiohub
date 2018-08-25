@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.enums.Type;
+import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Attachment;
 import pg.eti.kiohub.entity.model.AttachmentFile;
 import pg.eti.kiohub.entity.model.Project;
@@ -52,16 +53,21 @@ public class AttachmentControler extends MainController {
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile, 
             @RequestParam("Type") String type,
-            @RequestParam("ProjectId") String projectId){
+            @RequestParam("ProjectId") String projectId,
+            @RequestParam("Visibility") String visibility,
+            @RequestParam("MainPhoto") String mainPhoto){
         
         Attachment attachment = new Attachment();
         
         try {
-        String filename = new File(multipartFile.getOriginalFilename()).getName();
-        attachment.setFileName(filename);
-        attachment.setFileSize((int)multipartFile.getSize());
-        attachment.setType(Type.valueOf(type));
-        attachment.setProject(new Project());
+            Project project = super.projectRepository.getOne(Long.parseLong(projectId));
+            String filename = new File(multipartFile.getOriginalFilename()).getName();
+            attachment.setFileName(filename);
+            attachment.setFileSize(multipartFile.getSize());
+            attachment.setType(Type.valueOf(type));
+            attachment.setProject(project);
+            attachment.setVisibility(Visibility.valueOf(visibility));
+            attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }

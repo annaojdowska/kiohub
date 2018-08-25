@@ -276,7 +276,7 @@ public class DAOTest {
         List<Attachment> attachments = new ArrayList<>();
         Attachment at1 = new Attachment();
         at1.setFileName("obrazek.png");
-        at1.setFileSize(Integer.valueOf(31));
+        at1.setFileSize(Long.valueOf(31));
         at1.setMainPhoto(Boolean.TRUE);
         at1.setProject(project);
         at1.setVisibility(Visibility.EVERYONE);
@@ -284,7 +284,7 @@ public class DAOTest {
 
         Attachment at2 = new Attachment();
         at2.setFileName("instrukcja.pdf");
-        at2.setFileSize(Integer.valueOf(33));
+        at2.setFileSize(Long.valueOf(33));
         at2.setMainPhoto(Boolean.FALSE);
         at2.setProject(project);
         at2.setVisibility(Visibility.COLLABORATORS);
