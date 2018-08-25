@@ -19,14 +19,19 @@ label {
     font-size: 25px;
     font-weight: normal;
     font-weight: 400;
+    margin-top: 20px;
+    position: relative;
+    margin-bottom: 30px;
 }
 
 #button-container {
     text-align: center;
+    margin-top: 40px;
 }
 
 #button-container-right {
     text-align: right;
+    margin-top: 30px;
 }
 
 #border {
@@ -34,6 +39,7 @@ label {
     border-color: red;
     border-radius: 25px;
     padding: 20px; 
+    margin-top: 60px;
 }
 
 h3 {
