@@ -1,10 +1,12 @@
 #advanced-search {
     border: 1px solid rgba(255, 166, 0, 0.39);
-    padding: 15px;
+
     background:rgba(230, 227, 222, 0.282);
-    
+    height: 100%;
     margin-left: calc(-1 * var(--page-content-padding));
     margin-right: calc(-1 * var(--page-content-padding));
+    margin-top: 15px;
+    overflow: hidden;
 }
 
 .leftLabel {
@@ -49,4 +51,8 @@ label {
     text-align: center;  
     display: block;
     width: 60%;
+}
+
+form {
+    margin: 15px;
 }

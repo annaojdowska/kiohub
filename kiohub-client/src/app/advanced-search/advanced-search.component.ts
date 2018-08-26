@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { SearchService } from '../services/search.service';
 import { Project } from '../model/project.interface';
 import { trigger, style, animate, transition } from '@angular/animations';
@@ -10,11 +10,11 @@ import { trigger, style, animate, transition } from '@angular/animations';
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
-        style({opacity: 0}),
-      animate('500ms linear', style({opacity: 1}))
+        style({height: '0px'}),
+      animate('500ms linear', style({height: '*'}))
       ]),
       transition(':leave', [
-        animate('500ms linear', style({opacity: 0}))
+      animate('500ms linear', style({height: '0px'}))
       ])
     ])
   ]
@@ -29,4 +29,5 @@ export class AdvancedSearchComponent implements OnInit {
   ngOnInit() {
     this.searchService.getAllProjects().subscribe(result => this.searchResults = result);
   }
+
 }
