@@ -4,7 +4,7 @@
   <form>
     <mat-form-field class="leftLabel"><input matInput placeholder="Promotor"></mat-form-field>
     <mat-form-field class="leftLabel paddingLeft"><input matInput placeholder="Tag"></mat-form-field>
-    <mat-form-field class="rightLabel"><input matInput placeholder="Opis zawiera..."></mat-form-field>
+    <mat-form-field class="rightLabel" id="textLeft"><input matInput placeholder="Opis zawiera..."></mat-form-field>
     <mat-form-field class="leftLabel">
         <mat-select [(value)]="selected-licence" placeholder="Licencja">
             <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>

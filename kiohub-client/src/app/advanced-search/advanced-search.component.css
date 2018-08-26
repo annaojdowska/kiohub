@@ -8,8 +8,10 @@ li {
 label {
     font-family: var(--main-font-name), sans-serif;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 img {
     vertical-align: middle;
+    cursor: pointer;
 }
