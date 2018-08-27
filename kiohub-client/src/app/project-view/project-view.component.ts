@@ -1,6 +1,5 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Project } from '../model/project.interface';
-import { Subscription } from '../../../node_modules/rxjs';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
 import { ActivatedRoute } from '../../../node_modules/@angular/router';
@@ -11,7 +10,7 @@ import { ProjectService } from '../services/project.service';
   templateUrl: './project-view.component.html',
   styleUrls: ['./project-view.component.css']
 })
-export class ProjectViewComponent {
+export class ProjectViewComponent implements OnInit {
   supervisor: User;
   collaborators: User[];
   project: Project;
@@ -21,6 +20,14 @@ export class ProjectViewComponent {
               @Inject(ActivatedRoute) private route: ActivatedRoute,
             @Inject(ProjectService) private projectService: ProjectService) {
 
+    // this.route.params.subscribe(routeParams => {
+    //      this.id = routeParams.id;
+    //      this.project = this.projectService.getProjectByIdFromCache(this.id);
+    //      this.initData(this.id);
+    // });
+   }
+
+   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
       this.id = routeParams.id;
       this.getItem(this.id).then(project => {
@@ -28,13 +35,7 @@ export class ProjectViewComponent {
         this.initData(this.project.id);
       });
     });
-
-    // this.route.params.subscribe(routeParams => {
-    //      this.id = routeParams.id;
-    //      this.project = this.projectService.getProjectByIdFromCache(this.id);
-    //      this.initData(this.id);
-    // });
-   }
+  }
 
   async getItem(id: number) {
     return await this.projectService.getProjectById(this.id).toPromise();
