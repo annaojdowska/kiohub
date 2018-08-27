@@ -7,10 +7,13 @@ import { Observable } from '../../../node_modules/rxjs';
 export class ProjectService {
 
   address: string;
-
+  projectsCache: Project[];
+  cacheStatus = false;
   constructor(@Inject(HttpClient) private http: HttpClient) {
     // this.address = 'http://localhost:8443';
      this.address = 'http://kiohub.eti.pg.gda.pl:8080';
+    //  this.initProjectsCache()
+    //  .then(projects => { this.projectsCache = projects; this.cacheStatus = true; });
   }
 
   addProject(titlePl: string, collaborators: string[]) {
@@ -32,4 +35,13 @@ export class ProjectService {
   getProjectById(id: number): Observable<Project> {
     return this.http.get<Project>(this.address + '/project/' + id, {responseType: 'json'});
  }
+
+//   getProjectByIdFromCache(id: number) {
+//    while (this.cacheStatus !== true) { }
+//    return this.projectsCache.find(project => project.id === id);
+//  }
+
+//  async initProjectsCache() {
+//   return await this.getAllProjects().toPromise();
+//  }
 }
