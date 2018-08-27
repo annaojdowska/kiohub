@@ -52,6 +52,6 @@ export class SearchInputComponent implements OnInit {
   goToProjectView(event: MatAutocompleteSelectedEvent) {
     this.proxyValue = event.option.value.title;
     this.projectDetailsService.setSelectedProject(event.option.value);
-    this.router.navigate(['/project-details', event.option.value.id]);
+    this.router.navigate(['/details', event.option.value.id]);
   }
 }

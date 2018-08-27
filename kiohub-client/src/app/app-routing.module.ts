@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'add-project', component: AddProjectComponent },
   { path: 'edit-project', component: EditProjectTabComponent },
   { path: 'projects-base', component: AdvancedSearchComponent },
-  { path: 'project-details/:id', component: ProjectViewComponent },
+  { path: 'details/:id', component: ProjectViewComponent },
   { path: 'test-post', component: TestPostComponent },
   { path: '**', component: UnloggedSearchComponent }
 ];

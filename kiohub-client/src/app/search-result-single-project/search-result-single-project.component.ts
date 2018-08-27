@@ -19,6 +19,6 @@ export class SearchResultSingleProjectComponent implements OnInit {
   navigateToDetails() {
     console.log(this.project);
     this.projectDetailsService.setSelectedProject(this.project);
-    this.router.navigate(['/project-details', this.project.id]);
+    this.router.navigate(['/details', this.project.id]);
   }
 }
