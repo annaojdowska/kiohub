@@ -5,7 +5,6 @@ import { debounceTime, startWith, map } from 'rxjs/operators';
 import { Project } from '../model/project.interface';
 import { Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { ProjectDetailsService } from '../services/project-details-service';
 import { Observable } from '../../../node_modules/rxjs';
 
 @Component({
@@ -20,10 +19,7 @@ export class SearchInputComponent implements OnInit {
   queryField: FormControl = new FormControl();
   proxyValue: any;
 
-  constructor(@Inject(SearchService) private searchService: SearchService, @Inject(Router) private router: Router,
-    @Inject(ProjectDetailsService) private projectDetailsService: ProjectDetailsService) {
-
-  }
+  constructor(@Inject(SearchService) private searchService: SearchService, @Inject(Router) private router: Router) {}
 
   ngOnInit() {
     this.searchService.getAllProjects().subscribe(res => this.results = res);
@@ -51,7 +47,6 @@ export class SearchInputComponent implements OnInit {
 
   goToProjectView(event: MatAutocompleteSelectedEvent) {
     this.proxyValue = event.option.value.title;
-    this.projectDetailsService.setSelectedProject(event.option.value);
-    this.router.navigate(['/project-details', event.option.value.id]);
+    this.router.navigate(['/details', event.option.value.id]);
   }
 }
