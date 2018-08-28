@@ -152,40 +152,5 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.tagsList.add({name: event});
   }
 
-  recieveThesis(elements: InputListElement[]) {
-    this.attachments.thesis = [];
-    elements.map(e => this.attachments.thesis.push(e));
-  }
-
-  recievePrograms(elements: InputListElement[]) {
-    this.attachments.programs = [];
-    elements.map(e => this.attachments.programs.push(e));
-  }
-
-  recieveImages(elements: InputListElement[]) {
-    this.attachments.images = [];
-    elements.map(e => this.attachments.images.push(e));
- }
-
- recieveInstructions(elements: InputListElement[]) {
-  this.attachments.instructions = [];
-  elements.map(e => this.attachments.instructions.push(e));
-}
-
-recieveInstructionsStart(elements: InputListElement[]) {
-  this.attachments.instructionsStart = [];
-  elements.map(e => this.attachments.instructionsStart.push(e));
-}
-
-recieveOthers(elements: InputListElement[]) {
-  this.attachments.others = [];
-  elements.map(e => this.attachments.others.push(e));
-}
-
-recieveTags(elements: InputListElement[]) {
-  this.tags.tag = [];
-  elements.map(e => this.tags.tag.push(e));
-}
-
 
 }
