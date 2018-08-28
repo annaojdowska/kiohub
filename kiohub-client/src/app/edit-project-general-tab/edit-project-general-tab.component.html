@@ -1,19 +1,19 @@
 <p id="h2">Edycja projektu </p>
 <mat-form-field class="wrapper-right">
-  <mat-select [value]="editedProject?.projectStatus?.id" placeholder="Status projektu">
+  <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu">
     <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
   </mat-select>
 </mat-form-field>
 <form>
     <label>Tytuł:</label>
-    <mat-form-field class="wrapper-width"><input matInput name="title" value="{{editedProject?.title}}"></mat-form-field><br/>
+    <mat-form-field class="wrapper-width"><input matInput #title name="title" value="{{editedProject?.title}}"></mat-form-field><br/>
     
     <label>Opis:&nbsp;</label>
-    <mat-form-field class="wrapper-width"><textarea matInput id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea></mat-form-field><br/>
+    <mat-form-field class="wrapper-width"><textarea matInput #description id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea></mat-form-field><br/>
     
     <label>Typ projektu:</label> 
     <mat-form-field>
-        <mat-select [value]="editedProject?.projectType?.id">
+        <mat-select #projectType [value]="editedProject?.projectType?.id">
             <mat-option *ngFor="let type of project_types" [value]="type.id">{{type.name}}</mat-option>
         </mat-select>
     </mat-form-field><br/><br/>
@@ -74,7 +74,7 @@
 
     <label>Wybierz licencję:</label>
     <mat-form-field id="wrapper-width-licence" >
-        <mat-select [value]="editedProject?.licence?.id">
+        <mat-select #licence [value]="editedProject?.licence?.id">
             <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
         </mat-select>
     </mat-form-field><br/>
@@ -109,7 +109,7 @@
 
     
     <div id="button-container">
-        <button type="button" mat-stroked-button class="submit-button" (click)="kliklam();">Zatwierdź zmiany</button>
+        <button type="button" mat-stroked-button class="submit-button" (click)="updateProject();">Zatwierdź zmiany</button>
         <div id="divider"></div>
         <button type="button" mat-stroked-button class="submit-button">Publikuj na stronie</button>
     </div>  

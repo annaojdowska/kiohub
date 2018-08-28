@@ -42,12 +42,6 @@ import pg.eti.kiohub.entity.repository.AttachmentRepository;
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {   
    
-    @Autowired
-    private AttachmentRepository attachmentRepository;
-    
-    @Autowired
-    private AttachmentFileRepository attachmentFileRepository;   
-    
     @CrossOrigin
     @PostMapping(path = "/upload", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity upload(

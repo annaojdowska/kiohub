@@ -5,12 +5,16 @@ import { Observable } from '../../../node_modules/rxjs';
 
 @Injectable()
 export class ProjectService {
-
+  httpOptions = {
+    headers: new HttpHeaders({
+      'ContentType' : 'application/json'
+    })
+  };
   address: string;
 
   constructor(@Inject(HttpClient) private http: HttpClient) {
-    // this.address = 'http://localhost:8443';
-     this.address = 'http://kiohub.eti.pg.gda.pl:8080';
+    this.address = 'http://localhost:8443';
+    // this.address = 'http://kiohub.eti.pg.gda.pl:8080';
   }
 
   addProject(titlePl: string, collaborators: string[]) {
@@ -31,5 +35,15 @@ export class ProjectService {
 
   getProjectById(id: number): Observable<Project> {
     return this.http.get<Project>(this.address + '/project/' + id, {responseType: 'json'});
- }
+  }
+
+  updateProject(project: Project) {
+    this.http.post<Project>(this.address + '/project/update/', project, this.httpOptions)
+    .subscribe(data => {
+      alert('ok');
+    },
+    error => {
+      alert('nie ok');
+    });
+  }
 }

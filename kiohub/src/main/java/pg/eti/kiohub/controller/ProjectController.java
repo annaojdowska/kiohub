@@ -42,7 +42,8 @@ public class ProjectController extends MainController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(projectRepository.findById(id), HttpStatus.OK);
+        Optional<Project> p = projectRepository.findById(id);
+        return new ResponseEntity<>(p, HttpStatus.OK);
     }    
     
     @GetMapping(path = "/checkTitleUniqueness")
@@ -111,10 +112,14 @@ public class ProjectController extends MainController {
     }
     
     @CrossOrigin
-    @PostMapping(path = "/post")
-    public ResponseEntity examplePost(@RequestBody Project project){
-        
-    return new ResponseEntity<>(project, HttpStatus.OK);
+    @PostMapping(path = "/update")
+    public ResponseEntity updateProject(@RequestBody Project project){
+        try { 
+            super.projectRepository.saveAndFlush(project);
+         } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     @CrossOrigin

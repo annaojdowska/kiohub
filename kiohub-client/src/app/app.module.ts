@@ -43,6 +43,7 @@ import { ProjectService } from './services/project.service';
 import { ErrorInfoComponent } from './error-info/error-info.component';
 import { FooterComponent } from './footer/footer.component';
 import { FooterMainPageComponent } from './footer-main-page/footer-main-page.component';
+import { TagService } from './services/tag.service';
 
 
 @NgModule({
@@ -100,6 +101,7 @@ import { FooterMainPageComponent } from './footer-main-page/footer-main-page.com
     ProjectStatusService,
     ProjectDetailsService,
     ProjectService,
+    TagService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {

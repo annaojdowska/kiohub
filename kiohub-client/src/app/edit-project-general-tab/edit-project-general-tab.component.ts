@@ -14,6 +14,10 @@ import { ProjectService } from '../services/project.service';
 import { Project } from '../model/project.interface';
 import { InputListElement } from '../model/input-list-element';
 import { InputListComponent } from '../input-list/input-list.component';
+import { AttachmentType } from '../model/attachment-type.enum';
+import { AttachmentService } from '../services/attachment.service';
+import { Visibility } from '../model/visibility.enum';
+import { TagService } from '../services/tag.service';
 
 export interface Attachments {
   thesis: InputListElement[];
@@ -46,7 +50,11 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('instructionsStartList') instructionsStartList: InputListComponent;
   @ViewChild('othersList') othersList: InputListComponent;
   @ViewChild('tagsList') tagsList: InputListComponent;
-
+  @ViewChild('title') title: any;
+  @ViewChild('description') description: any;
+  @ViewChild('projectStatus') projectStatus: any;
+  @ViewChild('projectType') projectType: any;
+  @ViewChild('licence') licence: any;
   attachments: Attachments = {
     thesis: [],
     programs: [],
@@ -60,6 +68,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     tag: [],
   };
 
+  tagsToSent: string[] = [];
   tagControl = new FormControl();
   tagOptions: string[] = ['aplikacja', 'sztucznainteligencja', 'java'];
   tagFilteredOptions: Observable<InputListElement[]>;
@@ -69,17 +78,48 @@ export class EditProjectGeneralTabComponent implements OnInit {
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
               @Inject(LicenceService) private licenceService: LicenceService,
               @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
-              @Inject(ProjectService) private projectService: ProjectService) { }
+              @Inject(ProjectService) private projectService: ProjectService,
+              @Inject(AttachmentService) private attachmentService: AttachmentService,
+              @Inject(TagService) private tagService: TagService) { }
 
   toggleSemesters() {
     this.semestersHidden = !this.semestersHidden;
   }
 
   ngOnInit() {
-    this.projectService.getProjectById(1).subscribe(result => {
+    this.projectService.getProjectById(41).subscribe(result => {
       this.editedProject = result;
+      console.log(this.editedProject);
       result.tags.forEach(tag => {
-        this.tagsList.add({ name: tag.name});
+        this.tagsList.add({ name: tag.name });
+      });
+      result.attachments.forEach(at => {
+        switch (at.type) {
+          case AttachmentType.THESIS: {
+            this.thesisList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.SOURCE_CODE: {
+            this.programsList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.PHOTO: {
+            this.imagesList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.OTHER: {
+            this.othersList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.MANUAL_USAGE: {
+            this.instructionsList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.MANUAL_STARTUP: {
+            this.instructionsStartList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+        }
       });
    });
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
@@ -89,7 +129,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.tagFilteredOptions = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((value: InputListElement | null) => value ? this._filter(value) : this.tagOptions.map(t => <InputListElement>{ name: t})));
-
     }
 
   // Functions for tag input
@@ -187,5 +226,89 @@ recieveTags(elements: InputListElement[]) {
   elements.map(e => this.tags.tag.push(e));
 }
 
+  updateProject() {
+    const updatedProject: Project = {
+      id: this.editedProject.id,
+      title: this.title.nativeElement.value,
+      description: this.description.nativeElement.value,
+      projectStatus: { id: this.projectStatus.value, name: '' },
+      projectType: { id: this.projectType.value, name: '' },
+      licence: { id: this.licence.value, name: '' },
+      attachments: [], // send later
+      relatedToProjects: [], // not used so far
+      relatedFromProjects: [], // not used so far
+      projectSettings: null, // not used so far
+      tags: null, // send later
+      semesters: [], // to do
+      titleEng: null, // not used so far
+      descriptionEng: null, // not used so far
+      publicationDate: this.editedProject.publicationDate,
+      published: this.editedProject.published
+    };
+    console.log(updatedProject);
+    this.projectService.updateProject(updatedProject);
+    // this.tagsList._elements.forEach(tag => this.tagsToSent.push(tag.name)); // ???
+    // this.tagService.addTags(updatedProject.id, this.tagsToSent).subscribe(data => {
+    //   alert('ok');
+    // },
+    // error => {
+    //   alert('nie ok');
+    // });
 
+    /*
+    this.attachments.thesis.forEach(th => {
+      this.attachmentService.upload(th.file, AttachmentType.THESIS, 1, Visibility.EVERYONE, false).subscribe(data => {
+        alert('ok');
+      },
+      error => {
+        alert('nie ok');
+      });
+    });
+
+    this.attachments.programs.forEach(th => {
+      this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, 1, Visibility.EVERYONE, false).subscribe(data => {
+        alert('ok');
+      },
+      error => {
+        alert('nie ok');
+      });
+    });
+
+    this.attachments.others.forEach(th => {
+      this.attachmentService.upload(th.file, AttachmentType.OTHER, 1, Visibility.EVERYONE, false).subscribe(data => {
+        alert('ok');
+      },
+      error => {
+        alert('nie ok');
+      });
+    });
+
+    this.attachments.instructionsStart.forEach(th => {
+      this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, 1, Visibility.EVERYONE, false).subscribe(data => {
+        alert('ok');
+      },
+      error => {
+        alert('nie ok');
+      });
+    });
+
+    this.attachments.instructions.forEach(th => {
+      this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, 1, Visibility.EVERYONE, false).subscribe(data => {
+        alert('ok');
+      },
+      error => {
+        alert('nie ok');
+      });
+    });
+
+    this.attachments.images.forEach(th => {
+      this.attachmentService.upload(th.file, AttachmentType.PHOTO, 1, Visibility.EVERYONE, false).subscribe(data => {
+        alert('ok');
+      },
+      error => {
+        alert('nie ok');
+      });
+    });
+    */
+  }
 }

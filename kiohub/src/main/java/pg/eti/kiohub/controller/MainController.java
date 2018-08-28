@@ -42,6 +42,12 @@ public class MainController {
     protected ProjectCollaboratorRepository collaboratorsRepository;
 
 
+    @Autowired
+    protected AttachmentRepository attachmentRepository;
+    
+    @Autowired
+    protected AttachmentFileRepository attachmentFileRepository;   
+    
     
     @RequestMapping(path = "/")
     public String homePage() {

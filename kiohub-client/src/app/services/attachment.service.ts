@@ -23,7 +23,7 @@ export class AttachmentService {
     formData.append('ProjectId', projectId.toString());
     formData.append('Visibility', Visibility.EVERYONE);
     formData.append('MainPhoto', String(mainPhoto));
-    return this.http.post<string>('http://kiohub.eti.pg.gda.pl:8080/attachment/upload', formData, httpOptionsMultipart);
+    return this.http.post<string>('http://localhost:8443/attachment/upload', formData, httpOptionsMultipart);
   }
 }
 
