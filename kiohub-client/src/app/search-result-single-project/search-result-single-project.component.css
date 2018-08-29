@@ -1,17 +1,22 @@
 #project_image {
-    width: 8vw;
+    max-width: 8vw;
     float: left;
     margin-right: 1vw;
 }
 
 #project_result_container {
     display: block;
-    background-color: blueviolet;
-    height: 17vh;
-    width: 800px;
+    background-color: transparent;
+    min-height: 17vh;
+    min-width: 60vw;
     overflow: hidden;
     flex-wrap: wrap;
     text-overflow: ellipsis; 
+}
+
+#project_result_container:hover{
+    background-color: rgb(227, 227, 231);
+    cursor: pointer;
 }
 
 p {
