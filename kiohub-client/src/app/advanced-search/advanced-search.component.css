@@ -1,8 +1,26 @@
-li {
+table {
     float: none;
     display: block;
     overflow: hidden;
     padding: 1vw;
+    background-color: transparent;    
+}
+
+td{
+    display: grid;
+}
+
+tr{
+    float: none;
+    display: contents;
+    background-color: red;
+    overflow: hidden;
+    padding: 1vw;
+    width:100%;
+}
+
+mat-paginator{
+    background-color: transparent;
 }
 
 label {

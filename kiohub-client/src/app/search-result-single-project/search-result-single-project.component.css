@@ -5,9 +5,10 @@
 }
 
 #project_result_container {
+    display: block;
     background-color: blueviolet;
     height: 17vh;
-    width: 23wv;
+    width: 800px;
     overflow: hidden;
     flex-wrap: wrap;
     text-overflow: ellipsis; 
