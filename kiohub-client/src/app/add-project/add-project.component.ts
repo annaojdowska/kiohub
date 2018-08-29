@@ -53,12 +53,12 @@ export class AddProjectComponent implements OnInit {
             console.log(this.project);
           });
         } else {
-          console.log('Istnieje już projekt o takim projekcie.');
+          console.log('ERROR: Istnieje już projekt o takim projekcie.');
         }
       });
       this.sendInvitations(title, this.collaborators);
     } else {
-      console.log('Podaj tytuł oraz co najmniej jednego współpracownika.');
+      console.log('ERROR: Podaj tytuł oraz co najmniej jednego współpracownika.');
     }
   }
 

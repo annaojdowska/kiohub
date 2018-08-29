@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.repository.*;
+import pg.eti.kiohub.service.ProjectService;
+import pg.eti.kiohub.service.TagService;
 
 /**
  *
@@ -42,6 +44,20 @@ public class MainController {
     protected ProjectCollaboratorRepository collaboratorsRepository;
 
 
+    @Autowired
+    protected AttachmentRepository attachmentRepository;
+    
+    @Autowired
+    protected AttachmentFileRepository attachmentFileRepository;   
+    
+    
+    @Autowired
+    protected ProjectService projectService;
+    
+    @Autowired
+    protected TagService tagService;
+
+    
     
     @RequestMapping(path = "/")
     public String homePage() {

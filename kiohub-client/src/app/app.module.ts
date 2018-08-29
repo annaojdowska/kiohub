@@ -43,6 +43,8 @@ import { ProjectService } from './services/project.service';
 import { ErrorInfoComponent } from './error-info/error-info.component';
 import { FooterComponent } from './footer/footer.component';
 import { FooterMainPageComponent } from './footer-main-page/footer-main-page.component';
+import { TagService } from './services/tag.service';
+import { ImageSliderComponent } from './image-slider/image-slider.component';
 
 
 @NgModule({
@@ -67,7 +69,8 @@ import { FooterMainPageComponent } from './footer-main-page/footer-main-page.com
     ProjectViewComponent,
     ErrorInfoComponent,
     FooterComponent,
-    FooterMainPageComponent
+    FooterMainPageComponent,
+    ImageSliderComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +105,7 @@ import { FooterMainPageComponent } from './footer-main-page/footer-main-page.com
     ProjectStatusService,
     ProjectDetailsService,
     ProjectService,
+    TagService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {

@@ -48,8 +48,7 @@ public class Project implements Serializable {
     @JoinColumn(name = "licence_id", nullable = false)
     private Licence licence;
     
-    @JsonBackReference
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)//, mappedBy = "project")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
     private List<Attachment> attachments;
 
 

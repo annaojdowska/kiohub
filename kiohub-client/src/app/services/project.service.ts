@@ -5,7 +5,11 @@ import { Observable } from '../../../node_modules/rxjs';
 
 @Injectable()
 export class ProjectService {
-
+  httpOptions = {
+    headers: new HttpHeaders({
+      'ContentType' : 'application/json'
+    })
+  };
   address: string;
   projectsCache: Project[];
   cacheStatus = false;
@@ -34,6 +38,10 @@ export class ProjectService {
 
   getProjectById(id: number): Observable<Project> {
     return this.http.get<Project>(this.address + '/project/' + id, {responseType: 'json'});
+  }
+
+  updateProject(project: Project) {
+    return this.http.post<Project>(this.address + '/project/update/', project, this.httpOptions);
  }
 
 //   getProjectByIdFromCache(id: number) {

@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.model.*;
-import pg.eti.kiohub.service.ProjectService;
-
 /**
  *
  * @author Aleksander Kania <kania>
@@ -30,10 +28,6 @@ import pg.eti.kiohub.service.ProjectService;
 @Controller
 @RequestMapping(path = "/project")
 public class ProjectController extends MainController {
-
-    @Autowired
-    private ProjectService projectService;
-
     @GetMapping(path = "/all")
     public ResponseEntity<List<Project>>
     getAllProjects() {
@@ -42,7 +36,8 @@ public class ProjectController extends MainController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(projectRepository.findById(id), HttpStatus.OK);
+        Optional<Project> p = projectRepository.findById(id);
+        return new ResponseEntity<>(p, HttpStatus.OK);
     }    
     
     @GetMapping(path = "/checkTitleUniqueness")
@@ -111,10 +106,16 @@ public class ProjectController extends MainController {
     }
     
     @CrossOrigin
-    @PostMapping(path = "/post")
-    public ResponseEntity examplePost(@RequestBody Project project){
-        
-    return new ResponseEntity<>(project, HttpStatus.OK);
+    @PostMapping(path = "/update")
+    public ResponseEntity updateProject(@RequestBody Project project){
+        try { 
+            List<Tag> tags = tagService.addTags(project.getTags());
+            project.setTags(tags);
+            super.projectRepository.saveAndFlush(project);
+         } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     
     @CrossOrigin

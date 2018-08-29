@@ -1,116 +1,130 @@
 <p id="h2">Edycja projektu </p>
 <mat-form-field class="wrapper-right">
-  <mat-select [value]="editedProject?.projectStatus?.id" placeholder="Status projektu">
-    <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
-  </mat-select>
+    <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu">
+        <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
+    </mat-select>
 </mat-form-field>
 <form>
     <label>Tytuł:</label>
-    <mat-form-field class="wrapper-width"><input matInput name="title" value="{{editedProject?.title}}"></mat-form-field><br/>
-    
-    <label>Opis:&nbsp;</label>
-    <mat-form-field class="wrapper-width"><textarea matInput id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea></mat-form-field><br/>
-    
-    <label>Typ projektu:</label> 
+    <mat-form-field class="wrapper-width">
+        <input matInput #title name="title" value="{{editedProject?.title}}">
+    </mat-form-field>
+    <br/>
+
+    <label id="stay-up">Opis:&nbsp;</label>
+    <mat-form-field class="wrapper-width">
+        <textarea matInput #description id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea>
+    </mat-form-field>
+    <br/>
+
+    <label>Typ projektu:</label>
     <mat-form-field>
-        <mat-select [value]="editedProject?.projectType?.id">
+        <mat-select #projectType [value]="editedProject?.projectType?.id">
             <mat-option *ngFor="let type of project_types" [value]="type.id">{{type.name}}</mat-option>
         </mat-select>
-    </mat-form-field><br/><br/>
-    
-    <label class="file-upload">
-        <img class="cursor" src="assets/add-attachment.png"/>  
-        <input (change)="addThesis($event)"  id="file-input" type="file"/>
-    </label> 
-    <label (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę<input type="file"/></label>
-    <div class="list">
-        <app-input-list #thesisList orientation="vertical" (changeElements)="recieveThesis($event)" removable="true" hideInput="true"></app-input-list>
-    </div> 
+    </mat-form-field>
+    <br/>
+    <br/>
 
     <label class="file-upload">
-        <img class="cursor" src="assets/add-attachment.png"/>   
-        <input (change)="addProgram($event)" id="file-input" type="file"/>
+        <img class="cursor" src="assets/add-attachment.png" />
+        <input (change)="addThesis($event)" id="file-input" type="file" />
     </label>
-    <label (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu<input type="file"/></label>
+    <label (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę
+        <input type="file" />
+    </label>
+    <div class="list">
+        <app-input-list #thesisList orientation="vertical" (changeElements)="recieveThesis($event)" removable="true" hideInput="true"></app-input-list>
+    </div>
+
+    <label class="file-upload">
+        <img class="cursor" src="assets/add-attachment.png" />
+        <input (change)="addProgram($event)" id="file-input" type="file" />
+    </label>
+    <label (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu
+        <input type="file" />
+    </label>
     <div class="list">
         <app-input-list #programsList orientation="vertical" (changeElements)="recievePrograms($event)" removable="true" hideInput="true"></app-input-list>
     </div>
 
     <label class="file-upload">
-        <img class="cursor" src="assets/add-photo.png"/>
-        <input (change)="addImage($event)" id="file-input" type="file"/>
+        <img class="cursor" src="assets/add-photo.png" />
+        <input (change)="addImage($event)" id="file-input" type="file" />
     </label>
-    <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu<input type="file"/></label>
+    <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu
+        <input type="file" />
+    </label>
     <div class="list">
         <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true" hideInput="true"></app-input-list>
     </div>
 
     <label class="file-upload">
-        <img class="cursor" src="assets/add-attachment.png"/> 
-        <input (change)="addInstruction($event)" id="file-input" type="file"/>
+        <img class="cursor" src="assets/add-attachment.png" />
+        <input (change)="addInstruction($event)" id="file-input" type="file" />
     </label>
-    <label (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi programu<input type="file"/></label>
+    <label (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi programu
+        <input type="file" />
+    </label>
     <div class="list">
-        <app-input-list #instructionsList orientation="vertical" (changeElements)="recieveInstructions($event)" removable="true" hideInput="true"></app-input-list>
+        <app-input-list #instructionsList orientation="vertical" (changeElements)="recieveInstructions($event)" removable="true"
+            hideInput="true"></app-input-list>
     </div>
 
     <label class="file-upload">
-        <img class="cursor" src="assets/add-attachment.png"/>  
-        <input (change)="addInstructionStart($event)" id="file-input" type="file"/>
+        <img class="cursor" src="assets/add-attachment.png" />
+        <input (change)="addInstructionStart($event)" id="file-input" type="file" />
     </label>
-    <label (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego <input type="file"/></label>
+    <label (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję uruchomienia programu i opis wymaganego środowiska uruchomieniowego
+        <input type="file" />
+    </label>
     <div class="list">
-        <app-input-list #instructionsStartList orientation="vertical" (changeElements)="recieveInstructionsStart($event)" removable="true" hideInput="true"></app-input-list>
+        <app-input-list #instructionsStartList orientation="vertical" (changeElements)="recieveInstructionsStart($event)" removable="true"
+            hideInput="true"></app-input-list>
     </div>
 
     <label class="file-upload">
-        <img class="cursor" src="assets/add-attachment.png"/>
-        <input (change)="addOther($event)" id="file-input" type="file"/>
+        <img class="cursor" src="assets/add-attachment.png" />
+        <input (change)="addOther($event)" id="file-input" type="file" />
     </label>
-    <label (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki<input type="file"/></label>
+    <label (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki
+        <input type="file" />
+    </label>
     <div class="list">
         <app-input-list #othersList orientation="vertical" (changeElements)="recieveOthers($event)" removable="true" hideInput="true"></app-input-list>
     </div>
 
     <label>Wybierz licencję:</label>
-    <mat-form-field id="wrapper-width-licence" >
-        <mat-select [value]="editedProject?.licence?.id">
+    <mat-form-field id="wrapper-width-licence">
+        <mat-select #licence [value]="editedProject?.licence?.id ? editedProject?.licence?.id : 1">
             <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
         </mat-select>
-    </mat-form-field><br/>
-    <label>Semestry wytwarzania: </label> <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()"/><br/><br/>
+    </mat-form-field>
+    <br/>
+    <label>Semestry wytwarzania: </label>
+    <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
+    <br/>
+    <br/>
     <app-semester-chooser *ngIf="semestersHidden != false"></app-semester-chooser>
     <label>Tagi:</label>
 
 
     <mat-form-field class="example-full-width" name="tags">
-            <input type="text" aria-label="Number" matInput [formControl]="tagControl" [matAutocomplete]="auto" (keyup)="keyUpTag($event)">
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
-              <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
+        <input type="text" aria-label="Number" matInput [formControl]="tagControl" [matAutocomplete]="auto" (keyup)="keyUpTag($event)">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
+            <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
                 {{option.name}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
 
-    
     <div class="list">
-            <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true" hideInput="true"></app-input-list>
-        </div>
+        <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true" hideInput="true"></app-input-list>
+    </div>
 
-
-
-
-
-        <!-- <mat-form-field class="wrapper-width-smaller"><input matInput name="tags" (keyup)="keyUpTag($event)"></mat-form-field>
-        <div class="list">
-                <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true" hideInput="true"></app-input-list>
-            </div> -->
-
-
-    
     <div id="button-container">
-        <button type="button" mat-stroked-button class="submit-button" (click)="kliklam();">Zatwierdź zmiany</button>
+        <button type="button" mat-stroked-button class="submit-button" (click)="updateProject();">Zatwierdź zmiany</button>
         <div id="divider"></div>
         <button type="button" mat-stroked-button class="submit-button">Publikuj na stronie</button>
-    </div>  
+    </div>
 </form>

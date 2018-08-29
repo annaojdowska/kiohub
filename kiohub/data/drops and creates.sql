@@ -63,7 +63,7 @@ CREATE TABLE tags (
 CREATE TABLE project_tags (
     project_id INT UNSIGNED NOT NULL REFERENCES projects,
     tag_id INT UNSIGNED NOT NULL REFERENCES tags,
-    PRIMARY KEY (project_id , tag_id)
+    PRIMARY KEY (project_id, tag_id)
 );
 
 CREATE TABLE semesters (
@@ -74,13 +74,13 @@ CREATE TABLE semesters (
 CREATE TABLE project_semesters (
     project_id INT UNSIGNED NOT NULL REFERENCES projects,
     semester_id INT UNSIGNED NOT NULL REFERENCES semesters,
-    PRIMARY KEY (project_id , semester_id)
+    PRIMARY KEY (project_id, semester_id)
 );
 
 CREATE TABLE related_projects (
     project_id INT UNSIGNED NOT NULL REFERENCES projects,
     related_project_id INT UNSIGNED NOT NULL REFERENCES projects,
-    PRIMARY KEY (project_id , related_project_id)
+    PRIMARY KEY (project_id, related_project_id)
 );
 
 CREATE TABLE attachments (
@@ -108,13 +108,15 @@ CREATE TABLE users (
 CREATE TABLE project_collaborators (
     project_id INT UNSIGNED NOT NULL REFERENCES projects,
     user_id INT UNSIGNED NOT NULL REFERENCES users,
-    PRIMARY KEY (project_id , user_id)
+	user_data_visible SMALLINT(1) NOT NULL,
+    is_supervisor SMALLINT(1) NOT NULL,
+    PRIMARY KEY (project_id, user_id)
 );
 
 CREATE TABLE user_pinned_projects (
     user_id INT UNSIGNED NOT NULL REFERENCES users,
     pinned_project_id INT UNSIGNED NOT NULL REFERENCES projects,
-    PRIMARY KEY (user_id , pinned_project_id)
+    PRIMARY KEY (user_id, pinned_project_id)
 );
 
 CREATE TABLE notes (
