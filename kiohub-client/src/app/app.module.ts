@@ -2,12 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
-import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
+import {
+  MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
   MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule, MatDatepickerModule,
-  MatNativeDateModule, MatTableModule, MatPaginatorModule} from '@angular/material';
+  MatNativeDateModule, MatTableModule, MatPaginatorModule
+} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -33,7 +35,7 @@ import { SearchResultSingleProjectComponent } from './search-result-single-proje
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 import { TestPostComponent } from './test-post/test-post.component';
 import { AdvancedSearchFormComponent } from './advanced-search-form/advanced-search-form.component';
-import { MAT_DATE_LOCALE} from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ProjectTypeService } from './services/project-type-service';
 import { LicenceService } from './services/licence-service';
 import { ProjectStatusService } from './services/project-status-service';
@@ -45,6 +47,7 @@ import { FooterComponent } from './footer/footer.component';
 import { FooterMainPageComponent } from './footer-main-page/footer-main-page.component';
 import { TagService } from './services/tag.service';
 import { ImageSliderComponent } from './image-slider/image-slider.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -93,6 +96,7 @@ import { ImageSliderComponent } from './image-slider/image-slider.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
+    NgbModule,
     MatPaginatorModule
   ],
   providers: [
