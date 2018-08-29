@@ -15,9 +15,6 @@ td{
     display: grid;
     margin-top: 10px;
     margin-bottom: 10px;
-    border-top-style: solid;
-    border-top-width: 1px;
-    border-top-color: rgba(0,0,0,.12);
 }
 
 tr{
