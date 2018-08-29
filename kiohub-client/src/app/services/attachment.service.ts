@@ -29,11 +29,11 @@ export class AttachmentService {
     formData.append('ProjectId', projectId.toString());
     formData.append('Visibility', visibility);
     formData.append('MainPhoto', String(mainPhoto));
-    return this.http.post<string>('http://kiohub.pg.gda.pl:8080/attachment/upload', formData, httpOptionsMultipart);
+    return this.http.post<string>('http://kiohub.eti.pg.gda.pl:8080/attachment/upload', formData, httpOptionsMultipart);
   }
 
   remove(attachments: number[]) {
-    return this.http.post('http://kiohub.pg.gda.pl:8080/attachment/remove', attachments, this.httpOptions);
+    return this.http.post('http://kiohub.eti.pg.gda.pl:8080/attachment/remove', attachments, this.httpOptions);
   }
 
   removeAttachments(editedProject: Project, attachmentList: InputListComponent, type: AttachmentType) {
