@@ -47,5 +47,139 @@
         "descriptionEng": "English desc",
         "publicationDate": "2018-08-07T00:00:00.000+0000",
         "published": false
+    },
+
+    {
+        "id": 1,
+        "projectType": {
+            "id": 4,
+            "name": "Praca inżynierska"
+        },
+        "projectStatus": {
+            "id": 2,
+            "name": "Zakończony"
+        },
+        "licence": {
+            "id": 33,
+            "name": "zLib License"
+        },
+        "attachments": [
+            {
+                "id": 1,
+                "fileName": "obrazek.png",
+                "fileSize": 31,
+                "type": "PHOTO",
+                "visibility": "EVERYONE",
+                "mainPhoto": true
+            },
+            {
+                "id": 2,
+                "fileName": "instrukcja.pdf",
+                "fileSize": 33,
+                "type": "MANUAL_STARTUP",
+                "visibility": "COLLABORATORS",
+                "mainPhoto": false
+            },
+            {
+                "id": 87,
+                "fileName": "numer seryjny switcha.txt",
+                "fileSize": 57,
+                "type": "THESIS",
+                "visibility": "EVERYONE",
+                "mainPhoto": false
+            },
+            {
+                "id": 94,
+                "fileName": "wzor_odstapienia_od_umowy_Morelenet.docx",
+                "fileSize": 49222,
+                "type": "THESIS",
+                "visibility": "EVERYONE",
+                "mainPhoto": false
+            },
+            {
+                "id": 102,
+                "fileName": "GRAFIK PRALNIA WAKACJE.docx",
+                "fileSize": 23292,
+                "type": "SOURCE_CODE",
+                "visibility": "EVERYONE",
+                "mainPhoto": false
+            },
+            {
+                "id": 106,
+                "fileName": "artistic-blossom-bright-207962.jpg",
+                "fileSize": 753643,
+                "type": "PHOTO",
+                "visibility": "EVERYONE",
+                "mainPhoto": false
+            },
+            {
+                "id": 107,
+                "fileName": "PRANIE W GODZINACH 6-24.docx",
+                "fileSize": 14780,
+                "type": "MANUAL_USAGE",
+                "visibility": "EVERYONE",
+                "mainPhoto": false
+            },
+            {
+                "id": 108,
+                "fileName": "photo-1494249465471-5655b7878482.jpg",
+                "fileSize": 45507,
+                "type": "PHOTO",
+                "visibility": "EVERYONE",
+                "mainPhoto": false
+            },
+            {
+                "id": 111,
+                "fileName": "W PRALNI 1.docx",
+                "fileSize": 13102,
+                "type": "OTHER",
+                "visibility": "EVERYONE",
+                "mainPhoto": false
+            },
+            {
+                "id": 112,
+                "fileName": "REGULAMIN PRALNIA.docx",
+                "fileSize": 19660,
+                "type": "OTHER",
+                "visibility": "EVERYONE",
+                "mainPhoto": false
+            }
+        ],
+        "relatedToProjects": [],
+        "relatedFromProjects": [],
+        "projectSettings": {
+            "id": 1,
+            "licenceVisible": "COLLABORATORS",
+            "supervisorVisible": "COLLABORATORS",
+            "publicationDateVisible": "EVERYONE",
+            "tagsVisible": "EVERYONE",
+            "semestersVisible": "LOGGED_USERS",
+            "relatedProjectsVisible": "COLLABORATORS"
+        },
+        "tags": [
+            {
+                "id": 1,
+                "name": "spring"
+            },
+            {
+                "id": 2,
+                "name": "web-app"
+            },
+            {
+                "id": 100,
+                "name": "sztucznainteligencja"
+            },
+            {
+                "id": 104,
+                "name": "tag"
+            }
+        ],
+        "semesters": [],
+        "title": "Jakiś projekt z długim opisem",
+        "titleEng": "English title with long description",
+        "description": "Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum,Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum,Polish desc lorem ipsum,Polish desc lorem ipsum,Polish desc lorem ipsum i adlej jakis opis sobe lecie leci nanannaa blab bal blab nana inonoinoinoin sjfjfn kdjfdj sdfjsdjkfskjdf sss s s s ssss sj cos kto sobie mowi sratata Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum,Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum,Polish desc lorem ipsum,Polish desc lorem ipsum,Polish desc lorem ipsum i adlej jakis opis sobe lecie leci nanannaa blab bal blab nana inonoinoinoin sjfjfn kdjfdj sdfjsdjkfskjdf sss s s s ssss sj cos kto sobie mowi sratata",
+        "descriptionEng": "English description blablablablablablablablabalbalba",
+        "publicationDate": "2018-08-07T00:00:00.000+0000",
+        "published": false
     }
 ]

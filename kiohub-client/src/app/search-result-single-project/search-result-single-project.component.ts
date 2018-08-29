@@ -9,9 +9,17 @@ import { Router } from '../../../node_modules/@angular/router';
 })
 export class SearchResultSingleProjectComponent implements OnInit {
   @Input() project: Project;
+  private descriptionToDisplay: string;
+  private numberOfCharsToDisplay = 300;
   constructor(@Inject(Router) private router: Router) { }
 
   ngOnInit() {
+    if (this.project.description.length > this.numberOfCharsToDisplay) {
+      this.descriptionToDisplay = this.project.description.slice(0, this.numberOfCharsToDisplay);
+      this.descriptionToDisplay += '...';
+    } else {
+    this.descriptionToDisplay = this.project.description;
+    }
   }
 
   navigateToDetails() {
