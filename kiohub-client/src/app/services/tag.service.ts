@@ -9,16 +9,11 @@ export class TagService {
           'ContentType' : 'application/json'
         })
       };
-    address = 'http://localhost:8443';
-    // address = 'http://kiohub.eti.pg.gda.pl:8080';
+  //  address = 'http://localhost:8443';
+    address = 'http://kiohub.eti.pg.gda.pl:8080';
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   getTags(): Observable<Tag[]> {
-    return this.http.get<Tag[]>('http://localhost:8443/tag/all', {responseType: 'json'});
+    return this.http.get<Tag[]>(this.address + '/tag/all', {responseType: 'json'});
  }
-
- addTags(projectId: number, tags: string[]) {
-    const params = new HttpParams().set('projectId', projectId.toString()).set('tags', tags.join(', '));
-    return this.http.post(this.address + '/tag/add', params);
-  }
 }

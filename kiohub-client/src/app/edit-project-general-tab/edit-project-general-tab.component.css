@@ -83,3 +83,12 @@ img {
 .cursor {
     cursor: pointer;
 }
+
+#stay-up {
+    vertical-align: top;
+}
+
+.mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix {
+    padding: 3px;
+    border: none;
+}

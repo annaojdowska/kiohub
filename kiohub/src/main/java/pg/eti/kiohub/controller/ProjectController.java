@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.model.*;
-import pg.eti.kiohub.service.ProjectService;
-
 /**
  *
  * @author Aleksander Kania <kania>
@@ -30,10 +28,6 @@ import pg.eti.kiohub.service.ProjectService;
 @Controller
 @RequestMapping(path = "/project")
 public class ProjectController extends MainController {
-
-    @Autowired
-    private ProjectService projectService;
-
     @GetMapping(path = "/all")
     public ResponseEntity<List<Project>>
     getAllProjects() {
@@ -115,6 +109,8 @@ public class ProjectController extends MainController {
     @PostMapping(path = "/update")
     public ResponseEntity updateProject(@RequestBody Project project){
         try { 
+            List<Tag> tags = tagService.addTags(project.getTags());
+            project.setTags(tags);
             super.projectRepository.saveAndFlush(project);
          } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);

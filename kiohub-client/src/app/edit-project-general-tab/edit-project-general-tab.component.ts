@@ -18,19 +18,7 @@ import { AttachmentType } from '../model/attachment-type.enum';
 import { AttachmentService } from '../services/attachment.service';
 import { Visibility } from '../model/visibility.enum';
 import { TagService } from '../services/tag.service';
-
-export interface Attachments {
-  thesis: InputListElement[];
-  programs: InputListElement[];
-  images: InputListElement[];
-  instructions: InputListElement[];
-  instructionsStart: InputListElement[];
-  others: InputListElement[];
-}
-
-export interface Tags {
-  tag: InputListElement[];
-}
+import { Tag } from '../model/tag.interface';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -55,18 +43,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('projectStatus') projectStatus: any;
   @ViewChild('projectType') projectType: any;
   @ViewChild('licence') licence: any;
-  attachments: Attachments = {
-    thesis: [],
-    programs: [],
-    images: [],
-    instructions: [],
-    instructionsStart: [],
-    others: [],
-  };
-
-  tags: Tags = {
-    tag: [],
-  };
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
@@ -87,11 +63,11 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectService.getProjectById(41).subscribe(result => {
+    this.projectService.getProjectById(1).subscribe(result => {
       this.editedProject = result;
       console.log(this.editedProject);
       result.tags.forEach(tag => {
-        this.tagsList.add({ name: tag.name });
+        this.tagsList.add({ id: tag.id, name: tag.name });
       });
       result.attachments.forEach(at => {
         switch (at.type) {
@@ -203,77 +179,97 @@ export class EditProjectGeneralTabComponent implements OnInit {
       relatedToProjects: [], // not used so far
       relatedFromProjects: [], // not used so far
       projectSettings: null, // not used so far
-      tags: null, // send later
+      tags: this.tagsList.elements.map(tag => <Tag>{id: tag.id, name: tag.name}),
       semesters: [], // to do
       titleEng: null, // not used so far
       descriptionEng: null, // not used so far
       publicationDate: this.editedProject.publicationDate,
       published: this.editedProject.published
     };
+
     console.log(updatedProject);
-    this.projectService.updateProject(updatedProject);
-    // this.tagsList._elements.forEach(tag => this.tagsToSent.push(tag.name)); // ???
-    // this.tagService.addTags(updatedProject.id, this.tagsToSent).subscribe(data => {
-    //   alert('ok');
-    // },
-    // error => {
-    //   alert('nie ok');
-    // });
-
-    /*
-    this.attachments.thesis.forEach(th => {
-      this.attachmentService.upload(th.file, AttachmentType.THESIS, 1, Visibility.EVERYONE, false).subscribe(data => {
-        alert('ok');
+    if (updatedProject.projectStatus.id && updatedProject.projectType.id) {
+      this.projectService.updateProject(updatedProject).subscribe(data => {
+        console.log('ERROR: Projekt zapisano pomyślnie.');
       },
       error => {
-        alert('nie ok');
+        console.log('ERROR: Wystąpił błąd wysłania projektu.');
       });
-    });
+    } else if (!updatedProject.projectStatus.id && !updatedProject.projectType.id) {
+      console.log('ERROR: Podaj status i typ projektu.');
+    } else if (!updatedProject.projectStatus.id) {
+      console.log('ERROR: Podaj status projektu.');
+    } else if (!updatedProject.projectType.id) {
+      console.log('ERROR: Podaj typ projektu');
+    } else {
+      console.log('ERROR: Wystąpił błąd walidacji.');
+    }
 
-    this.attachments.programs.forEach(th => {
-      this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, 1, Visibility.EVERYONE, false).subscribe(data => {
-        alert('ok');
-      },
-      error => {
-        alert('nie ok');
-      });
+    this.thesisList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, Visibility.EVERYONE, false)
+        .subscribe(data => {},
+        error => {
+          console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+        });
+      }
     });
+    this.attachmentService.removeAttachments(this.editedProject, this.thesisList, AttachmentType.THESIS);
 
-    this.attachments.others.forEach(th => {
-      this.attachmentService.upload(th.file, AttachmentType.OTHER, 1, Visibility.EVERYONE, false).subscribe(data => {
-        alert('ok');
-      },
-      error => {
-        alert('nie ok');
-      });
+    this.programsList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, Visibility.EVERYONE, false)
+        .subscribe(data => {},
+          error => {
+            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+          });
+      }
     });
+    this.attachmentService.removeAttachments(this.editedProject, this.programsList, AttachmentType.SOURCE_CODE);
 
-    this.attachments.instructionsStart.forEach(th => {
-      this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, 1, Visibility.EVERYONE, false).subscribe(data => {
-        alert('ok');
-      },
-      error => {
-        alert('nie ok');
-      });
+    this.othersList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, Visibility.EVERYONE, false)
+        .subscribe(data => {},
+          error => {
+            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+          });
+      }
     });
+    this.attachmentService.removeAttachments(this.editedProject, this.othersList, AttachmentType.OTHER);
 
-    this.attachments.instructions.forEach(th => {
-      this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, 1, Visibility.EVERYONE, false).subscribe(data => {
-        alert('ok');
-      },
-      error => {
-        alert('nie ok');
-      });
+    this.instructionsStartList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, Visibility.EVERYONE, false)
+        .subscribe(data => {},
+          error => {
+            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+          });
+      }
     });
+    this.attachmentService.removeAttachments(this.editedProject, this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
 
-    this.attachments.images.forEach(th => {
-      this.attachmentService.upload(th.file, AttachmentType.PHOTO, 1, Visibility.EVERYONE, false).subscribe(data => {
-        alert('ok');
-      },
-      error => {
-        alert('nie ok');
-      });
+    this.instructionsList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, Visibility.EVERYONE, false)
+        .subscribe(data => {},
+          error => {
+            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+          });
+      }
     });
-    */
+    this.attachmentService.removeAttachments(this.editedProject, this.instructionsList, AttachmentType.MANUAL_USAGE);
+
+    this.imagesList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, Visibility.EVERYONE, false)
+        .subscribe(data => {},
+          error => {
+            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+          });
+      }
+    });
+    this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
+
   }
 }

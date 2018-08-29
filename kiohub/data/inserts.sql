@@ -628,6 +628,7 @@ INSERT INTO semesters (name) VALUES ('2299/2300 - letni');
 INSERT INTO semesters (name) VALUES ('2300/2301 - zimowy'); 
 INSERT INTO semesters (name) VALUES ('2300/2301 - letni'); 
 
+INSERT INTO licences (name) VALUES ('Brak');
 INSERT INTO licences (name) VALUES ('Academic Free License v3.0');
 INSERT INTO licences (name) VALUES ('Apache license 2.0');
 INSERT INTO licences (name) VALUES ('Artistic license 2.0');

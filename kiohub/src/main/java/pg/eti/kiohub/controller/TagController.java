@@ -31,25 +31,4 @@ public class TagController extends MainController {
     public ResponseEntity<Iterable<Tag>> getAllTags() {
         return new ResponseEntity<>(tagRepository.findAll(), HttpStatus.OK);
     }
-    
-    @CrossOrigin
-    @PostMapping(path = "/add")
-    public ResponseEntity addTag (
-            @RequestParam("projectId") String projectId,
-            @RequestParam("tags") String tagsList) {
-        List<String> tags = Arrays.asList(tagsList.split(", "));
-        Project p = projectRepository.findById(Long.parseLong(projectId)).get();   
-        for(String tag : tags) {
-            Tag tagToSave = null;
-            if(tagRepository.checkIfTagExists(tag) == 0) {
-                tagToSave = new Tag(tag);
-                //tagToSave.addProject(p);
-                tagToSave = tagRepository.saveAndFlush(tagToSave);    
-            } else {
-                tagToSave = tagRepository.getTagByName(tag);
-            }           
-            p.addTag(tagToSave);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

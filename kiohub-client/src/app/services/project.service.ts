@@ -41,14 +41,7 @@ export class ProjectService {
   }
 
   updateProject(project: Project) {
-    this.http.post<Project>(this.address + '/project/update/', project, this.httpOptions)
-    .subscribe(data => {
-      alert('ok');
-    },
-    error => {
-      alert('nie ok');
-    });
-  }
+    return this.http.post<Project>(this.address + '/project/update/', project, this.httpOptions);
  }
 
 //   getProjectByIdFromCache(id: number) {
@@ -59,4 +52,4 @@ export class ProjectService {
 //  async initProjectsCache() {
 //   return await this.getAllProjects().toPromise();
 //  }
-
+}

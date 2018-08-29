@@ -19,7 +19,7 @@ import lombok.Setter;
  * @author Tomasz
  */
 @Entity
-@Table(name = "attachments_file")
+@Table(name = "attachments_files")
 @Getter
 @Setter
 @NoArgsConstructor
