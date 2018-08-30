@@ -27,6 +27,7 @@ label {
 .file-upload > input
 {
     display: none;    
+    cursor: pointer;
 }
 
 #button-container {
@@ -78,6 +79,7 @@ img {
 
 #wrapper-height {
     height: 100px;
+    margin-top: -20px;
 }
 
 .cursor {
@@ -86,9 +88,4 @@ img {
 
 #stay-up {
     vertical-align: top;
-}
-
-.mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix {
-    padding: 3px;
-    border: none;
 }
