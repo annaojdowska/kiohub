@@ -147,13 +147,13 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/forms@6.1.4":
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-6.1.4.tgz#d0b83f9cd4cb35f58ee67766d17aae0cbd7de561"
+"@angular/forms@6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-6.1.0.tgz#7e62913b07b67d002ebddf735725d2839a6c3a63"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/http@6.1.4":
+"@angular/http@^6.0.3":
   version "6.1.4"
   resolved "https://registry.yarnpkg.com/@angular/http/-/http-6.1.4.tgz#0ab24a51075daaba60a4241200c44dcfcd87da5e"
   dependencies:
@@ -177,13 +177,13 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/platform-browser@6.1.4":
+"@angular/platform-browser@^6.0.3":
   version "6.1.4"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-6.1.4.tgz#a5763f549f2073ba30b9d8baf8512c8076e8d58b"
   dependencies:
     tslib "^1.9.0"
 
-"@angular/router@6.1.4":
+"@angular/router@^6.0.3":
   version "6.1.4"
   resolved "https://registry.yarnpkg.com/@angular/router/-/router-6.1.4.tgz#ec6d7400baea46386e3bbcf3e3acb0135f368fac"
   dependencies:
@@ -1281,9 +1281,9 @@ codelyzer@~4.2.1:
     source-map "^0.5.6"
     sprintf-js "^1.0.3"
 
-coffee-script@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.4.0.tgz#5e3bc8aac26c01a8e27bf107722c5655f5ad7d36"
+coffee-script@~1:
+  version "1.12.7"
+  resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.12.7.tgz#c05dae0cb79591d05b3070a8433a98c9a89ccc53"
 
 coffee-script@~1.6:
   version "1.6.3"
@@ -3318,10 +3318,6 @@ jasminewd2@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
 
-jquery@1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.9.1.tgz#e4cd4835faaefbade535857613c0fc3ff2adaf34"
-
 "jquery@>= 2.2.0", jquery@>=1.8.3:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
@@ -3421,11 +3417,12 @@ karma-chrome-launcher@~2.2.0:
     fs-access "^1.0.0"
     which "^1.2.1"
 
-karma-coffee-preprocessor@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/karma-coffee-preprocessor/-/karma-coffee-preprocessor-0.0.1.tgz#7109678041f13a8a8611b1a317956468bbd5e3b7"
+karma-coffee-preprocessor@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/karma-coffee-preprocessor/-/karma-coffee-preprocessor-1.0.1.tgz#3b78872b17b3f42db53fd51591b5e051d7de81bf"
   dependencies:
-    coffee-script "1.4.0"
+    coffee-script "~1"
+    object-assign "^4.1.0"
 
 karma-coverage-istanbul-reporter@~2.0.0:
   version "2.0.2"
@@ -3437,10 +3434,6 @@ karma-coverage-istanbul-reporter@~2.0.0:
 karma-firefox-launcher@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/karma-firefox-launcher/-/karma-firefox-launcher-1.1.0.tgz#2c47030452f04531eb7d13d4fc7669630bb93339"
-
-karma-html2js-preprocessor@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/karma-html2js-preprocessor/-/karma-html2js-preprocessor-0.0.1.tgz#89c20e91b7d207d650c6e8514123933ffcf74e1a"
 
 karma-jasmine-html-reporter@^0.2.2:
   version "0.2.2"
@@ -3459,9 +3452,9 @@ karma-phantomjs-launcher@^1.0.4:
     lodash "^4.0.1"
     phantomjs-prebuilt "^2.1.7"
 
-karma-requirejs@0.1:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/karma-requirejs/-/karma-requirejs-0.1.0.tgz#d9554aa0f11f2c0ff2e933ab5043a633b1305622"
+karma-requirejs@0.2:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/karma-requirejs/-/karma-requirejs-0.2.6.tgz#1a770c64f901320a389c65b4944746326372def8"
 
 karma-script-launcher@^1.0.0:
   version "1.0.0"

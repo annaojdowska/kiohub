@@ -1,10 +1,10 @@
 
 .footer {
     background-color: #343a40;
-    /* width: 100%; 
+    width: 100%;
     margin-left: calc(-1 * var(--page-content-padding));
-    margin-right: calc(-1 * var(--page-content-padding)); 
-    margin-bottom: calc(-1 * var(--page-content-padding)); */
+    margin-right: calc(-1 * var(--page-content-padding));
+    margin-bottom: calc(-1 * var(--page-content-padding));
     text-align: left;
     font: bold 16px sans-serif;
     padding: var(--page-content-padding) var(--page-content-padding);    
