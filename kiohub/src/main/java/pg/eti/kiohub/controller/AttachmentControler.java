@@ -8,16 +8,14 @@ package pg.eti.kiohub.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Path;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.parser.Part;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,17 +25,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.enums.Type;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Attachment;
 import pg.eti.kiohub.entity.model.AttachmentFile;
 import pg.eti.kiohub.entity.model.Project;
-import pg.eti.kiohub.entity.model.Tag;
-import pg.eti.kiohub.entity.repository.AttachmentFileRepository;
-import pg.eti.kiohub.entity.repository.AttachmentRepository;
 
 /**
  *
@@ -110,13 +105,36 @@ public class AttachmentControler extends MainController {
     }
     
     @CrossOrigin
-    @GetMapping(path = "/download")
-    public ResponseEntity downloadAttachment(@RequestParam("id") long id){
-        Optional<AttachmentFile> file = attachmentFileRepository.findById(id);
-        if(file.isPresent()){
-            return new ResponseEntity<Blob>(file.get().getFile(), HttpStatus.OK);
+    @GetMapping(path = "/downloadPhoto")
+    public ResponseEntity downloadPhoto(@RequestParam("id") long id, HttpServletResponse response) {
+        Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
+        Optional<Attachment> attachment = attachmentRepository.findById(id);
+        if(attachmentFile.isPresent() && attachment.isPresent() && attachment.get().getType() == Type.PHOTO){
+            try{
+                String name = attachment.get().getFileName();
+                String extension = FilenameUtils.getExtension(name);
+                Blob blob = attachmentFile.get().getFile();
+                
+                InputStream in = blob.getBinaryStream();
+                response.setContentType(getContentType(extension));
+                IOUtils.copy(in, response.getOutputStream());                
+            }
+            catch(Exception ex){
+                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            }
         }
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
+    private String getContentType(String extension){
+        switch(extension){
+            case "jpg" : return MediaType.IMAGE_JPEG_VALUE;
+            case "jpeg" : return MediaType.IMAGE_JPEG_VALUE;
+            case "png" : return MediaType.IMAGE_PNG_VALUE;
+            case "gif" : return MediaType.IMAGE_GIF_VALUE;
+            default : return MediaType.IMAGE_JPEG_VALUE;
+            
+        }
+    }
 }
+
