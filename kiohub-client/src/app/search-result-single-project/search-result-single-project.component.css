@@ -7,7 +7,7 @@
 #project_result_container {
     display: block;
     background-color: transparent;
-    min-height: 17vh;
+    min-height: 17vh;    
     min-width: 60vw;
     overflow: hidden;
     flex-wrap: wrap;
@@ -15,7 +15,7 @@
 }
 
 #project_result_container:hover{
-    background-color: rgb(227, 227, 231);
+    background-color: rgba(206, 203, 197, 0.282);
     cursor: pointer;
 }
 
@@ -23,5 +23,6 @@ p {
     padding-left: 1vw;
     padding-right: 1vw;
     text-align: justify;
-    line-height: 4vh;
+    font-size: 13px;
+    line-height: 17px;
 }
