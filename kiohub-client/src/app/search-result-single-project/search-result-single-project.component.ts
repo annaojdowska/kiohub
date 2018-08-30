@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+import { Component, OnInit, Input, Inject, AfterContentInit } from '@angular/core';
 import { Project } from '../model/project.interface';
 import { Router } from '../../../node_modules/@angular/router';
 import { AttachmentService } from '../services/attachment.service';
@@ -9,18 +9,21 @@ import { Observable } from '../../../node_modules/rxjs';
   templateUrl: './search-result-single-project.component.html',
   styleUrls: ['./search-result-single-project.component.css']
 })
-export class SearchResultSingleProjectComponent implements OnInit {
+export class SearchResultSingleProjectComponent implements OnInit, AfterContentInit {
   @Input() project: Project;
   private descriptionToDisplay: string;
   private numberOfCharsToDisplay = 300;
   private mainPhoto: Observable<Blob>;
   private showDefault: boolean;
   private brokenImage = '../../assets/broken-image.png';
-  constructor(@Inject(Router) private router: Router, @Inject(AttachmentService) private attachmentService: AttachmentService) { }
+  constructor(@Inject(Router) private router: Router,
+   @Inject(AttachmentService) private attachmentService: AttachmentService) { }
 
   ngOnInit() {
     this.showDefault = true;
-    while (this.project === null) {  }
+  }
+
+  ngAfterContentInit(): void {
     this.getImageFromService();
     this.initializeDescriptionDisplay();
   }
@@ -30,11 +33,13 @@ export class SearchResultSingleProjectComponent implements OnInit {
   }
 
   getImageFromService() {
-   // const id = this.getMainPhotoId();
-    this.attachmentService.getPhotoAttachment(106).subscribe(data => {
-    this.createImageFromBlob(data);
-    this.showDefault = false;
-    });
+    const id = this.getMainPhotoId();
+    if (id !== -1) {
+      this.attachmentService.getPhotoAttachment(id).subscribe(data => {
+      this.createImageFromBlob(data);
+      this.showDefault = false;
+      }, error => console.log('No such file on server'));
+    }
   }
 
   createImageFromBlob(image: Blob) {
@@ -50,7 +55,11 @@ export class SearchResultSingleProjectComponent implements OnInit {
 
   private getMainPhotoId(): number {
     const mainPhoto = this.project.attachments.find(attachment => attachment.mainPhoto === true);
-    return mainPhoto.id;
+    if (mainPhoto === undefined) {
+      return -1;
+    } else {
+      return mainPhoto.id;
+    }
   }
 
   private initializeDescriptionDisplay() {

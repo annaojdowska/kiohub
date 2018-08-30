@@ -1,5 +1,5 @@
 <div [id]='project_result_container' (click)="navigateToDetails()">
-  <img class="project_image" [src]="mainPhoto" *ngIf="!showDefault; else noImageFound">
+  <img class="project_image" *ngIf="!showDefault; else noImageFound" [src]="mainPhoto">
 <ng-template #noImageFound>
      <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
 </ng-template>
