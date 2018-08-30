@@ -19,6 +19,7 @@ import { AttachmentService } from '../services/attachment.service';
 import { Visibility } from '../model/visibility.enum';
 import { TagService } from '../services/tag.service';
 import { Tag } from '../model/tag.interface';
+import { ActivatedRoute } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -52,60 +53,70 @@ export class EditProjectGeneralTabComponent implements OnInit {
   semestersHidden: boolean;
 
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
-              @Inject(LicenceService) private licenceService: LicenceService,
-              @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
-              @Inject(ProjectService) private projectService: ProjectService,
-              @Inject(AttachmentService) private attachmentService: AttachmentService,
-              @Inject(TagService) private tagService: TagService) { }
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(LicenceService) private licenceService: LicenceService,
+    @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
+    @Inject(ProjectService) private projectService: ProjectService,
+    @Inject(AttachmentService) private attachmentService: AttachmentService,
+    @Inject(TagService) private tagService: TagService) { }
 
   toggleSemesters() {
     this.semestersHidden = !this.semestersHidden;
   }
 
+  getProjectIdFromRouter() {
+    let id: number;
+    this.route.params.subscribe(routeParams => {
+      id = routeParams.id;
+    });
+    return id;
+  }
+
   ngOnInit() {
-    this.projectService.getProjectById(1).subscribe(result => {
-      this.editedProject = result;
-      console.log(this.editedProject);
-      result.tags.forEach(tag => {
-        this.tagsList.add({ id: tag.id, name: tag.name });
-      });
-      result.attachments.forEach(at => {
-        switch (at.type) {
-          case AttachmentType.THESIS: {
-            this.thesisList.add({ id: at.id, name: at.fileName });
-            break;
+    const projectId = this.getProjectIdFromRouter();
+      this.projectService.getProjectById(projectId).subscribe(result => {
+        this.editedProject = result;
+        console.log(this.editedProject);
+        result.tags.forEach(tag => {
+          this.tagsList.add({ id: tag.id, name: tag.name });
+        });
+        result.attachments.forEach(at => {
+          switch (at.type) {
+            case AttachmentType.THESIS: {
+              this.thesisList.add({ id: at.id, name: at.fileName });
+              break;
+            }
+            case AttachmentType.SOURCE_CODE: {
+              this.programsList.add({ id: at.id, name: at.fileName });
+              break;
+            }
+            case AttachmentType.PHOTO: {
+              this.imagesList.add({ id: at.id, name: at.fileName });
+              break;
+            }
+            case AttachmentType.OTHER: {
+              this.othersList.add({ id: at.id, name: at.fileName });
+              break;
+            }
+            case AttachmentType.MANUAL_USAGE: {
+              this.instructionsList.add({ id: at.id, name: at.fileName });
+              break;
+            }
+            case AttachmentType.MANUAL_STARTUP: {
+              this.instructionsStartList.add({ id: at.id, name: at.fileName });
+              break;
+            }
           }
-          case AttachmentType.SOURCE_CODE: {
-            this.programsList.add({ id: at.id, name: at.fileName });
-            break;
-          }
-          case AttachmentType.PHOTO: {
-            this.imagesList.add({ id: at.id, name: at.fileName });
-            break;
-          }
-          case AttachmentType.OTHER: {
-            this.othersList.add({ id: at.id, name: at.fileName });
-            break;
-          }
-          case AttachmentType.MANUAL_USAGE: {
-            this.instructionsList.add({ id: at.id, name: at.fileName });
-            break;
-          }
-          case AttachmentType.MANUAL_STARTUP: {
-            this.instructionsStartList.add({ id: at.id, name: at.fileName });
-            break;
-          }
-        }
-      });
-   });
+        });
+     });
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
     this.semestersHidden = true;
     this.tagFilteredOptions = this.tagControl.valueChanges.pipe(
       startWith(null),
-      map((value: InputListElement | null) => value ? this._filter(value) : this.tagOptions.map(t => <InputListElement>{ name: t})));
-    }
+      map((value: InputListElement | null) => value ? this._filter(value) : this.tagOptions.map(t => <InputListElement>{ name: t })));
+  }
 
   // Functions for tag input
 
@@ -122,6 +133,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     }
   }
 
+
   tagSelectionChanged(event: MatAutocompleteSelectedEvent) {
     this.addTag(event.option.viewValue);
     this.tagControl.setValue(null);
@@ -129,14 +141,14 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   private _filter(value: InputListElement): InputListElement[] {
     const filterValue = value.name.toLowerCase();
-    return this.tagOptions.filter(option => option.toLowerCase().includes(filterValue)).map(o => <InputListElement>{ name: o});
+    return this.tagOptions.filter(option => option.toLowerCase().includes(filterValue)).map(o => <InputListElement>{ name: o });
   }
 
   // Functions for itemsList (add and recive attachments and tags)
   // Add function automatically invoke recive function
 
   private getInputListElementFile(event): InputListElement {
-    return { name: event.target.files[0].name, file: event.target.files[0]};
+    return { name: event.target.files[0].name, file: event.target.files[0] };
   }
 
   addThesis(event) {
@@ -164,7 +176,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   addTag(event) {
-    this.tagsList.add({name: event});
+    this.tagsList.add({ name: event });
   }
 
   updateProject() {
@@ -179,7 +191,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       relatedToProjects: [], // not used so far
       relatedFromProjects: [], // not used so far
       projectSettings: null, // not used so far
-      tags: this.tagsList.elements.map(tag => <Tag>{id: tag.id, name: tag.name}),
+      tags: this.tagsList.elements.map(tag => <Tag>{ id: tag.id, name: tag.name }),
       semesters: [], // to do
       titleEng: null, // not used so far
       descriptionEng: null, // not used so far
@@ -192,9 +204,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.projectService.updateProject(updatedProject).subscribe(data => {
         console.log('ERROR: Projekt zapisano pomyślnie.');
       },
-      error => {
-        console.log('ERROR: Wystąpił błąd wysłania projektu.');
-      });
+        error => {
+          console.log('ERROR: Wystąpił błąd wysłania projektu.');
+        });
     } else if (!updatedProject.projectStatus.id && !updatedProject.projectType.id) {
       console.log('ERROR: Podaj status i typ projektu.');
     } else if (!updatedProject.projectStatus.id) {
@@ -208,10 +220,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.thesisList.elements.forEach(th => {
       if (!th.id) {
         this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, Visibility.EVERYONE, false)
-        .subscribe(data => {},
-        error => {
-          console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-        });
+          .subscribe(data => { },
+            error => {
+              console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+            });
       }
     });
     this.attachmentService.removeAttachments(this.editedProject, this.thesisList, AttachmentType.THESIS);
@@ -219,10 +231,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.programsList.elements.forEach(th => {
       if (!th.id) {
         this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, Visibility.EVERYONE, false)
-        .subscribe(data => {},
-          error => {
-            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-          });
+          .subscribe(data => { },
+            error => {
+              console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+            });
       }
     });
     this.attachmentService.removeAttachments(this.editedProject, this.programsList, AttachmentType.SOURCE_CODE);
@@ -230,10 +242,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.othersList.elements.forEach(th => {
       if (!th.id) {
         this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, Visibility.EVERYONE, false)
-        .subscribe(data => {},
-          error => {
-            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-          });
+          .subscribe(data => { },
+            error => {
+              console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+            });
       }
     });
     this.attachmentService.removeAttachments(this.editedProject, this.othersList, AttachmentType.OTHER);
@@ -241,10 +253,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.instructionsStartList.elements.forEach(th => {
       if (!th.id) {
         this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, Visibility.EVERYONE, false)
-        .subscribe(data => {},
-          error => {
-            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-          });
+          .subscribe(data => { },
+            error => {
+              console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+            });
       }
     });
     this.attachmentService.removeAttachments(this.editedProject, this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
@@ -252,10 +264,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.instructionsList.elements.forEach(th => {
       if (!th.id) {
         this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, Visibility.EVERYONE, false)
-        .subscribe(data => {},
-          error => {
-            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-          });
+          .subscribe(data => { },
+            error => {
+              console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+            });
       }
     });
     this.attachmentService.removeAttachments(this.editedProject, this.instructionsList, AttachmentType.MANUAL_USAGE);
@@ -263,10 +275,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.imagesList.elements.forEach(th => {
       if (!th.id) {
         this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, Visibility.EVERYONE, false)
-        .subscribe(data => {},
-          error => {
-            console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-          });
+          .subscribe(data => { },
+            error => {
+              console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+            });
       }
     });
     this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);

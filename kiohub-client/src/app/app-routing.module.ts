@@ -10,7 +10,7 @@ import { ProjectViewComponent } from './project-view/project-view.component';
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
   { path: 'add-project', component: AddProjectComponent },
-  { path: 'edit-project', component: EditProjectTabComponent },
+  { path: 'edit-project/:id', component: EditProjectTabComponent },
   { path: 'projects-base', component: AdvancedSearchComponent },
   { path: 'details/:id', component: ProjectViewComponent },
   { path: 'test-post', component: TestPostComponent },

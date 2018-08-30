@@ -42,8 +42,8 @@ export class AddProjectComponent implements OnInit {
   actionAddProject() {
     this.errorInput = 'tekst przykładowy';
     const title = this.titleInput.nativeElement.value;
+    this.collaborators.push('Maciek Sklanu'); // FIXME
     if (title !== '' && this.collaborators.length > 0) {
-      // TODO walidacja regexem
       console.log(title);
       const httpStatus = this.projectService.getTitleUnique(title).subscribe(res => {
         if (res !== 409) {
@@ -56,20 +56,25 @@ export class AddProjectComponent implements OnInit {
           console.log('ERROR: Istnieje już projekt o takim projekcie.');
         }
       });
-      this.sendInvitations(title, this.collaborators);
+      this.sendInvitationsAndRedirect(title);
     } else {
       console.log('ERROR: Podaj tytuł oraz co najmniej jednego współpracownika.');
     }
   }
 
-  sendInvitations(title, collaborators) {
-    this.emailInvitationService.send(title, this.collaborators)
+  sendInvitationsAndRedirect(title) {
+    console.log(this.project);
+
+     this.emailInvitationService.send(title, this.collaborators)
     .subscribe(
       (response: any) => {
-        this.router.navigateByUrl('edit-project');
+        this.router.navigate(['/edit-project', this.project.id]);
       },
       error => {
-        this.router.navigateByUrl('edit-project');
+        console.log(this.project.id);
+        this.router.navigate(['/edit-project', this.project.id]);
+        // FIXME obsługa
+        // this.router.navigate(['/edit-project', this.project.id]);
       }
     );
   }
