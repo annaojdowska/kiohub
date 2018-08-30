@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from '../../../node_modules/rxjs';
 import { User } from '../model/user.interface';
+import { address } from './project.service';
+
 @Injectable()
 export class UserService {
 
@@ -17,10 +19,10 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
     }
 
     getCollaboratorsByProjectId(id: number): Observable<User[]> {
-        return this.http.get<User[]>('http://kiohub.eti.pg.gda.pl:8080/collaborator/project/' + id, {responseType: 'json'});
+        return this.http.get<User[]>(address + '/collaborator/project/' + id, {responseType: 'json'});
      }
 
     getSupervisorByProjectId(id: number): Observable<User> {
-        return this.http.get<User>('http://kiohub.eti.pg.gda.pl:8080/collaborator/supervisor/project/' + id, {responseType: 'json'});
+        return this.http.get<User>(address + '/collaborator/supervisor/project/' + id, {responseType: 'json'});
      }
 }

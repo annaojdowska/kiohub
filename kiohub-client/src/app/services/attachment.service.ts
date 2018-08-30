@@ -4,6 +4,7 @@ import { AttachmentType } from '../model/attachment-type.enum';
 import { Visibility } from '../model/visibility.enum';
 import { InputListComponent } from '../input-list/input-list.component';
 import { Project } from '../model/project.interface';
+import { address } from './project.service';
 
 const httpOptionsMultipart = {
   headers: new HttpHeaders({
@@ -29,11 +30,11 @@ export class AttachmentService {
     formData.append('ProjectId', projectId.toString());
     formData.append('Visibility', visibility);
     formData.append('MainPhoto', String(mainPhoto));
-    return this.http.post<string>('http://kiohub.eti.pg.gda.pl:8080/attachment/upload', formData, httpOptionsMultipart);
+    return this.http.post<string>(address + '/attachment/upload', formData, httpOptionsMultipart);
   }
 
   remove(attachments: number[]) {
-    return this.http.post('http://kiohub.eti.pg.gda.pl:8080/attachment/remove', attachments, this.httpOptions);
+    return this.http.post(address + '/attachment/remove', attachments, this.httpOptions);
   }
 
   removeAttachments(editedProject: Project, attachmentList: InputListComponent, type: AttachmentType) {
@@ -47,7 +48,7 @@ export class AttachmentService {
   getPhotoAttachment(id: number) {
     const params = new HttpParams().set('id', id.toString());
   //  const params106 = new HttpParams().set('id', '106');
-    return this.http.get('http://kiohub.eti.pg.gda.pl:8080/attachment/downloadPhoto', {responseType: 'blob', params: params});
+    return this.http.get(address + '/attachment/downloadPhoto', {responseType: 'blob', params: params});
   //  return this.http.get('http://localhost:8080/attachment/downloadPhoto?id=106', {responseType: 'blob', params: params106});
   }
 

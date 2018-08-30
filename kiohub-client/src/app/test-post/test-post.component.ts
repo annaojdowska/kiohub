@@ -5,6 +5,7 @@ import { SearchService } from '../services/search.service';
 import { AttachmentType } from '../model/attachment-type.enum';
 import { Visibility } from '../model/visibility.enum';
 import { AttachmentService } from '../services/attachment.service';
+import { address } from '../services/project.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -36,7 +37,7 @@ export class TestPostComponent implements OnInit {
   }
 
   send2() {
-    this.http.post<Project>('http://kiohub.eti.pg.gda.pl:8080/project/post', this.results[0], httpOptions)
+    this.http.post<Project>(address + '/project/post', this.results[0], httpOptions)
     .subscribe(data => {
       alert('ok');
     },

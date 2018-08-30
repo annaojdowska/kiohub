@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Semester } from '../model/semester.interface';
+import { address } from './project.service';
 
 @Injectable()
 export class SemesterService {
@@ -9,6 +10,6 @@ export class SemesterService {
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   getSemesters(): Observable<Semester[]> {
-     return this.http.get<Semester[]>('http://kiohub.eti.pg.gda.pl:8080/semester/all', {responseType: 'json'});
+     return this.http.get<Semester[]>(address + '/semester/all', {responseType: 'json'});
   }
 }

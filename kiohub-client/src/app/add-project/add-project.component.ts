@@ -35,8 +35,12 @@ export class AddProjectComponent implements OnInit {
   actionAddProject() {
     this.errorInput = 'tekst przykładowy';
     const title = this.titleInput.nativeElement.value;
+
+    console.log('authors: ' + this.authorsList.elements.length );
+
     if (title !== '' && this.authorsList.elements.length > 0) {
       console.log(title);
+      console.log('Próbuję dodać projekt.');
       const httpStatus = this.projectService.getTitleUnique(title).subscribe(res => {
         if (res !== 409) {
           console.log('Dodaję projekt.');
@@ -61,10 +65,11 @@ export class AddProjectComponent implements OnInit {
      this.emailInvitationService.send(title, collaborators)
     .subscribe(
       (response: any) => {
+        console.log('id' + this.project.id);
         this.router.navigate(['/edit-project', this.project.id]);
       },
       error => {
-        console.log(this.project.id);
+        console.log('error; id' + this.project.id);
         this.router.navigate(['/edit-project', this.project.id]);
         // FIXME obsługa
         // this.router.navigate(['/edit-project', this.project.id]);

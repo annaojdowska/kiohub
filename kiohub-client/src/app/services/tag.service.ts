@@ -2,6 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tag } from '../model/tag.interface';
+import { address } from './project.service';
+
 @Injectable()
 export class TagService {
     httpOptions = {
@@ -9,11 +11,9 @@ export class TagService {
           'ContentType' : 'application/json'
         })
       };
-  //  address = 'http://localhost:8443';
-    address = 'http://kiohub.eti.pg.gda.pl:8080';
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   getTags(): Observable<Tag[]> {
-    return this.http.get<Tag[]>(this.address + '/tag/all', {responseType: 'json'});
+    return this.http.get<Tag[]>(address + '/tag/all', {responseType: 'json'});
  }
 }
