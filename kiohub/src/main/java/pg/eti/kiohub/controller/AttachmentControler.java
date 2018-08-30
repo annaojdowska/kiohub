@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,6 +107,16 @@ public class AttachmentControler extends MainController {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @CrossOrigin
+    @GetMapping(path = "/download")
+    public ResponseEntity downloadAttachment(@RequestParam("id") long id){
+        Optional<AttachmentFile> file = attachmentFileRepository.findById(id);
+        if(file.isPresent()){
+            return new ResponseEntity<Blob>(file.get().getFile(), HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
 }

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AttachmentType } from '../model/attachment-type.enum';
 import { Visibility } from '../model/visibility.enum';
 import { InputListComponent } from '../input-list/input-list.component';
@@ -43,5 +43,21 @@ export class AttachmentService {
         console.log('ERROR: Wystąpił błąd usunięcia załącznika.');
       });
     }
+
+  private getAttachment(id: number) {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.get<Blob>('http://localhost:8080/attachment/download', {params: params});
+  }
+
+  private downloadFile(data: Response) {
+    const blob = new Blob([data], { type: 'text/csv' });
+    return blob;
+  }
+
+  getAttachmentById(id: number): Blob {
+    let file: Blob;
+    this.getAttachment(id).subscribe(data => file = data);
+    return file;
+  }
 }
 
