@@ -44,20 +44,12 @@ export class AttachmentService {
       });
     }
 
-  private getAttachment(id: number) {
+  getPhotoAttachment(id: number) {
     const params = new HttpParams().set('id', id.toString());
-    return this.http.get<Blob>('http://localhost:8080/attachment/download', {params: params});
+  //  const params106 = new HttpParams().set('id', '106');
+    return this.http.get('http://kiohub.eti.pg.gda.pl:8080/attachment/downloadPhoto', {responseType: 'blob', params: params});
+  //  return this.http.get('http://localhost:8080/attachment/downloadPhoto?id=106', {responseType: 'blob', params: params106});
   }
 
-  private downloadFile(data: Response) {
-    const blob = new Blob([data], { type: 'text/csv' });
-    return blob;
-  }
-
-  getAttachmentById(id: number): Blob {
-    let file: Blob;
-    this.getAttachment(id).subscribe(data => file = data);
-    return file;
-  }
 }
 

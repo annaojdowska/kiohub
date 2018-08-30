@@ -1,5 +1,8 @@
-<div id='project_result_container' (click)="navigateToDetails()">
-  <img id='project_image' src="{{mainPhotoURL}}"/>
+<div [id]='project_result_container' (click)="navigateToDetails()">
+  <img class="project_image" [src]="mainPhoto" *ngIf="!showDefault; else noImageFound">
+<ng-template #noImageFound>
+     <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
+</ng-template>
   <h2>{{project.title}}</h2>
   <h3>{{project.titleEng}}</h3>
   <p>{{descriptionToDisplay}}</p>
