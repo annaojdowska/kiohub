@@ -23,9 +23,7 @@ export class AddProjectComponent implements OnInit {
     @Inject(Router) private router: Router,
     @Inject(EmailInvitationService) private emailInvitationService: EmailInvitationService,
     @Inject(ProjectService) private projectService: ProjectService,
-  ) {
-    this.collaborators = [];
-  }
+  ) {  }
 
   ngOnInit() {
   }
@@ -35,20 +33,17 @@ export class AddProjectComponent implements OnInit {
     this.authorsList.add({name: author});
   }
 
-  recieveElements($event) {
-    this.collaborators = $event.map(c => c.name);
-  }
-
   actionAddProject() {
     this.errorInput = 'tekst przykładowy';
     const title = this.titleInput.nativeElement.value;
-    if (title !== '' && this.collaborators.length > 0) {
+    if (title !== '' && this.authorsList.elements.length > 0) {
       // TODO walidacja regexem
       console.log(title);
       const httpStatus = this.projectService.getTitleUnique(title).subscribe(res => {
         if (res !== 409) {
           console.log('Dodaję projekt.');
-          const httpStatus2 = this.projectService.addProject(title, this.collaborators).subscribe((data: Project) => {
+          const httpStatus2 = this.projectService.addProject(title, this.authorsList.elements.map(e => e.name))
+          .subscribe((data: Project) => {
             this.project = data;
             console.log(this.project);
           });
@@ -56,14 +51,14 @@ export class AddProjectComponent implements OnInit {
           console.log('ERROR: Istnieje już projekt o takim projekcie.');
         }
       });
-      this.sendInvitations(title, this.collaborators);
+      this.sendInvitations(title, this.authorsList.elements.map(e => e.name));
     } else {
       console.log('ERROR: Podaj tytuł oraz co najmniej jednego współpracownika.');
     }
   }
 
   sendInvitations(title, collaborators) {
-    this.emailInvitationService.send(title, this.collaborators)
+    this.emailInvitationService.send(title, collaborators)
     .subscribe(
       (response: any) => {
         this.router.navigateByUrl('edit-project');
