@@ -14,7 +14,7 @@ export class ProjectService {
   projectsCache: Project[];
   cacheStatus = false;
   constructor(@Inject(HttpClient) private http: HttpClient) {
-  //   this.address = 'http://localhost:8443';
+    // this.address = 'http://localhost:8443';
      this.address = 'http://kiohub.eti.pg.gda.pl:8080';
     //  this.initProjectsCache()
     //  .then(projects => { this.projectsCache = projects; this.cacheStatus = true; });
