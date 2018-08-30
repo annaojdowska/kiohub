@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/internal/operators/catchError';
 
@@ -14,12 +14,10 @@ export class EmailInvitationService {
 
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
-  send(topic: string, recipients: string[]): Observable<string> {
-    console.log('http://localhost:8080/sendinvitation?topic=' + topic + '&recipient=' + recipients[0]);
-     return this.http.get<string>(
-       'http://localhost:8080/sendinvitation?topic=' + topic + '&recipient=' + recipients[0],
-       {responseType: 'json'}
-      );
+  send(titlePl: string, collaborators: string[]) {
+    const params = new HttpParams().set('titlePl', titlePl).set('collaborators', collaborators.join(', '));
+    console.log(params);
+    return this.http.post('http://kiohub.eti.pg.gda.pl:8080/email/sendinvitation', params);
   }
 
 

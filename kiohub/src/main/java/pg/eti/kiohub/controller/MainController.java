@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.repository.*;
+import pg.eti.kiohub.service.MailService;
 import pg.eti.kiohub.service.ProjectService;
 import pg.eti.kiohub.service.TagService;
 
@@ -56,6 +57,9 @@ public class MainController {
     
     @Autowired
     protected TagService tagService;
+    
+    @Autowired
+    protected MailService mailService;
 
     
     
