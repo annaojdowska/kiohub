@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter, Input } from '@angular/core';
 import { Semester } from '../model/semester.interface';
 import { SemesterService } from '../services/semester-service';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -24,6 +24,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
   ],
 })
 export class SemesterChooserComponent implements OnInit {
+  @Output() semesterAdded = new EventEmitter<Semester>();
+  @Output() semesterRemoved = new EventEmitter<Semester>();
+  @Input() semestersFromParent: Semester[];
   semesters: Semester[];
   chosenSemesters: Semester[];
   pageScope = 12;
@@ -39,6 +42,7 @@ export class SemesterChooserComponent implements OnInit {
 
   ngOnInit() {
     this.semesterService.getSemesters().subscribe(result => this.semesters = result);
+    this.chosenSemesters = this.semestersFromParent;
   }
 
   getSemestersToDisplay(begin: number, end: number) {
@@ -59,10 +63,11 @@ export class SemesterChooserComponent implements OnInit {
     const index = this.chosenSemesters.findIndex(sem => sem.id === chosenSemester.id);
     if (index !== -1) {
       this.chosenSemesters.splice(index, 1);
+      this.semesterRemoved.emit(chosenSemester);
     } else {
       this.chosenSemesters.push(chosenSemester);
+      this.semesterAdded.emit(chosenSemester);
     }
-    console.log(this.chosenSemesters);
   }
 
   getColor(chosenSemester: Semester) {
@@ -72,9 +77,5 @@ export class SemesterChooserComponent implements OnInit {
     } else {
       return 'whitesmoke';
     }
-  }
-
-  saveChanges() {
-    console.log('save');
   }
 }

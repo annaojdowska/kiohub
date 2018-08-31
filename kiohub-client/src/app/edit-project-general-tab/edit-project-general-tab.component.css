@@ -86,3 +86,16 @@ img, .verticalMiddle {
 .stay-up {
     vertical-align: top;
 }
+
+#save_semesters {
+    float: left;
+    color: black;
+    font-size: 12px;
+    font-family: var(--main-font-name), sans-serif;
+    font-weight: bold;
+    background-color: transparent !important;
+}
+
+#save_semesters:hover {
+    cursor: pointer;
+}

@@ -1,8 +1,8 @@
 #container{
-    border-style: solid;
+    /* border-style: solid;
     border-width: 1px;
-    border-color: rgba(0,0,0,.12);
-    display: grid;
+    border-color: rgba(0,0,0,.12); */
+    display: inline-grid;
     width:50%;
     height: auto;
     text-align: center;
@@ -24,21 +24,6 @@ h5 {
 
 mat-grid-tile-footer{
     float: right;
-}
-
-#save {
-    float: left;
-    color: black;
-    font-size: 12px;
-    font-family: var(--main-font-name), sans-serif;
-    font-weight: bold;
-}
-
-button{
-    background-color: transparent !important;
-}
-button:hover {
-    cursor: pointer;
 }
 
 #arrows {
