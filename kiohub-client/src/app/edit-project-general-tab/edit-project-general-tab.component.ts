@@ -84,6 +84,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
         result.tags.forEach(tag => {
           this.tagsList.add({ id: tag.id, name: tag.name });
         });
+        result.semesters.forEach(semester => {
+          this.showAddedSemester(semester);
+        });
         result.attachments.forEach(at => {
           switch (at.type) {
             case AttachmentType.THESIS: {
@@ -197,7 +200,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       relatedFromProjects: [], // not used so far
       projectSettings: null, // not used so far
       tags: this.tagsList.elements.map(tag => <Tag>{ id: tag.id, name: tag.name }),
-      semesters: [], // to do
+      semesters: this.semestersList.elements.map(semester => <Semester> {id: semester.id, name: semester.name}),
       titleEng: this.titleEN.nativeElement.value,
       descriptionEng: this.descriptionEN.nativeElement.value,
       publicationDate: this.editedProject.publicationDate,

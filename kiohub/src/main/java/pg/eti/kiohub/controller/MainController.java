@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.repository.*;
 import pg.eti.kiohub.service.MailService;
 import pg.eti.kiohub.service.ProjectService;
+import pg.eti.kiohub.service.SemesterService;
 import pg.eti.kiohub.service.TagService;
 
 /**
@@ -50,8 +51,7 @@ public class MainController {
     
     @Autowired
     protected AttachmentFileRepository attachmentFileRepository;   
-    
-    
+        
     @Autowired
     protected ProjectService projectService;
     
@@ -61,7 +61,8 @@ public class MainController {
     @Autowired
     protected MailService mailService;
 
-    
+    @Autowired
+    protected SemesterService semesterService;
     
     @RequestMapping(path = "/")
     public String homePage() {

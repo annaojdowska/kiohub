@@ -113,6 +113,8 @@ public class ProjectController extends MainController {
         try { 
             List<Tag> tags = tagService.addTags(project.getTags());
             project.setTags(tags);
+            List<Semester> semesters = semesterService.findSemestersId(project.getSemesters());
+            project.setSemesters(semesters);
             super.projectRepository.saveAndFlush(project);
          } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
