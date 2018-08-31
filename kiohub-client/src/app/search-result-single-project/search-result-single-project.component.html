@@ -1,4 +1,4 @@
-<div [id]='project_result_container' (click)="navigateToDetails()">
+<div id="project_result_container" (click)="navigateToDetails()">
   <img class="project_image" *ngIf="!showDefault; else noImageFound" [src]="mainPhoto">
   <ng-template #noImageFound>
       <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
@@ -7,7 +7,6 @@
     <h2>{{project.title}}</h2>
     <h3>{{project.titleEng}}</h3>
       <p>{{descriptionToDisplay}}</p>
-    <app-input-list [removable]="false" hideInput="true" #tagsList id="tags"></app-input-list>
-    <app-input-list [removable]="false" hideInput="true" #semestersList id="semesters"></app-input-list>
+    <app-input-list [removable]="false" hideInput="true" #tagsList></app-input-list>
   </div>
 </div>

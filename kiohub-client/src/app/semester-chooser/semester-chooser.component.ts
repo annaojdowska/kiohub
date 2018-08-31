@@ -73,4 +73,8 @@ export class SemesterChooserComponent implements OnInit {
       return 'whitesmoke';
     }
   }
+
+  saveChanges() {
+    console.log('save');
+  }
 }
