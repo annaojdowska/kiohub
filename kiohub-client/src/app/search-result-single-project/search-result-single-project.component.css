@@ -4,8 +4,11 @@
     margin-right: 1vw;
 }
 
+#info {
+    display: grid;
+}
 #project_result_container {
-    display: block;
+    display: grid;
     background-color: transparent;
     min-height: 17vh;    
     min-width: 60vw;
@@ -20,9 +23,27 @@
 }
 
 p {
-    padding-left: 1vw;
     padding-right: 1vw;
     text-align: justify;
     font-size: 13px;
     line-height: 17px;
+    max-width: 30wv;
+}
+
+#description {
+    float: left;
+}
+
+#semesters {
+    float: left;
+}
+
+#tags {
+    max-width: 100px;
+    display: contents;
+    float: left;
+}
+
+.clearfix {
+    clear: both;
 }

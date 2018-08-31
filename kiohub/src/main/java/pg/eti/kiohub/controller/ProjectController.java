@@ -28,6 +28,8 @@ import pg.eti.kiohub.entity.model.*;
 @Controller
 @RequestMapping(path = "/project")
 public class ProjectController extends MainController {
+    
+    @CrossOrigin
     @GetMapping(path = "/all")
     public ResponseEntity<List<Project>>
     getAllProjects() {

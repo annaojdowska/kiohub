@@ -12,7 +12,7 @@ td.mat-cell:first-child, td.mat-footer-cell:first-child, th.mat-header-cell:firs
 }
 
 td{
-    min-width: 68vw;
+    min-width: 60vw;
     display: grid;
     margin-top: 10px;
     margin-bottom: 10px;

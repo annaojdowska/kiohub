@@ -37,8 +37,16 @@
         ],
         "semesters": [
             {
+                "id": 625,
+                "name": "1994/1995 - zimowy"
+            },
+            {
                 "id": 623,
                 "name": "1993/1994 - zimowy"
+            },
+            {
+                "id": 624,
+                "name": "1993/1994 - letni"
             }
         ],
         "title": "Polski tytuł",
@@ -174,7 +182,20 @@
                 "name": "tag"
             }
         ],
-        "semesters": [],
+        "semesters": [
+            {
+                "id": 625,
+                "name": "1994/1995 - zimowy"
+            },
+            {
+                "id": 623,
+                "name": "1993/1994 - zimowy"
+            },
+            {
+                "id": 624,
+                "name": "1993/1994 - letni"
+            }
+        ],
         "title": "Jakiś projekt z długim opisem",
         "titleEng": "English title with long description",
         "description": "Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum,Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum,Polish desc lorem ipsum,Polish desc lorem ipsum,Polish desc lorem ipsum i adlej jakis opis sobe lecie leci nanannaa blab bal blab nana inonoinoinoin sjfjfn kdjfdj sdfjsdjkfskjdf sss s s s ssss sj cos kto sobie mowi sratata Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum,Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum, Polish desc lorem ipsum,Polish desc lorem ipsum,Polish desc lorem ipsum,Polish desc lorem ipsum i adlej jakis opis sobe lecie leci nanannaa blab bal blab nana inonoinoinoin sjfjfn kdjfdj sdfjsdjkfskjdf sss s s s ssss sj cos kto sobie mowi sratata",

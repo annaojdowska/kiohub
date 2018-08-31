@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, Inject, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Input, Inject, AfterContentInit, ViewChild } from '@angular/core';
 import { Project } from '../model/project.interface';
 import { Router } from '../../../node_modules/@angular/router';
 import { AttachmentService } from '../services/attachment.service';
 import { Observable } from '../../../node_modules/rxjs';
+import { Tag } from '../model/tag.interface';
+import { InputListComponent } from '../input-list/input-list.component';
 
 @Component({
   selector: 'app-search-result-single-project',
@@ -11,11 +13,15 @@ import { Observable } from '../../../node_modules/rxjs';
 })
 export class SearchResultSingleProjectComponent implements OnInit, AfterContentInit {
   @Input() project: Project;
+  @ViewChild('tagsList') tagsList: InputListComponent;
+  @ViewChild('semestersList') semestersList: InputListComponent;
   private descriptionToDisplay: string;
   private numberOfCharsToDisplay = 300;
   private mainPhoto: Observable<Blob>;
   private showDefault: boolean;
   private brokenImage = '../../assets/broken-image.png';
+  private start: string;
+  private end: string;
   constructor(@Inject(Router) private router: Router,
    @Inject(AttachmentService) private attachmentService: AttachmentService) { }
 
@@ -26,6 +32,8 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   ngAfterContentInit(): void {
     this.getImageFromService();
     this.initializeDescriptionDisplay();
+    this.project.tags.forEach(tag => this.tagsList.add({name: tag.name}));
+    this.project.semesters.forEach(semester => this.semestersList.add({name: semester.name}));
   }
 
   navigateToDetails() {
