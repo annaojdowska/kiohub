@@ -5,15 +5,27 @@
     </mat-select>
 </mat-form-field>
 <form>
-    <label>Tytuł:</label>
+    <label>Tytuł (PL):</label>
     <mat-form-field class="wrapper-width">
         <input matInput #title name="title" value="{{editedProject?.title}}">
     </mat-form-field>
     <br/>
 
-    <label id="stay-up">Opis:&nbsp;</label>
+    <label class="stay-up">Opis (PL):</label>
     <mat-form-field class="wrapper-width">
         <textarea matInput #description id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea>
+    </mat-form-field>
+    <br/>
+
+    <label>Tytuł (EN):</label>
+    <mat-form-field class="wrapper-width">
+        <input matInput #titleEN name="titleEN" value="{{editedProject?.titleEng}}">
+    </mat-form-field>
+    <br/>
+
+    <label class="stay-up">Opis (EN):</label>
+    <mat-form-field class="wrapper-width">
+        <textarea matInput #descriptionEN id="wrapper-height" name="descriptionEN" value="{{editedProject?.descriptionEng}}"></textarea>
     </mat-form-field>
     <br/>
 
@@ -101,6 +113,7 @@
         </mat-select>
     </mat-form-field>
     <br/>
+
     <label>Semestry wytwarzania: </label>
     <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
     <br/>
