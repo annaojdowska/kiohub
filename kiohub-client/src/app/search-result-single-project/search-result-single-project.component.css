@@ -8,7 +8,7 @@
     display: grid;
 }
 #project_result_container {
-    display: grid;
+    display: block;
     background-color: transparent;
     min-height: 17vh;    
     min-width: 60vw;
@@ -28,22 +28,4 @@ p {
     font-size: 13px;
     line-height: 17px;
     max-width: 30wv;
-}
-
-#description {
-    float: left;
-}
-
-#semesters {
-    float: left;
-}
-
-#tags {
-    max-width: 100px;
-    display: contents;
-    float: left;
-}
-
-.clearfix {
-    clear: both;
 }
