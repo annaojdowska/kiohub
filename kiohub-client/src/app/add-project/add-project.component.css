@@ -10,48 +10,23 @@ h2 {
     margin-bottom: 15px;
 }
 
-#content_element_top {
-    flex-grow: 1;
-    min-width: 95vh;
-}
-
-
-#content_element_bottom {
-    flex-grow: 1;
-    min-width: 95vh;
-}
-
-form {
-    text-align: center;
-}
-
-label {
+ 
+table > *:first-child:not(thead) th:first-child { /*h5*/
     font-family: var(--main-font-name), sans-serif;
     color: black;
     font-size: var(--normal-font-size);
     font-weight: normal;
-    padding-top: 20px;
-    display: inline-block;
-    /* width: 140px; */
-    text-align: right;
-    margin-right: 20px;
-    vertical-align: top;
+    width: 150px;
 }
 
-.right_element {
-    width: 60%;
-    display: inline-block;
+table > *:first-child:not(thead) th:nth-child(2), .right-element { 
+    width: 450px;
 }
 
-#left_child {
-    width: 80%;
- }
+table > *:first-child:not(thead) th:nth-child(3),  { 
+    width: 100px;
+}
 
-#right_child {
-    width: 19%;
-    margin-left: 1%;
- }
-
- app-input-list {
-     margin-left: 1000px;
- }
+#button-container {
+    text-align: center;
+}
