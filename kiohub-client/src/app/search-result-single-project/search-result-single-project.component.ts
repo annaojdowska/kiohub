@@ -14,7 +14,6 @@ import { InputListComponent } from '../input-list/input-list.component';
 export class SearchResultSingleProjectComponent implements OnInit, AfterContentInit {
   @Input() project: Project;
   @ViewChild('tagsList') tagsList: InputListComponent;
-  @ViewChild('semestersList') semestersList: InputListComponent;
   private descriptionToDisplay: string;
   private numberOfCharsToDisplay = 300;
   private mainPhoto: Observable<Blob>;
@@ -33,7 +32,6 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
     this.getImageFromService();
     this.initializeDescriptionDisplay();
     this.project.tags.forEach(tag => this.tagsList.add({name: tag.name}));
-    this.project.semesters.forEach(semester => this.semestersList.add({name: semester.name}));
   }
 
   navigateToDetails() {
