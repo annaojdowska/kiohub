@@ -41,6 +41,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('tagsList') tagsList: InputListComponent;
   @ViewChild('title') title: any;
   @ViewChild('description') description: any;
+  @ViewChild('titleEN') titleEN: any;
+  @ViewChild('descriptionEN') descriptionEN: any;
   @ViewChild('projectStatus') projectStatus: any;
   @ViewChild('projectType') projectType: any;
   @ViewChild('licence') licence: any;
@@ -193,8 +195,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
       projectSettings: null, // not used so far
       tags: this.tagsList.elements.map(tag => <Tag>{ id: tag.id, name: tag.name }),
       semesters: [], // to do
-      titleEng: null, // not used so far
-      descriptionEng: null, // not used so far
+      titleEng: this.titleEN.nativeElement.value,
+      descriptionEng: this.descriptionEN.nativeElement.value,
       publicationDate: this.editedProject.publicationDate,
       published: this.editedProject.published
     };

@@ -1,6 +1,8 @@
 label {
     font-family: var(--main-font-name), sans-serif;
     margin-right: 10px;
+    width: 200px;
+    padding-right: 10px;
 }
 
 #h2 {
@@ -26,8 +28,7 @@ label {
 
 .file-upload > input
 {
-    display: none;    
-    cursor: pointer;
+    display: none;
 }
 
 #button-container {
@@ -48,7 +49,7 @@ label {
     color: rgb(7, 26, 56);
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
-    cursor: pointer;
+
 }
 
 .fileContainer [type=file] {
@@ -65,11 +66,7 @@ label {
     margin-bottom: 10px;
 }
 
-img {
-    vertical-align: middle;
-}
-
-.verticalMiddle {
+img, .verticalMiddle {
     vertical-align: middle;
 }
 
@@ -79,13 +76,13 @@ img {
 
 #wrapper-height {
     height: 100px;
-    margin-top: -20px;
+    margin-top: -19px;
 }
 
 .cursor {
     cursor: pointer;
 }
 
-#stay-up {
+.stay-up {
     vertical-align: top;
 }
