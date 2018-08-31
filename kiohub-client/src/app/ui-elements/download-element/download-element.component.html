@@ -5,7 +5,7 @@
   <div id="elements_to_download_list">
     <li id="files_to_download" *ngFor="let attachment of attachments">
       <div id="element_to_download">
-        <button>Pobierz</button>
+        <button (click)="downloadFile(attachment.id)">Pobierz</button>
         <h5>{{attachment?.fileName}}</h5>
       </div>
     </li>

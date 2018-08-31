@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Attachment } from '../../model/attachment.interface';
+import { AttachmentService } from '../../services/attachment.service';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   selector: 'app-download-element',
@@ -10,7 +12,7 @@ export class DownloadElementComponent implements OnInit {
 
   @Input() title: string;
   @Input() attachments: Attachment[];
-  constructor() { }
+  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) { }
 
   ngOnInit() {
     this.attachments = [];
@@ -25,4 +27,15 @@ export class DownloadElementComponent implements OnInit {
       console.log('null!');
     }
   }
+
+  downloadFile(id: number) {
+    if (id !== undefined) {
+      console.log('po');
+      this.attachmentService.getAttachment(id).subscribe((blob: Blob) => {
+        console.log(blob);
+        saveAs(blob, 'zalacznik');
+      }, error => console.log('No such file on server'));
+    }
+  }
+
 }
