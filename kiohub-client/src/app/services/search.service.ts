@@ -17,8 +17,8 @@ export class SearchService {
   }
 
   getAllProjects() {
-    // this.allProjects = this.http.get<Project[]>(address + '/project/all', {responseType: 'json'});
-    this.allProjects = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
+     this.allProjects = this.http.get<Project[]>(address + '/project/all', {responseType: 'json'});
+    // this.allProjects = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
     return this.allProjects;
   }
 }

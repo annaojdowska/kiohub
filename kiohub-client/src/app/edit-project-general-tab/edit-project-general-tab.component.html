@@ -118,7 +118,11 @@
     <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
     <br/>
     <br/>
-    <app-semester-chooser *ngIf="semestersHidden != false"></app-semester-chooser>
+    <div id="semestersContainer" *ngIf="semestersHidden != false">
+        <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)" (semesterRemoved)="removeAddedSemester($event)"></app-semester-chooser>
+        <a (click)="saveSemesters()"><button type="button" id="save_semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź wybór</button></a>
+    </div>
+    <app-input-list [removable]="false" hideInput="true" #semestersList></app-input-list>
     <label>Tagi:</label>
 
 
