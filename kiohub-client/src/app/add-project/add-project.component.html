@@ -1,25 +1,35 @@
 <div class="center_vertically_parent">
-    <div id="content">
+    <div  id="bigger_content" >
         <img src='assets/add.png' />
         <h2>Dodaj projekt</h2>
 
-        <form #createproject="ngForm">
-            <label class="left_element">Tytuł projektu</label>
-            <mat-form-field class="right_element">
-                <input #titleInput matInput name="title" ngModel>
-            </mat-form-field>
-            <form #authors="ngForm" (ngSubmit)="addAuthor(authors.value.author)">
-                <label class="left_element">Współtwórcy </label>
-                <mat-form-field class="right_element">
-                    <input #authorInput name="author" ngModel matInput>
-                </mat-form-field>
-                <label class="left_element"> </label>
-                <div class="right_element">
-                    <app-input-list #authorsList orientation="vertical" (changeElements)="recieveElements($event)" removable="true" hideInput="true"></app-input-list>
+        <div id="content">
+            <form #createproject="ngForm">
+                <div id="content_element_top">
+                    <label class="left_element">Tytuł projektu: </label>
+                    <mat-form-field class="right_element">
+                        <input #titleInput matInput name="title" ngModel>
+                    </mat-form-field>
                 </div>
-        </form>
-            <app-error-info #errorInfo id="errorInfo"></app-error-info>
-            <button type="button" (click)="actionAddProject();" mat-stroked-button class="submit-button">Dodaj i przejdź do edycji</button>
-        </form>
+                <div id="content_element_bottom">
+                    <form #authors="ngForm" (ngSubmit)="addAuthor(authors.value.author)">
+                        <label class="left_element">&nbsp; Współtwórcy: </label>
+                        <div class="right_element">
+                            <mat-form-field id="left_child">
+                                <input #authorInput name="author" ngModel matInput>
+                            </mat-form-field>
+                            <button type="submit" mat-stroked-button class="submit-button" id="right_child">Dodaj</button>
+                        </div>
+                        <!-- <l abel class="left_element"> </label> -->
+                        <div class="right_element">
+                            <app-input-list #authorsList orientation="vertical" (changeElements)="recieveElements($event)" removable="true" hideInput="true"></app-input-list>
+                        </div>
+                    </form>
+                </div>
+                <app-error-info #errorInfo id="errorInfo"></app-error-info>
+                <button type="button" (click)="actionAddProject();" mat-stroked-button class="submit-button">Utwórz projekt i przejdź do edycji</button>
+
+            </form>
+        </div>
     </div>
 </div>

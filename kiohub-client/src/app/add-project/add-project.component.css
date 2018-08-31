@@ -10,6 +10,17 @@ h2 {
     margin-bottom: 15px;
 }
 
+#content_element_top {
+    flex-grow: 1;
+    min-width: 95vh;
+}
+
+
+#content_element_bottom {
+    flex-grow: 1;
+    min-width: 95vh;
+}
+
 form {
     text-align: center;
 }
@@ -21,13 +32,26 @@ label {
     font-weight: normal;
     padding-top: 20px;
     display: inline-block;
-    width: 140px;
+    /* width: 140px; */
     text-align: right;
-    margin-right:20px;
+    margin-right: 20px;
     vertical-align: top;
 }
 
 .right_element {
-    width: 50%;
+    width: 60%;
     display: inline-block;
 }
+
+#left_child {
+    width: 80%;
+ }
+
+#right_child {
+    width: 19%;
+    margin-left: 1%;
+ }
+
+ app-input-list {
+     margin-left: 1000px;
+ }
