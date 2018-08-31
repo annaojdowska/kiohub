@@ -16,7 +16,8 @@ export class EditProjectManagementTabComponent implements OnInit {
   editedProject: Project;
   supervisor: User;
   collaborators: User[];
-  @ViewChild('collaboratorsList') collaboratorsList: InputListComponent;
+  @ViewChild('authorsList') authorsList: InputListComponent;
+  @ViewChild('authorInput') authorInput: any;
   getProjectIdFromRouter() {
     let id: number;
     this.route.params.subscribe(routeParams => {
@@ -36,23 +37,19 @@ export class EditProjectManagementTabComponent implements OnInit {
       this.userService.getCollaboratorsByProjectId(projectId).subscribe(c => {
         this.collaborators = c;
         c.forEach(coll => {
-          this.collaboratorsList.add({ id: coll.id, name: coll.firstName + ' ' + coll.lastName + ' (' + coll.email + ')'});
+          this.authorsList.add({ id: coll.id, name: coll.firstName + ' ' + coll.lastName + ' (' + coll.email + ')'});
         });
       });
       this.userService.getSupervisorByProjectId(projectId).subscribe(s => this.supervisor = s);
     });
   }
 
-  private getInputListElementFile(event): InputListElement {
-    return { name: event.target.files[0].name, file: event.target.files[0] };
-  }
-
-  addCollaborator(event) {
-    this.collaboratorsList.add(this.getInputListElementFile(event));
+  addAuthor(author) {
+    this.authorInput.nativeElement.value = '';
+    this.authorsList.add({name: author});
   }
 
   deleteProject() {
     alert('Usunięto projekt :(');
   }
-
 }
