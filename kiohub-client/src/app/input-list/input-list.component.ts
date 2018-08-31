@@ -26,13 +26,9 @@ export class InputListComponent implements OnInit {
   }
 
   add(element: InputListElement): void {
-    // console.log(element);
-    // if ((element || '').trim()) {
-    //   this._elements.push(element.trim());
-    //   this.sendElements();
-    // }
-
+    if (element.name !== '') {
       this.elements.push(element);
+    }
   }
 
   remove(element: InputListElement): void {

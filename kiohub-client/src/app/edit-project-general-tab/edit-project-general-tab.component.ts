@@ -20,6 +20,7 @@ import { Visibility } from '../model/visibility.enum';
 import { TagService } from '../services/tag.service';
 import { Tag } from '../model/tag.interface';
 import { ActivatedRoute } from '../../../node_modules/@angular/router';
+import { Semester } from '../model/semester.interface';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -46,12 +47,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('projectStatus') projectStatus: any;
   @ViewChild('projectType') projectType: any;
   @ViewChild('licence') licence: any;
+  @ViewChild('semestersList') semestersList: InputListComponent;
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
   tagOptions: string[] = ['aplikacja', 'sztucznainteligencja', 'java'];
   tagFilteredOptions: Observable<InputListElement[]>;
-
+  chosenSemesters: Semester[];
   semestersHidden: boolean;
 
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
@@ -81,6 +83,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
         console.log(this.editedProject);
         result.tags.forEach(tag => {
           this.tagsList.add({ id: tag.id, name: tag.name });
+        });
+        result.semesters.forEach(semester => {
+          this.showAddedSemester(semester);
         });
         result.attachments.forEach(at => {
           switch (at.type) {
@@ -114,6 +119,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.tagFilteredOptions = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((value: InputListElement | null) => value ? this._filter(value) : this.tagOptions.map(t => <InputListElement>{ name: t })));
+    this.chosenSemesters = [];
   }
 
   // Functions for tag input
@@ -190,7 +196,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       relatedFromProjects: [], // not used so far
       projectSettings: null, // not used so far
       tags: this.tagsList.elements.map(tag => <Tag>{ id: tag.id, name: tag.name }),
-      semesters: [], // to do
+      semesters: this.semestersList.elements.map(semester => <Semester> {id: semester.id, name: semester.name}),
       titleEng: this.titleEN.nativeElement.value,
       descriptionEng: this.descriptionEN.nativeElement.value,
       publicationDate: this.editedProject.publicationDate,
@@ -281,5 +287,21 @@ export class EditProjectGeneralTabComponent implements OnInit {
     });
     this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
 
+  }
+
+  saveSemesters() {
+    this.toggleSemesters();
+  }
+
+  showAddedSemester(semester: Semester) {
+    this.semestersList.add({name: semester.name});
+    this.chosenSemesters.push(semester);
+  }
+
+  removeAddedSemester(semester: Semester) {
+    const toRemove = this.semestersList.elements.find(element => element.name === semester.name);
+    this.semestersList.remove(toRemove);
+    const index = this.chosenSemesters.findIndex(sem => sem.id === semester.id);
+    this.chosenSemesters.splice(index, 1);
   }
 }

@@ -1,11 +1,19 @@
 <p id="h2">Zarządzanie projektem</p>
 <form>
   <label class="wrapper-left">Promotor pracy:</label>
-  <mat-form-field class="wrapper-width"><input matInput name="supervisor" value="{{supervisor?.firstName}} {{supervisor?.lastName}}"></mat-form-field><br/>
-  <label class="wrapper-left">Autorzy pracy:</label>
-  <mat-form-field class="wrapper-width"><input matInput name="student"></mat-form-field><br/>
+  <mat-form-field class="wrapper-width">
+    <input matInput name="supervisor" value="{{supervisor?.firstName}} {{supervisor?.lastName}}">
+  </mat-form-field>
+  <br/>
+  <form #authors="ngForm" (ngSubmit)="addAuthor(authors.value.author)">
+    <label class="wrapper-left">Autorzy pracy:</label>
+    <mat-form-field class="wrapper-width">
+      <input #authorInput name="author" ngModel matInput>
+    </mat-form-field>
+    <br/>
+  </form>
   <div class="list">
-    <app-input-list #collaboratorsList orientation="vertical" (changeElements)="recieveCollaborators($event)" removable="true" hideInput="true"></app-input-list>
+    <app-input-list #authorsList orientation="vertical" (changeElements)="recieveCollaborators($event)" removable="true" hideInput="true"></app-input-list>
   </div>
 
   <div id="button-container">
@@ -15,8 +23,8 @@
 
 <div id="border">
   <h3>Usuń projekt</h3>
-  <h5>Bądź pewien, że chcesz usunąć ten projekt, ponieważ po jego usunięciu nie możesz już do niego powrócić. 
-    Wszystkie dane z nim związane (metadane projektu oraz załączniki) zostaną usunięte.</h5>
+  <h5>Bądź pewien, że chcesz usunąć ten projekt, ponieważ po jego usunięciu nie możesz już do niego powrócić. Wszystkie dane
+    z nim związane (metadane projektu oraz załączniki) zostaną usunięte.</h5>
   <div id="button-container-right">
     <button id="button-delete" mat-stroked-button (click)="deleteProject()">Bezpowrotnie usuń ten projekt</button>
   </div>
