@@ -27,9 +27,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import pg.eti.kiohub.entity.enums.Type;
+import pg.eti.kiohub.entity.enums.AttachmentType;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Attachment;
 import pg.eti.kiohub.entity.model.AttachmentFile;
@@ -47,7 +46,7 @@ public class AttachmentControler extends MainController {
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
-            @RequestParam("Type") String type,
+            @RequestParam("AttachmentType") String type,
             @RequestParam("ProjectId") String projectId,
             @RequestParam("Visibility") String visibility,
             @RequestParam("MainPhoto") String mainPhoto) {
@@ -59,7 +58,7 @@ public class AttachmentControler extends MainController {
             String filename = new File(multipartFile.getOriginalFilename()).getName();
             attachment.setFileName(filename);
             attachment.setFileSize(multipartFile.getSize());
-            attachment.setType(Type.valueOf(type));
+            attachment.setType(AttachmentType.valueOf(type));
             attachment.setProject(project);
             attachment.setVisibility(Visibility.valueOf(visibility));
             attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
@@ -125,7 +124,7 @@ public class AttachmentControler extends MainController {
     public ResponseEntity downloadPhoto(@RequestParam("id") long id, HttpServletResponse response) {
         Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
         Optional<Attachment> attachment = attachmentRepository.findById(id);
-        if (attachmentExists(attachmentFile, attachment) && attachment.get().getType() == Type.PHOTO) {
+        if (attachmentExists(attachmentFile, attachment) && attachment.get().getType() == AttachmentType.PHOTO) {
             try {
             prepareAndSaveAttachment(attachment, attachmentFile, response);
             } catch (Exception ex) {

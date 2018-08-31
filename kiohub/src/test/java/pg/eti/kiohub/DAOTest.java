@@ -5,6 +5,7 @@
  */
 package pg.eti.kiohub;
 
+import pg.eti.kiohub.entity.enums.AttachmentType;
 import pg.eti.kiohub.entity.model.UserPinnedProject;
 import pg.eti.kiohub.entity.model.ProjectSettings;
 import pg.eti.kiohub.entity.model.Licence;
@@ -24,7 +25,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import pg.eti.kiohub.entity.enums.Type;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Attachment;
 import pg.eti.kiohub.entity.model.Tag;
@@ -280,7 +280,7 @@ public class DAOTest {
         at1.setMainPhoto(Boolean.TRUE);
         at1.setProject(project);
         at1.setVisibility(Visibility.EVERYONE);
-        at1.setType(Type.PHOTO);
+        at1.setType(AttachmentType.PHOTO);
 
         Attachment at2 = new Attachment();
         at2.setFileName("instrukcja.pdf");
@@ -288,7 +288,7 @@ public class DAOTest {
         at2.setMainPhoto(Boolean.FALSE);
         at2.setProject(project);
         at2.setVisibility(Visibility.COLLABORATORS);
-        at2.setType(Type.MANUAL_STARTUP);
+        at2.setType(AttachmentType.MANUAL_STARTUP);
         
         attachments.addAll(Arrays.asList(at1, at2));
         attachmentRepository.saveAll(attachments);

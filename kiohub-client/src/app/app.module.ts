@@ -45,6 +45,7 @@ import { FooterComponent } from './footer/footer.component';
 import { FooterMainPageComponent } from './footer-main-page/footer-main-page.component';
 import { TagService } from './services/tag.service';
 import { ImageSliderComponent } from './image-slider/image-slider.component';
+import { DownloadElementComponent } from './ui-elements/download-element/download-element.component';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { ImageSliderComponent } from './image-slider/image-slider.component';
     ErrorInfoComponent,
     FooterComponent,
     FooterMainPageComponent,
-    ImageSliderComponent
+    ImageSliderComponent,
+    DownloadElementComponent
   ],
   imports: [
     BrowserModule,

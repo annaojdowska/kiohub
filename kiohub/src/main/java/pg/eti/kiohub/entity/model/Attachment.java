@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pg.eti.kiohub.entity.enums.Type;
+import pg.eti.kiohub.entity.enums.AttachmentType;
 import pg.eti.kiohub.entity.enums.Visibility;
 
 import javax.persistence.*;
@@ -40,7 +40,7 @@ public class Attachment {
     
     private String fileName;    
     private Long fileSize;    
-    private Type type;    
+    private AttachmentType type;
     private Visibility visibility;
     
     @Column(name = "is_main_photo")

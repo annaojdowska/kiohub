@@ -2,6 +2,13 @@ h2 {
     padding-bottom: 20px;
 }
 
+h3 {
+    font-size: 20px;
+    color: var(--color-orange);
+    display: inline;
+    vertical-align: middle;
+}
+
 h4 {
     display: inline;
     vertical-align: middle;
@@ -30,22 +37,31 @@ th, .description_content {
 }
 
 /* #1 ?  #2 pierwsza kolumna  */
-table > *:first-child:not(thead) th:first-child { /*h5*/
+
+table>*:first-child:not(thead) th:first-child {
+    /*h5*/
     text-align: right;
     vertical-align: top;
     color: #7a7a7a;
     padding-right: 10px;
-  }
+}
 
-  /* #1 ?  #2 n-ta kolumna, n = 2  */
-  table > *:first-child:not(thead) th:nth-child(2), .description_content { /*h6*/
+/* #1 ?  #2 n-ta kolumna, n = 2  */
+
+table>*:first-child:not(thead) th:nth-child(2), .description_content {
+    /*h6*/
     text-align: left;
     color: black;
     list-style-type: none;
-  }
+}
 
-  #wrapper_width {
-      width: 80%;
-      margin-left: auto;
-      margin-right: auto;
-  }
+#wrapper_width {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#elements_to_download {
+    float: left;
+    display: block;
+}
