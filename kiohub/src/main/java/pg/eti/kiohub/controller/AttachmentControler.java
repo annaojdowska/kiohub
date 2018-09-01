@@ -98,6 +98,7 @@ public class AttachmentControler extends MainController {
         if (attachmentExists(attachmentFile, attachment)) {
             try {
                 prepareAndSaveAttachment(attachment, attachmentFile, response);
+                return new ResponseEntity<>(HttpStatus.OK);
             } catch (Exception ex) {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
             }
