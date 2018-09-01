@@ -29,11 +29,30 @@ img {
     display: inline-block;
 }
 
-th, .description_content {
+th, .description_content, label {
     margin-top: 10px;
     font-weight: normal;
     font-size: var(--normal-font-size);
     font-family: var(--main-font-name), sans-serif;
+}
+
+label {
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#img-show {
+    cursor: pointer;
+}
+
+#wrapper-padding-top {
+    padding-top: 20px;
+}
+
+#content {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 15px;
 }
 
 /* #1 ?  #2 pierwsza kolumna  */

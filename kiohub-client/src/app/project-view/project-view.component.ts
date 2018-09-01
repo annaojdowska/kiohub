@@ -6,11 +6,23 @@ import { ActivatedRoute } from '../../../node_modules/@angular/router';
 import { ProjectService } from '../services/project.service';
 import { DownloadElementComponent } from '../ui-elements/download-element/download-element.component';
 import { AttachmentType } from '../model/attachment-type.enum';
+import { trigger, transition, style, animate } from '../../../node_modules/@angular/animations';
 
 @Component({
   selector: 'app-project-view',
   templateUrl: './project-view.component.html',
-  styleUrls: ['./project-view.component.css']
+  styleUrls: ['./project-view.component.css'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({height: '0px'}),
+      animate('500ms linear', style({height: '*'}))
+      ]),
+      transition(':leave', [
+      animate('500ms linear', style({height: '0px'}))
+      ])
+    ])
+  ]
 })
 export class ProjectViewComponent implements OnInit {
   @ViewChild('downloadThesis') downloadThesis: DownloadElementComponent;

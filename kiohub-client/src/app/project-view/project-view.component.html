@@ -3,94 +3,98 @@
 <div id="wrapper_width">
     <app-image-slider></app-image-slider>
     <div class="component">
-        <img src="assets/information.png" />
-        <h4>Opis pracy (polski)</h4>
         <div class="description_content">{{project?.description}}</div>
-    </div>
-    <div class="component">
-        <img src="assets/information.png" />
-        <h4>Opis pracy (angielski)</h4>
-        <div class="description_content">{{project?.descriptionENG}}</div>
-    </div>
-    <div class="wrapper_width_element component">
-        <img src="assets/authors.png" />
-        <h4>Autorzy</h4>
-        <table>
-            <tbody>
-                <tr>
-                    <th>
-                        Promotor
-                    </th>
-                    <th>
-                        {{supervisor?.firstName}} {{supervisor?.lastName}}
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        Autorzy
-                    </th>
-                    <th>
-                        <li *ngFor="let user of collaborators">
-                            {{user?.firstName}} {{user?.lastName}}
-                        </li>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div id="wrapper-padding-top">
+            <img id="img-show" (click)="show = !show" [src]="show ? 'assets/up-arrow.png' :'assets/down-arrow.png'" />
+            <label (click)="show = !show"> {{ show ? 'Zwiń opis w języku angielskim' : 'Pokaż opis w języku angielskim' }}</label>
+        </div>
+        <div *ngIf="show" [@fadeInOut]>
+            <div id="content">
+            <h3>{{project?.titleEng}}</h3>
+            <div class="description_content">
+                {{project?.descriptionEng}}
+            </div>
+        </div>
+        </div>
+        <div id="wrapper-padding-top" class="wrapper_width_element component">
+            <img src="assets/authors.png" />
+            <h4>Autorzy</h4>
+            <table>
+                <tbody>
+                    <tr>
+                        <th>
+                            Promotor
+                        </th>
+                        <th>
+                            {{supervisor?.firstName}} {{supervisor?.lastName}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Autorzy
+                        </th>
+                        <th>
+                            <li *ngFor="let user of collaborators">
+                                {{user?.firstName}} {{user?.lastName}}
+                            </li>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <div class="wrapper_width_element component">
-        <img src="assets/information.png" />
-        <h4>Informacje szczegółowe</h4>
-        <table>
-            <tbody>
-                <tr>
-                    <th>
-                        Typ pracy
-                    </th>
-                    <th>
-                        {{project?.projectType?.name}}
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        Data publikacji
-                    </th>
-                    <th>
-                        {{project?.publicationDate | date : "dd.MM.y r."}}
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        Semestry wytwarzania
-                    </th>
-                    <th>
-                        <li *ngFor="let semester of project?.semesters">
-                            {{semester?.name}}
-                        </li>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        Tagi
-                    </th>
-                    <th>
-                        <li *ngFor="let tag of project?.tags">
-                            {{tag?.name}}
-                        </li>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="wrapper_width_element component">
+            <img src="assets/information.png" />
+            <h4>Informacje szczegółowe</h4>
+            <table>
+                <tbody>
+                    <tr>
+                        <th>
+                            Typ pracy
+                        </th>
+                        <th>
+                            {{project?.projectType?.name}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Data publikacji
+                        </th>
+                        <th>
+                            {{project?.publicationDate | date : "dd.MM.y r."}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Semestry wytwarzania
+                        </th>
+                        <th>
+                            <li *ngFor="let semester of project?.semesters">
+                                {{semester?.name}}
+                            </li>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Tagi
+                        </th>
+                        <th>
+                            <li *ngFor="let tag of project?.tags">
+                                {{tag?.name}}
+                            </li>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <div class="component">
-        <img src="assets/download.png" />
-        <h4>Pliki do pobrania</h4>
-        <app-download-element #downloadThesis title="Praca dyplomowa"></app-download-element>
-        <app-download-element #downloadSourceCode title="Program i/lub kod programu"></app-download-element>
-        <app-download-element #downloadUsage title="Instrukcja obsługi programu"></app-download-element>
-        <app-download-element #downloadStartup title="Instrukcja uruchomienia programu i opis wymaganego środowiska uruchomieniowego"></app-download-element>
-        <app-download-element #downloadOther title="Inne załączniki"></app-download-element>
+        <div class="component">
+            <img src="assets/download.png" />
+            <h4>Pliki do pobrania</h4>
+            <app-download-element #downloadThesis title="Praca dyplomowa"></app-download-element>
+            <app-download-element #downloadSourceCode title="Program i/lub kod programu"></app-download-element>
+            <app-download-element #downloadUsage title="Instrukcja obsługi programu"></app-download-element>
+            <app-download-element #downloadStartup title="Instrukcja uruchomienia programu i opis wymaganego środowiska uruchomieniowego"></app-download-element>
+            <app-download-element #downloadOther title="Inne załączniki"></app-download-element>
+        </div>
     </div>
-</div>
