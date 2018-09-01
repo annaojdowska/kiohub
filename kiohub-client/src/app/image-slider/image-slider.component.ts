@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AttachmentService } from '../services/attachment.service';
 import { Attachment } from '../model/attachment.interface';
+// import { SliderModule } from 'angular-image-slider';
 
 @Component({
   selector: 'app-image-slider',
@@ -8,19 +9,15 @@ import { Attachment } from '../model/attachment.interface';
   styleUrls: ['./image-slider.component.css']
 })
 export class ImageSliderComponent implements OnInit {
+  // @ViewChild('slider') slider: DownloadElementComponent;
   imagesUrl: string[];
-  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) { }
   imageToShow;
+  // visibility = 'false';
 
+  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) { 
+    this.imagesUrl = [];}
   ngOnInit() {
-    this.imagesUrl = [
-
-    ];
-    // [
-    //   '../assets/add-photo.png',
-    //   '../assets/add-project.png',
-    //   '../assets/add.png',
-    //   ];
+    this.imagesUrl = [];
   }
 
   setImages(attachments: Attachment[]) {
@@ -33,6 +30,7 @@ export class ImageSliderComponent implements OnInit {
           this.imageToShow = reader.result;
           // dodanie obrazka do tablicy obrazków do wyświetlenia
           this.imagesUrl.push(this.imageToShow);
+         // this.visibility = 'false';
         }, false);
 
         if (image) {
@@ -40,6 +38,9 @@ export class ImageSliderComponent implements OnInit {
         }
       }, error => console.log('No such file on server'));
     }
+    // if (this.imagesUrl.length === 0) {
+    //   this.visibility = 'true';
+    // }
     console.log(this.imagesUrl);
   }
 }

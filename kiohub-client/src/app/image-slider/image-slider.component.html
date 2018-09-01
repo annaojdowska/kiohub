@@ -1,1 +1,13 @@
-<angular-image-slider [images]="imagesUrl"><img src={{imageToShow}}></angular-image-slider>
+<div hidden="{{visibility}}">
+    <!-- <angular-image-slider #slider [images]="imagesUrl"><img src={{imageToShow}}></angular-image-slider> -->
+    <slideshow [height]="'25vw'"
+           [minHeight]="'25vw'"
+           [showArrows]="true"
+           [imageUrls]="imagesUrl"
+           [lazyLoad]="imageSources?.length > 1"
+           [autoPlayWaitForLazyLoad]="true"
+           [showDots]="true"
+           [backgroundSize]="'25vw'"
+           [arrowSize]="'50px'">
+</slideshow>
+</div>

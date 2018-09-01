@@ -47,6 +47,7 @@ import { TagService } from './services/tag.service';
 import { ImageSliderComponent } from './image-slider/image-slider.component';
 import { DownloadElementComponent } from './ui-elements/download-element/download-element.component';
 import { SliderModule } from 'angular-image-slider';
+import { SlideshowModule } from 'ng-simple-slideshow';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { SliderModule } from 'angular-image-slider';
     MatTableModule,
     MatPaginatorModule,
     BrowserModule,
-    SliderModule
+    SliderModule,
+    SlideshowModule
   ],
   providers: [
     SearchService,
