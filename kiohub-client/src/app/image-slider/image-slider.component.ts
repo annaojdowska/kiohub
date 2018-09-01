@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./image-slider.component.css']
 })
 export class ImageSliderComponent implements OnInit {
-
+  public imagesUrl;
   constructor() { }
 
   ngOnInit() {
+    this.imagesUrl = [
+      '../assets/add-photo.png',
+      '../assets/add-project.png',
+      '../assets/add.png',
+      ];
   }
 
 }

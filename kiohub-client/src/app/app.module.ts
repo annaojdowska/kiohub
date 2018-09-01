@@ -46,7 +46,7 @@ import { FooterMainPageComponent } from './footer-main-page/footer-main-page.com
 import { TagService } from './services/tag.service';
 import { ImageSliderComponent } from './image-slider/image-slider.component';
 import { DownloadElementComponent } from './ui-elements/download-element/download-element.component';
-
+import { SliderModule } from 'angular-image-slider';
 
 @NgModule({
   declarations: [
@@ -95,7 +95,9 @@ import { DownloadElementComponent } from './ui-elements/download-element/downloa
     MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    BrowserModule,
+    SliderModule
   ],
   providers: [
     SearchService,
