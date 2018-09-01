@@ -1,4 +1,4 @@
-<div hidden="{{visibility}}">
+<div id="content" hidden="{{visibility}}">
     <!-- <angular-image-slider #slider [images]="imagesUrl"><img src={{imageToShow}}></angular-image-slider> -->
     <slideshow [height]="'25vw'"
            [minHeight]="'25vw'"
@@ -7,7 +7,10 @@
            [lazyLoad]="imageSources?.length > 1"
            [autoPlayWaitForLazyLoad]="true"
            [showDots]="true"
-           [backgroundSize]="'25vw'"
-           [arrowSize]="'50px'">
+           [backgroundSize]="'contain'"
+           [arrowSize]="'30px'"
+           [backgroundRepeat]="'repeat'"
+           [dotColor]="'#FFF'"
+           [autoPlay]="'true'">
 </slideshow>
 </div>
