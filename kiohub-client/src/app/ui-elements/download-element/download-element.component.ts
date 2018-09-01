@@ -19,11 +19,11 @@ export class DownloadElementComponent implements OnInit {
     this.attachments = [];
   }
 
-  refreshAttachments(attachments: Attachment[]) {
+  setAttachments(attachments: Attachment[]) {
     if (attachments !== null) {
       this.attachments = attachments;
       // this.container.nativeElement.style.add = 'elo ziomeczki co tam!';
-      console.log(this.container);
+      // console.log(this.container);
     } else {
       console.log('null!');
     }

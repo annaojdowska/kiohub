@@ -1,7 +1,7 @@
 <h2>{{project?.title}}</h2>
 
 <div id="wrapper_width">
-    <app-image-slider></app-image-slider>
+    <app-image-slider #slider></app-image-slider>
     <div class="component">
         <div class="description_content">{{project?.description}}</div>
         <div id="wrapper-padding-top">
@@ -76,7 +76,7 @@
                     </tr>
                     <tr>
                         <th>
-                            Tagi
+                            Tagis
                         </th>
                         <th>
                             <li *ngFor="let tag of project?.tags">

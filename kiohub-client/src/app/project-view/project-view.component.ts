@@ -7,6 +7,7 @@ import { ProjectService } from '../services/project.service';
 import { DownloadElementComponent } from '../ui-elements/download-element/download-element.component';
 import { AttachmentType } from '../model/attachment-type.enum';
 import { trigger, transition, style, animate } from '../../../node_modules/@angular/animations';
+import { ImageSliderComponent } from '../image-slider/image-slider.component';
 
 @Component({
   selector: 'app-project-view',
@@ -15,11 +16,11 @@ import { trigger, transition, style, animate } from '../../../node_modules/@angu
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
-        style({height: '0px'}),
-      animate('500ms linear', style({height: '*'}))
+        style({ height: '0px' }),
+        animate('500ms linear', style({ height: '*' }))
       ]),
       transition(':leave', [
-      animate('500ms linear', style({height: '0px'}))
+        animate('500ms linear', style({ height: '0px' }))
       ])
     ])
   ]
@@ -30,6 +31,7 @@ export class ProjectViewComponent implements OnInit {
   @ViewChild('downloadUsage') downloadUsage: DownloadElementComponent;
   @ViewChild('downloadStartup') downloadStartup: DownloadElementComponent;
   @ViewChild('downloadOther') downloadOther: DownloadElementComponent;
+  @ViewChild('slider') imageSlider: ImageSliderComponent;
 
   supervisor: User;
   collaborators: User[];
@@ -39,12 +41,6 @@ export class ProjectViewComponent implements OnInit {
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(ProjectService) private projectService: ProjectService) {
-
-    // this.route.params.subscribe(routeParams => {
-    //      this.id = routeParams.id;
-    //      this.project = this.projectService.getProjectByIdFromCache(this.id);
-    //      this.initData(this.id);
-    // });
   }
 
   ngOnInit(): void {
@@ -55,16 +51,28 @@ export class ProjectViewComponent implements OnInit {
         this.initData(this.project.id);
         this.downloadThesis.attachments = this.project.attachments;
 
-        this.downloadThesis.refreshAttachments(this.project.attachments.filter(
-          attachment => attachment.type === AttachmentType.THESIS));
-        this.downloadSourceCode.refreshAttachments(this.project.attachments.filter(
-          attachment => attachment.type === AttachmentType.SOURCE_CODE));
-        this.downloadUsage.refreshAttachments(this.project.attachments.filter(
-          attachment => attachment.type === AttachmentType.MANUAL_USAGE));
-        this.downloadStartup.refreshAttachments(this.project.attachments.filter(
-          attachment => attachment.type === AttachmentType.MANUAL_STARTUP));
-        this.downloadOther.refreshAttachments(this.project.attachments.filter(
-          attachment => attachment.type === AttachmentType.OTHER));
+        console.log('przed');
+        // console.log(this.project.attachments.filter(
+        //   attachment => attachment.type === AttachmentType.PHOTO).;
+
+        this.imageSlider.setImages(this.project.attachments.filter(
+          attachment => attachment.type === AttachmentType.PHOTO)
+        );
+        this.downloadThesis.setAttachments(this.project.attachments.filter(
+          attachment => attachment.type === AttachmentType.THESIS)
+        );
+        this.downloadSourceCode.setAttachments(this.project.attachments.filter(
+          attachment => attachment.type === AttachmentType.SOURCE_CODE)
+        );
+        this.downloadUsage.setAttachments(this.project.attachments.filter(
+          attachment => attachment.type === AttachmentType.MANUAL_USAGE)
+        );
+        this.downloadStartup.setAttachments(this.project.attachments.filter(
+          attachment => attachment.type === AttachmentType.MANUAL_STARTUP)
+        );
+        this.downloadOther.setAttachments(this.project.attachments.filter(
+          attachment => attachment.type === AttachmentType.OTHER)
+        );
       });
     });
     // FIXME a co jak error?
