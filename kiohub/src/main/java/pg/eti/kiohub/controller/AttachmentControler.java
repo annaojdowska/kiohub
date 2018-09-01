@@ -46,7 +46,7 @@ public class AttachmentControler extends MainController {
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
-            @RequestParam("AttachmentType") AttachmentType type,
+            @RequestParam("Type") AttachmentType type,
             @RequestParam("ProjectId") String projectId,
             @RequestParam("Visibility") String visibility,
             @RequestParam("MainPhoto") String mainPhoto) {
@@ -131,8 +131,7 @@ public class AttachmentControler extends MainController {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);    }
 
     private void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt, Optional<AttachmentFile> attachmentFileOpt, HttpServletResponse response) throws SQLException, IOException {
         Attachment attachment = attachmentOpt.get();

@@ -109,6 +109,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
               this.instructionsList.add({ id: at.id, name: at.fileName });
               break;
             }
+            case AttachmentType.MANUAL_STARTUP: {	
+              this.instructionsStartList.add({ id: at.id, name: at.fileName });	
+              break;
+            }
           }
         });
      });
