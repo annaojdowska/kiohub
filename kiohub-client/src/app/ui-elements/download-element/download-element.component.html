@@ -1,11 +1,11 @@
-<div id="container">
+<div #container id="container">
   <h3>
     {{title}}
   </h3>
   <div id="elements_to_download_list">
     <li id="files_to_download" *ngFor="let attachment of attachments">
       <div id="element_to_download">
-        <button (click)="downloadFile(attachment.id)">Pobierz</button>
+        <button mat-raised-button (click)="downloadFile(attachment)">Pobierz</button>
         <h5>{{attachment?.fileName}}</h5>
       </div>
     </li>

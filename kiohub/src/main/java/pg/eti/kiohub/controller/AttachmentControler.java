@@ -131,8 +131,7 @@ public class AttachmentControler extends MainController {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);    }
 
     private void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt, Optional<AttachmentFile> attachmentFileOpt, HttpServletResponse response) throws SQLException, IOException {
         Attachment attachment = attachmentOpt.get();
