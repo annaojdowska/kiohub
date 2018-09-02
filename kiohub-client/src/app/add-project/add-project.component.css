@@ -30,3 +30,7 @@ table > *:first-child:not(thead) th:nth-child(3),  {
 #button-container {
     text-align: center;
 }
+
+.submit-button-collaborator {
+    margin-bottom: 10px;
+}
