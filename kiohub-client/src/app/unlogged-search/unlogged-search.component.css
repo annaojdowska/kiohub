@@ -1,4 +1,4 @@
-img{
+#img{
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -33,8 +33,18 @@ h2{
     margin-top: 15px;
 }
 
-h5 {
+a {
     color: black;
     font-size: 14px;
     text-decoration: underline;
+    margin-left: 5px;
+    font-family: var(--main-font-name), sans-serif;
+    font-size: var(--normal-font-size);
+    font-weight: normal;
+    padding-top: 0;
+    vertical-align: middle;
+}
+
+#search {
+    vertical-align: middle;
 }
