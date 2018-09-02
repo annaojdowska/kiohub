@@ -21,6 +21,7 @@ import { TagService } from '../services/tag.service';
 import { Tag } from '../model/tag.interface';
 import { ActivatedRoute } from '../../../node_modules/@angular/router';
 import { Semester } from '../model/semester.interface';
+import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -48,6 +49,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('projectType') projectType: any;
   @ViewChild('licence') licence: any;
   @ViewChild('semestersList') semestersList: InputListComponent;
+  @ViewChild('semesterChooser') semesterChooser: SemesterChooserComponent;
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
@@ -85,7 +87,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
           this.tagsList.add({ id: tag.id, name: tag.name });
         });
         result.semesters.forEach(semester => {
-          this.showAddedSemester(semester);
+          this.semesterChooser.chooseSemester(semester);
         });
         result.attachments.forEach(at => {
           switch (at.type) {

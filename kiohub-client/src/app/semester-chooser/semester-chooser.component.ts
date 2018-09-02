@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter, Input, AfterContentInit } from '@angular/core';
 import { Semester } from '../model/semester.interface';
 import { SemesterService } from '../services/semester-service';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -7,23 +7,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'app-semester-chooser',
   templateUrl: './semester-chooser.component.html',
-  styleUrls: ['./semester-chooser.component.css'],
-  animations: [
-    trigger(
-      'enterAnimation', [
-        transition(':enter', [
-          style({transform: 'translateX(100%)', opacity: 0}),
-          animate('500ms', style({transform: 'translateX(0)', opacity: 1}))
-        ]),
-        transition(':leave', [
-          style({transform: 'translateX(0)', opacity: 1}),
-          animate('500ms', style({transform: 'translateX(100%)', opacity: 0}))
-        ]),
-      ]
-    )
-  ],
+  styleUrls: ['./semester-chooser.component.css']
 })
-export class SemesterChooserComponent implements OnInit {
+export class SemesterChooserComponent implements OnInit, AfterContentInit {
   @Output() semesterAdded = new EventEmitter<Semester>();
   @Output() semesterRemoved = new EventEmitter<Semester>();
   @Input() semestersFromParent: Semester[];
@@ -42,6 +28,9 @@ export class SemesterChooserComponent implements OnInit {
 
   ngOnInit() {
     this.semesterService.getSemesters().subscribe(result => this.semesters = result);
+  }
+
+  ngAfterContentInit(): void {
     this.chosenSemesters = this.semestersFromParent;
   }
 

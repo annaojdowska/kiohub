@@ -119,7 +119,8 @@
     <br/>
     <br/>
     <div id="semestersContainer" *ngIf="semestersHidden != false">
-        <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)" (semesterRemoved)="removeAddedSemester($event)"></app-semester-chooser>
+        <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)" 
+        (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
         <a (click)="saveSemesters()"><button type="button" id="save_semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź wybór</button></a>
     </div>
     <app-input-list [removable]="false" hideInput="true" #semestersList></app-input-list>
