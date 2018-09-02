@@ -1,9 +1,21 @@
 USE kiohub;
 
+TRUNCATE TABLE notes;
+TRUNCATE TABLE user_pinned_projects;
+TRUNCATE TABLE project_collaborators;
+TRUNCATE TABLE users;
+TRUNCATE TABLE attachments_files;
+TRUNCATE TABLE attachments;
+TRUNCATE TABLE related_projects;
+TRUNCATE TABLE project_semesters;
+TRUNCATE TABLE project_settings;
+TRUNCATE TABLE project_tags;
+TRUNCATE TABLE tags;
 TRUNCATE TABLE semesters;
-TRUNCATE TABLE licences;
+TRUNCATE TABLE projects;
 TRUNCATE TABLE project_types;
 TRUNCATE TABLE project_status;
+TRUNCATE TABLE licences;
 
 INSERT INTO project_types (name) VALUES ('Praca inżynierska');
 INSERT INTO project_types (name) VALUES ('Praca magisterska');
@@ -13,6 +25,7 @@ INSERT INTO project_status (name) VALUES ('W trakcie');
 INSERT INTO project_status (name) VALUES ('Zakończony');
 INSERT INTO project_status (name) VALUES ('Problematyczny');
 INSERT INTO project_status (name) VALUES ('Skasowany');
+
 INSERT INTO semesters (name) VALUES ('1990/1991 - zimowy'); 
 INSERT INTO semesters (name) VALUES ('1990/1991 - letni'); 
 INSERT INTO semesters (name) VALUES ('1991/1992 - zimowy'); 
@@ -670,12 +683,3 @@ INSERT INTO licences (name) VALUES ('SIL Open Font License 1.1');
 INSERT INTO licences (name) VALUES ('University of Illinois/NCSA Open Source License');
 INSERT INTO licences (name) VALUES ('The Unlicense');
 INSERT INTO licences (name) VALUES ('zLib License');
-
-INSERT INTO project_types (name) VALUES ('Praca inżynierska');
-INSERT INTO project_types (name) VALUES ('Praca magisterska');
-INSERT INTO project_types (name) VALUES ('Projekt grupowy');
-
-INSERT INTO project_status (name) VALUES ('W trakcie');
-INSERT INTO project_status (name) VALUES ('Zakończony');
-INSERT INTO project_status (name) VALUES ('Problematyczny');
-INSERT INTO project_status (name) VALUES ('Skasowany');
