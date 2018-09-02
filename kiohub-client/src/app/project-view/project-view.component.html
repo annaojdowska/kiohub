@@ -9,7 +9,7 @@
             <label (click)="show = !show"> {{ show ? 'Zwiń opis w języku angielskim' : 'Pokaż opis w języku angielskim' }}</label>
         </div>
         <div *ngIf="show" [@fadeInOut]>
-            <div id="content">
+            <div id="content" class="description-english">
             <h3>{{project?.titleEng}}</h3>
             <div class="description_content">
                 {{project?.descriptionEng}}

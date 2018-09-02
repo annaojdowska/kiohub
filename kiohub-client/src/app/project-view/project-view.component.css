@@ -84,3 +84,8 @@ table>*:first-child:not(thead) th:nth-child(2), .description_content {
     float: left;
     display: block;
 }
+
+.description-english {
+    height: 100%;
+    overflow: hidden;
+}
