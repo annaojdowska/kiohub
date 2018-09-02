@@ -1,9 +1,7 @@
 #container{
-    /* border-style: solid;
-    border-width: 1px;
-    border-color: rgba(0,0,0,.12); */
+    max-width: 60vw;
     display: inline-grid;
-    width:50%;
+    width:55%;
     height: auto;
     text-align: center;
     margin-left: auto;

@@ -87,7 +87,7 @@ img, .verticalMiddle {
     vertical-align: top;
 }
 
-#save_semesters {
+#save-semesters {
     float: left;
     color: black;
     font-size: 12px;
@@ -96,6 +96,11 @@ img, .verticalMiddle {
     background-color: transparent !important;
 }
 
-#save_semesters:hover {
+#save-semesters:hover {
     cursor: pointer;
+}
+
+#semesters-container {
+    max-width: 80vw;
+    display: contents;
 }
