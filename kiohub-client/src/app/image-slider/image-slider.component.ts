@@ -12,16 +12,18 @@ export class ImageSliderComponent implements OnInit {
   // @ViewChild('slider') slider: DownloadElementComponent;
   imagesUrl: string[];
   imageToShow;
-  // visibility = 'false';
+  hidden;
 
-  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) { 
-    this.imagesUrl = [];}
+  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) {
+    this.imagesUrl = [];
+    this.hidden = false;
+  }
   ngOnInit() {
     this.imagesUrl = [];
   }
 
   setImages(attachments: Attachment[]) {
-
+     this.manageSliderVisibility(attachments);
     for (const attachment of attachments) {
       this.attachmentService.getAttachment(attachment.id).subscribe((image: Blob) => {
         // zamiana bloba na obrazek do wyświetlenia w base64
@@ -30,7 +32,6 @@ export class ImageSliderComponent implements OnInit {
           this.imageToShow = reader.result;
           // dodanie obrazka do tablicy obrazków do wyświetlenia
           this.imagesUrl.push(this.imageToShow);
-         // this.visibility = 'false';
         }, false);
 
         if (image) {
@@ -38,9 +39,15 @@ export class ImageSliderComponent implements OnInit {
         }
       }, error => console.log('No such file on server'));
     }
-    // if (this.imagesUrl.length === 0) {
-    //   this.visibility = 'true';
-    // }
     console.log(this.imagesUrl);
+  }
+
+  manageSliderVisibility(attachments: Attachment[]) {
+    console.log(attachments.length);
+    if (attachments.length > 0) {
+      this.hidden = false;
+    } else {
+      this.hidden = true;
+    }
   }
 }

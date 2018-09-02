@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class MenuBarComponent implements OnInit {
   pathToLogo: string;
   constructor() {
-    this.pathToLogo = '../../assets/kio_logo.png';
+    this.pathToLogo = '../../assets/logo/logo4.png';
    }
   ngOnInit() {
   }
