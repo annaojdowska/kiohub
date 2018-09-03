@@ -33,15 +33,8 @@ export class AdvancedSearchComponent implements OnInit {
   ngOnInit() {
     this.searchService.getAllProjects().subscribe(result => {this.searchResults = result;
       this.dataSource = new MatTableDataSource<Project>(this.searchResults);
-      this.dataSource.paginator = this.paginator;
-      this.translatePaginatorLabels(); });
+      this.dataSource.paginator = this.paginator; });
   }
 
-  private translatePaginatorLabels() {
-    this.paginator._intl.itemsPerPageLabel = 'Liczba elementów na stronie:';
-    this.paginator._intl.firstPageLabel = 'Pierwsza strona';
-    this.paginator._intl.lastPageLabel = 'Ostatnia strona';
-    this.paginator._intl.nextPageLabel = 'Następna strona';
-    this.paginator._intl.previousPageLabel = 'Poprzednia strona';
-  }
+
 }

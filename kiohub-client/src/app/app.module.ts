@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
   MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule, MatDatepickerModule,
-  MatNativeDateModule, MatTableModule, MatPaginatorModule} from '@angular/material';
+  MatNativeDateModule, MatTableModule, MatPaginatorModule, MatPaginatorIntl} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -48,6 +48,7 @@ import { ImageSliderComponent } from './image-slider/image-slider.component';
 import { DownloadElementComponent } from './ui-elements/download-element/download-element.component';
 import { SliderModule } from 'angular-image-slider';
 import { SlideshowModule } from 'ng-simple-slideshow';
+import { getPolishPaginatorIntl } from './advanced-search/polish-paginator-intl';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { SlideshowModule } from 'ng-simple-slideshow';
       }
     },
     { provide: MAT_DATE_LOCALE, useValue: 'pl' },
+    { provide: MatPaginatorIntl, useValue: getPolishPaginatorIntl() },
   ],
   bootstrap: [AppComponent]
 })
