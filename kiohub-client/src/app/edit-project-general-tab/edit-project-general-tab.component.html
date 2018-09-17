@@ -64,11 +64,11 @@
         <img class="cursor" src="assets/add-photo.png" />
         <input (change)="addImage($event)" id="file-input" type="file" />
     </label>
-    <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu
+    <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu oraz wybierz zdjęcie wyświetlające się na liście projektów
         <input type="file" />
     </label>
     <div class="list">
-        <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true" hideInput="true"></app-input-list>
+        <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true" selectable="true" hideInput="true"></app-input-list>
     </div>
 
     <label class="file-upload">

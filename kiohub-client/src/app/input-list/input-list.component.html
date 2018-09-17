@@ -6,15 +6,25 @@
           [removable]="removable"
           (removed)="remove(fruit)"
           [disableRipple]="true"
-          class = "chip-{{orientation}} chip">
-          
-          <div class='chip-text'>
+          class = "chip-{{orientation}} chip-{{fruit.selected}}  chip" 
+          (click)="select(fruit)">
+          <img src="assets/radio-on-button-smaller.png" *ngIf='fruit.selected && selectable' class="chip-image chip-radio"/>
+          <img src="assets/radio-off-button-smaller.png" *ngIf='!fruit.selected && selectable' class="chip-image chip-radio"/>
+          <div class='chip-text'> 
               {{fruit.name}}
           </div>
-          <img src="assets/delete-button-smaller.png" matChipRemove *ngIf="removable == 'true'" class="chip-remove"/>
+          <img src="assets/delete-button-smaller.png" matChipRemove *ngIf="removable == 'true'" class="chip-remove chip-image"/>
         </mat-chip>
       </div>
+      
       </mat-chip-list>
+
+      
+
+
+
+
+
 
 
 

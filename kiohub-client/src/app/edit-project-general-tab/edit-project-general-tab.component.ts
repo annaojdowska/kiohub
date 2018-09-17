@@ -284,7 +284,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
     this.imagesList.elements.forEach(th => {
       if (!th.id) {
-        this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, Visibility.EVERYONE, false)
+        this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, Visibility.EVERYONE,
+          th.selected ? th.selected : false)
           .subscribe(data => { },
             error => {
               console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);

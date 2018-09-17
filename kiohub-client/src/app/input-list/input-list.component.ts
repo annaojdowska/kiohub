@@ -14,10 +14,10 @@ export class InputListComponent implements OnInit {
   @Input() removable = false;
   @Input() orientation = 'horizontal';
   @Input() placeholder = 'Kolejne adresy e-mail rozdziel przecinkami, spacjami lub wciśnij enter';
+  @Input() selectable = false;
   focusedStyle = '';
   elements: InputListElement[] = [];
   visible = true;
-  selectable = false;
   addOnBlur = false;
 
   constructor() {}
@@ -27,6 +27,12 @@ export class InputListComponent implements OnInit {
 
   add(element: InputListElement): void {
     if (element.name !== '') {
+      if (element.selected) {
+        this.select(element);
+      }
+      else {
+        element.selected = false;
+      }
       this.elements.push(element);
     }
   }
@@ -36,6 +42,13 @@ export class InputListComponent implements OnInit {
 
     if (index >= 0) {
       this.elements.splice(index, 1);
+    }
+  }
+
+  select(element: InputListElement): void {
+    if (this.selectable) {
+      const index = this.elements.indexOf(element);
+      this.elements.forEach(e => e.selected = (index === this.elements.indexOf(e)));
     }
   }
 
