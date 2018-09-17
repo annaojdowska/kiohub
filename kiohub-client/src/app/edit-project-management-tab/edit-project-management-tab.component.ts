@@ -44,7 +44,8 @@ export class EditProjectManagementTabComponent implements OnInit {
     });
   }
 
-  addAuthor(author) {
+  addAuthor() {
+    const author = this.authorInput.nativeElement.value;
     this.authorInput.nativeElement.value = '';
     this.authorsList.add({name: author});
   }

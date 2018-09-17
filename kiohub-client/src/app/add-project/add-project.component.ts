@@ -27,7 +27,8 @@ export class AddProjectComponent implements OnInit {
   ngOnInit() {
   }
 
-  addAuthor(author) {
+  addAuthor() {
+    const author = this.authorInput.nativeElement.value;
     this.authorInput.nativeElement.value = '';
     this.authorsList.add({name: author});
   }

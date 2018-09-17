@@ -5,7 +5,7 @@
     <input matInput name="supervisor" value="{{supervisor?.firstName}} {{supervisor?.lastName}}">
   </mat-form-field>
   <br/>
-  <form #authors="ngForm" (ngSubmit)="addAuthor(authors.value.author)">
+  <form #authors="ngForm" (ngSubmit)="addAuthor()">
     <label class="wrapper-left">Autorzy pracy:</label>
     <mat-form-field class="wrapper-width">
       <input #authorInput name="author" ngModel matInput>
