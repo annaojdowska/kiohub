@@ -86,7 +86,7 @@ CREATE TABLE related_projects (
 CREATE TABLE attachments (
     attachment_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
     file_name NVARCHAR(255) NOT NULL,
-    file_size MEDIUMINT UNSIGNED NOT NULL,
+    file_size BIGINT UNSIGNED NOT NULL,
     type NVARCHAR(30) NOT NULL,
     visibility INT,
     is_main_photo BIT,
