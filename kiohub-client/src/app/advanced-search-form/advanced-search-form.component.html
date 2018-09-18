@@ -1,7 +1,7 @@
 
 <div id="advanced-search">
 
-  <form>
+<div class="form">
     <mat-form-field class="leftLabel"><input matInput placeholder="Promotor" #supervisorInput (keyup.enter)="addSupervisor()"></mat-form-field>
     <mat-form-field class="leftLabel paddingLeft"><input matInput placeholder="Tag" #tagInput (keyup.enter)="addTag()"></mat-form-field>
     <mat-form-field class="rightLabel" id="textLeft"><input matInput placeholder="Tytuł zawiera..." #titleInput (keyup.enter)="addTitle()"></mat-form-field>
@@ -18,12 +18,12 @@
     <mat-form-field class="rightLabel" id="textLeft"><input matInput placeholder="Opis zawiera..." #descriptionInput (keyup.enter)="addDescription()"></mat-form-field>
     <label class="center">Data publikacji:</label>    
     <mat-form-field class="leftLabel">
-      <input matInput [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="dateFromChanged('change', $event)" disabled>
+      <input #dateInput1 matInput [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="dateFromChanged('change', $event)" disabled>
       <mat-datepicker-toggle matSuffix [for]="datePicker1"></mat-datepicker-toggle>
       <mat-datepicker #datePicker1 disabled="false"></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="leftLabel paddingLeft">
-      <input matInput [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="dateToChanged('change', $event)" disabled>
+      <input #dateInput2 matInput [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="dateToChanged('change', $event)" disabled>
       <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
       <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
     </mat-form-field>     
@@ -65,8 +65,8 @@
     </tr>
   </table>
   <div id="buttonsContainer">
-    <button type="submit" mat-stroked-button class="submit-button" (click)="submit()">Zastosuj filtry</button>
+    <button mat-stroked-button class="submit-button" (click)="submit()">Zastosuj filtry</button>
     <button mat-stroked-button class="submit-button" (click)="clearFilters()" disabled="{{!canExecuteClearFilters()}}" >Wyczyść filtry</button>
   </div>
-  </form>
+</div>
 </div>

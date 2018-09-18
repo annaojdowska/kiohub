@@ -4,10 +4,11 @@ import { Licence } from '../model/licence.interface';
 import { ProjectTypeService } from '../services/project-type-service';
 import { LicenceService } from '../services/licence-service';
 import { Semester } from '../model/semester.interface';
-import { MatDatepickerInput, MatDatepickerInputEvent } from '../../../node_modules/@angular/material';
+import { MatDatepickerInput, MatDatepickerInputEvent, MatInput } from '../../../node_modules/@angular/material';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 import { InputListComponent } from '../input-list/input-list.component';
 import { InputListElement } from '../model/input-list-element';
+import { QueryDescription } from '../model/helpers/query-description.class';
 
 @Component({
   selector: 'app-advanced-search-form',
@@ -29,6 +30,10 @@ export class AdvancedSearchFormComponent implements OnInit {
   @ViewChild('licencesList') licencesList: InputListComponent;
   @ViewChild('typesList') typesList: InputListComponent;
   @ViewChild('semestersList') semestersList: InputListComponent;
+  @ViewChild('dateInput1', { read: MatInput }) dateInput1: MatInput;
+  @ViewChild('dateInput2', { read: MatInput }) dateInput2: MatInput;
+
+  query: QueryDescription;
   chosenSemesters: Semester[];
   selectedType: ProjectType;
   selectedLicence: Licence;
@@ -42,6 +47,7 @@ export class AdvancedSearchFormComponent implements OnInit {
               @Inject(LicenceService) private licenceService: LicenceService) { }
 
   ngOnInit() {
+    this.query = new QueryDescription();
     this.chosenSemesters = [];
     this.semestersHidden = false;
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
@@ -71,27 +77,51 @@ export class AdvancedSearchFormComponent implements OnInit {
     this.semestersList.add({name: semester.name});
   }
 
-  public dateFromChanged(type: string, event: MatDatepickerInputEvent<Date>): void {
+  public dateFromChanged(type: string, event: MatDatepickerInputEvent<Date>) {
     this.dateFrom = event.value;
   }
 
-  public dateToChanged(type: string, event: MatDatepickerInputEvent<Date>): void {
+  public dateToChanged(type: string, event: MatDatepickerInputEvent<Date>) {
     this.dateTo = event.value;
   }
+
   submit() {
-    console.log(this.supervisorInput.nativeElement.value);
-    console.log(this.tagInput.nativeElement.value);
-    console.log(this.titleInput.nativeElement.value);
-    console.log(this.descriptionInput.nativeElement.value);
-    console.log(this.selectedLicence);
-    console.log(this.selectedType);
-    console.log(this.chosenSemesters);
-    console.log(this.dateFrom);
-    console.log(this.dateTo);
+    this.supervisorsList.elements.map(element => element.name).forEach(name => this.query.supervisors.push(name));
+    this.tagsList.elements.map(element => element.name).forEach(name => this.query.tags.push(name));
+    this.titlesList.elements.map(element => element.name).forEach(name => this.query.titles.push(name));
+    this.descriptionsList.elements.map(element => element.name).forEach(name => this.query.descriptions.push(name));
+    this.query.dateFrom = this.dateFrom;
+    this.query.dateTo = this.dateTo;
+    this.licences.filter(licence =>
+      this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
+    ).forEach(licence => this.query.licencesIds.push(licence.id));
+    this.project_types.filter(type =>
+      this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
+    ).forEach(type => this.query.projectTypesIds.push(type.id));
+    this.chosenSemesters.forEach(semester => this.query.semestersIds.push(semester.id));
+
+    this.clearFilters();
   }
 
   clearFilters() {
-
+    this.supervisorsList.elements = [];
+    this.supervisorInput.nativeElement.value = '';
+    this.tagsList.elements = [];
+    this.tagInput.nativeElement.value = '';
+    this.titlesList.elements = [];
+    this.titleInput.nativeElement.value = '';
+    this.descriptionsList.elements = [];
+    this.descriptionInput.nativeElement.value = '';
+    this.licencesList.elements = [];
+    this.selectedLicence = undefined;
+    this.typesList.elements = [];
+    this.selectedType = undefined;
+    this.semestersList.elements.forEach(element => this.semesterRemovedFromList(element));
+    this.semestersList.elements = [];
+    this.dateInput1.value = '';
+    this.dateFrom = undefined;
+    this.dateInput2.value = '';
+    this.dateTo = undefined;
   }
 
   canExecuteClearFilters(): boolean {
@@ -109,10 +139,12 @@ export class AdvancedSearchFormComponent implements OnInit {
     this.supervisorsList.add({name: this.supervisorInput.nativeElement.value});
     this.supervisorInput.nativeElement.value = '';
   }
+
   addTitle() {
     this.titlesList.add({name: this.titleInput.nativeElement.value});
     this.titleInput.nativeElement.value = '';
   }
+
   addDescription() {
     this.descriptionsList.add({name: this.descriptionInput.nativeElement.value});
     this.descriptionInput.nativeElement.value = '';
