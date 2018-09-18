@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {ErrorType } from './error-type.enum';
 
 @Component({
   selector: 'app-error-info',
@@ -7,8 +8,21 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ErrorInfoComponent implements OnInit {
 @Input() errorText: string;
+@Input() errorType: ErrorType;
+success: boolean;
+warning: boolean;
+error: boolean;
 
   ngOnInit() {
+    if (this.errorType === (ErrorType.ERROR)) {
+      this.error = true;
+    } else if (this.errorType === (ErrorType.WARNING)) {
+      this.warning = true;
+    } else if (this.errorType === (ErrorType.SUCCESS)) {
+      this.success = true;
+    } else {
+      console.log('Niepoprawny styl błędu!');
+    }
   }
 
 }

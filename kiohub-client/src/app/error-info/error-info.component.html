@@ -1,3 +1,1 @@
-<div id="error">
-  {{errorText}}
-</div>
+<div [ngClass]="{'success': success, 'error': error, 'warning': warning}">{{errorText}}</div> 
