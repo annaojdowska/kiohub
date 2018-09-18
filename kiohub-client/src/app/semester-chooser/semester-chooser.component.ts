@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject, Output, EventEmitter, Input, AfterContentInit } from '@angular/core';
 import { Semester } from '../model/semester.interface';
 import { SemesterService } from '../services/semester-service';
-import { trigger, transition, style, animate } from '@angular/animations';
 
 
 @Component({
@@ -51,10 +50,8 @@ export class SemesterChooserComponent implements OnInit, AfterContentInit {
   chooseSemester(chosenSemester: Semester) {
     const index = this.chosenSemesters.findIndex(sem => sem.id === chosenSemester.id);
     if (index !== -1) {
-      this.chosenSemesters.splice(index, 1);
       this.semesterRemoved.emit(chosenSemester);
     } else {
-      this.chosenSemesters.push(chosenSemester);
       this.semesterAdded.emit(chosenSemester);
     }
   }

@@ -29,8 +29,7 @@ export class InputListComponent implements OnInit {
     if (element.name !== '') {
       if (element.selected) {
         this.select(element);
-      }
-      else {
+      } else {
         element.selected = false;
       }
       this.elements.push(element);
