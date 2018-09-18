@@ -71,13 +71,11 @@ form {
     color: black !important;
 }
 
-/* .rightInputList {
-    display: block;
-    float: right;
- max-width: 50%; 
+#inputListsTable {
+    table-layout: fixed;
+    width: 100%;
 }
 
-.leftInputList {
-    float: left;
-    max-width: 50%; 
-} */
+tr :first-child {
+    width:10%;
+}
