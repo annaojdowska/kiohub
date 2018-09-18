@@ -62,3 +62,22 @@ label {
 form {
     margin: 15px;
 }
+
+.inputListLabel {
+    float: left;
+}
+
+.dateInput {
+    color: black !important;
+}
+
+/* .rightInputList {
+    display: block;
+    float: right;
+ max-width: 50%; 
+}
+
+.leftInputList {
+    float: left;
+    max-width: 50%; 
+} */

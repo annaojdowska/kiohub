@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, ViewChild, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import { InputListElement } from '../model/input-list-element';
 
 export interface Fruit {
@@ -15,6 +15,7 @@ export class InputListComponent implements OnInit {
   @Input() orientation = 'horizontal';
   @Input() placeholder = 'Kolejne adresy e-mail rozdziel przecinkami, spacjami lub wciśnij enter';
   @Input() selectable = false;
+  @Output() elementRemoved = new EventEmitter<InputListElement>();
   focusedStyle = '';
   elements: InputListElement[] = [];
   visible = true;
@@ -41,6 +42,7 @@ export class InputListComponent implements OnInit {
 
     if (index >= 0) {
       this.elements.splice(index, 1);
+      this.elementRemoved.emit(element);
     }
   }
 

@@ -2,28 +2,28 @@
 <div id="advanced-search">
 
   <form>
-    <mat-form-field class="leftLabel"><input matInput placeholder="Promotor" #supervisorInput></mat-form-field>
-    <mat-form-field class="leftLabel paddingLeft"><input matInput placeholder="Tag" #tagInput></mat-form-field>
-    <mat-form-field class="rightLabel" id="textLeft"><input matInput placeholder="Tytuł zawiera..." #titleInput></mat-form-field>
+    <mat-form-field class="leftLabel"><input matInput placeholder="Promotor" #supervisorInput (keyup.enter)="addSupervisor()"></mat-form-field>
+    <mat-form-field class="leftLabel paddingLeft"><input matInput placeholder="Tag" #tagInput (keyup.enter)="addTag()"></mat-form-field>
+    <mat-form-field class="rightLabel" id="textLeft"><input matInput placeholder="Tytuł zawiera..." #titleInput (keyup.enter)="addTitle()"></mat-form-field>
     <mat-form-field class="leftLabel">
-        <mat-select [(value)]="selectedLicence" placeholder="Licencja" #licenceInput>
+        <mat-select [(value)]="selectedLicence" placeholder="Licencja" (selectionChange)="addLicence()" #licenceInput>
             <mat-option *ngFor="let licence of licences" [value]="licence">{{licence.name}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field class="leftLabel paddingLeft"> 
-        <mat-select [(value)]="selectedType" placeholder="Typ pracy" #projectTypeInput> 
+        <mat-select [(value)]="selectedType" placeholder="Typ pracy" #projectTypeInput (selectionChange)="addType()"> 
             <mat-option *ngFor="let type of project_types" [value]="type">{{type.name}}</mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class="rightLabel" id="textLeft"><input matInput placeholder="Opis zawiera..." #descriptionInput></mat-form-field>
+    <mat-form-field class="rightLabel" id="textLeft"><input matInput placeholder="Opis zawiera..." #descriptionInput (keyup.enter)="addDescription()"></mat-form-field>
     <label class="center">Data publikacji:</label>    
     <mat-form-field class="leftLabel">
-      <input matInput [matDatepicker]="datePicker1" placeholder="od" (dateChange)="dateFromChanged('change', $event)" disabled>
+      <input matInput [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="dateFromChanged('change', $event)" disabled>
       <mat-datepicker-toggle matSuffix [for]="datePicker1"></mat-datepicker-toggle>
       <mat-datepicker #datePicker1 disabled="false"></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="leftLabel paddingLeft">
-      <input matInput [matDatepicker]="datePicker2" placeholder="do" (dateChange)="dateToChanged('change', $event)" disabled>
+      <input matInput [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="dateToChanged('change', $event)" disabled>
       <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
       <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
     </mat-form-field>     
@@ -32,8 +32,35 @@
       <app-semester-chooser *ngIf="semestersHidden != false" [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)" 
       (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
     </div>
-
+    <div class="leftInputList">
+      <label class="inputListLabel" *ngIf="supervisorsList.elements.length > 0">Promotorzy: </label>
+      <app-input-list #supervisorsList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+    </div>
+    <div class="rightInputList">
+      <label class="inputListLabel" *ngIf="tagsList.elements.length > 0">Tagi: </label>
+      <app-input-list #tagsList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+    </div>
+    <div class="leftInputList">
+      <label class="inputListLabel" *ngIf="titlesList.elements.length > 0">Tytuły: </label>
+      <app-input-list #titlesList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+    </div>
+    <div class="rightInputList">
+      <label class="inputListLabel" *ngIf="descriptionsList.elements.length > 0">Opisy: </label>
+      <app-input-list #descriptionsList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+    </div>
+    <div class="leftInputList">
+      <label class="inputListLabel" *ngIf="licencesList.elements.length > 0">Licencje: </label>
+      <app-input-list #licencesList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+    </div>
+    <div class="rightInputList">
+      <label class="inputListLabel" *ngIf="typesList.elements.length > 0">Typy: </label>
+      <app-input-list #typesList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+    </div>
+    <div class="leftInputList">
+      <label class="inputListLabel" *ngIf="semestersList.elements.length > 0">Semestry: </label>
+      <app-input-list #semestersList orientation="horizontal" removable="true" hideInput="true" 
+      (elementRemoved)="semesterRemovedFromList($event)"></app-input-list>
+    </div>
     <button  class="centerLabel" type="submit" mat-stroked-button class="submit-button" (click)="submit()">Zastosuj filtry</button>
-
   </form>
 </div>
