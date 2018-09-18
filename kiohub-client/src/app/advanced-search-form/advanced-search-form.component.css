@@ -38,10 +38,10 @@ label {
 }
 
 .submit-button {
-    display: block;
-    margin: 0 auto;
-    margin-top: 70px;
-    text-align: center;
+    display: inline-block;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 30px;
     justify-content: center;
 }
 
@@ -78,4 +78,8 @@ form {
 
 tr :first-child {
     width:10%;
+}
+
+#buttonsContainer {
+    text-align: center;
 }

@@ -64,6 +64,9 @@
         (elementRemoved)="semesterRemovedFromList($event)"></app-input-list></td>
     </tr>
   </table>
-  <button  class="centerLabel" type="submit" mat-stroked-button class="submit-button" (click)="submit()">Zastosuj filtry</button>
+  <div id="buttonsContainer">
+    <button type="submit" mat-stroked-button class="submit-button" (click)="submit()">Zastosuj filtry</button>
+    <button mat-stroked-button class="submit-button" (click)="clearFilters()" disabled="{{!canExecuteClearFilters()}}" >Wyczyść filtry</button>
+  </div>
   </form>
 </div>

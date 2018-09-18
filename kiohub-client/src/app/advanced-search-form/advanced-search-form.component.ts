@@ -90,6 +90,16 @@ export class AdvancedSearchFormComponent implements OnInit {
     console.log(this.dateTo);
   }
 
+  clearFilters() {
+
+  }
+
+  canExecuteClearFilters(): boolean {
+    return this.supervisorsList.elements.length > 0 || this.tagsList.elements.length > 0 || this.titlesList.elements.length > 0
+    || this.descriptionsList.elements.length > 0 || this.licencesList.elements.length > 0 || this.typesList.elements.length > 0
+    || this.chosenSemesters.length > 0 || this.dateFrom !== undefined || this.dateTo !== undefined;
+  }
+
   addTag() {
     this.tagsList.add({name: this.tagInput.nativeElement.value});
     this.tagInput.nativeElement.value = '';
