@@ -41,20 +41,20 @@ export class AddProjectComponent implements OnInit {
 
     if (title !== '' && this.authorsList.elements.length > 0) {
       console.log(title);
-      console.log('Próbuję dodać projekt.');
-      const httpStatus = this.projectService.getTitleUnique(title).subscribe(res => {
-        if (res !== 409) {
+      // console.log('Próbuję dodać projekt.');
+      // const httpStatus = this.projectService.getTitleUnique(title).subscribe(res => {
+      //   if (res !== 409) {
           console.log('Dodaję projekt.');
           const httpStatus2 = this.projectService.addProject(title, this.authorsList.elements.map(e => e.name))
           .subscribe((data: Project) => {
             this.project = data;
             console.log(this.project);
+            this.sendInvitationsAndRedirect(title, this.authorsList.elements.map(e => e.name));
           });
-        } else {
-          console.log('ERROR: Istnieje już projekt o takim projekcie.');
-        }
-      });
-      this.sendInvitationsAndRedirect(title, this.authorsList.elements.map(e => e.name));
+        // } else {
+        //   console.log('ERROR: Istnieje już projekt o takim projekcie.');
+        // }
+     // });
     } else {
       console.log('ERROR: Podaj tytuł oraz co najmniej jednego współpracownika.');
     }
