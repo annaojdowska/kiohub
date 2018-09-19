@@ -5,6 +5,7 @@
  */
 package pg.eti.kiohub.entity.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,8 +32,10 @@ public class Note {
     @Column(name = "owner_id")
     private Long ownerId;
     
-    @Column(name = "project_id")
-    private Long projectId;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
     
     @Column(name = "content")
     private String content;
@@ -43,12 +46,4 @@ public class Note {
     @Column(name = "is_private")
     private Boolean isPrivate;
 
-    public Note(Long ownerId, Long projectId, String content, Date publicationDate, Boolean isPrivate) {
-        this.ownerId = ownerId;
-        this.projectId = projectId;
-        this.content = content;
-        this.publicationDate = publicationDate;
-        this.isPrivate = isPrivate;
-    }    
-    
 }

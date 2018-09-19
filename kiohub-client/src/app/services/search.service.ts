@@ -1,8 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Project } from '../model/project.interface';
 import { Observable } from 'rxjs';
 import { address } from './project.service';
+import { QueryDescription } from '../model/helpers/query-description.class';
 @Injectable()
 export class SearchService {
   private allProjects: Observable<Project[]>;
@@ -21,4 +22,10 @@ export class SearchService {
     // this.allProjects = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
     return this.allProjects;
   }
+
+  getProjectsBasedOnQuery(query: QueryDescription): Observable<Project[]> {
+    const httpOptions = { headers: new HttpHeaders({ 'ContentType' : 'application/json' }) };
+    return this.http.post<Project[]>(address + '/search/advanced', query, httpOptions);
+  }
 }
+

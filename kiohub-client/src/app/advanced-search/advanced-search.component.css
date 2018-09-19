@@ -38,3 +38,8 @@ img {
     vertical-align: middle;
     cursor: pointer;
 }
+
+#noResultsLabel{
+    text-align: center;
+    margin: 10%;
+}

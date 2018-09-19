@@ -3,6 +3,7 @@ import { SearchService } from '../services/search.service';
 import { Project } from '../model/project.interface';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { MatTableDataSource, MatPaginator } from '../../../node_modules/@angular/material';
+import { QueryDescription } from '../model/helpers/query-description.class';
 
 @Component({
   selector: 'app-advanced-search',
@@ -21,20 +22,37 @@ import { MatTableDataSource, MatPaginator } from '../../../node_modules/@angular
   ]
 })
 export class AdvancedSearchComponent implements OnInit {
-  searchService: SearchService;
+  showNoResultsLabel: boolean;
   searchResults: Project[];
   dataSource: MatTableDataSource<Project>;
   displayedColumns: string[] = ['results'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(@Inject(SearchService) searchService: SearchService) {
-    this.searchService = searchService;
+  constructor(@Inject(SearchService) private searchService: SearchService) {
+    this.showNoResultsLabel = false;
   }
 
   ngOnInit() {
-    this.searchService.getAllProjects().subscribe(result => {this.searchResults = result;
+    this.searchService.getAllProjects().subscribe(results => {
+      this.searchResults = results;
       this.dataSource = new MatTableDataSource<Project>(this.searchResults);
-      this.dataSource.paginator = this.paginator; });
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
+  getSearchResults(query: QueryDescription) {
+    this.searchService.getProjectsBasedOnQuery(query).subscribe(results => {
+      this.searchResults = results;
+      this.dataSource = new MatTableDataSource<Project>(this.searchResults);
+      this.dataSource.paginator = this.paginator;
+      this.showNoResultsLabel = this.searchResults.length === 0;
+    });
+  }
 
+  displayPaginator(): boolean {
+    if (this.searchResults === undefined) {
+      return false;
+    } else {
+      return this.searchResults.length > 0;
+    }
+  }
 }

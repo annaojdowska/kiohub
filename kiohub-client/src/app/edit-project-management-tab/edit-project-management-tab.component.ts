@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../model/project.interface';
 import { UserService } from '../services/user.service';
@@ -27,7 +27,8 @@ export class EditProjectManagementTabComponent implements OnInit {
   }
   constructor(@Inject(ActivatedRoute) private route: ActivatedRoute,
               @Inject(ProjectService) private projectService: ProjectService,
-              @Inject(UserService) private userService: UserService) { }
+              @Inject(UserService) private userService: UserService,
+              @Inject(Router) private router: Router) { }
 
 
   ngOnInit() {
@@ -51,6 +52,8 @@ export class EditProjectManagementTabComponent implements OnInit {
   }
 
   deleteProject() {
-    alert('Usunięto projekt :(');
+    this.projectService.deleteProject(this.editedProject.id).subscribe(result => console.log(result));
+    // if success
+    this.router.navigate(['home']);
   }
 }

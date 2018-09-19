@@ -1,11 +1,10 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ProjectType } from '../model/project-type.interface';
 import { Licence } from '../model/licence.interface';
 import { ProjectTypeService } from '../services/project-type-service';
 import { LicenceService } from '../services/licence-service';
 import { Semester } from '../model/semester.interface';
 import { MatDatepickerInput, MatDatepickerInputEvent, MatInput } from '../../../node_modules/@angular/material';
-import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 import { InputListComponent } from '../input-list/input-list.component';
 import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
@@ -17,6 +16,7 @@ import { QueryDescription } from '../model/helpers/query-description.class';
 })
 
 export class AdvancedSearchFormComponent implements OnInit {
+  @Output() filtersSubmitted = new EventEmitter<QueryDescription>();
   @ViewChild('supervisorInput') supervisorInput: any;
   @ViewChild('titleInput') titleInput: any;
   @ViewChild('descriptionInput') descriptionInput: any;
@@ -33,7 +33,6 @@ export class AdvancedSearchFormComponent implements OnInit {
   @ViewChild('dateInput1', { read: MatInput }) dateInput1: MatInput;
   @ViewChild('dateInput2', { read: MatInput }) dateInput2: MatInput;
 
-  query: QueryDescription;
   chosenSemesters: Semester[];
   selectedType: ProjectType;
   selectedLicence: Licence;
@@ -47,7 +46,6 @@ export class AdvancedSearchFormComponent implements OnInit {
               @Inject(LicenceService) private licenceService: LicenceService) { }
 
   ngOnInit() {
-    this.query = new QueryDescription();
     this.chosenSemesters = [];
     this.semestersHidden = false;
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
@@ -86,21 +84,23 @@ export class AdvancedSearchFormComponent implements OnInit {
   }
 
   submit() {
-    this.supervisorsList.elements.map(element => element.name).forEach(name => this.query.supervisors.push(name));
-    this.tagsList.elements.map(element => element.name).forEach(name => this.query.tags.push(name));
-    this.titlesList.elements.map(element => element.name).forEach(name => this.query.titles.push(name));
-    this.descriptionsList.elements.map(element => element.name).forEach(name => this.query.descriptions.push(name));
-    this.query.dateFrom = this.dateFrom;
-    this.query.dateTo = this.dateTo;
+    const query = new QueryDescription();
+    this.supervisorsList.elements.map(element => element.name).forEach(name => query.supervisors.push(name));
+    this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
+    this.titlesList.elements.map(element => element.name).forEach(name => query.titles.push(name));
+    this.descriptionsList.elements.map(element => element.name).forEach(name => query.descriptions.push(name));
+    query.dateFrom = this.dateFrom;
+    query.dateTo = this.dateTo;
     this.licences.filter(licence =>
       this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
-    ).forEach(licence => this.query.licencesIds.push(licence.id));
+    ).forEach(licence => query.licencesIds.push(licence.id));
     this.project_types.filter(type =>
       this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
-    ).forEach(type => this.query.projectTypesIds.push(type.id));
-    this.chosenSemesters.forEach(semester => this.query.semestersIds.push(semester.id));
+    ).forEach(type => query.projectTypesIds.push(type.id));
+    this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
 
     this.clearFilters();
+    this.filtersSubmitted.emit(query);
   }
 
   clearFilters() {
