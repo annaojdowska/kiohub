@@ -22,6 +22,7 @@ import { Tag } from '../model/tag.interface';
 import { ActivatedRoute } from '../../../node_modules/@angular/router';
 import { Semester } from '../model/semester.interface';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -50,6 +51,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('licence') licence: any;
   @ViewChild('semestersList') semestersList: InputListComponent;
   @ViewChild('semesterChooser') semesterChooser: SemesterChooserComponent;
+  @ViewChild('titleError') titleError: ErrorInfoComponent;
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
@@ -76,6 +78,12 @@ export class EditProjectGeneralTabComponent implements OnInit {
       id = routeParams.id;
     });
     return id;
+  }
+
+  onTitleChange(event) {
+
+    console.log(this.title.nativeElement.validity.valid);
+    this.titleError.setDisplay(!this.title.nativeElement.validity.valid);
   }
 
   ngOnInit() {
