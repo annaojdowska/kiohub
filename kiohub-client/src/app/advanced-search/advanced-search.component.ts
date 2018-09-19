@@ -22,18 +22,21 @@ import { QueryDescription } from '../model/helpers/query-description.class';
   ]
 })
 export class AdvancedSearchComponent implements OnInit {
-  showFilters: boolean;
   showNoResultsLabel: boolean;
   searchResults: Project[];
   dataSource: MatTableDataSource<Project>;
   displayedColumns: string[] = ['results'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(@Inject(SearchService) private searchService: SearchService) {
-    this.showFilters = true;
     this.showNoResultsLabel = false;
   }
 
   ngOnInit() {
+    this.searchService.getAllProjects().subscribe(results => {
+      this.searchResults = results;
+      this.dataSource = new MatTableDataSource<Project>(this.searchResults);
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   getSearchResults(query: QueryDescription) {
@@ -41,7 +44,6 @@ export class AdvancedSearchComponent implements OnInit {
       this.searchResults = results;
       this.dataSource = new MatTableDataSource<Project>(this.searchResults);
       this.dataSource.paginator = this.paginator;
-      this.showFilters = false;
       this.showNoResultsLabel = this.searchResults.length === 0;
     });
   }
