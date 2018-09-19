@@ -12,6 +12,7 @@ export class ErrorInfoComponent implements OnInit {
 success: boolean;
 warning: boolean;
 error: boolean;
+display = 'none';
 
   ngOnInit() {
     if (this.errorType === (ErrorType.ERROR)) {
@@ -22,6 +23,14 @@ error: boolean;
       this.success = true;
     } else {
       console.log('Niepoprawny styl błędu!');
+    }
+  }
+
+  setDisplay(isVisible) {
+    if (isVisible) {
+      this.display = 'block';
+    } else {
+      this.display = 'none';
     }
   }
 

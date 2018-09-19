@@ -7,12 +7,13 @@
 <!-- <app-error-info errorText="Replace this text with your own text!" errorType=WARNING></app-error-info> -->
 <form>
     <label>Tytuł (PL):</label>
-    <mat-form-field class="wrapper-width">
-        <input matInput #title name="title" value="{{editedProject?.title}}">
+    <mat-form-field class="wrapper-width" name="ab">
+        <input #title name="title"  (ngModelChange)="onTitleChange($event)"pattern="^[a-zA-Z]{0,2}" ngModel matInput>
     </mat-form-field>
+    <!-- <app-error-info #titleError errorText="Podaj tytuł." errorType="ERROR"></app-error-info> -->
     <br/>
 
-    <label class="stay-up">Opis (PL):</label>
+    <label class="stay-up">Opiłs (PL):</label>
     <mat-form-field class="wrapper-width">
         <textarea matInput #description id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea>
     </mat-form-field>
@@ -69,7 +70,8 @@
         <input type="file" />
     </label>
     <div class="list">
-        <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true" selectable="true" hideInput="true"></app-input-list>
+        <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true" selectable="true"
+            hideInput="true"></app-input-list>
     </div>
 
     <label class="file-upload">
@@ -120,9 +122,11 @@
     <br/>
     <br/>
     <div id="semesters-container" *ngIf="semestersHidden != false">
-        <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)" 
-        (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
-        <a (click)="saveSemesters()"><button type="button" id="save-semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź wybór</button></a>
+        <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)" (semesterRemoved)="removeAddedSemester($event)"
+            #semesterChooser></app-semester-chooser>
+        <a (click)="saveSemesters()">
+            <button type="button" id="save-semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź wybór</button>
+        </a>
     </div>
     <div class="list">
         <app-input-list [removable]="false" hideInput="true" #semestersList></app-input-list>
