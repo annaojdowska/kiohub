@@ -7,28 +7,35 @@
 <!-- <app-error-info errorText="Replace this text with your own text!" errorType=WARNING></app-error-info> -->
 <form>
     <label>Tytuł (PL):</label>
-    <mat-form-field class="wrapper-width" name="ab">
-        <input #title name="title"  (ngModelChange)="onTitleChange($event)"pattern="^[a-zA-Z]{0,2}" ngModel matInput>
+    <mat-form-field class="wrapper-width">
+        <input matInput ngModel #titlePl name="titlePl" (ngModelChange)="onTitlePlChange($event)" pattern="{{getString(1, 255)}}"
+            value="{{editedProject?.title}}">
     </mat-form-field>
-    <!-- <app-error-info #titleError errorText="Podaj tytuł." errorType="ERROR"></app-error-info> -->
+    <app-error-info #titlePlError errorText="Podaj tytuł. Powinien mieć maksymalnie 255 znaków." errorType="ERROR"></app-error-info>
     <br/>
 
-    <label class="stay-up">Opiłs (PL):</label>
+    <label class="stay-up">Opis (PL):</label>
     <mat-form-field class="wrapper-width">
-        <textarea matInput #description id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea>
+        <textarea matInput ngModel #descriptionPl id="wrapper-height" name="descriptionPl" (ngModelChange)="onDescriptionPlChange($event)"
+            value="{{editedProject?.description}}"></textarea>
     </mat-form-field>
+    <app-error-info #descriptionPlError errorText="Opis powinien mieć maksymalnie 2000 znaków." errorType="ERROR"></app-error-info>
     <br/>
 
     <label>Tytuł (EN):</label>
     <mat-form-field class="wrapper-width">
-        <input matInput #titleEN name="titleEN" value="{{editedProject?.titleEng}}">
+        <input matInput #titleEn name="titleEn" (ngModelChange)="onTitleEnChange($event)" pattern="{{getString(0, 255)}}" value="{{editedProject?.titleEng}}"
+            ngModel>
     </mat-form-field>
+    <app-error-info #titleEnError errorText="Tytuł powinien mieć maksymalnie 255 znaków." errorType="ERROR"></app-error-info>
     <br/>
 
     <label class="stay-up">Opis (EN):</label>
     <mat-form-field class="wrapper-width">
-        <textarea matInput #descriptionEN id="wrapper-height" name="descriptionEN" value="{{editedProject?.descriptionEng}}"></textarea>
+        <textarea matInput ngModel #descriptionEn id="wrapper-height" name="descriptionEn" (ngModelChange)="onDescriptionEnChange($event)"
+            value="{{editedProject?.descriptionEng}}"></textarea>
     </mat-form-field>
+    <app-error-info #descriptionEnError errorText="Opis powinien mieć maksymalnie 2000 znaków." errorType="ERROR"></app-error-info>
     <br/>
 
     <label>Typ projektu:</label>

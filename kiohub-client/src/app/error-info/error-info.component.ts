@@ -26,7 +26,7 @@ display = 'none';
     }
   }
 
-  setDisplay(isVisible) {
+  setDisplay(isVisible: boolean) {
     if (isVisible) {
       this.display = 'block';
     } else {

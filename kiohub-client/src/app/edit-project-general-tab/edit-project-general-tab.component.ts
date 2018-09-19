@@ -19,10 +19,11 @@ import { AttachmentService } from '../services/attachment.service';
 import { Visibility } from '../model/visibility.enum';
 import { TagService } from '../services/tag.service';
 import { Tag } from '../model/tag.interface';
-import { ActivatedRoute } from '../../../node_modules/@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Semester } from '../model/semester.interface';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { ValidationPatterns } from '../error-info/validation-patterns';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -42,16 +43,19 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('instructionsStartList') instructionsStartList: InputListComponent;
   @ViewChild('othersList') othersList: InputListComponent;
   @ViewChild('tagsList') tagsList: InputListComponent;
-  @ViewChild('title') title: any;
-  @ViewChild('description') description: any;
-  @ViewChild('titleEN') titleEN: any;
-  @ViewChild('descriptionEN') descriptionEN: any;
+  @ViewChild('titlePl') titlePl: any;
+  @ViewChild('descriptionPl') descriptionPl: any;
+  @ViewChild('titleEn') titleEn: any;
+  @ViewChild('descriptionEn') descriptionEn: any;
   @ViewChild('projectStatus') projectStatus: any;
   @ViewChild('projectType') projectType: any;
   @ViewChild('licence') licence: any;
   @ViewChild('semestersList') semestersList: InputListComponent;
   @ViewChild('semesterChooser') semesterChooser: SemesterChooserComponent;
-  @ViewChild('titleError') titleError: ErrorInfoComponent;
+  @ViewChild('titlePlError') titlePlError: ErrorInfoComponent;
+  @ViewChild('titleEnError') titleEnError: ErrorInfoComponent;
+  @ViewChild('descriptionPlError') descriptionPlError: ErrorInfoComponent;
+  @ViewChild('descriptionEnError') descriptionEnError: ErrorInfoComponent;
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
@@ -59,6 +63,11 @@ export class EditProjectGeneralTabComponent implements OnInit {
   tagFilteredOptions: Observable<Tag[]>;
   chosenSemesters: Semester[];
   semestersHidden: boolean;
+  validationPatterns: ValidationPatterns = new ValidationPatterns();
+
+  getString(from, to) {
+    return this.validationPatterns.getString(from, to);
+  }
 
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -80,12 +89,29 @@ export class EditProjectGeneralTabComponent implements OnInit {
     return id;
   }
 
-  onTitleChange(event) {
-
-    console.log(this.title.nativeElement.validity.valid);
-    this.titleError.setDisplay(!this.title.nativeElement.validity.valid);
+  onTitlePlChange(event) {
+    this.titlePlError.setDisplay(!this.titlePl.nativeElement.validity.valid);
   }
 
+  onTitleEnChange(event) {
+    this.titleEnError.setDisplay(!this.titleEn.nativeElement.validity.valid);
+  }
+
+  onDescriptionPlChange(event) {
+    if (this.descriptionPl.nativeElement.textLength > 2000) {
+      this.descriptionPlError.setDisplay(true);
+    } else {
+      this.descriptionPlError.setDisplay(false);
+    }
+  }
+
+  onDescriptionEnChange(event) {
+    if (this.descriptionEn.nativeElement.textLength > 2000) {
+      this.descriptionEnError.setDisplay(true);
+    } else {
+      this.descriptionEnError.setDisplay(false);
+    }
+  }
   ngOnInit() {
     const projectId = this.getProjectIdFromRouter();
       this.projectService.getProjectById(projectId).subscribe(result => {
@@ -214,8 +240,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
   updateProject() {
     const updatedProject: Project = {
       id: this.editedProject.id,
-      title: this.title.nativeElement.value,
-      description: this.description.nativeElement.value,
+      title: this.titlePl.nativeElement.value,
+      description: this.descriptionPl.nativeElement.value,
       projectStatus: { id: this.projectStatus.value, name: '' },
       projectType: { id: this.projectType.value, name: '' },
       licence: { id: this.licence.value, name: '' },
@@ -225,8 +251,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
       projectSettings: null, // not used so far
       tags: this.tagsList.elements.map(tag => <Tag>{ id: tag.id, name: tag.name }),
       semesters: this.semestersList.elements.map(semester => <Semester> {id: semester.id, name: semester.name}),
-      titleEng: this.titleEN.nativeElement.value,
-      descriptionEng: this.descriptionEN.nativeElement.value,
+      titleEng: this.titleEn.nativeElement.value,
+      descriptionEng: this.descriptionEn.nativeElement.value,
       publicationDate: this.editedProject.publicationDate,
       published: this.editedProject.published
     };
