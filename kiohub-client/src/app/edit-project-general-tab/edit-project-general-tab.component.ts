@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { Licence } from '../model/licence.interface';
 import { ProjectType } from '../model/project-type.interface';
@@ -53,8 +53,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
-  tagOptions: string[] = ['aplikacja', 'sztucznainteligencja', 'java'];
-  tagFilteredOptions: Observable<InputListElement[]>;
+  tagOptions: Tag[] = [];
+  tagFilteredOptions: Observable<Tag[]>;
   chosenSemesters: Semester[];
   semestersHidden: boolean;
 
@@ -122,10 +122,24 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
     this.semestersHidden = true;
-    this.tagFilteredOptions = this.tagControl.valueChanges.pipe(
-      startWith(null),
-      map((value: InputListElement | null) => value ? this._filter(value) : this.tagOptions.map(t => <InputListElement>{ name: t })));
+    this.tagService.getTags().subscribe(result => this.tagOptions = result);
+    this.tagFilteredOptions = this.tagControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this.filter(value))
+      );
     this.chosenSemesters = [];
+  }
+
+  filter(phrase: string): Tag[] {
+    if (phrase === '') {
+      return [];
+    }
+    // console.log(phrase);
+    if (typeof phrase === 'string') {
+      const filterValue = phrase.toLowerCase();
+    }
+    return this.tagOptions.filter(option => option.name.toLowerCase().includes(phrase));
   }
 
   // Functions for tag input
@@ -151,7 +165,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   private _filter(value: InputListElement): InputListElement[] {
     const filterValue = value.name.toLowerCase();
-    return this.tagOptions.filter(option => option.toLowerCase().includes(filterValue)).map(o => <InputListElement>{ name: o });
+    return this.tagOptions.filter(option => option.name.toLowerCase().includes(filterValue)).map(o => <InputListElement>{ name: o.name });
   }
 
   // Functions for itemsList (add and recive attachments and tags)
