@@ -8,12 +8,12 @@
 <form>
     <label>Tytuł (PL):</label>
     <mat-form-field class="wrapper-width" name="ab">
-        <input #title name="title"  (ngModelChange)="onTitleChange($event)"pattern="^[a-zA-Z]{0,2}" ngModel matInput>
+        <input #title name="title" value="{{editedProject?.title}}" (ngModelChange)="onTitleChange($event)"pattern="^[a-zA-Z]{0,2}" ngModel matInput>
     </mat-form-field>
     <!-- <app-error-info #titleError errorText="Podaj tytuł." errorType="ERROR"></app-error-info> -->
     <br/>
 
-    <label class="stay-up">Opiłs (PL):</label>
+    <label class="stay-up">Opis (PL):</label>
     <mat-form-field class="wrapper-width">
         <textarea matInput #description id="wrapper-height" name="description" value="{{editedProject?.description}}"></textarea>
     </mat-form-field>
