@@ -51,7 +51,8 @@ public class Project implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
     private List<Attachment> attachments;
 
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    private List<Note> notes;
     /*
     Projekty, z którymi jest powiązany projekt (on z nimi)
      */

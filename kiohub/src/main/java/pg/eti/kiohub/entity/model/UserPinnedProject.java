@@ -5,6 +5,7 @@
  */
 package pg.eti.kiohub.entity.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -27,8 +28,10 @@ import lombok.Setter;
 public class UserPinnedProject {
 
     @Id
+    @Column(name = "user_id")
     private Long userId;
     @Id
+    @Column(name = "pinned_project_id")
     private Long projectId;
 
     public UserPinnedProject(Long userId, Long projectId) {
