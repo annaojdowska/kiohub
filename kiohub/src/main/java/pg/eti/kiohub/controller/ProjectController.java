@@ -113,6 +113,7 @@ public class ProjectController extends MainController {
             project.setSemesters(semesters);
             super.projectRepository.saveAndFlush(project);
          } catch (Exception ex) {
+            ex.printStackTrace();
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
