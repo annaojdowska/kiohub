@@ -23,7 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Semester } from '../model/semester.interface';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { ValidationPatterns } from '../error-info/validation-patterns';
+import { Validation } from '../error-info/validation-patterns';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -43,6 +43,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('instructionsStartList') instructionsStartList: InputListComponent;
   @ViewChild('othersList') othersList: InputListComponent;
   @ViewChild('tagsList') tagsList: InputListComponent;
+  @ViewChild('tagsListComponent') tagsListComponent: any;
   @ViewChild('titlePl') titlePl: any;
   @ViewChild('descriptionPl') descriptionPl: any;
   @ViewChild('titleEn') titleEn: any;
@@ -57,10 +58,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('descriptionPlError') descriptionPlError: ErrorInfoComponent;
   @ViewChild('descriptionEnError') descriptionEnError: ErrorInfoComponent;
   @ViewChild('projectTypeError') projectTypeError: ErrorInfoComponent;
+  @ViewChild('projectStatusError') projectStatusError: ErrorInfoComponent;
+  @ViewChild('semesterChooserError') semesterChooserError: ErrorInfoComponent;
+  @ViewChild('tagsError') tagsError: ErrorInfoComponent;
 
   readonly MAX_SIZE_DESCRIPTION_PL = 2000;
   readonly MAX_SIZE_DESCRIPTION_EN = 2000;
-
+  readonly MAX_SIZE_TAG = 30;
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
@@ -69,10 +73,14 @@ export class EditProjectGeneralTabComponent implements OnInit {
   chosenSemesters: Semester[];
   semestersHidden: boolean;
   nr = 0;
-  validationPatterns: ValidationPatterns = new ValidationPatterns();
+  validation: Validation = new Validation();
 
   getString(from, to) {
-    return this.validationPatterns.getString(from, to);
+    return this.validation.getString(from, to);
+  }
+
+  getIsLetterOrNumberPattern() {
+    return this.validation.isLetterOrNumberPattern();
   }
 
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
@@ -85,56 +93,65 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   // functions called when element's state changes
   onTitlePlChange(event) {
-    this.validateElementAndHandleError(this.titlePlError, this.validateTitlePl());
+    this.validation.validateElementAndHandleError(this.titlePlError, this.validateTitlePl());
   }
 
   onTitleEnChange(event) {
-     this.validateElementAndHandleError(this.titleEnError, this.validateTitleEn());
+    this.validation.validateElementAndHandleError(this.titleEnError, this.validateTitleEn());
   }
 
   onDescriptionPlChange(event) {
-     this.validateElementAndHandleError(this.descriptionPlError, this.validateDescriptionPl());
+    this.validation.validateElementAndHandleError(this.descriptionPlError, this.validateDescriptionPl());
   }
 
   onDescriptionEnChange(event) {
-     this.validateElementAndHandleError(this.descriptionEnError, this.validateDescriptionEn());
+    this.validation.validateElementAndHandleError(this.descriptionEnError, this.validateDescriptionEn());
   }
 
-  // validates element and displays error if invalid
-  validateElementAndHandleError(element: ErrorInfoComponent, validationOk: boolean) {
-    element.setDisplay(!validationOk);
-    return validationOk;
-  }
   // validations
   validateAllElements() {
     let validationOk = true;
-    validationOk = this.validateElementAndHandleError(this.titlePlError, this.validateTitlePl()) && validationOk;
-    validationOk = this.validateElementAndHandleError(this.titleEnError, this.validateTitleEn()) && validationOk;
-    validationOk = this.validateElementAndHandleError(this.descriptionPlError, this.validateDescriptionPl()) && validationOk;
-    validationOk = this.validateElementAndHandleError(this.descriptionEnError, this.validateDescriptionEn()) && validationOk;
-    validationOk = this.validateElementAndHandleError(this.projectTypeError, this.validateProjectType()) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.titlePlError, this.validateTitlePl()) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.titleEnError, this.validateTitleEn()) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.descriptionPlError, this.validateDescriptionPl()) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.descriptionEnError, this.validateDescriptionEn()) && validationOk;
+    // validationOk = this.validationPatterns.validateElementAndHandleError(this.projectTypeError, this.validateProjectType()) && validationOk;
+    // validationOk = this.validationPatterns.validateElementAndHandleError(this.projectStatusError, this.validateProjectStatus()) && validationOk;
+    // validationOk = this.validation.validateElementAndHandleError(this.semesterChooserError, this.validateSemesterChooser()) && validationOk;
 
     return validationOk;
   }
 
   validateTitlePl() {
-    return this.titlePl.nativeElement.validity.valid && !this.validationPatterns.isNullOrEmpty(this.titlePl.nativeElement.value);
+    return this.validation.validateMandatoryInputWithPattern(this.titlePl);
   }
 
   validateTitleEn() {
-    return this.titleEn.nativeElement.validity.valid;
+    return this.validation.validateInputWithPattern(this.titleEn);
   }
 
   validateDescriptionPl() {
-    return this.descriptionPl.nativeElement.textLength < this.MAX_SIZE_DESCRIPTION_PL;
+    return this.validation.validateTextArea(this.descriptionPl, this.MAX_SIZE_DESCRIPTION_PL);
   }
 
   validateDescriptionEn() {
-    return this.descriptionEn.nativeElement.textLength < this.MAX_SIZE_DESCRIPTION_EN;
+    return this.validation.validateTextArea(this.descriptionEn, this.MAX_SIZE_DESCRIPTION_EN);
   }
 
   validateProjectType() {
-    return (this.validationPatterns.isNullOrEmpty(this.projectType.value)) ? false : true;
+    return this.validation.validateSelectNotNull(this.projectType);
+  }
+
+  validateProjectStatus() {
+    return this.validation.validateSelectNotNull(this.projectStatus);
+  }
+
+  validateSemesterChooser() {
+    return this.validation.validateSemesterChooser(this.semesterChooser);
+  }
+
+  validateInputTag() {
+    return this.validation.validateInputWithPattern(this.tagsListComponent) && this.validation.validateMaxSize(this.tagsListComponent.nativeElement.value, this.MAX_SIZE_TAG);
   }
 
   // other
@@ -221,9 +238,15 @@ export class EditProjectGeneralTabComponent implements OnInit {
       case ENTER:
       case SPACE:
       case COMMA: {
-        const value = (<HTMLInputElement>event.target).value.replace(/[^a-zA-Z0-9]/g, '');
-        (<HTMLInputElement>event.target).value = '';
-        this.addTag(value);
+        if (this.validation.validateElementAndHandleError(this.tagsError, this.validateInputTag())) {
+          const value = (<HTMLInputElement>event.target).value; // .replace(/[^a-zA-Z0-9]/g, ''); niepotrzebne, jest walidacja
+          (<HTMLInputElement>event.target).value = '';
+          this.addTag(value);
+        }
+        break;
+      }
+      default: {
+        this.validation.validateElementAndHandleError(this.tagsError, this.validateInputTag());
         break;
       }
     }
