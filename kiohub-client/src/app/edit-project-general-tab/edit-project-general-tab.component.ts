@@ -56,6 +56,11 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('titleEnError') titleEnError: ErrorInfoComponent;
   @ViewChild('descriptionPlError') descriptionPlError: ErrorInfoComponent;
   @ViewChild('descriptionEnError') descriptionEnError: ErrorInfoComponent;
+  @ViewChild('projectTypeError') projectTypeError: ErrorInfoComponent;
+
+  readonly MAX_SIZE_DESCRIPTION_PL = 2000;
+  readonly MAX_SIZE_DESCRIPTION_EN = 2000;
+
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
@@ -63,6 +68,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   tagFilteredOptions: Observable<Tag[]>;
   chosenSemesters: Semester[];
   semestersHidden: boolean;
+  nr = 0;
   validationPatterns: ValidationPatterns = new ValidationPatterns();
 
   getString(from, to) {
@@ -77,10 +83,61 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(AttachmentService) private attachmentService: AttachmentService,
     @Inject(TagService) private tagService: TagService) { }
 
-  toggleSemesters() {
-    this.semestersHidden = !this.semestersHidden;
+  // functions called when element's state changes
+  onTitlePlChange(event) {
+    this.validateElementAndHandleError(this.titlePlError, this.validateTitlePl());
   }
 
+  onTitleEnChange(event) {
+     this.validateElementAndHandleError(this.titleEnError, this.validateTitleEn());
+  }
+
+  onDescriptionPlChange(event) {
+     this.validateElementAndHandleError(this.descriptionPlError, this.validateDescriptionPl());
+  }
+
+  onDescriptionEnChange(event) {
+     this.validateElementAndHandleError(this.descriptionEnError, this.validateDescriptionEn());
+  }
+
+  // validates element and displays error if invalid
+  validateElementAndHandleError(element: ErrorInfoComponent, validationOk: boolean) {
+    element.setDisplay(!validationOk);
+    return validationOk;
+  }
+  // validations
+  validateAllElements() {
+    let validationOk = true;
+    validationOk = this.validateElementAndHandleError(this.titlePlError, this.validateTitlePl()) && validationOk;
+    validationOk = this.validateElementAndHandleError(this.titleEnError, this.validateTitleEn()) && validationOk;
+    validationOk = this.validateElementAndHandleError(this.descriptionPlError, this.validateDescriptionPl()) && validationOk;
+    validationOk = this.validateElementAndHandleError(this.descriptionEnError, this.validateDescriptionEn()) && validationOk;
+    validationOk = this.validateElementAndHandleError(this.projectTypeError, this.validateProjectType()) && validationOk;
+
+    return validationOk;
+  }
+
+  validateTitlePl() {
+    return this.titlePl.nativeElement.validity.valid && !this.validationPatterns.isNullOrEmpty(this.titlePl.nativeElement.value);
+  }
+
+  validateTitleEn() {
+    return this.titleEn.nativeElement.validity.valid;
+  }
+
+  validateDescriptionPl() {
+    return this.descriptionPl.nativeElement.textLength < this.MAX_SIZE_DESCRIPTION_PL;
+  }
+
+  validateDescriptionEn() {
+    return this.descriptionEn.nativeElement.textLength < this.MAX_SIZE_DESCRIPTION_EN;
+  }
+
+  validateProjectType() {
+    return (this.validationPatterns.isNullOrEmpty(this.projectType.value)) ? false : true;
+  }
+
+  // other
   getProjectIdFromRouter() {
     let id: number;
     this.route.params.subscribe(routeParams => {
@@ -89,69 +146,50 @@ export class EditProjectGeneralTabComponent implements OnInit {
     return id;
   }
 
-  onTitlePlChange(event) {
-    this.titlePlError.setDisplay(!this.titlePl.nativeElement.validity.valid);
+  toggleSemesters() {
+    this.semestersHidden = !this.semestersHidden;
   }
 
-  onTitleEnChange(event) {
-    this.titleEnError.setDisplay(!this.titleEn.nativeElement.validity.valid);
-  }
-
-  onDescriptionPlChange(event) {
-    if (this.descriptionPl.nativeElement.textLength > 2000) {
-      this.descriptionPlError.setDisplay(true);
-    } else {
-      this.descriptionPlError.setDisplay(false);
-    }
-  }
-
-  onDescriptionEnChange(event) {
-    if (this.descriptionEn.nativeElement.textLength > 2000) {
-      this.descriptionEnError.setDisplay(true);
-    } else {
-      this.descriptionEnError.setDisplay(false);
-    }
-  }
   ngOnInit() {
     const projectId = this.getProjectIdFromRouter();
-      this.projectService.getProjectById(projectId).subscribe(result => {
-        this.editedProject = result;
-        console.log(this.editedProject);
-        result.tags.forEach(tag => {
-          this.tagsList.add({ id: tag.id, name: tag.name });
-        });
-        result.semesters.forEach(semester => {
-          this.semesterChooser.chooseSemester(semester);
-        });
-        result.attachments.forEach(at => {
-          switch (at.type) {
-            case AttachmentType.THESIS: {
-              this.thesisList.add({ id: at.id, name: at.fileName });
-              break;
-            }
-            case AttachmentType.SOURCE_CODE: {
-              this.programsList.add({ id: at.id, name: at.fileName });
-              break;
-            }
-            case AttachmentType.PHOTO: {
-              this.imagesList.add({ id: at.id, name: at.fileName });
-              break;
-            }
-            case AttachmentType.OTHER: {
-              this.othersList.add({ id: at.id, name: at.fileName });
-              break;
-            }
-            case AttachmentType.MANUAL_USAGE: {
-              this.instructionsList.add({ id: at.id, name: at.fileName });
-              break;
-            }
-            case AttachmentType.MANUAL_STARTUP: {
-              this.instructionsStartList.add({ id: at.id, name: at.fileName });
-              break;
-            }
+    this.projectService.getProjectById(projectId).subscribe(result => {
+      this.editedProject = result;
+      console.log(this.editedProject);
+      result.tags.forEach(tag => {
+        this.tagsList.add({ id: tag.id, name: tag.name });
+      });
+      result.semesters.forEach(semester => {
+        this.semesterChooser.chooseSemester(semester);
+      });
+      result.attachments.forEach(at => {
+        switch (at.type) {
+          case AttachmentType.THESIS: {
+            this.thesisList.add({ id: at.id, name: at.fileName });
+            break;
           }
-        });
-     });
+          case AttachmentType.SOURCE_CODE: {
+            this.programsList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.PHOTO: {
+            this.imagesList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.OTHER: {
+            this.othersList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.MANUAL_USAGE: {
+            this.instructionsList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+          case AttachmentType.MANUAL_STARTUP: {
+            this.instructionsStartList.add({ id: at.id, name: at.fileName });
+            break;
+          }
+        }
+      });
+    });
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
@@ -238,6 +276,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   updateProject() {
+
+    this.validateAllElements();
+
     const updatedProject: Project = {
       id: this.editedProject.id,
       title: this.titlePl.nativeElement.value,
@@ -250,7 +291,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       relatedFromProjects: [], // not used so far
       projectSettings: null, // not used so far
       tags: this.tagsList.elements.map(tag => <Tag>{ id: tag.id, name: tag.name }),
-      semesters: this.semestersList.elements.map(semester => <Semester> {id: semester.id, name: semester.name}),
+      semesters: this.semestersList.elements.map(semester => <Semester>{ id: semester.id, name: semester.name }),
       titleEng: this.titleEn.nativeElement.value,
       descriptionEng: this.descriptionEn.nativeElement.value,
       publicationDate: this.editedProject.publicationDate,
@@ -349,7 +390,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   showAddedSemester(semester: Semester) {
-    this.semestersList.add({name: semester.name});
+    this.semestersList.add({ name: semester.name });
     this.chosenSemesters.push(semester);
   }
 

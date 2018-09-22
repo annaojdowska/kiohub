@@ -44,6 +44,7 @@
             <mat-option *ngFor="let type of project_types" [value]="type.id">{{type.name}}</mat-option>
         </mat-select>
     </mat-form-field>
+    <app-error-info #projectTypeError errorText="Wybierz typ projektu." errorType="ERROR"></app-error-info>
     <br/>
     <br/>
 
@@ -154,8 +155,8 @@
         <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true" hideInput="true"></app-input-list>
     </div>
 
-    <div id="button-container">
-        <button type="button" mat-stroked-button class="submit-button" (click)="updateProject();">Zatwierdź zmiany</button>
+    <div id="button-container"> <!--FIXME #1 validateAllElements-->
+        <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź zmiany</button>
         <div id="divider"></div>
         <button type="button" mat-stroked-button class="submit-button">Publikuj na stronie</button>
     </div>
