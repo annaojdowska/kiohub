@@ -13,7 +13,7 @@
                             <th>
                                 <mat-form-field class="right-element">
                                     <input #titleInput matInput ngModel name="title" (ngModelChange)="onTitlePlChange($event)"
-                                        pattern="{{getTitlePlPattern()}}" >
+                                        pattern="{{getTitlePlPattern()}}">
                                 </mat-form-field>
                                 <app-error-info #titlePlError errorText="Podaj tytuł. Powinien mieć maksymalnie 255 znaków."
                                     errorType="ERROR"></app-error-info>
@@ -32,12 +32,13 @@
                                 </th>
                                 <th>
                                     <mat-form-field class="right-element">
-                                        <input #authorInput name="author" ngModel matInput>
+                                        <input #authorInput ngModel matInput name="author" 
+                                        pattern="{{getStudentEmailPattern()}}">
                                     </mat-form-field>
-
+                                    <app-error-info #emailError errorText="Podaj poprawny adres email. Powinien mieć maksymalnie 30 znaków." errorType="ERROR"></app-error-info>
                                 </th>
-                                <th>
-                                    <button type="submit" mat-stroked-button class="submit-button submit-button-collaborator">Dodaj</button>
+                                <th> 
+                                    <button type="submit" mat-stroked-button class="submit-button submit-button-collaborator" (click)="onEmailChange($event)">Dodaj</button>
                                 </th>
                             </tr>
                             <tr>

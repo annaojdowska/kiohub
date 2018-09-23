@@ -10,6 +10,10 @@ h2 {
     margin-bottom: 15px;
 }
 
+.centered_element {
+    display: block;
+}
+
  
 table > *:first-child:not(thead) th:first-child { /*h5*/
     font-family: var(--main-font-name), sans-serif;
@@ -33,4 +37,5 @@ table > *:first-child:not(thead) th:nth-child(3),  {
 
 .submit-button-collaborator {
     margin-bottom: 10px;
+    display: block;
 }

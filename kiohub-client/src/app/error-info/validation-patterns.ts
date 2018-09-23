@@ -5,6 +5,7 @@ export class Validation {
     readonly MAX_SIZE_DESCRIPTION_PL = 2000;
     readonly MAX_SIZE_DESCRIPTION_EN = 2000;
     readonly MAX_SIZE_TAG = 30;
+    readonly MAX_SIZE_TITLE = 255;
 
     // ******** REGEX PATTERNS ********
     // creates pattern string allowing to write any character <from,to> times
@@ -13,7 +14,12 @@ export class Validation {
     }
 
     getTitlePattern() {
-        return this.getString(0, 255);
+        return this.getString(0, this.MAX_SIZE_TITLE);
+    }
+
+    getStudentEmailPattern() {
+        // TODO
+        return ''; // ^\w+(-+.\w+)*@\w+(-.\w+)*\.\w+(-.\w+)*$';
     }
 
     isLetterOrNumberPattern() {
@@ -28,39 +34,45 @@ export class Validation {
 
     // ******** COMPONENT VALIDATION ********
 
-    validateTitlePl(titlePl) {
-        return this.validateMandatoryInputWithPattern(titlePl);
+    validateTitlePl(titlePlInput) {
+        return this.validateMandatoryInputWithPattern(titlePlInput);
     }
 
-      validateTitleEn(titleEn) {
-        return this.validateInputWithPattern(titleEn);
-      }
+    validateTitleEn(titleEnInput) {
+        return this.validateInputWithPattern(titleEnInput);
+    }
 
-      validateDescriptionPl(descriptionPl) {
-        return this.validateTextArea(descriptionPl, this.MAX_SIZE_DESCRIPTION_PL);
-      }
+    validateDescriptionPl(descriptionPlTextArea) {
+        return this.validateTextArea(descriptionPlTextArea, this.MAX_SIZE_DESCRIPTION_PL);
+    }
 
-      validateDescriptionEn(descriptionEn) {
-        return this.validateTextArea(descriptionEn, this.MAX_SIZE_DESCRIPTION_EN);
-      }
+    validateDescriptionEn(descriptionEnTextArea) {
+        return this.validateTextArea(descriptionEnTextArea, this.MAX_SIZE_DESCRIPTION_EN);
+    }
 
-      validateProjectType(projectType) {
-        return this.validateSelectNotNull(projectType);
-      }
+    validateProjectType(projectTypeSelect) {
+        return this.validateSelectNotNull(projectTypeSelect);
+    }
 
-      validateProjectStatus(projectStatus) {
-        return this.validateSelectNotNull(projectStatus);
-      }
+    validateProjectStatus(projectStatusSelect) {
+        return this.validateSelectNotNull(projectStatusSelect);
+    }
 
-      validateSemesterChooser(semesterChooser) {
+    validateSemesterChooser(semesterChooser) {
         return this.validateSemesterChooserElement(semesterChooser);
-      }
+    }
 
-      validateInputTag(tagsListComponent) {
+    validateInputTag(tagsListComponent) {
         return this.validateInputWithPattern(tagsListComponent) && this.validateMaxSize(tagsListComponent.nativeElement.value, this.MAX_SIZE_TAG);
-      }
+    }
 
-  // ******** COMPONENT TYPE VALIDATION ********
+    validateStudentEmail(emailInput) {
+        console.log(emailInput);
+        // const regexp = new RegExp(this.getStudentEmailPattern());
+        return this.validateMandatoryInputWithPattern(emailInput);// && regexp.test(emailInput.nativeElement.value);
+    }
+
+    // ******** COMPONENT TYPE VALIDATION ********
 
     validateInputWithPattern(element) {
         return element.nativeElement.validity.valid;
@@ -82,7 +94,7 @@ export class Validation {
         return !this.isNullOrUndefined(element) && element.semesters.length > 0;
     }
 
-     // ******** VALUE VALIDATION ********
+    // ******** VALUE VALIDATION ********
     validateMaxSize(stringValue, maxSize) {
         return stringValue.length < maxSize;
     }

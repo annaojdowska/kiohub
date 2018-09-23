@@ -1,4 +1,5 @@
 <p id="h2">Edycja projektu </p>
+<app-error-info #updateResult></app-error-info>
 <div>
     <mat-form-field class="wrapper-right">
         <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*" (selectionChange)="onProjectStatusChange($event)">
@@ -162,7 +163,7 @@
     </div>
 
     <div>
-        <!--TODO validation-->
+            <!--no need for validation-->
         <label>Semestry wytwarzania: </label>
         <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
         <br />
@@ -184,7 +185,6 @@
 
     <div>
         <label>Tagi:</label>
-        <!--TODO validation [a-ZA-Z0-9]-->
         <mat-form-field class="example-full-width" name="tags">
             <input #tagsListComponent ngModel matInput type="text" aria-label="Number" [formControl]="tagControl"
                 [matAutocomplete]="auto" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">

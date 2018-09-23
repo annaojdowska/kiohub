@@ -61,6 +61,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('projectStatusError') projectStatusError: ErrorInfoComponent;
   @ViewChild('semesterChooserError') semesterChooserError: ErrorInfoComponent;
   @ViewChild('tagsError') tagsError: ErrorInfoComponent;
+  @ViewChild('updateResult') updateResult: ErrorInfoComponent;
 
 
   tagsToSent: string[] = [];
@@ -72,6 +73,15 @@ export class EditProjectGeneralTabComponent implements OnInit {
   nr = 0;
   validation: Validation = new Validation();
 
+  constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
+    @Inject(ActivatedRoute) private route: ActivatedRoute,
+    @Inject(LicenceService) private licenceService: LicenceService,
+    @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
+    @Inject(ProjectService) private projectService: ProjectService,
+    @Inject(AttachmentService) private attachmentService: AttachmentService,
+    @Inject(TagService) private tagService: TagService) { }
+
+  // ******** GETTERS ********
   getString(from, to) {
     return this.validation.getString(from, to);
   }
@@ -84,13 +94,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
     return this.validation.getTitlePattern();
   }
 
-  constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
-    @Inject(ActivatedRoute) private route: ActivatedRoute,
-    @Inject(LicenceService) private licenceService: LicenceService,
-    @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
-    @Inject(ProjectService) private projectService: ProjectService,
-    @Inject(AttachmentService) private attachmentService: AttachmentService,
-    @Inject(TagService) private tagService: TagService) { }
 
   // ******** FUNCTION CALLED WHEN ELEMENT'S VALUE CHANGES ********
   onTitlePlChange(event) {
@@ -130,7 +133,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
     return validationOk;
   }
-  
+
   // other
   getProjectIdFromRouter() {
     let id: number;
@@ -307,12 +310,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
       };
 
       console.log(updatedProject);
+      this.updateResult.setDisplay(false);
     //  if (updatedProject.projectStatus.id && updatedProject.projectType.id) {
         this.projectService.updateProject(updatedProject).subscribe(data => {
-          console.log('ERROR: Projekt zapisano pomyślnie.');
+          this.updateResult.setComponent(true, 'SUCCESS', 'Pomyślnie zaktualizowano projekt.');
         },
           error => {
-            console.log('ERROR: Wystąpił błąd wysłania projektu.');
+            this.updateResult.setComponent(true, 'ERROR', 'Wystąpił błąd zapisania projektu.');
           });
    //   }
       // else if (!updatedProject.projectStatus.id && !updatedProject.projectType.id) {
