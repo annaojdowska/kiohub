@@ -4,6 +4,8 @@ import { EmailInvitationService } from '../email-invitation-service/email-invita
 import { ProjectService } from '../services/project.service';
 import { Project } from '../model/project.interface';
 import { InputListComponent } from '../input-list/input-list.component';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { Validation } from '../error-info/validation-patterns';
 
 @Component({
   selector: 'app-add-project',
@@ -12,11 +14,13 @@ import { InputListComponent } from '../input-list/input-list.component';
 })
 export class AddProjectComponent implements OnInit {
   project: Project;
+  validation: Validation = new Validation();
 
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
   @ViewChild('titleInput') titleInput: any;
   @ViewChild('errorInput') errorInput: any;
+  @ViewChild('titlePlError') titlePlError: ErrorInfoComponent;
 
   constructor(
     @Inject(Router) private router: Router,
@@ -25,6 +29,15 @@ export class AddProjectComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
+  }
+
+  getTitlePlPattern() {
+    return this.validation.getTitlePattern();
+  }
+
+  // ******** functions called when element's state changes
+  onTitlePlChange(event) {
+    this.validation.validateElementAndHandleError(this.titlePlError, this.validation.validateTitlePl(this.titleInput));
   }
 
   addAuthor() {

@@ -62,9 +62,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('semesterChooserError') semesterChooserError: ErrorInfoComponent;
   @ViewChild('tagsError') tagsError: ErrorInfoComponent;
 
-  readonly MAX_SIZE_DESCRIPTION_PL = 2000;
-  readonly MAX_SIZE_DESCRIPTION_EN = 2000;
-  readonly MAX_SIZE_TAG = 30;
 
   tagsToSent: string[] = [];
   tagControl = new FormControl();
@@ -83,6 +80,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     return this.validation.isLetterOrNumberPattern();
   }
 
+  getTitlePlPattern() {
+    return this.validation.getTitlePattern();
+  }
+
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(LicenceService) private licenceService: LicenceService,
@@ -91,70 +92,45 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(AttachmentService) private attachmentService: AttachmentService,
     @Inject(TagService) private tagService: TagService) { }
 
-  // ******** functions called when element's state changes
+  // ******** FUNCTION CALLED WHEN ELEMENT'S VALUE CHANGES ********
   onTitlePlChange(event) {
-    this.validation.validateElementAndHandleError(this.titlePlError, this.validateTitlePl());
+    this.validation.validateElementAndHandleError(this.titlePlError, this.validation.validateTitlePl(this.titlePl));
   }
 
   onTitleEnChange(event) {
-    this.validation.validateElementAndHandleError(this.titleEnError, this.validateTitleEn());
+    this.validation.validateElementAndHandleError(this.titleEnError, this.validation.validateTitleEn(this.titleEn));
   }
 
   onDescriptionPlChange(event) {
-    this.validation.validateElementAndHandleError(this.descriptionPlError, this.validateDescriptionPl());
+    this.validation.validateElementAndHandleError(this.descriptionPlError, this.validation.validateDescriptionPl(this.descriptionPl));
   }
 
   onDescriptionEnChange(event) {
-    this.validation.validateElementAndHandleError(this.descriptionEnError, this.validateDescriptionEn());
+    this.validation.validateElementAndHandleError(this.descriptionEnError, this.validation.validateDescriptionEn(this.descriptionEn));
   }
 
-  // ******** validations
+  onProjectStatusChange(event) {
+    this.validation.validateElementAndHandleError(this.projectStatusError, this.validation.validateProjectStatus(this.projectStatus));
+  }
+
+  onProjectTypeChange(event) {
+    this.validation.validateElementAndHandleError(this.projectTypeError, this.validation.validateProjectType(this.projectType));
+  }
+
   validateAllElements() {
     let validationOk = true;
-    validationOk = this.validation.validateElementAndHandleError(this.titlePlError, this.validateTitlePl()) && validationOk;
-    validationOk = this.validation.validateElementAndHandleError(this.titleEnError, this.validateTitleEn()) && validationOk;
-    validationOk = this.validation.validateElementAndHandleError(this.descriptionPlError, this.validateDescriptionPl()) && validationOk;
-    validationOk = this.validation.validateElementAndHandleError(this.descriptionEnError, this.validateDescriptionEn()) && validationOk;
-    // validationOk = this.validationPatterns.validateElementAndHandleError(this.projectTypeError, this.validateProjectType()) && validationOk;
-    // validationOk = this.validationPatterns.validateElementAndHandleError(this.projectStatusError, this.validateProjectStatus()) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.titlePlError, this.validation.validateTitlePl(this.titlePl)) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.titleEnError, this.validation.validateTitleEn(this.titleEn)) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.descriptionPlError, this.validation.validateDescriptionPl(this.descriptionPl)) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.descriptionEnError, this.validation.validateDescriptionEn(this.descriptionEn)) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.projectTypeError, this.validation.validateProjectType(this.projectType)) && validationOk;
+    validationOk = this.validation.validateElementAndHandleError(this.projectStatusError, this.validation.validateProjectStatus(this.projectStatus)) && validationOk;
     // validationOk = this.validation.validateElementAndHandleError(this.semesterChooserError, this.validateSemesterChooser()) && validationOk;
     // no tag validation - every successfully added tag had been already validated
 
     return validationOk;
   }
-
-  validateTitlePl() {
-    return this.validation.validateMandatoryInputWithPattern(this.titlePl);
-  }
-
-  validateTitleEn() {
-    return this.validation.validateInputWithPattern(this.titleEn);
-  }
-
-  validateDescriptionPl() {
-    return this.validation.validateTextArea(this.descriptionPl, this.MAX_SIZE_DESCRIPTION_PL);
-  }
-
-  validateDescriptionEn() {
-    return this.validation.validateTextArea(this.descriptionEn, this.MAX_SIZE_DESCRIPTION_EN);
-  }
-
-  validateProjectType() {
-    return this.validation.validateSelectNotNull(this.projectType);
-  }
-
-  validateProjectStatus() {
-    return this.validation.validateSelectNotNull(this.projectStatus);
-  }
-
-  validateSemesterChooser() {
-    return this.validation.validateSemesterChooser(this.semesterChooser);
-  }
-
-  validateInputTag() {
-    return this.validation.validateInputWithPattern(this.tagsListComponent) && this.validation.validateMaxSize(this.tagsListComponent.nativeElement.value, this.MAX_SIZE_TAG);
-  }
-
+  
   // other
   getProjectIdFromRouter() {
     let id: number;
@@ -239,7 +215,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       case ENTER:
       case SPACE:
       case COMMA: {
-        if (this.validation.validateElementAndHandleError(this.tagsError, this.validateInputTag())) {
+        if (this.validation.validateElementAndHandleError(this.tagsError, this.validation.validateInputTag(this.tagsListComponent))) {
           const value = (<HTMLInputElement>event.target).value; // .replace(/[^a-zA-Z0-9]/g, ''); niepotrzebne, jest walidacja
           (<HTMLInputElement>event.target).value = '';
           this.addTag(value);
@@ -247,7 +223,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
         break;
       }
       default: {
-        this.validation.validateElementAndHandleError(this.tagsError, this.validateInputTag());
+        this.validation.validateElementAndHandleError(this.tagsError, this.validation.validateInputTag(this.tagsListComponent));
         break;
       }
     }
