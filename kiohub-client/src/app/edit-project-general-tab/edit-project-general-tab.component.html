@@ -2,11 +2,12 @@
 <app-error-info #updateResult></app-error-info>
 <div>
     <mat-form-field class="wrapper-right">
-        <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*" (selectionChange)="onProjectStatusChange($event)">
+        <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*"
+            (selectionChange)="onProjectStatusChange($event)">
             <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
         </mat-select>
     </mat-form-field>
-    <app-error-info #projectStatusError errorText="Wybierz status projektu." errorType="ERROR"></app-error-info>
+    <app-error-info #projectStatusError errorText="{{validation.errorStringStatus}}" errorType="ERROR"></app-error-info>
 </div>
 <form>
     <div>
@@ -15,7 +16,7 @@
             <input matInput ngModel #titlePl name="titlePl" (ngModelChange)="onTitlePlChange($event)" pattern="{{getTitlePlPattern()}}"
                 value="{{editedProject?.title}}">
         </mat-form-field>
-        <app-error-info #titlePlError errorText="Podaj tytuł. Powinien mieć maksymalnie 255 znaków." errorType="ERROR"></app-error-info>
+        <app-error-info #titlePlError errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
         <br />
     </div>
 
@@ -25,7 +26,7 @@
             <textarea matInput ngModel #descriptionPl id="wrapper-height" name="descriptionPl" (ngModelChange)="onDescriptionPlChange($event)"
                 value="{{editedProject?.description}}"></textarea>
         </mat-form-field>
-        <app-error-info #descriptionPlError errorText="Opis powinien mieć maksymalnie 2000 znaków." errorType="ERROR"></app-error-info>
+        <app-error-info #descriptionPlError errorText="{{validation.errorStringDescriptionPl}}" errorType="ERROR"></app-error-info>
         <br />
     </div>
 
@@ -35,7 +36,7 @@
             <input matInput #titleEn name="titleEn" (ngModelChange)="onTitleEnChange($event)" pattern="{{getString(0, 255)}}"
                 value="{{editedProject?.titleEng}}" ngModel>
         </mat-form-field>
-        <app-error-info #titleEnError errorText="Tytuł powinien mieć maksymalnie 255 znaków." errorType="ERROR"></app-error-info>
+        <app-error-info #titleEnError errorText="{{validation.errorStringTitleEn}}" errorType="ERROR"></app-error-info>
         <br />
     </div>
 
@@ -45,18 +46,18 @@
             <textarea matInput ngModel #descriptionEn id="wrapper-height" name="descriptionEn" (ngModelChange)="onDescriptionEnChange($event)"
                 value="{{editedProject?.descriptionEng}}"></textarea>
         </mat-form-field>
-        <app-error-info #descriptionEnError errorText="Opis powinien mieć maksymalnie 2000 znaków." errorType="ERROR"></app-error-info>
+        <app-error-info #descriptionEnError errorText="{{validation.errorStringDescriptionEn}}" errorType="ERROR"></app-error-info>
         <br />
     </div>
 
     <div>
         <label>Typ projektu*:</label>
         <mat-form-field>
-            <mat-select #projectType [value]="editedProject?.projectType?.id"  (selectionChange)="onProjectTypeChange($event)">
+            <mat-select #projectType [value]="editedProject?.projectType?.id" (selectionChange)="onProjectTypeChange($event)">
                 <mat-option *ngFor="let type of project_types" [value]="type.id">{{type.name}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <app-error-info #projectTypeError errorText="Wybierz typ projektu." errorType="ERROR"></app-error-info>
+        <app-error-info #projectTypeError errorText="{{validation.errorStringType}}" errorType="ERROR"></app-error-info>
         <br />
         <br />
     </div>
@@ -163,7 +164,7 @@
     </div>
 
     <div>
-            <!--no need for validation-->
+        <!--no need for validation-->
         <label>Semestry wytwarzania: </label>
         <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
         <br />
@@ -194,8 +195,7 @@
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>
-        <app-error-info #tagsError errorText="Tag nie może zawierać znaków innych niż litery i cyfry. Maksymalna długość to 30 znaków."
-            errorType="ERROR"></app-error-info>
+        <app-error-info #tagsError errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
 
         <div class="list">
             <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true"

@@ -1,11 +1,29 @@
 import { ErrorInfoComponent } from './error-info.component';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 
+
 export class Validation {
     readonly MAX_SIZE_DESCRIPTION_PL = 2000;
     readonly MAX_SIZE_DESCRIPTION_EN = 2000;
     readonly MAX_SIZE_TAG = 30;
+    readonly MAX_SIZE_SUPERVISOR = 50;
     readonly MAX_SIZE_TITLE = 255;
+    readonly MAX_SIZE_EMAIL = 30;
+
+    readonly errorStringSupervisor = 'Podane dane promotora muszą być krótsze niż ' + this.MAX_SIZE_SUPERVISOR + 'znaków.';
+    readonly errorStringTag = 'Tag nie może zawierać znaków innych niż litery i cyfry. Maksymalna długość to ' + this.MAX_SIZE_TAG + ' znaków.';
+    readonly errorStringStatus = 'Wybierz status projektu.';
+    readonly errorStringType = 'Wybierz typ projektu.';
+    readonly errorStringTitlePl = 'Podaj tytuł. Powinien mieć maksymalnie ' + this.MAX_SIZE_TITLE + ' znaków.';
+    readonly errorStringTitleEn = 'Tytuł powinien mieć maksymalnie ' + this.MAX_SIZE_TITLE + ' znaków.';
+    readonly errorStringDescriptionPl = 'Opis powinien mieć maksymalnie ' + this.MAX_SIZE_DESCRIPTION_PL + ' znaków.';
+    readonly errorStringDescriptionEn = 'Opis powinien mieć maksymalnie' + this.MAX_SIZE_DESCRIPTION_EN + ' znaków.';
+    readonly errorStringEmail = 'Podaj poprawny adres email. Powinien mieć maksymalnie ' + this.MAX_SIZE_EMAIL + ' znaków.';
+    // readonly errorStringTag = '';
+    // readonly errorStringTag = '';
+    // readonly errorStringTag = '';
+    // readonly errorStringTag = '';
+
 
     // ******** REGEX PATTERNS ********
     // creates pattern string allowing to write any character <from,to> times
@@ -69,7 +87,7 @@ export class Validation {
     validateStudentEmail(emailInput) {
         console.log(emailInput);
         // const regexp = new RegExp(this.getStudentEmailPattern());
-        return this.validateMandatoryInputWithPattern(emailInput);// && regexp.test(emailInput.nativeElement.value);
+        return this.validateMandatoryInputWithPattern(emailInput); // && regexp.test(emailInput.nativeElement.value);
     }
 
     // ******** COMPONENT TYPE VALIDATION ********

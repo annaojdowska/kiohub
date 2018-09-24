@@ -46,6 +46,7 @@ export class AddProjectComponent implements OnInit {
     this.validation.validateElementAndHandleError(this.titlePlError, this.validation.validateTitlePl(this.titleInput));
   }
 
+  // validates email after user presses enter
   onEmailChange(event) {
     this.validation.validateElementAndHandleError(this.emailError, this.validation.validateStudentEmail(this.authorInput));
   }
@@ -58,13 +59,18 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
+  validateAllElements() {
+    let validationOk = true;
+    validationOk = this.validation.validateElementAndHandleError(this.titlePlError, this.validation.validateTitlePl(this.titleInput)) && validationOk;
+
+    return validationOk;
+  }
+
   actionAddProject() {
     this.errorInput = 'tekst przykładowy';
     const title = this.titleInput.nativeElement.value;
 
-    console.log('authors: ' + this.authorsList.elements.length);
-
-    if (title !== '' && this.authorsList.elements.length > 0) {
+    if (this.validateAllElements() && this.authorsList.elements.length > 0) {
       console.log(title);
       // console.log('Próbuję dodać projekt.');
       // const httpStatus = this.projectService.getTitleUnique(title).subscribe(res => {

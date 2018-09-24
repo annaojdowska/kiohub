@@ -314,21 +314,12 @@ export class EditProjectGeneralTabComponent implements OnInit {
     //  if (updatedProject.projectStatus.id && updatedProject.projectType.id) {
         this.projectService.updateProject(updatedProject).subscribe(data => {
           this.updateResult.setComponent(true, 'SUCCESS', 'Pomyślnie zaktualizowano projekt.');
+          window.scrollTo(0, 0);
         },
           error => {
-            this.updateResult.setComponent(true, 'ERROR', 'Wystąpił błąd zapisania projektu.');
+            this.updateResult.setComponent(true, 'ERROR', 'Wystąpił błąd zaktualizowania projektu.');
+            window.scrollTo(0, 0);
           });
-   //   }
-      // else if (!updatedProject.projectStatus.id && !updatedProject.projectType.id) {
-      //   console.log('ERROR: Podaj status i typ projektu.');
-      // } else if (!updatedProject.projectStatus.id) {
-      //   console.log('ERROR: Podaj status projektu.');
-      // } else if (!updatedProject.projectType.id) {
-      //   console.log('ERROR: Podaj typ projektu');
-      // }
-      // else {
-      //   console.log('ERROR: Wystąpił błąd walidacji.');
-      // }
 
       this.thesisList.elements.forEach(th => {
         if (!th.id) {
