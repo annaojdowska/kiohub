@@ -19,7 +19,7 @@ import { AttachmentService } from '../services/attachment.service';
 import { Visibility } from '../model/visibility.enum';
 import { TagService } from '../services/tag.service';
 import { Tag } from '../model/tag.interface';
-import { ActivatedRoute } from '../../../node_modules/@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Semester } from '../model/semester.interface';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '../../../node_modules/@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../model/project.interface';
 import { UserService } from '../services/user.service';

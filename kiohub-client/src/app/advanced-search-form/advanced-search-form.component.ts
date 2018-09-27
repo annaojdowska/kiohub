@@ -4,7 +4,7 @@ import { Licence } from '../model/licence.interface';
 import { ProjectTypeService } from '../services/project-type-service';
 import { LicenceService } from '../services/licence-service';
 import { Semester } from '../model/semester.interface';
-import { MatDatepickerInput, MatDatepickerInputEvent, MatInput } from '../../../node_modules/@angular/material';
+import { MatDatepickerInput, MatDatepickerInputEvent, MatInput } from '@angular/material';
 import { InputListComponent } from '../input-list/input-list.component';
 import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
@@ -87,16 +87,22 @@ export class AdvancedSearchFormComponent implements OnInit {
     const query = new QueryDescription();
     this.supervisorsList.elements.map(element => element.name).forEach(name => query.supervisors.push(name));
     this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
+    console.log('Tagi: ' + query.tags);
     this.titlesList.elements.map(element => element.name).forEach(name => query.titles.push(name));
+    console.log('Titles: ' + query.titles);
     this.descriptionsList.elements.map(element => element.name).forEach(name => query.descriptions.push(name));
     query.dateFrom = this.dateFrom;
     query.dateTo = this.dateTo;
-    this.licences.filter(licence =>
-      this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
-    ).forEach(licence => query.licencesIds.push(licence.id));
-    this.project_types.filter(type =>
-      this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
-    ).forEach(type => query.projectTypesIds.push(type.id));
+    if (this.licences !== undefined) {
+      this.licences.filter(licence =>
+        this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
+      ).forEach(licence => query.licencesIds.push(licence.id));
+    }
+    if (this.project_types !== undefined) {
+      this.project_types.filter(type =>
+        this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
+      ).forEach(type => query.projectTypesIds.push(type.id));
+    }
     this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
 
     this.clearFilters();

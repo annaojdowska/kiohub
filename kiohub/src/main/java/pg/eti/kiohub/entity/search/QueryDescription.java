@@ -5,7 +5,7 @@
  */
 package pg.eti.kiohub.entity.search;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +24,6 @@ public class QueryDescription {
     private List<Long> licencesIds;
     private List<Long> projectTypesIds;
     private List<Long> semestersIds;
-    private LocalDate dateTo;
-    private LocalDate dateFrom;
+    private Date dateTo;
+    private Date dateFrom;
 }

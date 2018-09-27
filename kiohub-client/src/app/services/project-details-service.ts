@@ -1,6 +1,6 @@
-import { Injectable, OnInit } from '../../../node_modules/@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Project } from '../model/project.interface';
-import { Observable, Subject } from '../../../node_modules/rxjs';
+import { Observable, Subject } from 'rxjs';
 import { address } from './project.service';
 
 @Injectable()

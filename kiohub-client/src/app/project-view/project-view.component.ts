@@ -2,11 +2,11 @@ import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Project } from '../model/project.interface';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
-import { ActivatedRoute } from '../../../node_modules/@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../services/project.service';
 import { DownloadElementComponent } from '../ui-elements/download-element/download-element.component';
 import { AttachmentType } from '../model/attachment-type.enum';
-import { trigger, transition, style, animate } from '../../../node_modules/@angular/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
 
 @Component({
