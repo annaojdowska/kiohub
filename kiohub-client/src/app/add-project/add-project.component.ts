@@ -41,18 +41,30 @@ export class AddProjectComponent implements OnInit {
     return this.validation.getStudentEmailPattern();
   }
 
+  // ******** CHECK VALIDITY ********
+  checkValidityTitle() {
+    return this.validation.validate(this.titlePlError, this.validation.validateTitlePl(this.titleInput));
+  }
+
+  checkValidityEmail() {
+    return this.validation.validate(this.emailError, this.validation.validateStudentEmail(this.authorInput));
+  }
+
   // ******** FUNCTION CALLED WHEN ELEMENT'S VALUE CHANGES ********
   onTitlePlChange(event) {
-    this.validation.validateElementAndHandleError(this.titlePlError, this.validation.validateTitlePl(this.titleInput));
+    this.checkValidityTitle();
   }
 
   // validates email after user presses enter
   onEmailChange(event) {
-    this.validation.validateElementAndHandleError(this.emailError, this.validation.validateStudentEmail(this.authorInput));
+    this.checkValidityEmail();
+    if (this.validation.isNullOrEmpty(event)) {
+      this.emailError.setDisplay(false);
+    }
   }
 
   addAuthor() {
-    if (this.validation.validateElementAndHandleError(this.emailError, this.validation.validateStudentEmail(this.authorInput))) {
+    if (this.checkValidityEmail()) {
       const author = this.authorInput.nativeElement.value;
       this.authorInput.nativeElement.value = '';
       this.authorsList.add({ name: author });
@@ -61,7 +73,7 @@ export class AddProjectComponent implements OnInit {
 
   validateAllElements() {
     let validationOk = true;
-    validationOk = this.validation.validateElementAndHandleError(this.titlePlError, this.validation.validateTitlePl(this.titleInput)) && validationOk;
+    validationOk = this.checkValidityTitle() && validationOk;
 
     return validationOk;
   }
@@ -81,6 +93,7 @@ export class AddProjectComponent implements OnInit {
           this.project = data;
           console.log(this.project);
           this.sendInvitationsAndRedirect(title, this.authorsList.elements.map(e => e.name));
+          this.emailError.setDisplay(false);
         });
       // } else {
       //   console.log('ERROR: Istnieje już projekt o takim projekcie.');

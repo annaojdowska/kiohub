@@ -31,7 +31,7 @@
                                 </th>
                                 <th>
                                     <mat-form-field class="right-element">
-                                        <input #authorInput ngModel matInput name="author" pattern="{{getStudentEmailPattern()}}">
+                                        <input #authorInput ngModel matInput name="author" (ngModelChange)="onEmailChange($event)" pattern="{{getStudentEmailPattern()}}">
                                     </mat-form-field>
                                     <app-error-info #emailError errorText="{{validation.errorStringEmail}}"
                                         errorType="ERROR"></app-error-info>

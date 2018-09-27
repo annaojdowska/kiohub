@@ -10,7 +10,7 @@ export class Validation {
     readonly MAX_SIZE_TITLE = 255;
     readonly MAX_SIZE_EMAIL = 30;
 
-    readonly errorStringSupervisor = 'Podane dane promotora muszą być krótsze niż ' + this.MAX_SIZE_SUPERVISOR + 'znaków.';
+    readonly errorStringSupervisor = 'Podane dane promotora muszą być krótsze niż ' + this.MAX_SIZE_SUPERVISOR + ' znaków.';
     readonly errorStringTag = 'Tag nie może zawierać znaków innych niż litery i cyfry. Maksymalna długość to ' + this.MAX_SIZE_TAG + ' znaków.';
     readonly errorStringStatus = 'Wybierz status projektu.';
     readonly errorStringType = 'Wybierz typ projektu.';
@@ -19,6 +19,7 @@ export class Validation {
     readonly errorStringDescriptionPl = 'Opis powinien mieć maksymalnie ' + this.MAX_SIZE_DESCRIPTION_PL + ' znaków.';
     readonly errorStringDescriptionEn = 'Opis powinien mieć maksymalnie' + this.MAX_SIZE_DESCRIPTION_EN + ' znaków.';
     readonly errorStringEmail = 'Podaj poprawny adres email. Powinien mieć maksymalnie ' + this.MAX_SIZE_EMAIL + ' znaków.';
+    readonly errorStringDatesOrder = 'Data publikacji "od" powinna być starsza od daty "do".';
     // readonly errorStringTag = '';
     // readonly errorStringTag = '';
     // readonly errorStringTag = '';
@@ -31,13 +32,21 @@ export class Validation {
         return '^.{' + from + ',' + to + '}';
     }
 
+    getDescriptionPattern() {
+        return this.getString(0, this.MAX_SIZE_DESCRIPTION_PL);
+    }
+
     getTitlePattern() {
         return this.getString(0, this.MAX_SIZE_TITLE);
     }
 
+    getSupervisorPattern() {
+        return this.getString(0, this.MAX_SIZE_SUPERVISOR);
+    }
+
     getStudentEmailPattern() {
         // TODO
-        return ''; // ^\w+(-+.\w+)*@\w+(-.\w+)*\.\w+(-.\w+)*$';
+        return this.getString(1, this.MAX_SIZE_EMAIL); // ^\w+(-+.\w+)*@\w+(-.\w+)*\.\w+(-.\w+)*$';
     }
 
     isLetterOrNumberPattern() {
@@ -45,7 +54,7 @@ export class Validation {
     }
 
     // validates element and displays error if invalid
-    validateElementAndHandleError(element: ErrorInfoComponent, validationOk: boolean) {
+    validate(element: ErrorInfoComponent, validationOk: boolean) {
         element.setDisplay(!validationOk);
         return validationOk;
     }
@@ -85,8 +94,6 @@ export class Validation {
     }
 
     validateStudentEmail(emailInput) {
-        console.log(emailInput);
-        // const regexp = new RegExp(this.getStudentEmailPattern());
         return this.validateMandatoryInputWithPattern(emailInput); // && regexp.test(emailInput.nativeElement.value);
     }
 
@@ -127,5 +134,21 @@ export class Validation {
 
     isNullOrUndefined(value) {
         return value === undefined || value === null;
+    }
+
+    validateDatesOrderNotNull(olderDate: Date, newerDate: Date) {
+        if (this.isNullOrUndefined(olderDate) || this.isNullOrUndefined(newerDate)) {
+            return false;
+        } else {
+            return olderDate < newerDate;
+        }
+    }
+
+    validateDatesOrder(olderDate: Date, newerDate: Date) {
+        if (this.isNullOrUndefined(olderDate) || this.isNullOrUndefined(newerDate)) {
+            return true;
+        } else {
+            return olderDate < newerDate;
+        }
     }
 }
