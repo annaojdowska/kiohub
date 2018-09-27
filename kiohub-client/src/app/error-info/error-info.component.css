@@ -8,6 +8,8 @@
     margin-left: auto;
     margin-right: auto;
     --global-transition-duration: 0.5s;
+    font-family: var(--main-font-name), sans-serif;
+    font-weight: normal;
 }
 
 .warning {

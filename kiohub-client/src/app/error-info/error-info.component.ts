@@ -15,15 +15,7 @@ error: boolean;
 display = 'none';
 
   ngOnInit() {
-    if (this.errorType === (ErrorType.ERROR)) {
-      this.error = true;
-    } else if (this.errorType === (ErrorType.WARNING)) {
-      this.warning = true;
-    } else if (this.errorType === (ErrorType.SUCCESS)) {
-      this.success = true;
-    } else {
-      console.log('Niepoprawny styl błędu!');
-    }
+    this.setType(this.errorType);
   }
 
   setDisplay(isVisible: boolean) {
@@ -34,4 +26,31 @@ display = 'none';
     }
   }
 
+  setType(newType) {
+    if (newType === (ErrorType.ERROR)) {
+      this.error = true;
+      this.success = false;
+      this.warning = false;
+    } else if (newType === (ErrorType.WARNING)) {
+      this.error = false;
+      this.success = false;
+      this.warning = true;
+    } else if (newType === (ErrorType.SUCCESS)) {
+      this.error = false;
+      this.success = true;
+      this.warning = false;
+    } else {
+      console.log('Niepoprawny styl błędu!');
+    }
+  }
+
+  setText(newText) {
+    this.errorText = newText;
+  }
+
+  setComponent(isVisible, newType, newText) {
+    this.setDisplay(isVisible);
+    this.setType(newType);
+    this.setText(newText);
+  }
 }

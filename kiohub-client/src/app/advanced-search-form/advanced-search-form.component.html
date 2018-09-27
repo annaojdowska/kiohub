@@ -1,13 +1,13 @@
 <div id="advanced-search">
     <div class="form">
         <mat-form-field class="leftLabel">
-            <input matInput placeholder="Promotor" #supervisorInput (keyup.enter)="addSupervisor()">
+            <input matInput ngModel placeholder="Promotor" #supervisorInput (ngModelChange)="onSupervisorChange($event)" (keyup.enter)="addSupervisor()" pattern="{{getSupervisorPattern()}}">
         </mat-form-field>
         <mat-form-field class="leftLabel paddingLeft">
-            <input matInput placeholder="Tag" #tagInput (keyup.enter)="addTag()">
+            <input matInput ngModel placeholder="Tag" #tagInput (keyup)="onKeyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
         </mat-form-field>
         <mat-form-field class="rightLabel" id="textLeft">
-            <input matInput placeholder="Tytuł zawiera..." #titleInput (keyup.enter)="addTitle()">
+                <input matInput ngModel placeholder="Tytuł zawiera..." #titleInput (keyup.enter)="addTitle()" (ngModelChange)="onTitlePlChange($event)" pattern="{{getTitlePattern()}}">
         </mat-form-field>
         <mat-form-field class="leftLabel">
             <mat-select [(value)]="selectedLicence" placeholder="Licencja" (selectionChange)="addLicence()" #licenceInput>
@@ -20,17 +20,17 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field class="rightLabel" id="textLeft">
-            <input matInput placeholder="Opis zawiera..." #descriptionInput (keyup.enter)="addDescription()">
+            <input matInput ngModel placeholder="Opis zawiera..." #descriptionInput (keyup.enter)="addDescription()"  (ngModelChange)="onDescriptionPlChange($event)" pattern="{{getDescriptionPattern()}}">
         </mat-form-field>
         <label class="center">Data publikacji:</label>
         <mat-form-field class="leftLabel">
-            <input #dateInput1 matInput [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="dateFromChanged('change', $event)"
+            <input matInput ngModel #dateInput1  [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="dateFromChanged('change', $event)"
                 disabled>
             <mat-datepicker-toggle matSuffix [for]="datePicker1"></mat-datepicker-toggle>
             <mat-datepicker #datePicker1 disabled="false"></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="leftLabel paddingLeft">
-            <input #dateInput2 matInput [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="dateToChanged('change', $event)"
+            <input matInput ngModel #dateInput2 [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="dateToChanged('change', $event)"
                 disabled>
             <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
             <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
@@ -42,6 +42,12 @@
             <app-semester-chooser *ngIf="semestersHidden != false" [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
                 (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
         </div>
+        <app-error-info #errorSupervisor errorText="{{validation.errorStringSupervisor}}" errorType="ERROR"></app-error-info>
+        <app-error-info #errorTag errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
+        <app-error-info #errorTitle errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
+        <app-error-info #errorDescription errorText="{{validation.errorStringDescriptionPl}}" errorType="ERROR"></app-error-info>
+        <app-error-info #errorDate errorText="{{validation.errorStringDatesOrder}}" errorType="ERROR"></app-error-info>
+        <app-error-info #searchResult></app-error-info>
 
         <table id="inputListsTable">
             <tr>
