@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
+@RequestMapping(path = "/login")
 public class LoginController extends MainController {
 
     @CrossOrigin
-    @RequestMapping(path = "/login")
-    public ResponseEntity metoda1(HttpServletRequest servletRequest) {
+    @RequestMapping()
+    public ResponseEntity metoda1(HttpServletRequest request) {
         return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
     }
     
