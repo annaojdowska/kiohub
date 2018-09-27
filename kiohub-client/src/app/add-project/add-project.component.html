@@ -1,6 +1,6 @@
 <div class="center_vertically_parent">
     <div id="bigger_content">
-        <img src='assets/add.png'/>
+        <img src='assets/add.png' />
         <h2>Dodaj projekt</h2>
         <div>
             <form #createproject="ngForm">
@@ -8,15 +8,16 @@
                     <tbody>
                         <tr>
                             <th>
-                                Tytuł projektu:
+                                Tytuł projektu*:
                             </th>
                             <th>
                                 <mat-form-field class="right-element">
-                                    <input #titleInput matInput name="title" ngModel>
+                                    <input #titleInput matInput ngModel name="title" (ngModelChange)="onTitlePlChange($event)"
+                                        pattern="{{getTitlePlPattern()}}">
                                 </mat-form-field>
+                                <app-error-info #titlePlError errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
                             </th>
                             <th>
-
                             </th>
                         </tr>
                     </tbody>
@@ -26,25 +27,26 @@
                         <tbody>
                             <tr>
                                 <th>
-                                    Współtwórcy:
+                                    Współtwórcy*:
                                 </th>
                                 <th>
                                     <mat-form-field class="right-element">
-                                        <input #authorInput name="author" ngModel matInput>
+                                        <input #authorInput ngModel matInput name="author" pattern="{{getStudentEmailPattern()}}">
                                     </mat-form-field>
-
+                                    <app-error-info #emailError errorText="{{validation.errorStringEmail}}"
+                                        errorType="ERROR"></app-error-info>
                                 </th>
                                 <th>
-                                    <button type="submit" mat-stroked-button class="submit-button submit-button-collaborator">Dodaj</button>
-
+                                    <button type="submit" mat-stroked-button class="submit-button submit-button-collaborator"
+                                        (click)="onEmailChange($event)">Dodaj</button>
                                 </th>
                             </tr>
                             <tr>
                                 <th>
                                 </th>
                                 <th>
-                                    <app-input-list id="list" #authorsList orientation="vertical" (changeElements)="recieveElements($event)" removable="true"
-                                        hideInput="true"></app-input-list>
+                                    <app-input-list id="list" #authorsList orientation="vertical" (changeElements)="recieveElements($event)"
+                                        removable="true" hideInput="true"></app-input-list>
                                 </th>
                                 <th>
                                 </th>
@@ -55,7 +57,8 @@
             </form>
             <app-error-info #errorInfo id="errorInfo"></app-error-info>
             <div id="button-container">
-                <button type="button" (click)="actionAddProject();" mat-stroked-button class="submit-button">Utwórz projekt i przejdź do edycji</button>
+                <button type="button" (click)="actionAddProject();" mat-stroked-button class="submit-button">Utwórz
+                    projekt i przejdź do edycji</button>
             </div>
         </div>
     </div>

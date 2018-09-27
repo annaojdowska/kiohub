@@ -15,15 +15,15 @@ export class SemesterChooserComponent implements OnInit, AfterContentInit {
   semesters: Semester[];
   chosenSemesters: Semester[];
   pageScope = 12;
-  beginIndex = 4 * 12;
+  beginIndex = 4 * 12; // jakieś wyjaśnienie o co chodzi? :D
   endIndex = this.beginIndex + this.pageScope;
   pathToLeftArrow = '../../assets/left-arrow.png';
   pathToRightArrow = '../../assets/right-arrow.png';
 
-  constructor(@Inject(SemesterService) private semesterService: SemesterService)  {
+  constructor(@Inject(SemesterService) private semesterService: SemesterService) {
     this.chosenSemesters = [];
     this.semesters = [];
-   }
+  }
 
   ngOnInit() {
     this.semesterService.getSemesters().subscribe(result => this.semesters = result);
@@ -42,6 +42,7 @@ export class SemesterChooserComponent implements OnInit, AfterContentInit {
     this.beginIndex += this.pageScope;
     this.endIndex += this.pageScope;
   }
+
   moveToPrevious() {
     this.beginIndex -= this.pageScope;
     this.endIndex -= this.pageScope;

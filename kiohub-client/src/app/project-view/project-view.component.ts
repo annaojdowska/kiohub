@@ -51,7 +51,6 @@ export class ProjectViewComponent implements OnInit {
         this.initData(this.project.id);
         this.downloadThesis.attachments = this.project.attachments;
 
-        console.log('przed');
         // console.log(this.project.attachments.filter(
         //   attachment => attachment.type === AttachmentType.PHOTO).;
 

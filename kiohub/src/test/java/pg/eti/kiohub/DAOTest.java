@@ -225,10 +225,10 @@ public class DAOTest {
 
     private List<Note> createNotes() {
         List<Note> notes = new ArrayList<>();
-        Note note1 = new Note(userId1, projectId, "Login: root, haslo: admin", DateUtills.getDate(2018, 04, 11), Boolean.TRUE);
-        Note note2 = new Note(userId1, projectId, "Nie zapomnieć zmienić hasła admina!!", DateUtills.getDate(2018, 07, 15), Boolean.TRUE);
-        Note note3 = new Note(userId2, projectId, "www.java.pl - dobry tutorial", DateUtills.getDate(2018, 07, 14), Boolean.TRUE);
-        notes.addAll(Arrays.asList(note1, note2, note3));
+//        Note note1 = new Note(userId1, projectId, "Login: root, haslo: admin", DateUtills.getDate(2018, 04, 11), Boolean.TRUE);
+//        Note note2 = new Note(userId1, projectId, "Nie zapomnieć zmienić hasła admina!!", DateUtills.getDate(2018, 07, 15), Boolean.TRUE);
+//        Note note3 = new Note(userId2, projectId, "www.java.pl - dobry tutorial", DateUtills.getDate(2018, 07, 14), Boolean.TRUE);
+//        notes.addAll(Arrays.asList(note1, note2, note3));
         return notes;
     }
 

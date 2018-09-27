@@ -44,7 +44,11 @@ export class ProjectService {
 
   updateProject(project: Project) {
     return this.http.post<Project>(address + '/project/update/', project, this.httpOptions);
- }
+  }
+
+  deleteProject(id: number) {
+    return this.http.delete(address + '/project/delete/' +  id);
+  }
 
 //   getProjectByIdFromCache(id: number) {
 //    while (this.cacheStatus !== true) { }

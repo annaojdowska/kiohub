@@ -45,7 +45,9 @@ public class MainController {
     @Autowired
     protected ProjectCollaboratorRepository collaboratorsRepository;
 
-
+    @Autowired
+    protected UserPinnedProjectRepository userPinnedProjectRepository;
+    
     @Autowired
     protected AttachmentRepository attachmentRepository;
     

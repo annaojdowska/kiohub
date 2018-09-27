@@ -8,6 +8,8 @@ import { MatDatepickerInput, MatDatepickerInputEvent, MatInput } from '@angular/
 import { InputListComponent } from '../input-list/input-list.component';
 import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { Validation } from '../error-info/validation-patterns';
 
 @Component({
   selector: 'app-advanced-search-form',
@@ -33,11 +35,14 @@ export class AdvancedSearchFormComponent implements OnInit {
   @ViewChild('dateInput1', { read: MatInput }) dateInput1: MatInput;
   @ViewChild('dateInput2', { read: MatInput }) dateInput2: MatInput;
 
+  @ViewChild('supervisorInputError') supervisorInputError: ErrorInfoComponent;
+
   chosenSemesters: Semester[];
   selectedType: ProjectType;
   selectedLicence: Licence;
   dateFrom: Date;
   dateTo: Date;
+  validation = new Validation();
 
   licences: Licence[];
   project_types: ProjectType[];
@@ -50,6 +55,7 @@ export class AdvancedSearchFormComponent implements OnInit {
     this.semestersHidden = false;
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.licenceService.getLicences().subscribe(result => this.licences = result);
+    // this.supervisorInputError.setDisplay(true);
   }
 
   toggleSemesters() {

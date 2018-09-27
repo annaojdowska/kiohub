@@ -3,6 +3,7 @@
         <mat-form-field class="leftLabel">
             <input matInput placeholder="Promotor" #supervisorInput (keyup.enter)="addSupervisor()">
         </mat-form-field>
+
         <mat-form-field class="leftLabel paddingLeft">
             <input matInput placeholder="Tag" #tagInput (keyup.enter)="addTag()">
         </mat-form-field>
@@ -42,6 +43,8 @@
             <app-semester-chooser *ngIf="semestersHidden != false" [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
                 (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
         </div>
+        <app-error-info #supervisorInputError errorText="{{validation.errorStringSupervisor}}" errorType="ERROR"></app-error-info>
+        <app-error-info #supervisorInputError errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
 
         <table id="inputListsTable">
             <tr>

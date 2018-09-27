@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.model.*;
 
 import java.util.*;
+import pg.eti.kiohub.entity.enums.Visibility;
 /**
  *
  * @author Aleksander Kania <kania>
@@ -71,6 +72,7 @@ public class ProjectController extends MainController {
             collaborator.setUserId(user.getId());
             collaborator.setProjectId(project.getId());
             collaborator.setIsSupervisor(Boolean.FALSE);
+            collaborator.setUserDataVisible(Visibility.EVERYONE);
             collaboratorsRepository.saveAndFlush(collaborator);
         }
     }
@@ -111,6 +113,7 @@ public class ProjectController extends MainController {
             project.setSemesters(semesters);
             super.projectRepository.saveAndFlush(project);
          } catch (Exception ex) {
+            ex.printStackTrace();
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -121,5 +124,22 @@ public class ProjectController extends MainController {
     public ResponseEntity examplePostMultipart(@RequestParam("File") MultipartFile project){
         
     return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @CrossOrigin
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id) {
+        Optional<Project> projectToDelete = this.projectRepository.findById(id);
+        if (projectToDelete.isPresent()) {
+            projectToDelete.get().getAttachments().forEach((att) -> {
+                this.attachmentFileRepository.deleteById(att.getId());
+            });	
+            this.collaboratorsRepository.deleteAllCollaborators(id);
+            this.userPinnedProjectRepository.deleteAllPinnedProject(id);
+            this.projectRepository.delete(projectToDelete.get());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
