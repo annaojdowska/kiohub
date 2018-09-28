@@ -5,46 +5,54 @@
  */
 package pg.eti.kiohub.controller;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 ///**
 // *
 // * @author Tomasz
 // */
 //
-@Controller
-@RequestMapping(path = "/login")
-public class LoginController extends MainController {
+@WebServlet(name = "Login", urlPatterns = {"/login"})
+public class LoginController extends HttpServlet {
 
-    @PostMapping(path = "/alfa")
-    public ResponseEntity metoda1(Object request) {
-        System.out.println(request.toString());
-        return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        System.out.println("Weszlo w geta");
     }
-    
-    @GetMapping(path = "/alfa")
-    public ResponseEntity metoda2(Object request) {
-        System.out.println(request.toString());
-        return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        System.out.println("Weszlo w posta");
     }
-    
-//    
-////    @GetMapping()
-////    public ResponseEntity metoda2(HttpServletRequest servletRequest) {
-////        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-////    }
-////    
-////    @GetMapping()
-////    public ResponseEntity metoda3(HttpServletResponse response) {
-////        return new ResponseEntity<>(HttpStatus.CONFLICT);
-////    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String getServletInfo() {
+        return "Weszlo";
+    }
+
 }
-

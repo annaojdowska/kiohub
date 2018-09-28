@@ -28,7 +28,7 @@ public class KiohubApplication extends SpringBootServletInitializer{
             FilterRegistration.Dynamic authentication = sc.addFilter("CAS Authentication Filter", org.jasig.cas.client.authentication.AuthenticationFilter.class);
             authentication.setInitParameter("casServerLoginUrl", "https://logowanie.pg.gda.pl/login");
             authentication.setInitParameter("serverName", "http://kiohub.eti.pg.gda.pl");
-            authentication.addMappingForUrlPatterns(null, false, "/login/alfa");
+            authentication.addMappingForUrlPatterns(null, false, "/login");
             
             FilterRegistration.Dynamic validation = sc.addFilter("CAS Validation Filter", org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter.class);
             validation.setInitParameter("casServerUrlPrefix", "https://logowanie.pg.gda.pl");
@@ -36,9 +36,9 @@ public class KiohubApplication extends SpringBootServletInitializer{
             validation.setInitParameter("redirectAfterValidation", "true");
             validation.setInitParameter("useSession", "true");
             validation.setInitParameter("authn_method", "mfa-duo");
-            validation.addMappingForUrlPatterns(null, false, "/login/alfa");
+            validation.addMappingForUrlPatterns(null, false, "/login");
             
             FilterRegistration.Dynamic wrapper = sc.addFilter("CAS HttpServletRequest Wrapper Filter", org.jasig.cas.client.util.HttpServletRequestWrapperFilter.class);
-            wrapper.addMappingForUrlPatterns(null, false, "/login/alfa");
+            wrapper.addMappingForUrlPatterns(null, false, "/login");
         }
 }
