@@ -27,12 +27,12 @@ public class KiohubApplication extends SpringBootServletInitializer{
         public void onStartup(ServletContext sc) {
             FilterRegistration.Dynamic authentication = sc.addFilter("CAS Authentication Filter", org.jasig.cas.client.authentication.AuthenticationFilter.class);
             authentication.setInitParameter("casServerLoginUrl", "https://logowanie.pg.gda.pl/login");
-            authentication.setInitParameter("serverName", "http://kiohub.eti.pg.gda.pl/login/alfa");
+            authentication.setInitParameter("serverName", "http://kiohub.eti.pg.gda.pl");
             authentication.addMappingForUrlPatterns(null, false, "/login/alfa");
             
             FilterRegistration.Dynamic validation = sc.addFilter("CAS Validation Filter", org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter.class);
             validation.setInitParameter("casServerUrlPrefix", "https://logowanie.pg.gda.pl");
-            validation.setInitParameter("serverName", "http://kiohub.eti.pg.gda.pl/login/alfa");
+            validation.setInitParameter("serverName", "http://kiohub.eti.pg.gda.pl");
             validation.setInitParameter("redirectAfterValidation", "true");
             validation.setInitParameter("useSession", "true");
             validation.setInitParameter("authn_method", "mfa-duo");
