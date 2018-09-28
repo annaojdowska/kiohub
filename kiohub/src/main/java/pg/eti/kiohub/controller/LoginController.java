@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 ///**
@@ -23,10 +24,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/login")
 public class LoginController extends MainController {
 
-    @RequestMapping()
-    public ResponseEntity metoda1(HttpServletRequest request) {
+    @PostMapping(path = "/alfa")
+    public ResponseEntity metoda1(Object request) {
+        System.out.println(request.toString());
         return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
     }
+    
+    @GetMapping(path = "/alfa")
+    public ResponseEntity metoda2(Object request) {
+        System.out.println(request.toString());
+        return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+    }
+    
 //    
 ////    @GetMapping()
 ////    public ResponseEntity metoda2(HttpServletRequest servletRequest) {
