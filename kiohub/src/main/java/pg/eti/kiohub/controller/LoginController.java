@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 // * @author Tomasz
 // */
 //
+
 @WebServlet(name = "Login", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
@@ -31,6 +32,7 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Weszlo w geta");
+        throw new NullPointerException();
     }
 
     /**
@@ -44,6 +46,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Weszlo w posta");
+        throw new ArrayIndexOutOfBoundsException();
     }
 
     /**
