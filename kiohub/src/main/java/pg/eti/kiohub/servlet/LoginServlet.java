@@ -30,16 +30,18 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         
         Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
-        String firstName = attributes.get("fisrtName").toString();
-        String lastName = attributes.get("lastName").toString();
-        String personNumber = attributes.get("personNumber").toString();
-        String mail = ((String[])attributes.get("mail"))[0];
-        Long userId = Long.parseLong(personNumber);
-        User user = new User(userId, firstName, lastName, mail);
-        LoginController loginController = new LoginController();
-        loginController.loginUser(user, request.getSession());       
-
-        throw new NullPointerException(firstName + " " + lastName + " " + personNumber + " " + mail);
+        throw new NullPointerException();
+//        String firstName = attributes.get("fisrtName").toString();
+//        throw new NullPointerException();
+//        String lastName = attributes.get("lastName").toString();
+//        String personNumber = attributes.get("personNumber").toString();
+//        String mail = ((String[])attributes.get("mail"))[0];
+//        Long userId = Long.parseLong(personNumber);
+//        User user = new User(userId, firstName, lastName, mail);
+//        LoginController loginController = new LoginController();
+//        loginController.loginUser(user, request.getSession());       
+//
+//        throw new NullPointerException(firstName + " " + lastName + " " + personNumber + " " + mail);
     }
 
 
