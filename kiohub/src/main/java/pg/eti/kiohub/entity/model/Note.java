@@ -46,4 +46,13 @@ public class Note {
     @Column(name = "is_private")
     private Boolean isPrivate;
 
+    public Note(Long ownerId, Project project, String content, Date publicationDate, Boolean isPrivate) {
+        this.id = id;
+        this.ownerId = ownerId;
+        this.project = project;
+        this.content = content;
+        this.publicationDate = publicationDate;
+        this.isPrivate = isPrivate;
+    }
+    
 }

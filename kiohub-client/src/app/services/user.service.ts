@@ -25,4 +25,8 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
     getSupervisorByProjectId(id: number): Observable<User> {
         return this.http.get<User>(address + '/collaborator/supervisor/project/' + id, {responseType: 'json'});
      }
+
+    getUserById(id: number): Observable<User> {
+        return this.http.get<User>(address + '/user/' + id, {responseType: 'json'});
+     }
 }

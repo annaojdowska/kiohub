@@ -66,6 +66,9 @@ public class MainController {
     @Autowired
     protected SemesterService semesterService;
     
+    @Autowired
+    protected NoteRepository noteRepository;
+
     @RequestMapping(path = "/")
     public String homePage() {
         return "index.html";

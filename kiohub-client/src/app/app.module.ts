@@ -49,6 +49,8 @@ import { DownloadElementComponent } from './ui-elements/download-element/downloa
 import { SliderModule } from 'angular-image-slider';
 import { SlideshowModule } from 'ng-simple-slideshow';
 import { getPolishPaginatorIntl } from './advanced-search/polish-paginator-intl';
+import { EditProjectNotesTabComponent } from './edit-project-notes-tab/edit-project-notes-tab.component';
+import { NoteService } from './services/note.service';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,8 @@ import { getPolishPaginatorIntl } from './advanced-search/polish-paginator-intl'
     FooterComponent,
     FooterMainPageComponent,
     ImageSliderComponent,
-    DownloadElementComponent
+    DownloadElementComponent,
+    EditProjectNotesTabComponent
   ],
   imports: [
     BrowserModule,
@@ -113,6 +116,7 @@ import { getPolishPaginatorIntl } from './advanced-search/polish-paginator-intl'
     ProjectDetailsService,
     ProjectService,
     TagService,
+    NoteService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {

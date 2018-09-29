@@ -9,18 +9,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pg.eti.kiohub.entity.model.Tag;
+import pg.eti.kiohub.entity.model.User;
 
 /**
  *
  * @author Kasia
  */
+
 @Controller
-@RequestMapping(path = "/tag")
-public class TagController extends MainController {
-    @GetMapping(path = "/all")
-    public ResponseEntity<Iterable<Tag>> getAllTags() {
-        return new ResponseEntity<>(tagRepository.findAll(), HttpStatus.OK);
-    }
+@RequestMapping(path = "/user")
+public class UserController extends MainController {
+    
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(userRepository.findById(id).get(), HttpStatus.OK);
+    }  
 }

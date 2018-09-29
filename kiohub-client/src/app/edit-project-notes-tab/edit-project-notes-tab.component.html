@@ -1,0 +1,36 @@
+<p id="h2">Notatki</p>
+
+<img (click)="toggleNoteInput()" src="../../assets/add.png"/> <label id="addNoteLabel" (click)="toggleNoteInput()">Dodaj nową notatkę</label>
+<div *ngIf="noteInputShows != false" class="addNoteDiv">
+  <label class="stay-up">Treść notatki: </label>
+  <mat-form-field class="wrapper-width">
+      <textarea matInput ngModel #newNoteContent class="wrapper-height" name="newNoteContent"></textarea>
+  </mat-form-field>
+  <div class="button-container">
+  <button type="button" mat-stroked-button class="submit-button" (click)="addNote()">Dodaj</button>
+  </div>
+</div>
+
+<div *ngIf="noteEditInputShows != false" class="addNoteDiv">
+    <label class="stay-up">Treść notatki: </label>
+    <mat-form-field class="wrapper-width">
+        <textarea matInput #editNoteContent [(ngModel)]="inputEditNote" class="wrapper-height" name="editNoteContent"></textarea>
+    </mat-form-field>
+    <div class="button-container">
+    <button type="button" mat-stroked-button class="submit-button" (click)="editExistingNote()">Edytuj</button>
+    <div id="divider"></div>
+    <button type="button" mat-stroked-button class="submit-button" (click)="closeEditNoteInput()">Zamknij</button>
+    </div>
+  </div>
+
+<ul>
+  <li *ngFor="let note of notes; let i = index" [attr.data-index]="i">
+      <a>
+        <img class="align-right" src="../../assets/edit-smaller.png" (click)="editNote(note?.id)" (click)="showEditNoteInput()"/>
+        <img class="align-right" id="pipeline" src="../../assets/pipeline.png"/>
+        <img class="align-right" src="../../assets/delete-button-smaller.png" (click)="deleteNote(note?.id)"/> 
+        <h2>~ {{notesOwners[i]?.firstName}} {{notesOwners[i]?.lastName}}, {{note?.publicationDate | date : "dd.MM.y r."}}</h2>
+        <p>{{note?.content}}</p>
+      </a> 
+  </li>
+</ul>
