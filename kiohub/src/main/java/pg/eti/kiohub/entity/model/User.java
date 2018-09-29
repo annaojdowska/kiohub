@@ -27,7 +27,6 @@ import org.springframework.util.StringUtils;
 public class User {
     @Id
     @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;     
  
 //    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
@@ -44,7 +43,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    public User(String firstName, String lastName, String email) {
+    public User(Long id, String firstName, String lastName, String email) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
