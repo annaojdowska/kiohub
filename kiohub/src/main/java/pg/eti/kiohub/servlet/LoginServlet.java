@@ -6,6 +6,7 @@
 package pg.eti.kiohub.servlet;
 
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,9 +27,10 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String user = ((AttributePrincipal)request.getUserPrincipal()).getAttributes().toString();
+        Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
+        String firstName = attributes.get("firstName").toString();
         
-        throw new NullPointerException(user);
+        throw new NullPointerException("Koniec " + firstName);
     }
 
 
