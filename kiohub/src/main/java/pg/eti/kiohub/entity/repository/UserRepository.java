@@ -22,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
     User findUserByEmail(@Param("email") String email);
+    
+    @Query("SELECT count(u) FROM User u WHERE u.id = :personNumber")
+    Long checkIfUserExistsByPersonNumber(@Param("personNumber") Long personNumber);
 }
