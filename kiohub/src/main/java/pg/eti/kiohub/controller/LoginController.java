@@ -5,15 +5,13 @@
  */
 package pg.eti.kiohub.controller;
 
-import java.io.IOException;
-import java.util.Collection;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.jasig.cas.client.authentication.AttributePrincipal;
-import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
+import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import pg.eti.kiohub.entity.model.Project;
 
 ///**
 // *
@@ -21,16 +19,15 @@ import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
 // */
 //
 
-@WebServlet(name = "Login", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String user = ((AttributePrincipal)request.getUserPrincipal()).getAttributes().toString();
-        
-        throw new NullPointerException(user);
+@Controller
+@RequestMapping(path = "/logininfo")
+public class LoginController extends MainController {
+    
+    @CrossOrigin
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<Project>>
+    getAllProjects() {
+        return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
     }
 
 
