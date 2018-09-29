@@ -29,8 +29,10 @@ public class LoginServlet extends HttpServlet {
         
         Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
         String firstName = attributes.get("firstName").toString();
+        String lastName = attributes.get("lastName").toString();
+        String personNumber = attributes.get("personNumber").toString();
         
-        throw new NullPointerException("Koniec " + firstName);
+        throw new NullPointerException("Koniec " + firstName + " " + lastName + " " + personNumber);
     }
 
 
