@@ -2,6 +2,7 @@ package pg.eti.kiohub;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.*;
@@ -24,7 +25,8 @@ public class KiohubApplication extends SpringBootServletInitializer{
 	}        
 
         @Override
-        public void onStartup(ServletContext sc) {
+        public void onStartup(ServletContext sc) throws ServletException {
+            super.onStartup(sc);
 //            FilterRegistration.Dynamic authentication = sc.addFilter("CAS Authentication Filter", org.jasig.cas.client.authentication.AuthenticationFilter.class);
 //            authentication.setInitParameter("casServerLoginUrl", "https://logowanie.pg.gda.pl/login");
 //            authentication.setInitParameter("serverName", "http://kiohub.eti.pg.gda.pl");
