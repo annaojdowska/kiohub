@@ -46,15 +46,15 @@ public class LoginController extends MainController {
     
     @CrossOrigin
     @GetMapping(path = "/logout")
-    public ResponseEntity logout() throws Exception {
+    public String logout() throws Exception {
         try {
             request.logout();
             request.getSession().invalidate();
+            
         } catch (ServletException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        throw new Exception("elogout");
+        return "redirect:https://logowanie.pg.gda.pl/logout?service=http://kiohub.eti.pg.gda.pl";
         //return new ResponseEntity(HttpStatus.OK);
     }
 
