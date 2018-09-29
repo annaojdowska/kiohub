@@ -31,10 +31,10 @@ public class LoginServlet extends HttpServlet {
         String firstName = attributes.get("firstName").toString();
         String lastName = attributes.get("lastName").toString();
         String personNumber = attributes.get("personNumber").toString();
-        String email = ((String[])attributes.get("email"))[0];
+        String mail = ((String[])attributes.get("mail"))[0];
         
         
-        throw new NullPointerException("Koniec " + firstName + " " + lastName + " " + personNumber + " " + email);
+        throw new NullPointerException("Koniec " + firstName + " " + lastName + " " + personNumber + " " + mail);
     }
 
 
