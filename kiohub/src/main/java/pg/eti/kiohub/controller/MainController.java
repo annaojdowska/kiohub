@@ -5,6 +5,7 @@
  */
 package pg.eti.kiohub.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +66,9 @@ public class MainController {
 
     @Autowired
     protected SemesterService semesterService;
+    
+    @Autowired
+    protected HttpServletRequest request;
     
     @RequestMapping(path = "/")
     public String homePage() {

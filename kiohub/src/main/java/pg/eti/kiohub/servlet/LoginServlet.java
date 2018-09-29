@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import pg.eti.kiohub.controller.LoginController;
+import pg.eti.kiohub.entity.model.User;
 
 ///**
 // *
@@ -33,12 +34,13 @@ public class LoginServlet extends HttpServlet {
         String firstName = attributes.get("firstName").toString();
         String lastName = attributes.get("lastName").toString();
         String personNumber = attributes.get("personNumber").toString();
-        String mail = ((LinkedList)attributes.get("mail")).get(0).toString();
+        String email = ((LinkedList)attributes.get("mail")).get(0).toString();
         
-        LoginController loginController = new LoginController();
+        User user = new User(firstName, lastName, email);
         
         
-        throw new NullPointerException("Koniec " + firstName + " " + lastName + " " + personNumber + " " + mail);
+        
+        throw new NullPointerException("Koniec " + firstName + " " + lastName + " " + personNumber + " " + email);
     }
 
 
