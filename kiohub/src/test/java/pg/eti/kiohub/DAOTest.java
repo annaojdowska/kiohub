@@ -213,9 +213,9 @@ public class DAOTest {
 
     private List<User> createUsers() {
         List<User> users = new ArrayList<>();
-        User user1 = new User(1L, "Jan", "Kowalski", "jan.kow@o2.pl");
+        User user1 = new User("Jan", "Kowalski", "jan.kow@o2.pl");
         user1.setId(userId1);
-        User user2 = new User(2L, "Ewa", "Chodowiecka", "ewcia2@gmail.com");
+        User user2 = new User("Ewa", "Chodowiecka", "ewcia2@gmail.com");
         user1.setId(userId2);
 
         users.add(user1);
