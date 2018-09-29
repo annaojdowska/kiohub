@@ -6,11 +6,14 @@
 package pg.eti.kiohub.controller;
 
 import java.io.IOException;
+import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
 
 ///**
 // *
@@ -21,42 +24,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Login", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
-    /**
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        System.out.println("Weszlo w geta");
-        throw new NullPointerException();
+        String user = ((AttributePrincipal)request.getUserPrincipal()).getAttributes().toString();
+        
+        throw new NullPointerException(user);
     }
 
-    /**
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        System.out.println("Weszlo w posta");
-        throw new ArrayIndexOutOfBoundsException();
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String getServletInfo() {
-        return "Weszlo";
-    }
 
 }
