@@ -13,6 +13,8 @@ import { Validation } from '../error-info/validation-patterns';
   styleUrls: ['./add-project.component.css']
 })
 export class AddProjectComponent implements OnInit {
+  SENDING_INVITATIONS_OK = true;
+
   project: Project;
   validation: Validation = new Validation();
 
@@ -99,8 +101,6 @@ export class AddProjectComponent implements OnInit {
       //   console.log('ERROR: Istnieje już projekt o takim projekcie.');
       // }
       // });
-    } else {
-      console.log('ERROR: Podaj tytuł oraz co najmniej jednego współpracownika.');
     }
   }
 
@@ -111,13 +111,11 @@ export class AddProjectComponent implements OnInit {
       .subscribe(
         (response: any) => {
           console.log('id' + this.project.id);
-          this.router.navigate(['/edit-project', this.project.id]);
+          this.router.navigate(['/edit-project', this.project.id, { invitationsOk: this.SENDING_INVITATIONS_OK }]);
         },
         error => {
           console.log('error; id' + this.project.id);
-          this.router.navigate(['/edit-project', this.project.id]);
-          // FIXME obsługa
-          // this.router.navigate(['/edit-project', this.project.id]);
+          this.router.navigate(['/edit-project', this.project.id, { invitationsOk: !this.SENDING_INVITATIONS_OK }]);
         }
       );
   }

@@ -40,7 +40,7 @@ display = 'none';
       this.success = true;
       this.warning = false;
     } else {
-      console.log('Niepoprawny styl błędu!');
+      console.log('Niepoprawny styl błędu o treści: ' + this.errorText);
     }
   }
 

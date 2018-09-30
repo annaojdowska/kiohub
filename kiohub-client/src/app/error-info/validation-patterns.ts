@@ -20,10 +20,7 @@ export class Validation {
     readonly errorStringDescriptionEn = 'Opis powinien mieć maksymalnie' + this.MAX_SIZE_DESCRIPTION_EN + ' znaków.';
     readonly errorStringEmail = 'Podaj poprawny adres email. Powinien mieć maksymalnie ' + this.MAX_SIZE_EMAIL + ' znaków.';
     readonly errorStringDatesOrder = 'Data publikacji "od" powinna być starsza od daty "do".';
-    // readonly errorStringTag = '';
-    // readonly errorStringTag = '';
-    // readonly errorStringTag = '';
-    // readonly errorStringTag = '';
+    readonly errorStringSendingInvitations = 'Wysłanie zaproszeń do studentów nie powiodło się.';
 
 
     // ******** REGEX PATTERNS ********

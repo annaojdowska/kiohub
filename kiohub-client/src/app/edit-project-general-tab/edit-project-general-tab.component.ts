@@ -49,9 +49,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('licence') licence: any;
   @ViewChild('semestersList') semestersList: InputListComponent;
   @ViewChild('semesterChooser') semesterChooser: SemesterChooserComponent;
+  // errors
   @ViewChild('titlePlError') titlePlError: ErrorInfoComponent;
   @ViewChild('titleEnError') titleEnError: ErrorInfoComponent;
-  // errors
   @ViewChild('descriptionPlError') descriptionPlError: ErrorInfoComponent;
   @ViewChild('descriptionEnError') descriptionEnError: ErrorInfoComponent;
   @ViewChild('projectTypeError') projectTypeError: ErrorInfoComponent;
@@ -59,6 +59,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('semesterChooserError') semesterChooserError: ErrorInfoComponent;
   @ViewChild('tagsError') tagsError: ErrorInfoComponent;
   @ViewChild('updateResult') updateResult: ErrorInfoComponent;
+  @ViewChild('sendingInvitationsError') sendingInvitationsError: ErrorInfoComponent;
 
   editedProject: Project;
   statuses: Status[];
@@ -73,7 +74,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
   nr = 0;
   validation: Validation = new Validation();
 
-  constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
+  constructor(
+    @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(LicenceService) private licenceService: LicenceService,
     @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
@@ -163,12 +165,25 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
 
   // other
-  getProjectIdFromRouter() {
+  getParametersFromRouter() {
     let id: number;
     this.route.params.subscribe(routeParams => {
       id = routeParams.id;
+      this.setInvitationError(routeParams.invitationsOk);
     });
     return id;
+  }
+
+  setInvitationError(invitationsOk: boolean) {
+    let showError: boolean;
+    // nie zmieniać tego porównania, invitationsOk zwraca co innego niż (invitationsOk === true)
+    if (this.validation.isNullOrUndefined(invitationsOk) || invitationsOk === true) {
+      showError = false;
+    } else {
+      showError = true;
+    }
+
+    this.sendingInvitationsError.setDisplay(showError);
   }
 
   toggleSemesters() {
@@ -176,7 +191,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    const projectId = this.getProjectIdFromRouter();
+    const projectId = this.getParametersFromRouter();
+
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
       console.log(this.editedProject);
