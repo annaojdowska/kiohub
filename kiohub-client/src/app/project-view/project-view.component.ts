@@ -37,10 +37,21 @@ export class ProjectViewComponent implements OnInit {
   collaborators: User[];
   project: Project;
   id: number;
+  descriptionHidden;
+  filesHidden;
+  authorsHidden;
+  semestersHidden;
+  tagsHidden;
 
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(ProjectService) private projectService: ProjectService) {
+      this.collaborators = [];
+      this.descriptionHidden = false;
+      this.filesHidden = false;
+      this.authorsHidden = false;
+      this.tagsHidden = false;
+      this.semestersHidden = false;
   }
 
   ngOnInit(): void {
@@ -72,6 +83,7 @@ export class ProjectViewComponent implements OnInit {
         this.downloadOther.setAttachments(this.project.attachments.filter(
           attachment => attachment.type === AttachmentType.OTHER)
         );
+        this.manageVisibility(project);
       });
     });
     // FIXME a co jak error?
@@ -82,7 +94,41 @@ export class ProjectViewComponent implements OnInit {
   }
 
   initData(projectId: number) {
-    this.userService.getCollaboratorsByProjectId(projectId).subscribe(result => this.collaborators = result);
+    this.userService.getCollaboratorsByProjectId(projectId).subscribe(result => {
+      this.collaborators = result;
+      this.manageAuthorsVisibility(result);
+    });
     this.userService.getSupervisorByProjectId(projectId).subscribe(result => this.supervisor = result);
+  }
+
+  manageAuthorsVisibility(result) {
+    if (result.length > 0) {
+      this.authorsHidden = false;
+    } else {
+      this.authorsHidden = true;
+    }
+  }
+
+  manageVisibility(project: Project) {
+    if (project.descriptionEng.length > 0) {
+      this.descriptionHidden = false;
+    } else {
+      this.descriptionHidden = true;
+    }
+    if (project.attachments.length > 0) {
+      this.filesHidden = false;
+    } else {
+      this.filesHidden = true;
+    }
+    if (project.tags.length > 0) {
+      this.tagsHidden = false;
+    } else {
+      this.tagsHidden = true;
+    }
+    if (project.semesters.length > 0) {
+      this.semestersHidden = false;
+    } else {
+      this.semestersHidden = true;
+    }
   }
 }
