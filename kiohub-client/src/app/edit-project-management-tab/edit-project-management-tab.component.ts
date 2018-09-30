@@ -5,7 +5,6 @@ import { Project } from '../model/project.interface';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
 import { InputListComponent } from '../input-list/input-list.component';
-import { InputListElement } from '../model/input-list-element';
 
 @Component({
   selector: 'app-edit-project-management-tab',

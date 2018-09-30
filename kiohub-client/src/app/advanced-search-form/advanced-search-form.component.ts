@@ -4,7 +4,7 @@ import { Licence } from '../model/licence.interface';
 import { ProjectTypeService } from '../services/project-type-service';
 import { LicenceService } from '../services/licence-service';
 import { Semester } from '../model/semester.interface';
-import { MatDatepickerInput, MatDatepickerInputEvent, MatInput } from '../../../node_modules/@angular/material';
+import { MatDatepickerInput, MatDatepickerInputEvent, MatInput } from '@angular/material';
 import { InputListComponent } from '../input-list/input-list.component';
 import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
@@ -202,8 +202,6 @@ export class AdvancedSearchFormComponent implements OnInit {
         this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
       ).forEach(type => query.projectTypesIds.push(type.id));
       this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
-
-      this.clearFilters();
       this.filtersSubmitted.emit(query);
 
       this.searchResult.setComponent(true, 'SUCCESS', 'Znaleziono poniższe projekty.');

@@ -2,8 +2,9 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { SearchService } from '../services/search.service';
 import { Project } from '../model/project.interface';
 import { trigger, style, animate, transition } from '@angular/animations';
-import { MatTableDataSource, MatPaginator } from '../../../node_modules/@angular/material';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { QueryDescription } from '../model/helpers/query-description.class';
+import { SearchResult } from '../model/helpers/search-result.class';
 
 @Component({
   selector: 'app-advanced-search',
@@ -23,18 +24,19 @@ import { QueryDescription } from '../model/helpers/query-description.class';
 })
 export class AdvancedSearchComponent implements OnInit {
   showNoResultsLabel: boolean;
-  searchResults: Project[];
-  dataSource: MatTableDataSource<Project>;
+  searchResults: SearchResult[];
+  dataSource: MatTableDataSource<SearchResult>;
   displayedColumns: string[] = ['results'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(@Inject(SearchService) private searchService: SearchService) {
     this.showNoResultsLabel = false;
+    this.searchResults = [];
   }
 
   ngOnInit() {
     this.searchService.getAllProjects().subscribe(results => {
-      this.searchResults = results;
-      this.dataSource = new MatTableDataSource<Project>(this.searchResults);
+      this.searchResults = results.map(r => new SearchResult(r, 0));
+      this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -42,7 +44,7 @@ export class AdvancedSearchComponent implements OnInit {
   getSearchResults(query: QueryDescription) {
     this.searchService.getProjectsBasedOnQuery(query).subscribe(results => {
       this.searchResults = results;
-      this.dataSource = new MatTableDataSource<Project>(this.searchResults);
+      this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
       this.dataSource.paginator = this.paginator;
       this.showNoResultsLabel = this.searchResults.length === 0;
     });

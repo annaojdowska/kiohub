@@ -5,7 +5,7 @@ import { debounceTime, startWith, map } from 'rxjs/operators';
 import { Project } from '../model/project.interface';
 import { Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { Observable } from '../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-search-input',
