@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.entity.model.User;
+import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
 import pg.eti.kiohub.entity.repository.ProjectRepository;
 import pg.eti.kiohub.entity.search.QueryDescription;
 import pg.eti.kiohub.entity.search.ScoredQueryDescription;
@@ -27,6 +29,8 @@ public class SearchService {
 
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private ProjectCollaboratorRepository collaboratorRepository;
 
     private final static double SUPERVISOR_RATE = 18; // ToDo: search by supervisor when it's possible to get from project
     private final static double TAG_RATE = 18;
@@ -63,6 +67,13 @@ public class SearchService {
 
     private SearchResult scoreProject(Project project, ScoredQueryDescription scoredDescription, QueryDescription query) {
         double totalScore = 0;
+        User supervisor = collaboratorRepository.getSupervisor(project.getId());
+        if(supervisor != null){
+            for (Map.Entry<String, Double> entry : scoredDescription.getSupervisors().entrySet()) 
+                if (supervisor.getFirstName().toLowerCase().contains(entry.getKey().toLowerCase())
+                        || supervisor.getLastName().toLowerCase().contains(entry.getKey().toLowerCase())) 
+                    totalScore += entry.getValue() * SUPERVISOR_RATE;
+        }
         if (project.getTags() != null) {
             List<String> tagNames = project.getTags().stream().map(tag -> tag.getName().toLowerCase()).collect(Collectors.toList());
             for (Map.Entry<String, Double> entry : scoredDescription.getTags().entrySet()) 
