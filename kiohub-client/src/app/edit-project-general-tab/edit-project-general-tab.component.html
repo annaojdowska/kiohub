@@ -77,6 +77,7 @@
             <app-input-list #thesisList orientation="vertical" (changeElements)="recieveThesis($event)" removable="true"
                 hideInput="true"></app-input-list>
         </div>
+        <app-error-info #thesisError errorText="{{validation.errorStringThesis}}" errorType="ERROR"></app-error-info>
     </div>
 
     <div>
@@ -91,6 +92,7 @@
             <app-input-list #programsList orientation="vertical" (changeElements)="recievePrograms($event)" removable="true"
                 hideInput="true"></app-input-list>
         </div>
+        <app-error-info #sourceCodeError errorText="{{validation.errorStringSourceCode}}" errorType="ERROR"></app-error-info>
     </div>
 
     <div>
@@ -107,6 +109,7 @@
             <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true"
                 selectable="true" hideInput="true"></app-input-list>
         </div>
+        <app-error-info #imageError errorText="{{validation.errorStringImage}}" errorType="ERROR"></app-error-info>
     </div>
 
     <div>
@@ -121,6 +124,7 @@
             <app-input-list #instructionsList orientation="vertical" (changeElements)="recieveInstructions($event)"
                 removable="true" hideInput="true"></app-input-list>
         </div>
+        <app-error-info #manualUsageError errorText="{{validation.errorStringManual}}" errorType="ERROR"></app-error-info>
     </div>
 
     <div>
@@ -137,6 +141,7 @@
             <app-input-list #instructionsStartList orientation="vertical" (changeElements)="recieveInstructionsStart($event)"
                 removable="true" hideInput="true"></app-input-list>
         </div>
+        <app-error-info #manualUsageStartupError errorText="{{validation.errorStringManualStartup}}" errorType="ERROR"></app-error-info>
     </div>
 
     <div>
@@ -151,6 +156,7 @@
             <app-input-list #othersList orientation="vertical" (changeElements)="recieveOthers($event)" removable="true"
                 hideInput="true"></app-input-list>
         </div>
+        <app-error-info #otherFileError errorText="{{validation.errorStringOther}}" errorType="ERROR"></app-error-info>
 
     </div>
     <div>

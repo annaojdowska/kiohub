@@ -6,6 +6,7 @@ import { Project } from '../model/project.interface';
 import { InputListComponent } from '../input-list/input-list.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../error-info/validation-patterns';
+import { ValueUtils } from '../error-info/value-utils';
 
 @Component({
   selector: 'app-add-project',
@@ -17,6 +18,7 @@ export class AddProjectComponent implements OnInit {
 
   project: Project;
   validation: Validation = new Validation();
+  valueUtils = new ValueUtils();
 
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
@@ -60,7 +62,7 @@ export class AddProjectComponent implements OnInit {
   // validates email after user presses enter
   onEmailChange(event) {
     this.checkValidityEmail();
-    if (this.validation.isNullOrEmpty(event)) {
+    if (this.valueUtils.isNullOrEmpty(event)) {
       this.emailError.setDisplay(false);
     }
   }
@@ -110,11 +112,9 @@ export class AddProjectComponent implements OnInit {
     this.emailInvitationService.send(title, collaborators)
       .subscribe(
         (response: any) => {
-          console.log('id' + this.project.id);
           this.router.navigate(['/edit-project', this.project.id, { invitationsOk: this.SENDING_INVITATIONS_OK }]);
         },
         error => {
-          console.log('error; id' + this.project.id);
           this.router.navigate(['/edit-project', this.project.id, { invitationsOk: !this.SENDING_INVITATIONS_OK }]);
         }
       );
