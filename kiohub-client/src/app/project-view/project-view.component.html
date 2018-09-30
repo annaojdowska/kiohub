@@ -4,7 +4,7 @@
     <app-image-slider #slider></app-image-slider>
     <div class="component">
         <div class="description_content">{{project?.description}}</div>
-        <div id="wrapper-padding-top">
+        <div [hidden]="descriptionHidden" id="wrapper-padding-top">
             <img id="img-show" (click)="show = !show" [src]="show ? 'assets/up-arrow.png' :'assets/down-arrow.png'" />
             <label (click)="show = !show"> {{ show ? 'Zwiń opis w języku angielskim' : 'Pokaż opis w języku angielskim' }}</label>
         </div>
@@ -30,7 +30,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>
+                        <th [hidden]=authorsHidden>
                             Autorzy
                         </th>
                         <th>
@@ -65,7 +65,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>
+                        <th [hidden]=semestersHidden>
                             Semestry wytwarzania
                         </th>
                         <th>
@@ -75,7 +75,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>
+                        <th [hidden]=tagsHidden>
                             Tagi
                         </th>
                         <th>
@@ -88,7 +88,7 @@
             </table>
         </div>
 
-        <div class="component">
+        <div [hidden]=filesHidden class="component">
             <img src="assets/download.png" />
             <h4>Pliki do pobrania</h4>
             <app-download-element #downloadThesis title="Praca dyplomowa"></app-download-element>

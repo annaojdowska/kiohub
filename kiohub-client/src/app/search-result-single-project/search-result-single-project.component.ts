@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Inject, AfterContentInit, ViewChild } from '@angular/core';
 import { Project } from '../model/project.interface';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 import { AttachmentService } from '../services/attachment.service';
-import { Observable } from '../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 import { Tag } from '../model/tag.interface';
 import { InputListComponent } from '../input-list/input-list.component';
 
@@ -29,6 +29,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   }
 
   ngAfterContentInit(): void {
+    console.log('SINGLE' + this.project.title);
     this.getImageFromService();
     this.initializeDescriptionDisplay();
     this.project.tags.forEach(tag => this.tagsList.add({name: tag.name}));

@@ -43,7 +43,10 @@ public class User {
 
     @Column(name = "email")
     private String email;
-
+    
+    @Column(name = "person_number")
+    private Long person_number;
+    
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
