@@ -15,7 +15,7 @@ export class DownloadElementComponent implements OnInit {
   @ViewChild('container') container: ElementRef;
 
   constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) {
-    this.hidden = false;
+    this.hidden = true;
   }
 
   ngOnInit() {

@@ -16,7 +16,7 @@ export class ImageSliderComponent implements OnInit {
 
   constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) {
     this.imagesUrl = [];
-    this.hidden = false;
+    this.hidden = true;
   }
   ngOnInit() {
     this.imagesUrl = [];

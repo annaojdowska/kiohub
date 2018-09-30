@@ -47,11 +47,11 @@ export class ProjectViewComponent implements OnInit {
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(ProjectService) private projectService: ProjectService) {
       this.collaborators = [];
-      this.descriptionHidden = false;
-      this.filesHidden = false;
-      this.authorsHidden = false;
-      this.tagsHidden = false;
-      this.semestersHidden = false;
+      this.descriptionHidden = true;
+      this.filesHidden = true;
+      this.authorsHidden = true;
+      this.tagsHidden = true;
+      this.semestersHidden = true;
   }
 
   ngOnInit(): void {
