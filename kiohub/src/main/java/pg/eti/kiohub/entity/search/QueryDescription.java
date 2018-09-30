@@ -26,4 +26,10 @@ public class QueryDescription {
     private List<Long> semestersIds;
     private Date dateTo;
     private Date dateFrom;
+    
+    public boolean isEmpty(){
+        return supervisors.isEmpty() && tags.isEmpty() && titles.isEmpty() && descriptions.isEmpty()
+                && licencesIds.isEmpty() && projectTypesIds.isEmpty() && semestersIds.isEmpty() 
+                && dateTo == null && dateFrom == null;
+    }
 }

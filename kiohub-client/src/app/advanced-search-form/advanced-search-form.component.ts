@@ -110,8 +110,6 @@ export class AdvancedSearchFormComponent implements OnInit {
       ).forEach(type => query.projectTypesIds.push(type.id));
     }
     this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
-
-    this.clearFilters();
     this.filtersSubmitted.emit(query);
   }
 

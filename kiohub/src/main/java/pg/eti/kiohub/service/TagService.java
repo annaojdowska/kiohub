@@ -24,8 +24,7 @@ public class TagService {
     public List<Tag> addTags(List<Tag> tags) {
         List<Tag> tagsToReturn = new ArrayList<>();
         for(Tag tag : tags) {
-            if (tagRepository.checkIfTagExists(tag.getName().toLowerCase()) == 0) {
-                tag.setName(tag.getName().toLowerCase());
+            if (tagRepository.checkIfTagExists(tag.getName()) == 0) {
                 tag = tagRepository.saveAndFlush(tag);
             } else if (tag.getId() == null) {
                 tag = tagRepository.getTagByName(tag.getName());

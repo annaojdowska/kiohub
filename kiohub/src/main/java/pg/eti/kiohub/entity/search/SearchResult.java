@@ -25,8 +25,7 @@ public class SearchResult implements Comparable<SearchResult>{
     private double score;
 
     @Override
-    public
-    int compareTo(SearchResult o) {
+    public int compareTo(SearchResult o) {
         if(o.getScore() < this.score) return 1;
         else if(o.getScore() == this.score) return 0;
         return -1;
