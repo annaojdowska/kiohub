@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
   MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule, MatDatepickerModule,
-  MatNativeDateModule, MatTableModule, MatPaginatorModule, MatPaginatorIntl} from '@angular/material';
+  MatNativeDateModule, MatTableModule, MatPaginatorModule, MatPaginatorIntl, MatProgressSpinnerModule} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -51,7 +51,9 @@ import { SlideshowModule } from 'ng-simple-slideshow';
 import { getPolishPaginatorIntl } from './advanced-search/polish-paginator-intl';
 import { EditProjectNotesTabComponent } from './edit-project-notes-tab/edit-project-notes-tab.component';
 import { NoteService } from './services/note.service';
+import { SpinnerComponent } from './ui-elements/spinner/spinner.component';
 import { SortResultsComponent } from './sort-results/sort-results.component';
+import { SortingService } from './services/sorting-service';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,7 @@ import { SortResultsComponent } from './sort-results/sort-results.component';
     ImageSliderComponent,
     DownloadElementComponent,
     EditProjectNotesTabComponent,
+    SpinnerComponent,
     SortResultsComponent
   ],
   imports: [
@@ -105,7 +108,8 @@ import { SortResultsComponent } from './sort-results/sort-results.component';
     MatPaginatorModule,
     BrowserModule,
     SliderModule,
-    SlideshowModule
+    SlideshowModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     SearchService,
@@ -119,6 +123,7 @@ import { SortResultsComponent } from './sort-results/sort-results.component';
     ProjectService,
     TagService,
     NoteService,
+    SortingService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {

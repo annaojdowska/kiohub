@@ -35,6 +35,8 @@ body {
     --input-list-background-color: #D4E3FC;
     --project-view-left-column-headings: #7a7a7a;
     --search-result-single-project-background-hover: rgba(206, 203, 197, 0.282);
+    --color-yellow-strong: #ffe16d;
+    --color-yellow-basic: #FEEFB3;
 
     margin: 0px;
     padding: 0px;
@@ -120,4 +122,16 @@ a:link, a:visited, a:hover, a:active {
     display: flex;
     justify-content: center;
     align-items: center; 
+}
+
+.rounded_element {
+    margin: 10px 0px;
+    padding: 12px;
+    border-radius: 5px; 
+    box-shadow:1px 1px 3px #888;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--main-font-name), sans-serif;
+    font-weight: normal;
 }

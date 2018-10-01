@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatSelectChange } from '../../../node_modules/@angular/material';
 
 @Component({
   selector: 'app-sort-results',
@@ -6,14 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sort-results.component.css']
 })
 export class SortResultsComponent implements OnInit {
-  selectedSorting: string;
-  sortTypes: string[];
+  @Input() sortingRules: string[];
+  @Output() ruleSelectionChanged = new EventEmitter<string>();
+  selectedRule: string;
   constructor() { }
 
   ngOnInit() {
   }
 
-  applySorting() {
-
+  applySorting(change: MatSelectChange) {
+    this.ruleSelectionChanged.emit(change.value);
   }
 }

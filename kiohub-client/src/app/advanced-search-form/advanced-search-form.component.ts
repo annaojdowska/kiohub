@@ -110,8 +110,7 @@ export class AdvancedSearchFormComponent implements OnInit {
     switch (event.keyCode) {
       case ENTER: {
         if (this.checkValidityTag()) {
-          const value = (<HTMLInputElement>event.target).value;
-          (<HTMLInputElement>event.target).value = '';
+          // const value = (<HTMLInputElement>event.target).value;
           this.addTag();
         }
         break;
@@ -154,9 +153,9 @@ export class AdvancedSearchFormComponent implements OnInit {
     validationOk = this.checkValidityDescription() && validationOk;
     validationOk = this.checkValidityTag() && validationOk;
     validationOk = this.checkValiditySupervisor() && validationOk;
-    console.log(validationOk);
-    validationOk = this.checkValidityDatesNotNull(this.dateFrom, this.dateTo) && validationOk;
-    console.log(validationOk);
+    // console.log(validationOk);
+    validationOk = this.checkValidityDates(this.dateFrom, this.dateTo) && validationOk;
+    // console.log(validationOk);
 
     return validationOk;
   }
