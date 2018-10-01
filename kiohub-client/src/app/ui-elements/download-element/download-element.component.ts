@@ -9,11 +9,14 @@ import { saveAs } from 'file-saver/FileSaver';
   styleUrls: ['./download-element.component.css']
 })
 export class DownloadElementComponent implements OnInit {
-
+  hidden;
   @Input() title: string;
   @Input() attachments: Attachment[];
   @ViewChild('container') container: ElementRef;
-  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) { }
+
+  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) {
+    this.hidden = true;
+  }
 
   ngOnInit() {
     this.attachments = [];
@@ -22,6 +25,7 @@ export class DownloadElementComponent implements OnInit {
   setAttachments(attachments: Attachment[]) {
     if (attachments !== null) {
       this.attachments = attachments;
+      this.manageVisibility();
       // this.container.nativeElement.style.add = 'elo ziomeczki co tam!';
       // console.log(this.container);
     } else {
@@ -33,6 +37,14 @@ export class DownloadElementComponent implements OnInit {
     this.attachmentService.getAttachment(attachment.id).subscribe((blob: Blob) => {
       saveAs(blob, attachment.fileName);
     });
+  }
+
+  manageVisibility() {
+    if (this.attachments.length > 0) {
+      this.hidden = false;
+    } else {
+      this.hidden = true;
+    }
   }
 
 }

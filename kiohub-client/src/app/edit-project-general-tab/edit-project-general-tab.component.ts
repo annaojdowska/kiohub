@@ -24,6 +24,8 @@ import { Semester } from '../model/semester.interface';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../error-info/validation-patterns';
+import { ValueUtils } from '../error-info/value-utils';
+import { ErrorType } from '../error-info/error-type.enum';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -60,6 +62,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('tagsError') tagsError: ErrorInfoComponent;
   @ViewChild('updateResult') updateResult: ErrorInfoComponent;
   @ViewChild('sendingInvitationsError') sendingInvitationsError: ErrorInfoComponent;
+  // attachment errors
+  @ViewChild('thesisError') thesisError: ErrorInfoComponent;
+  @ViewChild('sourceCodeError') sourceCodeError: ErrorInfoComponent;
+  @ViewChild('imageError') imageError: ErrorInfoComponent;
+  @ViewChild('manualUsageError') manualUsageError: ErrorInfoComponent;
+  @ViewChild('manualUsageStartupError') manualUsageStartupError: ErrorInfoComponent;
+  @ViewChild('otherFileError') otherFileError: ErrorInfoComponent;
 
   editedProject: Project;
   statuses: Status[];
@@ -73,6 +82,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   semestersHidden: boolean;
   nr = 0;
   validation: Validation = new Validation();
+  valueUtils = new ValueUtils();
 
   constructor(
     @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
@@ -163,6 +173,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
     return this.validation.validate(this.tagsError, this.validation.validateInputTag(this.tagsListComponent));
   }
 
+  checkValidityAttachment(attachmentType: AttachmentType, errorComponent: ErrorInfoComponent, event) {
+    return this.validation.validate(errorComponent, this.validation.validateAttachment(attachmentType, event));
+  }
 
   // other
   getParametersFromRouter() {
@@ -177,7 +190,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   setInvitationError(invitationsOk: boolean) {
     let showError: boolean;
     // nie zmieniać tego porównania, invitationsOk zwraca co innego niż (invitationsOk === true)
-    if (this.validation.isNullOrUndefined(invitationsOk) || invitationsOk === true) {
+    if (this.valueUtils.isNullOrUndefined(invitationsOk) || invitationsOk === true) {
       showError = false;
     } else {
       showError = true;
@@ -289,33 +302,50 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   // Functions for itemsList (add and recive attachments and tags)
   // Add function automatically invoke recive function
-
   private getInputListElementFile(event): InputListElement {
     return { name: event.target.files[0].name, file: event.target.files[0] };
   }
 
   addThesis(event) {
-    this.thesisList.add(this.getInputListElementFile(event));
+    if (this.checkValidityAttachment(AttachmentType.THESIS, this.thesisError, event)) {
+      this.thesisList.add(this.getInputListElementFile(event));
+      this.thesisError.setDisplay(false);
+    }
   }
 
   addProgram(event) {
-    this.programsList.add(this.getInputListElementFile(event));
+    if (this.checkValidityAttachment(AttachmentType.SOURCE_CODE, this.sourceCodeError, event)) {
+      this.programsList.add(this.getInputListElementFile(event));
+      this.sourceCodeError.setDisplay(false);
+    }
   }
 
   addImage(event) {
-    this.imagesList.add(this.getInputListElementFile(event));
+    if (this.checkValidityAttachment(AttachmentType.PHOTO, this.imageError, event)) {
+      this.imagesList.add(this.getInputListElementFile(event));
+      this.imageError.setDisplay(false);
+    }
   }
 
   addInstruction(event) {
-    this.instructionsList.add(this.getInputListElementFile(event));
+    if (this.checkValidityAttachment(AttachmentType.MANUAL_USAGE, this.manualUsageError, event)) {
+      this.instructionsList.add(this.getInputListElementFile(event));
+      this.manualUsageError.setDisplay(false);
+    }
   }
 
   addInstructionStart(event) {
-    this.instructionsStartList.add(this.getInputListElementFile(event));
+    if (this.checkValidityAttachment(AttachmentType.MANUAL_STARTUP, this.manualUsageStartupError, event)) {
+      this.instructionsStartList.add(this.getInputListElementFile(event));
+      this.manualUsageStartupError.setDisplay(false);
+    }
   }
 
   addOther(event) {
-    this.othersList.add(this.getInputListElementFile(event));
+    if (this.checkValidityAttachment(AttachmentType.OTHER, this.otherFileError, event)) {
+      this.othersList.add(this.getInputListElementFile(event));
+      this.otherFileError.setDisplay(false);
+    }
   }
 
   addTag(event) {
@@ -327,10 +357,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     if (this.validateAllElements()) {
       let status = { id: this.projectStatus.value, name: '' };
       let type = { id: this.projectType.value, name: '' };
-      if (this.validation.isNullOrUndefined(this.projectStatus.value)) {
+      if (this.valueUtils.isNullOrUndefined(this.projectStatus.value)) {
         status = null;
       }
-      if (this.validation.isNullOrUndefined(this.projectType.value)) {
+      if (this.valueUtils.isNullOrUndefined(this.projectType.value)) {
         type = null;
       }
 

@@ -102,7 +102,8 @@ CREATE TABLE users (
     user_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
     first_name NVARCHAR(20),
     last_name NVARCHAR(30),
-    email VARCHAR(50) NOT NULL
+    email VARCHAR(50) NOT NULL,
+    person_number LONG NOT NULL
 );
 
 CREATE TABLE project_collaborators (
