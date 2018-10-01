@@ -18,7 +18,7 @@ export class Validation {
 
     readonly MAX_FILENAME_LENGTH = 255;
     readonly MAX_FILE_SIZE = 100000000; // in bytes
- 
+
     readonly WRONG_EXTENSION = 'Niepoprawny typ pliku. Podaj plik z jednym z poniższych rozszerzeń: ';
 
     readonly errorStringSupervisor = 'Podane dane promotora muszą być krótsze niż ' + this.MAX_SIZE_SUPERVISOR + ' znaków.';

@@ -52,6 +52,8 @@ import { getPolishPaginatorIntl } from './advanced-search/polish-paginator-intl'
 import { EditProjectNotesTabComponent } from './edit-project-notes-tab/edit-project-notes-tab.component';
 import { NoteService } from './services/note.service';
 import { SpinnerComponent } from './ui-elements/spinner/spinner.component';
+import { SortResultsComponent } from './sort-results/sort-results.component';
+import { SortingService } from './services/sorting-service';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,8 @@ import { SpinnerComponent } from './ui-elements/spinner/spinner.component';
     ImageSliderComponent,
     DownloadElementComponent,
     EditProjectNotesTabComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SortResultsComponent
   ],
   imports: [
     BrowserModule,
@@ -120,6 +123,7 @@ import { SpinnerComponent } from './ui-elements/spinner/spinner.component';
     ProjectService,
     TagService,
     NoteService,
+    SortingService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {

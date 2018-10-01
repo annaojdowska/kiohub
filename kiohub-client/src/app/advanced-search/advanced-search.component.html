@@ -3,7 +3,9 @@
 <div *ngIf="showFilters" [@fadeInOut]>
     <app-advanced-search-form (filtersSubmitted)="getSearchResults($event)"></app-advanced-search-form>
 </div>
-
+<div id="sort-results">
+    <app-sort-results [sortingRules]=sortingRules (ruleSelectionChanged)="applySorting($event)"></app-sort-results>
+</div>
 <div>
     <div id="noResultsLabel" *ngIf="showNoResultsLabel">
         <label >Nie znaleziono projektów spełniających zadane kryteria</label>

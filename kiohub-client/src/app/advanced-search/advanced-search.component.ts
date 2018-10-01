@@ -1,10 +1,10 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { SearchService } from '../services/search.service';
-import { Project } from '../model/project.interface';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { SearchResult } from '../model/helpers/search-result.class';
+import { SortingService } from '../services/sorting-service';
 
 @Component({
   selector: 'app-advanced-search',
@@ -22,13 +22,19 @@ import { SearchResult } from '../model/helpers/search-result.class';
     ])
   ]
 })
-export class AdvancedSearchComponent implements OnInit {
+export class AdvancedSearchComponent implements OnInit, AfterViewInit {
   showNoResultsLabel: boolean;
   searchResults: SearchResult[];
   dataSource: MatTableDataSource<SearchResult>;
   displayedColumns: string[] = ['results'];
+  alphabetical = 'Alfabetycznie';
+  by_publication_date = 'Wg daty publikacji';
+  by_relevancy = 'Najtrafniejsze';
+  sortingRules: string[] = [this.alphabetical, this.by_publication_date, this.by_relevancy];
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(@Inject(SearchService) private searchService: SearchService) {
+
+  constructor(@Inject(SearchService) private searchService: SearchService,
+      @Inject(SortingService) private sortingService: SortingService) {
     this.showNoResultsLabel = false;
     this.searchResults = [];
   }
@@ -39,6 +45,10 @@ export class AdvancedSearchComponent implements OnInit {
       this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
       this.dataSource.paginator = this.paginator;
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   getSearchResults(query: QueryDescription) {
@@ -56,5 +66,20 @@ export class AdvancedSearchComponent implements OnInit {
     } else {
       return this.searchResults.length > 0;
     }
+  }
+
+  applySorting(sortingRule: string) {
+    if (sortingRule === this.alphabetical) {
+      this.searchResults = this.searchResults
+        .sort((a, b) => this.sortingService.sortAlphabetically(a.project.title, b.project.title));
+    } else if (sortingRule === this.by_publication_date) {
+      this.searchResults = this.searchResults
+        .sort((a, b) => this.sortingService.sortByDate(a.project.publicationDate, b.project.publicationDate));
+    } else if (sortingRule === this.by_relevancy) {
+      this.searchResults = this.searchResults
+        .sort((a, b) => this.sortingService.sortByScore(a.score, b.score));
+    }
+    this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
+    this.dataSource.paginator = this.paginator;
   }
 }

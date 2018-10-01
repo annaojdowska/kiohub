@@ -43,3 +43,8 @@ img {
     text-align: center;
     margin: 10%;
 }
+
+#sort-results{
+    margin-top: 15px;
+    font-size: 15px;
+}
