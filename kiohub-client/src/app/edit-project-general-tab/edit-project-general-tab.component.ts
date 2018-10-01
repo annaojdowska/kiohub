@@ -461,7 +461,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
-
+      window.location.reload(false);
     }
   }
 
