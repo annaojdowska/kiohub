@@ -15,7 +15,7 @@ label {
 
 #h2 {
     font-family: var(--main-font-name), sans-serif;
-    color: orange;
+    color: var(--h2-font-color);
     font-size: 25px;
     font-weight: normal;
     font-weight: 400;
@@ -50,7 +50,6 @@ h3 {
     font-family: var(--main-font-name), sans-serif;
     color: red;
     font-size: var(--normal-font-size);
-
 }
 
 .list {

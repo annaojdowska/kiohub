@@ -18,7 +18,7 @@
 }
 
 #project_result_container:hover{
-    background-color: rgba(206, 203, 197, 0.282);
+    background-color: var(--search-result-single-project-background-hover);
     cursor: pointer;
 }
 

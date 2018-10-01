@@ -7,7 +7,7 @@ label {
 
 #h2 {
     font-family: var(--main-font-name), sans-serif;
-    color: orange;
+    color: var(--h2-font-color);
     font-size: 25px;
     font-weight: normal;
     font-weight: 400;
@@ -45,8 +45,8 @@ label {
     overflow: hidden;
     position: relative;
     text-align: center;
-    background-color:whitesmoke;
-    color: rgb(7, 26, 56);
+    background-color: var(--content-container-background);
+    color: var(--submit-button-font-color);
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
 

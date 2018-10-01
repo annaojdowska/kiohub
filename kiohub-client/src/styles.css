@@ -17,10 +17,28 @@ body {
     --color-blue: #309ae6;
     --color-gray: #7a7a7a;
     --color-orange: orange;
+    --h2-font-color: orange;
+
+    --page-background-color: rgb(219, 211, 200);
+    --content-container-background: whitesmoke;
+    --menu-bar-background-color: orange;
+    --menu-bar-button-border-and-text-color: rgb(82, 84, 87);
+    --search-input-background-color: #fcfcfc;
+    --footer-background-color: #e0dfde;
+    --footer-main-page-background-color:  #343a40;
+    --foter-main-page-text-color: white;
+    --submit-button-font-color: rgb(7, 26, 56);
+    --submit-button-background-color: rgb(208, 211, 233);
+    --filters-background-color: rgba(230, 227, 222, 0.282);
+    --filters-border-color: rgba(255, 166, 0, 0.39);
+    --notes-background-color: #ffc;
+    --input-list-background-color: #D4E3FC;
+    --project-view-left-column-headings: #7a7a7a;
+    --search-result-single-project-background-hover: rgba(206, 203, 197, 0.282);
 
     margin: 0px;
     padding: 0px;
-    background-color: rgb(219, 211, 200);
+    background-color: var(--page-background-color);
 }
 
 
@@ -89,8 +107,8 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .submit-button {
-    background-color: rgb(208, 211, 233);
-    color: rgb(7, 26, 56);
+    background-color: var(--submit-button-background-color);
+    color: var(--submit-button-font-color);
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
 }

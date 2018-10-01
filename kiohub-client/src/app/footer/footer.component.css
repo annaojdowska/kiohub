@@ -1,5 +1,5 @@
 #footer {
-    background-color: #e0dfde;
+    background-color: var(--footer-background-color);
     height: var(--footer-height);
     width: var(--page-content-width); 
     margin-left: auto;
@@ -10,16 +10,13 @@
 
 #content {
     display: inline-block;
-    padding: 30px;
-    
+    padding: 30px;    
     display: flex;
     align-items: center; 
 }
 
 .footer_img {
-    height: 40px;
-
-    
+    height: 40px;    
 }
 
 #text-copyright {

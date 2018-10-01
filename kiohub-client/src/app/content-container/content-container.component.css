@@ -1,6 +1,6 @@
 .content-container {
     width: var(--page-content-width);
-    background-color:whitesmoke ; /*green*/   
+    background-color: var(--content-container-background);
     margin-left: auto;
     margin-right:auto;
     min-height: calc(100vh - var(--menu-bar-height) - var(--footer-height));

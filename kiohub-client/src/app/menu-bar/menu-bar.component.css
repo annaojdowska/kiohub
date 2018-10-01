@@ -1,7 +1,7 @@
 #menu_bar{
     width: 100%;
     height: var(--menu-bar-height);
-    background-color: orange;
+    background-color: var(--menu-bar-background-color);
 }
 
 #menu_bar_content{
@@ -10,10 +10,12 @@
     margin-right:auto;
     display: table;
 }
+
 #search-input{   
     float: left;
     margin-left: var(--margin-bar-elements);
 }
+
 #logo_content {
     width: 50px;
     height: 50px;

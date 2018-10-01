@@ -1,7 +1,7 @@
 #advanced-search {
-    border: 1px solid rgba(255, 166, 0, 0.39);
+    border: 1px solid var(--filters-border-color);
     margin-top: 15px;
-    background:rgba(230, 227, 222, 0.282);
+    background: var(--filters-background-color);
     overflow: hidden;
     margin-left: calc(-1 * var(--page-content-padding));
     margin-right: calc(-1 * var(--page-content-padding));

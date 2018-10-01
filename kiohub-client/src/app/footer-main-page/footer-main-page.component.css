@@ -1,6 +1,6 @@
 
 .footer {
-    background-color: #343a40;
+    background-color: var(--footer-main-page-background-color);
     width: 100%;
     margin-left: calc(-1 * var(--page-content-padding));
     margin-right: calc(-1 * var(--page-content-padding));
@@ -22,7 +22,6 @@
     width: 53%;
     text-align: justify;
     text-justify: inter-word;
-    color: #e0dfde;
 }
 
 .footer_right {
@@ -40,7 +39,7 @@
 h5 {
     margin-top: 15px;
     font-size: 13px;
-    color: white;
+    color: var(--foter-main-page-text-color);
 }
 
 #divider {
@@ -50,5 +49,6 @@ h5 {
 }
 
 img {
-    width:30%; height:30%;
+    width: 30%; 
+    height: 30%;
 }

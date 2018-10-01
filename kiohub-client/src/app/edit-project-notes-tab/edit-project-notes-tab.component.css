@@ -1,6 +1,6 @@
 #h2 {
     font-family: var(--main-font-name), sans-serif;
-    color: orange;
+    color: var(--h2-font-color);
     font-size: 25px;
     font-weight: normal;
     font-weight: 400;
@@ -47,9 +47,6 @@ img {
     vertical-align: top;
 }
 
-* {
-}
-
 label {
     font-family: var(--main-font-name), sans-serif;
     margin-right: 10px;
@@ -79,14 +76,14 @@ ul li a {
     font-family: var(--main-font-name), sans-serif;
     text-decoration: none;
     color: #000;
-    background: #ffc;
+    background: var(--notes-background-color);
     display: block;
     min-height: 20em;
     width: 20em;
     padding: 1em;
-    -moz-box-shadow: 5px 5px 7px rgba(219,211,200);
-    -webkit-box-shadow: 5px 5px 7px rgba(219,211,200);
-    box-shadow: 5px 5px 7px rgba(219,211,200);
+    -moz-box-shadow: 5px 5px 7px var(--page-background-color);
+    -webkit-box-shadow: 5px 5px 7px var(--page-background-color);
+    box-shadow: 5px 5px 7px var(--page-background-color);
     -moz-transition: -moz-transform .15s linear;
     -o-transition: -o-transform .15s linear;
     -webkit-transition: -webkit-transform .15s linear;

@@ -1,6 +1,6 @@
 .menu-button {
     float: left;
-    color: rgb(82, 84, 87);
+    color: var(--menu-bar-button-border-and-text-color);
     margin-left: 10px;
     font-weight: bold;
     height: 40px;
