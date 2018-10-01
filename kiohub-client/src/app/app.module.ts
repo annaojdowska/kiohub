@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
   MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule, MatDatepickerModule,
-  MatNativeDateModule, MatTableModule, MatPaginatorModule, MatPaginatorIntl} from '@angular/material';
+  MatNativeDateModule, MatTableModule, MatPaginatorModule, MatPaginatorIntl, MatProgressSpinnerModule} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -51,6 +51,7 @@ import { SlideshowModule } from 'ng-simple-slideshow';
 import { getPolishPaginatorIntl } from './advanced-search/polish-paginator-intl';
 import { EditProjectNotesTabComponent } from './edit-project-notes-tab/edit-project-notes-tab.component';
 import { NoteService } from './services/note.service';
+import { SpinnerComponent } from './ui-elements/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { NoteService } from './services/note.service';
     FooterMainPageComponent,
     ImageSliderComponent,
     DownloadElementComponent,
-    EditProjectNotesTabComponent
+    EditProjectNotesTabComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +105,8 @@ import { NoteService } from './services/note.service';
     MatPaginatorModule,
     BrowserModule,
     SliderModule,
-    SlideshowModule
+    SlideshowModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     SearchService,

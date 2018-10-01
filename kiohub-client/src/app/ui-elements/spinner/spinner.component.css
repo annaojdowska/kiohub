@@ -1,0 +1,23 @@
+#container {
+    background-color: var(--color-yellow-basic);
+    height: 30px;
+    min-height: 30px !important;
+    margin-bottom: 20px;
+    margin-top: 20px;
+     display: none; /*TODO*/
+}
+
+
+.mat-spinner::ng-deep circle {
+    /*spinner color*/
+    stroke: var(--color-orange);
+}
+
+
+.spinner_element {
+    display: inline-block;
+}
+
+#text {
+    padding-left: 10px;
+}

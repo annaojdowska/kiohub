@@ -26,6 +26,7 @@ import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../error-info/validation-patterns';
 import { ValueUtils } from '../error-info/value-utils';
 import { ErrorType } from '../error-info/error-type.enum';
+import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -51,6 +52,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('licence') licence: any;
   @ViewChild('semestersList') semestersList: InputListComponent;
   @ViewChild('semesterChooser') semesterChooser: SemesterChooserComponent;
+  @ViewChild('uploadInfo') uploadInfo: SpinnerComponent;
   // errors
   @ViewChild('titlePlError') titlePlError: ErrorInfoComponent;
   @ViewChild('titleEnError') titleEnError: ErrorInfoComponent;
@@ -91,7 +93,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
     @Inject(ProjectService) private projectService: ProjectService,
     @Inject(AttachmentService) private attachmentService: AttachmentService,
-    @Inject(TagService) private tagService: TagService) { }
+    @Inject(TagService) private tagService: TagService) {
+     }
 
   // ******** GETTERS ********
   getString(from, to) {
@@ -205,6 +208,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   ngOnInit() {
     const projectId = this.getParametersFromRouter();
+    this.uploadInfo.setAttachmentUploadInfoText(3, 12, 'plik.txt');
 
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
@@ -267,8 +271,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
     }
     return this.tagOptions.filter(option => option.name.toLowerCase().includes(phrase));
   }
-
-  // Functions for tag input
 
   keyUpTag(event: KeyboardEvent) {
     switch (event.keyCode) {
