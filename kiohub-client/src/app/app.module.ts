@@ -51,6 +51,7 @@ import { SlideshowModule } from 'ng-simple-slideshow';
 import { getPolishPaginatorIntl } from './advanced-search/polish-paginator-intl';
 import { EditProjectNotesTabComponent } from './edit-project-notes-tab/edit-project-notes-tab.component';
 import { NoteService } from './services/note.service';
+import { SortResultsComponent } from './sort-results/sort-results.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { NoteService } from './services/note.service';
     FooterMainPageComponent,
     ImageSliderComponent,
     DownloadElementComponent,
-    EditProjectNotesTabComponent
+    EditProjectNotesTabComponent,
+    SortResultsComponent
   ],
   imports: [
     BrowserModule,
