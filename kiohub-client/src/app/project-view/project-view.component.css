@@ -61,7 +61,7 @@ table>*:first-child:not(thead) th:first-child {
     /*h5*/
     text-align: right;
     vertical-align: top;
-    color: var(--project-view-left-column-headings);
+    color: var(--color-gray);
     padding-right: 10px;
 }
 
@@ -70,7 +70,7 @@ table>*:first-child:not(thead) th:first-child {
 table>*:first-child:not(thead) th:nth-child(2), .description_content {
     /*h6*/
     text-align: left;
-    color: black;
+    color: var(--color-black);
     list-style-type: none;
 }
 

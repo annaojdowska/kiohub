@@ -4,32 +4,35 @@
 }
 
 .warning {
-    color: #9F6000;
+    color: var(--color-orange-strong);
     background-color: var(--color-yellow-basic);
     transition: background-color var(--global-transition-duration);
 }
+
 .warning:hover {
     transition: background-color  var(--global-transition-duration);
     background-color: var(--color-yellow-strong);
  }
 
 .success {
-    color: rgb(79, 138, 16);
-    background-color: #d8f7a3;
+    color: var(--color-green);
+    background-color: var(--color-green-light);
     transition: background-color var(--global-transition-duration);
 }
+
 .success:hover {
    transition: background-color  var(--global-transition-duration);
-   background-color: #c9f282;
+   background-color: var(--color-green-light-2);
 }
 
 .error {
-    color: #D8000C;
-    background-color: #FFD2D2;
+    color: var(--color-red);
+    background-color: var(--color-red-light);
     transition: background-color var(--global-transition-duration);
 }
+
 .error:hover {
     transition: background-color var(--global-transition-duration);
-    background-color: #fcb0b0;
+    background-color: var(--color-red-light-2);
  }
  

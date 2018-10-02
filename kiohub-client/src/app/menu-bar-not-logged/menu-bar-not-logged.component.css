@@ -1,7 +1,7 @@
 #menu_bar{
     width: 100%;
     height: 55px;
-    background-color: var(--menu-bar-background-color);
+    background-color: var(--color-orange);
 }
 
 #menu_bar_content{

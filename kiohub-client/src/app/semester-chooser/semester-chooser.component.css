@@ -15,7 +15,7 @@ mat-grid-tile{
 }
 
 h5 {
-    color: black;
+    color: var(--color-black);
     font-size: 12px;
     font-family: var(--main-font-name), sans-serif;
 }

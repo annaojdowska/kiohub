@@ -1,5 +1,5 @@
 .search-input {
-    background: url('../../assets/search-grey-smaller.png') no-repeat 5px 5px var(--search-input-background-color);
+    background: url('../../assets/search-grey-smaller.png') no-repeat 5px 5px var(--color-white-snow);
     background-position: 10px;
     padding-left: 40px;
     font-size: var(--normal-font-size);

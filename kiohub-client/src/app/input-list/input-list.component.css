@@ -51,7 +51,7 @@
 }
 
 .chip {
-    background: var(--input-list-background-color) !important;
+    background: var(--color-blue-light) !important;
     border-radius: 0px !important;
     padding: 7px;
     margin: 4px;

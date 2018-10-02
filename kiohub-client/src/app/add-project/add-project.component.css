@@ -13,11 +13,10 @@ h2 {
 .centered_element {
     display: block;
 }
-
  
 table > *:first-child:not(thead) th:first-child { /*h5*/
     font-family: var(--main-font-name), sans-serif;
-    color: black;
+    color: var(--color-black);
     font-size: var(--normal-font-size);
     font-weight: normal;
     width: 150px;

@@ -7,7 +7,7 @@ label {
 
 #h2 {
     font-family: var(--main-font-name), sans-serif;
-    color: var(--h2-font-color);
+    color: var(--color-orange);
     font-size: 25px;
     font-weight: normal;
     font-weight: 400;
@@ -45,8 +45,8 @@ label {
     overflow: hidden;
     position: relative;
     text-align: center;
-    background-color: var(--content-container-background);
-    color: var(--submit-button-font-color);
+    background-color: var(--color-whitesmoke);
+    color: var(--color-blue-navy);
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
 
@@ -89,7 +89,7 @@ img, .verticalMiddle {
 
 #save-semesters {
     float: left;
-    color: black;
+    color: var(--color-black);
     font-size: 12px;
     font-family: var(--main-font-name), sans-serif;
     font-weight: bold;

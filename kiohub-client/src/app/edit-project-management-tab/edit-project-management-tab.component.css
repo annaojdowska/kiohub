@@ -15,7 +15,7 @@ label {
 
 #h2 {
     font-family: var(--main-font-name), sans-serif;
-    color: var(--h2-font-color);
+    color: var(--color-orange);
     font-size: 25px;
     font-weight: normal;
     font-weight: 400;
@@ -35,8 +35,8 @@ label {
 }
 
 #border {
-    border: 1px solid red;
-    border-color: red;
+    border: 1px solid var(--color-red-strong);
+    border-color: var(--color-red-strong);
     border-radius: 25px;
     padding: 20px; 
     margin-top: 60px;
@@ -48,7 +48,7 @@ h3 {
 
 #button-delete {
     font-family: var(--main-font-name), sans-serif;
-    color: red;
+    color: var(--color-red-strong);
     font-size: var(--normal-font-size);
 }
 

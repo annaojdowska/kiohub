@@ -1,6 +1,6 @@
 .menu-button {
     float: left;
-    color: var(--menu-bar-button-border-and-text-color);
+    color: var(--color-blue-navy);
     margin-left: 10px;
     font-weight: bold;
     height: 40px;

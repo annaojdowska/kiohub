@@ -1,7 +1,7 @@
 #advanced-search {
     border: 1px solid var(--filters-border-color);
     margin-top: 15px;
-    background: var(--filters-background-color);
+    background: var(--color-blanc-with-opacity);
     overflow: hidden;
     margin-left: calc(-1 * var(--page-content-padding));
     margin-right: calc(-1 * var(--page-content-padding));
@@ -68,7 +68,7 @@ label {
 }
 
 .dateInput {
-    color: black !important;
+    color: var(--color-black) !important;
 }
 
 #inputListsTable {

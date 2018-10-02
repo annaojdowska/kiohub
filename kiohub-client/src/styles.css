@@ -13,34 +13,41 @@ body {
     --main-font-name: 'PT Sans';
     --footer-main-page-height: 120px;
 
-    --color-azure: #72bcf0;
-    --color-blue: #309ae6;
-    --color-gray: #7a7a7a;
-    --color-orange: orange;
-    --h2-font-color: orange;
+    --color-blue-light-muted: rgb(208, 211, 233); /* submit button background color */
+    --color-blue-light: #D4E3FC; /* input list background color */
+    --color-azure: #72bcf0; /* h4 */
+    --color-blue: #309ae6; /* footer link */ 
+    --color-blue-navy:  #343a40; /* main page background color, buttons border and text color */
 
-    --page-background-color: rgb(219, 211, 200);
-    --content-container-background: whitesmoke;
-    --menu-bar-background-color: orange;
-    --menu-bar-button-border-and-text-color: rgb(82, 84, 87);
-    --search-input-background-color: #fcfcfc;
-    --footer-background-color: #e0dfde;
-    --footer-main-page-background-color:  #343a40;
-    --foter-main-page-text-color: white;
-    --submit-button-font-color: rgb(7, 26, 56);
-    --submit-button-background-color: rgb(208, 211, 233);
-    --filters-background-color: rgba(230, 227, 222, 0.282);
-    --filters-border-color: rgba(255, 166, 0, 0.39);
-    --notes-background-color: #ffc;
-    --input-list-background-color: #D4E3FC;
-    --project-view-left-column-headings: #7a7a7a;
-    --search-result-single-project-background-hover: rgba(206, 203, 197, 0.282);
-    --color-yellow-strong: #ffe16d;
+    --color-green-light: #d8f7a3; /* error component: successes */
+    --color-green-light-2: #c9f282; /* error component: successes */
+    --color-green: rgb(79, 138, 16); /* error component: successes */
+
+    --color-red-light: #FFD2D2; /* error component: errors */
+    --color-red-light-2:  #fcb0b0; /* error component: errors */
+    --color-red: #D8000C; /* error component: errors */
+    --color-red-strong: red; 
+
+    --color-yellow-light: #ffc; /* notes background */
     --color-yellow-basic: #FEEFB3;
+    --color-yellow-strong: #ffe16d; /* error component: warnings */
+    --color-orange: orange; /* h2, menu bar background color */
+    --color-orange-strong: #9F6000; /* error component: warnings */
+    --color-orange-muted: rgba(255, 166, 0, 0.39); /* filters border color */
+
+    --color-white: white;
+    --color-white-snow: #fcfcfc;  /* search input background color */
+    --color-blanc: rgb(219, 211, 200); /* page background color */
+    --color-blanc-with-opacity: rgba(219, 211, 200, 0.255); /* filters background */
+    --color-whitesmoke: whitesmoke; /* content container background */
+    --color-gray-light: #e0dfde; /* footer background color */
+    --color-gray: #7a7a7a; /* h5 */
+
+    --color-black: black;
 
     margin: 0px;
     padding: 0px;
-    background-color: var(--page-background-color);
+    background-color: var(--color-blanc);
 }
 
 
@@ -65,7 +72,7 @@ h2 {
 
 h3 {
     font-family: var(--main-font-name), sans-serif;
-    color: black;
+    color: var(--color-black);
     font-size: var(--normal-font-size);
     font-weight: normal;
     margin: 0;
@@ -92,7 +99,7 @@ h5 {
 
 h6 {
     font-family: var(--main-font-name), sans-serif;
-    color: black;
+    color: var(--color-black);
     font-size: var(--normal-font-size);
     font-weight: normal;
     margin: 0;
@@ -109,8 +116,8 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .submit-button {
-    background-color: var(--submit-button-background-color);
-    color: var(--submit-button-font-color);
+    background-color: var(--color-blue-light-muted);
+    color: var(--color-blue-navy);
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
 }
