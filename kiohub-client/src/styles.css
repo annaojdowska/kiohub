@@ -17,7 +17,7 @@ body {
     --color-blue-light: #D4E3FC; /* input list background color */
     --color-azure: #72bcf0; /* h4 */
     --color-blue: #309ae6; /* footer link */ 
-    --color-blue-navy:  #343a40; /* main page background color, buttons border and text color */
+    --color-blue-navy: #343a40; /* main page footer background color, buttons border and text color */
 
     --color-green-light: #d8f7a3; /* error component: successes */
     --color-green-light-2: #c9f282; /* error component: successes */
