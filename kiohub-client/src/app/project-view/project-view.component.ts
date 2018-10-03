@@ -42,6 +42,7 @@ export class ProjectViewComponent implements OnInit {
   authorsHidden;
   semestersHidden;
   tagsHidden;
+  licenceHidden;
 
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -52,6 +53,7 @@ export class ProjectViewComponent implements OnInit {
       this.authorsHidden = true;
       this.tagsHidden = true;
       this.semestersHidden = true;
+      this.licenceHidden = true;
   }
 
   ngOnInit(): void {
@@ -129,6 +131,11 @@ export class ProjectViewComponent implements OnInit {
       this.semestersHidden = false;
     } else {
       this.semestersHidden = true;
+    }
+    if (project.licence.name !== 'Brak') {
+      this.licenceHidden = false;
+    } else {
+      this.licenceHidden = true;
     }
   }
 }
