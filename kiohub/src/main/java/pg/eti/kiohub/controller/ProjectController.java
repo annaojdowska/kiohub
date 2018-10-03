@@ -12,10 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.*;
 
 import java.util.*;
-import pg.eti.kiohub.entity.enums.Visibility;
 /**
  *
  * @author Aleksander Kania <kania>
@@ -79,8 +79,11 @@ public class ProjectController extends MainController {
 
     private User createNewUserUsingEmail(String email) {
         User user = new User();
-        user.setEmail(email);
+        // FIXME #2
         user = userRepository.saveAndFlush(user);
+
+        UserEmail userEmail = new UserEmail(email, user);
+        userEmailRepository.save(userEmail);
         return user;
     }
 

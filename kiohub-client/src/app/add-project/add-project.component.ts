@@ -98,6 +98,9 @@ export class AddProjectComponent implements OnInit {
           console.log(this.project);
           this.sendInvitationsAndRedirect(title, this.authorsList.elements.map(e => e.name));
           this.emailError.setDisplay(false);
+        },
+        error => {
+          console.log(error);
         });
       // } else {
       //   console.log('ERROR: Istnieje już projekt o takim projekcie.');

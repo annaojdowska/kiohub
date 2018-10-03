@@ -5,17 +5,18 @@
  */
 package pg.eti.kiohub.servlet;
 
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Map;
+import org.jasig.cas.client.authentication.AttributePrincipal;
+import pg.eti.kiohub.entity.model.User;
+import pg.eti.kiohub.entity.model.UserEmail;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jasig.cas.client.authentication.AttributePrincipal;
-import pg.eti.kiohub.controller.LoginController;
-import pg.eti.kiohub.entity.model.User;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Map;
 
 ///**
 // *
@@ -35,9 +36,11 @@ public class LoginServlet extends HttpServlet {
         String lastName = attributes.get("lastName").toString();
         String personNumber = attributes.get("personNumber").toString();
         String email = ((LinkedList)attributes.get("mail")).get(0).toString();
-        
-        User user = new User(firstName, lastName, email);
-        
+
+        User user = new User(firstName, lastName);
+        UserEmail userEmail = new UserEmail(email, user);
+        //ale tego maila to gdzieś zapisz do bazy #FIXME
+        //i tego usera tyż
         
         
         throw new NullPointerException("Koniec " + firstName + " " + lastName + " " + personNumber + " " + email);
