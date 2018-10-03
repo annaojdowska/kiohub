@@ -22,41 +22,44 @@ import { SortingService } from '../services/sorting-service';
     ])
   ]
 })
-export class AdvancedSearchComponent implements OnInit, AfterViewInit {
+export class AdvancedSearchComponent implements OnInit {
   showNoResultsLabel: boolean;
   searchResults: SearchResult[];
   dataSource: MatTableDataSource<SearchResult>;
   displayedColumns: string[] = ['results'];
   alphabetical = 'Alfabetycznie';
-  by_publication_date = 'Wg daty publikacji';
+  by_publication_date_descending = 'Od najnowszych';
+  by_publication_date_ascending = 'Od najstarszych';
   by_relevancy = 'Najtrafniejsze';
-  sortingRules: string[] = [this.alphabetical, this.by_publication_date, this.by_relevancy];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  sortingRules: string[];
+  paginator: MatPaginator;
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) { this.paginator = mp; this.assignPaginatorToDataSource(); }
 
   constructor(@Inject(SearchService) private searchService: SearchService,
       @Inject(SortingService) private sortingService: SortingService) {
     this.showNoResultsLabel = false;
     this.searchResults = [];
+    this.sortingRules = [this.alphabetical, this.by_publication_date_descending, this.by_publication_date_ascending];
   }
 
   ngOnInit() {
     this.searchService.getAllProjects().subscribe(results => {
       this.searchResults = results.map(r => new SearchResult(r, 0));
       this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
-      this.dataSource.paginator = this.paginator;
     });
   }
 
-  ngAfterViewInit(): void {
+ private assignPaginatorToDataSource(): void {
     this.dataSource.paginator = this.paginator;
   }
 
   getSearchResults(query: QueryDescription) {
     this.searchService.getProjectsBasedOnQuery(query).subscribe(results => {
       this.searchResults = results;
-      this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
-      this.dataSource.paginator = this.paginator;
+      this.applySorting(this.by_relevancy);
       this.showNoResultsLabel = this.searchResults.length === 0;
+      this.sortingRules = [this.alphabetical, this.by_publication_date_descending,
+        this.by_publication_date_ascending, this.by_relevancy];
     });
   }
 
@@ -72,14 +75,17 @@ export class AdvancedSearchComponent implements OnInit, AfterViewInit {
     if (sortingRule === this.alphabetical) {
       this.searchResults = this.searchResults
         .sort((a, b) => this.sortingService.sortAlphabetically(a.project.title, b.project.title));
-    } else if (sortingRule === this.by_publication_date) {
+    } else if (sortingRule === this.by_publication_date_descending) {
       this.searchResults = this.searchResults
-        .sort((a, b) => this.sortingService.sortByDate(a.project.publicationDate, b.project.publicationDate));
+        .sort((a, b) => this.sortingService.sortByDateDescending(a.project.publicationDate, b.project.publicationDate));
     } else if (sortingRule === this.by_relevancy) {
       this.searchResults = this.searchResults
         .sort((a, b) => this.sortingService.sortByScore(a.score, b.score));
+    } else if (sortingRule === this.by_publication_date_ascending) {
+      this.searchResults = this.searchResults
+      .sort((a, b) => this.sortingService.sortByDateAscending(a.project.publicationDate, b.project.publicationDate));
     }
     this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
-    this.dataSource.paginator = this.paginator;
+    this.assignPaginatorToDataSource();
   }
 }

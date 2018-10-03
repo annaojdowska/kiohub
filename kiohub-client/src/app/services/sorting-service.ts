@@ -14,13 +14,22 @@ export class SortingService {
     return -1;
   }
 
-  sortByDate(a: Date, b: Date): number {
+  sortByDateDescending(a: Date, b: Date): number {
     if (a > b) {
       return -1;
     } else if (a === b) {
       return 0;
     }
     return 1;
+  }
+
+  sortByDateAscending(a: Date, b: Date): number {
+    if (a > b) {
+      return 1;
+    } else if (a === b) {
+      return 0;
+    }
+    return -1;
   }
 
   sortByScore(a: number, b: number): number {
