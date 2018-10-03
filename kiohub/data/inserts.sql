@@ -3,6 +3,7 @@ USE kiohub;
 TRUNCATE TABLE notes;
 TRUNCATE TABLE user_pinned_projects;
 TRUNCATE TABLE project_collaborators;
+TRUNCATE TABLE users_emails;
 TRUNCATE TABLE users;
 TRUNCATE TABLE attachments_files;
 TRUNCATE TABLE attachments;
