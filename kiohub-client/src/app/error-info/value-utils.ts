@@ -15,4 +15,8 @@ export class ValueUtils {
     validateMaxSize(stringValue, maxSize) {
         return stringValue.length < maxSize;
     }
+
+    findElementsToSaveInArray(array) {
+        return array.elements.filter(e => (!e.id));
+      }
 }

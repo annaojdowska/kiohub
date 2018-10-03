@@ -52,7 +52,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('licence') licence: any;
   @ViewChild('semestersList') semestersList: InputListComponent;
   @ViewChild('semesterChooser') semesterChooser: SemesterChooserComponent;
-  @ViewChild('uploadInfo') uploadInfo: SpinnerComponent;
+  @ViewChild('uploadInfoSpinner') uploadInfoSpinner: SpinnerComponent;
   // errors
   @ViewChild('titlePlError') titlePlError: ErrorInfoComponent;
   @ViewChild('titleEnError') titleEnError: ErrorInfoComponent;
@@ -94,7 +94,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(ProjectService) private projectService: ProjectService,
     @Inject(AttachmentService) private attachmentService: AttachmentService,
     @Inject(TagService) private tagService: TagService) {
-     }
+  }
 
   // ******** GETTERS ********
   getString(from, to) {
@@ -208,7 +208,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   ngOnInit() {
     const projectId = this.getParametersFromRouter();
-    this.uploadInfo.setAttachmentUploadInfoText(3, 12, 'plik.txt');
 
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
@@ -355,6 +354,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   updateProject() {
+    this.uploadInfoSpinner.setDisplay(false);
 
     if (this.validateAllElements()) {
       let status = { id: this.projectStatus.value, name: '' };
@@ -387,7 +387,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       console.log(updatedProject);
       this.updateResult.setDisplay(false);
-      //  if (updatedProject.projectStatus.id && updatedProject.projectType.id) {
       this.projectService.updateProject(updatedProject).subscribe(data => {
         this.updateResult.setComponent(true, 'SUCCESS', 'Pomyślnie zaktualizowano projekt.');
         window.scrollTo(0, 0);
@@ -397,12 +396,19 @@ export class EditProjectGeneralTabComponent implements OnInit {
           window.scrollTo(0, 0);
         });
 
+      //this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
+
       this.thesisList.elements.forEach(th => {
         if (!th.id) {
+          console.log('ZACZYNAM THESIS');
+
           this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, Visibility.EVERYONE, false)
-            .subscribe(data => { },
+            .subscribe(data => {
+              console.log('KOŃCZĘ THESIS');
+            },
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+                console.log('KOŃCZĘ THESIS');
               });
         }
       });
@@ -421,10 +427,17 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       this.othersList.elements.forEach(th => {
         if (!th.id) {
+          console.log('ZACZYNAM INNE');
           this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, Visibility.EVERYONE, false)
-            .subscribe(data => { },
+            .subscribe(data => {
+
+
+              console.log('KOŃCZĘ INNE');
+
+             },
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+                console.log('KOŃCZĘ INNE');
               });
         }
       });
@@ -454,17 +467,25 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       this.imagesList.elements.forEach(th => {
         if (!th.id) {
+          console.log('ZACZYNAM IMG');
           this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, Visibility.EVERYONE,
             th.selected ? th.selected : false)
-            .subscribe(data => { },
+            .subscribe(data => {
+
+              console.log('KONCZE IMG'); },
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+                console.log('KONCZE IMG');
               });
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
-      window.location.reload(false);
+      // window.location.reload(false);
     }
+  }
+
+  updateCompleted(text: string, errorType: ErrorType) {
+    this.updateResult.setComponent(true, errorType, text);
   }
 
   saveSemesters() {
@@ -481,5 +502,14 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.semestersList.remove(toRemove);
     const index = this.chosenSemesters.findIndex(sem => sem.id === semester.id);
     this.chosenSemesters.splice(index, 1);
+  }
+
+  private getAttachmentsToSaveAmount() {
+     return this.valueUtils.findElementsToSaveInArray(this.imagesList).length
+     + this.valueUtils.findElementsToSaveInArray(this.instructionsList).length
+     + this.valueUtils.findElementsToSaveInArray(this.instructionsStartList).length
+     + this.valueUtils.findElementsToSaveInArray(this.othersList).length
+     + this.valueUtils.findElementsToSaveInArray(this.programsList).length
+     + this.valueUtils.findElementsToSaveInArray(this.thesisList).length;
   }
 }
