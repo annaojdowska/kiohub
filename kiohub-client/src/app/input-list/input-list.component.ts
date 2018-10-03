@@ -1,5 +1,7 @@
 import {Component, ElementRef, ViewChild, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import { InputListElement } from '../model/input-list-element';
+import { VisibilitySelectComponent } from '../visibility-select/visibility-select.component';
+import { Visibility } from '../model/visibility.enum';
 
 export interface Fruit {
   name: string;
@@ -11,11 +13,13 @@ export interface Fruit {
   styleUrls: ['input-list.component.css'],
 })
 export class InputListComponent implements OnInit {
+  visibilityChangeable = true;
   @Input() removable = false;
   @Input() orientation = 'horizontal';
   @Input() placeholder = 'Kolejne adresy e-mail rozdziel przecinkami, spacjami lub wciśnij enter';
   @Input() selectable = false;
   @Output() elementRemoved = new EventEmitter<InputListElement>();
+
   focusedStyle = '';
   elements: InputListElement[] = [];
   visible = true;
@@ -51,6 +55,10 @@ export class InputListComponent implements OnInit {
       const index = this.elements.indexOf(element);
       this.elements.forEach(e => e.selected = (index === this.elements.indexOf(e)));
     }
+  }
+
+  selectionChange(element: InputListElement, visibility: Visibility) {
+    element.visibility = visibility;
   }
 
 }
