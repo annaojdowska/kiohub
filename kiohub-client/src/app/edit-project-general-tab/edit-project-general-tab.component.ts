@@ -221,27 +221,27 @@ export class EditProjectGeneralTabComponent implements OnInit {
       result.attachments.forEach(at => {
         switch (at.type) {
           case AttachmentType.THESIS: {
-            this.thesisList.add({ id: at.id, name: at.fileName });
+            this.thesisList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility });
             break;
           }
           case AttachmentType.SOURCE_CODE: {
-            this.programsList.add({ id: at.id, name: at.fileName });
+            this.programsList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility  });
             break;
           }
           case AttachmentType.PHOTO: {
-            this.imagesList.add({ id: at.id, name: at.fileName });
+            this.imagesList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility, selected: at.mainPhoto  });
             break;
           }
           case AttachmentType.OTHER: {
-            this.othersList.add({ id: at.id, name: at.fileName });
+            this.othersList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility  });
             break;
           }
           case AttachmentType.MANUAL_USAGE: {
-            this.instructionsList.add({ id: at.id, name: at.fileName });
+            this.instructionsList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility  });
             break;
           }
           case AttachmentType.MANUAL_STARTUP: {
-            this.instructionsStartList.add({ id: at.id, name: at.fileName });
+            this.instructionsStartList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility  });
             break;
           }
         }
@@ -396,13 +396,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
           window.scrollTo(0, 0);
         });
 
-      //this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
+      // this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
 
       this.thesisList.elements.forEach(th => {
         if (!th.id) {
           console.log('ZACZYNAM THESIS');
 
-          this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, Visibility.EVERYONE, false)
+          this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, th.visibility, false)
             .subscribe(data => {
               console.log('KOŃCZĘ THESIS');
             },
@@ -416,7 +416,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       this.programsList.elements.forEach(th => {
         if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, Visibility.EVERYONE, false)
+          this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, th.visibility, false)
             .subscribe(data => { },
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
@@ -428,7 +428,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.othersList.elements.forEach(th => {
         if (!th.id) {
           console.log('ZACZYNAM INNE');
-          this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, Visibility.EVERYONE, false)
+          this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, th.visibility, false)
             .subscribe(data => {
 
 
@@ -445,7 +445,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       this.instructionsStartList.elements.forEach(th => {
         if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, Visibility.EVERYONE, false)
+          this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, th.visibility, false)
             .subscribe(data => { },
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
@@ -456,7 +456,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       this.instructionsList.elements.forEach(th => {
         if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, Visibility.EVERYONE, false)
+          this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, th.visibility, false)
             .subscribe(data => { },
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
@@ -468,7 +468,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.imagesList.elements.forEach(th => {
         if (!th.id) {
           console.log('ZACZYNAM IMG');
-          this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, Visibility.EVERYONE,
+          this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, th.visibility,
             th.selected ? th.selected : false)
             .subscribe(data => {
 

@@ -10,7 +10,7 @@ import { ValueUtils } from '../error-info/value-utils';
   styleUrls: ['./visibility-select.component.css']
 })
 export class VisibilitySelectComponent implements OnInit {
-  selected: Visibility;
+  @Input() selected: Visibility;
   @Output() selectionChange = new EventEmitter<Visibility>();
   valueUtils = new ValueUtils();
   @Input() allowEveryone = true;
@@ -24,14 +24,11 @@ export class VisibilitySelectComponent implements OnInit {
   }
 
   ngOnInit() {
-     if (!this.selected) {
-      this.selected = Visibility.LOGGED_USERS;
-     }
-    this.selectionChange.emit(this.selected);
-  }
+
+    }
 
   selectChange(value: Visibility) {
-    this.selectionChange.emit(this.selected);
+    this.selectionChange.emit(value);
   }
 
 }

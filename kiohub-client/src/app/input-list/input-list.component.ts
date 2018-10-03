@@ -13,7 +13,7 @@ export interface Fruit {
   styleUrls: ['input-list.component.css'],
 })
 export class InputListComponent implements OnInit {
-  visibilityChangeable = true;
+  @Input() visibilityChangeable = false;
   @Input() removable = false;
   @Input() orientation = 'horizontal';
   @Input() placeholder = 'Kolejne adresy e-mail rozdziel przecinkami, spacjami lub wciśnij enter';
@@ -37,6 +37,9 @@ export class InputListComponent implements OnInit {
       } else {
         element.selected = false;
       }
+      if (!element.visibility) {
+        element.visibility = Visibility.EVERYONE;
+      }
       this.elements.push(element);
     }
   }
@@ -58,7 +61,8 @@ export class InputListComponent implements OnInit {
   }
 
   selectionChange(element: InputListElement, visibility: Visibility) {
-    element.visibility = visibility;
+    const index = this.elements.indexOf(element);
+    this.elements[index].visibility = visibility;
   }
 
 }
