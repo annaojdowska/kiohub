@@ -6,12 +6,16 @@
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    
 }
 
 mat-grid-tile{
     padding: 0px;
     margin: 0px;
     width:auto;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
 }
 
 h5 {
@@ -20,15 +24,15 @@ h5 {
     font-family: var(--main-font-name), sans-serif;
 }
 
-mat-grid-tile-footer{
-    float: right;
-}
-
 #arrows {
-    margin-right:1vw;
-    float: right;
+    margin-top:1vw;
     margin-bottom: 0;
 }
 #arrows:hover {
     cursor: pointer;
+}
+
+img {
+    width: 20px;
+    height: 20px;
 }
