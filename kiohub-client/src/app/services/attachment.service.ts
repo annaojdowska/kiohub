@@ -23,7 +23,7 @@ export class AttachmentService {
   };
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
-  upload(file: Blob, type: AttachmentType, projectId: number | string, visibility: Visibility, mainPhoto: boolean | string) {
+  upload(file: Blob, type: AttachmentType, projectId: number | string, visibility: Visibility, mainPhoto: Boolean | string) {
     const formData = new FormData();
     formData.append('File', file);
     formData.append('Type', type);
