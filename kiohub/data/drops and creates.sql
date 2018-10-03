@@ -3,6 +3,7 @@ USE kiohub;
 DROP TABLE IF EXISTS notes;
 DROP TABLE IF EXISTS user_pinned_projects;
 DROP TABLE IF EXISTS project_collaborators;
+DROP TABLE IF EXISTS users_emails;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS attachments_files;
 DROP TABLE IF EXISTS attachments;
@@ -102,8 +103,13 @@ CREATE TABLE users (
     user_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
     first_name NVARCHAR(20),
     last_name NVARCHAR(30),
-    email VARCHAR(50) NOT NULL,
-    person_number LONG NOT NULL
+    is_supervisor SMALLINT(1) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE users_emails (
+	id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	user_id INT UNSIGNED NOT NULL REFERENCES users,
+    email VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE project_collaborators (

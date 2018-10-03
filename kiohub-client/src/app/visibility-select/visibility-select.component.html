@@ -1,0 +1,25 @@
+<mat-form-field class="visibility-select">
+    <mat-select (selectionChange)="selectChange($event.value)" [(value)]="selected" [ngClass]="selected" >
+        <mat-select-trigger>
+            <img src="assets/{{selected}}.png" class="icon-inline">
+        </mat-select-trigger>
+        <mat-optgroup label="Wybierz widoczność elementu">
+          <mat-option *ngIf='allowEveryone' value="EVERYONE">
+            <img src="assets/EVERYONE.png" class="icon-inline">
+            Wszyscy odwiedzający
+          </mat-option>
+          <mat-option *ngIf='allowLoggedUsers' value="LOGGED_USERS">
+            <img src="assets/LOGGED_USERS.png" class="icon-inline">
+            Osoby zalogowane
+          </mat-option>
+          <mat-option *ngIf='allowCollaborators' value="COLLABORATORS">
+              <img src="assets/COLLABORATORS.png" class="icon-inline">
+              Współtwórcy
+          </mat-option>
+          <mat-option *ngIf='allowPrivate' value="PRIVATE">
+              <img src="assets/PRIVATE.png" class="icon-inline">
+              Tylko ja
+          </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>

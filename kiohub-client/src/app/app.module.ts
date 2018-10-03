@@ -54,6 +54,7 @@ import { NoteService } from './services/note.service';
 import { SpinnerComponent } from './ui-elements/spinner/spinner.component';
 import { SortResultsComponent } from './sort-results/sort-results.component';
 import { SortingService } from './services/sorting-service';
+import { VisibilitySelectComponent } from './visibility-select/visibility-select.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { SortingService } from './services/sorting-service';
     DownloadElementComponent,
     EditProjectNotesTabComponent,
     SpinnerComponent,
-    SortResultsComponent
+    SortResultsComponent,
+    VisibilitySelectComponent
   ],
   imports: [
     BrowserModule,
