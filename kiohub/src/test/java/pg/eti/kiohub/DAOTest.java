@@ -6,15 +6,8 @@
 package pg.eti.kiohub;
 
 import pg.eti.kiohub.entity.enums.AttachmentType;
-import pg.eti.kiohub.entity.model.UserPinnedProject;
-import pg.eti.kiohub.entity.model.ProjectSettings;
-import pg.eti.kiohub.entity.model.Licence;
-import pg.eti.kiohub.entity.model.ProjectCollaborator;
-import pg.eti.kiohub.entity.model.Project;
-import pg.eti.kiohub.entity.model.Note;
-import pg.eti.kiohub.entity.model.User;
-import pg.eti.kiohub.entity.model.ProjectStatus;
-import pg.eti.kiohub.entity.model.ProjectType;
+import pg.eti.kiohub.entity.model.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,21 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import pg.eti.kiohub.entity.enums.Visibility;
-import pg.eti.kiohub.entity.model.Attachment;
-import pg.eti.kiohub.entity.model.Tag;
-import pg.eti.kiohub.entity.repository.LicenceRepository;
-import pg.eti.kiohub.entity.repository.NoteRepository;
-import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
-import pg.eti.kiohub.entity.repository.ProjectRepository;
-import pg.eti.kiohub.entity.repository.ProjectSettingsRepository;
-import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
-import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
-import pg.eti.kiohub.entity.model.Semester;
-import pg.eti.kiohub.entity.repository.AttachmentRepository;
-import pg.eti.kiohub.entity.repository.SemesterRepository;
-import pg.eti.kiohub.entity.repository.TagRepository;
-import pg.eti.kiohub.entity.repository.UserPinnedProjectRepository;
-import pg.eti.kiohub.entity.repository.UserRepository;
+import pg.eti.kiohub.entity.repository.*;
 import pg.eti.kiohub.utils.DateUtills;
 
 /**
@@ -76,6 +55,8 @@ public class DAOTest {
     private SemesterRepository semesterRepository;
     @Autowired
     private AttachmentRepository attachmentRepository;
+    @Autowired
+    private UserEmailRepository userEmailRepository;
 
     private Project project;
     private Project project2;
@@ -91,6 +72,21 @@ public class DAOTest {
         project = projectRepository.saveAndFlush(project);
         Assert.assertNotNull(project);
         projectRepository.delete(project);
+    }
+
+    @Test
+    public void checkSqlQueries() {
+        boolean exceptionThrown = false;
+
+        try {
+            userRepository.checkIfUserExistsByEmail("ja");
+            userRepository.findUserByEmail("ja");
+        } catch (Exception e) {
+            e.printStackTrace();
+            exceptionThrown = true;
+        }
+
+        Assert.assertFalse(exceptionThrown);
     }
     
     @Test
@@ -213,13 +209,21 @@ public class DAOTest {
 
     private List<User> createUsers() {
         List<User> users = new ArrayList<>();
-        User user1 = new User("Jan", "Kowalski", "jan.kow@o2.pl");
+
+        User user1 = new User("Jan", "Kowalski");
         user1.setId(userId1);
-        User user2 = new User("Ewa", "Chodowiecka", "ewcia2@gmail.com");
+        User user2 = new User("Ewa", "Chodowiecka");
         user1.setId(userId2);
 
         users.add(user1);
         users.add(user2);
+
+        // zapisz userów, a dopiero potem dodaj maile
+        // FIXME
+        //UserEmail userEmail1 = new UserEmail("jan.kow@o2.pl", user1);
+        //UserEmail userEmail2 = new UserEmail("ewcia2@gmail.com", user2`);
+
+       // userEmailRepository.saveAll(Arrays.asList(userEmail1, userEmail2));
         return users;
     }
 

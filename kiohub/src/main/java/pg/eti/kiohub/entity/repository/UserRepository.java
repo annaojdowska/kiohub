@@ -17,9 +17,17 @@ import pg.eti.kiohub.entity.model.User;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query("SELECT count(u) FROM User u WHERE u.email = :email")
+//    @Query("SELECT count(u) FROM User u WHERE u.email = :email")
+//    Long checkIfUserExistsByEmail(@Param("email") String email);
+    // FIXME
+    @Query(value = "SELECT count(*) FROM users u " +
+            "left join users_emails email on u.user_id = email.user_id " +
+            "WHERE email.email = :email", nativeQuery = true)
     Long checkIfUserExistsByEmail(@Param("email") String email);
 
-    @Query("SELECT u FROM User u WHERE u.email = :email")
+
+    @Query(value = "SELECT * FROM users u " +
+            "left join users_emails email on u.user_id = email.user_id " +
+            "WHERE email.email = :email", nativeQuery = true)
     User findUserByEmail(@Param("email") String email);
 }
