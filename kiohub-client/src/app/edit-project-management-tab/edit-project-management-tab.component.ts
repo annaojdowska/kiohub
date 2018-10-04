@@ -5,6 +5,7 @@ import { Project } from '../model/project.interface';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
 import { InputListComponent } from '../input-list/input-list.component';
+import { UserEmail } from '../model/user-email.interface';
 
 @Component({
   selector: 'app-edit-project-management-tab',
@@ -14,7 +15,7 @@ import { InputListComponent } from '../input-list/input-list.component';
 export class EditProjectManagementTabComponent implements OnInit {
   editedProject: Project;
   supervisor: User;
-  collaborators: User[];
+  collaborators: UserEmail[];
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
   getProjectIdFromRouter() {
@@ -37,8 +38,8 @@ export class EditProjectManagementTabComponent implements OnInit {
       this.userService.getCollaboratorsByProjectId(projectId).subscribe(c => {
         this.collaborators = c;
         c.forEach(coll => {
-          // FIXME
-         // this.authorsList.add({ id: coll.id, name: coll.firstName + ' ' + coll.lastName + ' (' + coll.email + ')'});
+          console.log(coll);
+          this.authorsList.add({ id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email + ')'});
         });
       });
       this.userService.getSupervisorByProjectId(projectId).subscribe(s => this.supervisor = s);

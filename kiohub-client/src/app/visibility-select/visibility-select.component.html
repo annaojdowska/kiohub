@@ -1,5 +1,5 @@
 <mat-form-field class="visibility-select">
-    <mat-select (selectionChange)="selectChange($event.value)" [(value)]="selected" [ngClass]="selected" >
+    <mat-select (selectionChange)="selectChange($event.value)" [ngModel]="selected" >
         <mat-select-trigger>
             <img src="assets/{{selected}}.png" class="icon-inline">
         </mat-select-trigger>

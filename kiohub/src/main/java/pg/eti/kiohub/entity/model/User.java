@@ -41,12 +41,6 @@ public class User {
     @Setter(AccessLevel.NONE)
     @Column(name = "last_name")
     private String lastName;
-
-//    @Column(name = "email")
-//    private String email;
-    
-    @Column(name = "person_number")
-    private Long person_number;
     
     public User(String firstName, String lastName) {
         this.firstName = firstName;
