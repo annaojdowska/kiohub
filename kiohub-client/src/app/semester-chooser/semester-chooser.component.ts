@@ -11,6 +11,7 @@ import { SemesterService } from '../services/semester-service';
 export class SemesterChooserComponent implements OnInit, AfterContentInit {
   @Output() semesterAdded = new EventEmitter<Semester>();
   @Output() semesterRemoved = new EventEmitter<Semester>();
+  @Output() confirm = new EventEmitter();
   @Input() semestersFromParent: Semester[];
   semesters: Semester[];
   chosenSemesters: Semester[];
@@ -64,5 +65,9 @@ export class SemesterChooserComponent implements OnInit, AfterContentInit {
     } else {
       return 'whitesmoke';
     }
+  }
+
+  confirmSemesters() {
+    this.confirm.emit();
   }
 }

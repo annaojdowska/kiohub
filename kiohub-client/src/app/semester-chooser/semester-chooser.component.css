@@ -1,12 +1,20 @@
 #container{
-    max-width: 60vw;
+    max-width: 70vw;
     display: inline-grid;
     width:55%;
     height: auto;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+mat-grid-list {
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 20px;
 }
 
 mat-grid-tile{
@@ -35,4 +43,16 @@ h5 {
 img {
     width: 20px;
     height: 20px;
+}
+
+#save-semesters {
+    color: var(--color-black);
+    font-size: 12px;
+    font-family: var(--main-font-name), sans-serif;
+    font-weight: bold;
+    background-color: transparent !important;
+}
+
+#save-semesters:hover {
+    cursor: pointer;
 }

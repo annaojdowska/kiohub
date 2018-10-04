@@ -396,7 +396,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
           window.scrollTo(0, 0);
         });
 
-      //this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
+      // this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
 
       this.thesisList.elements.forEach(th => {
         if (!th.id) {
