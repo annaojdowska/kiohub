@@ -23,7 +23,7 @@ export class AttachmentService {
   };
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
-  upload(file: Blob, type: AttachmentType, projectId: number | string, visibility: Visibility, mainPhoto: boolean | string) {
+  upload(file: Blob, type: AttachmentType, projectId: number | string, visibility: Visibility, mainPhoto: Boolean | string) {
     const formData = new FormData();
     formData.append('File', file);
     formData.append('Type', type);
@@ -31,6 +31,14 @@ export class AttachmentService {
     formData.append('Visibility', visibility);
     formData.append('MainPhoto', String(mainPhoto));
     return this.http.post<string>(address + '/attachment/upload', formData, httpOptionsMultipart);
+  }
+
+  updateMetadata(id: number, visibility: Visibility, mainPhoto: Boolean) {
+    const params = new HttpParams()
+      .set('id', id.toString())
+      .set('visibility', visibility.toString())
+      .set('mainPhoto', mainPhoto.toString());
+    return this.http.post(address + '/attachment/updateMetadata', params);
   }
 
   remove(attachments: number[]) {

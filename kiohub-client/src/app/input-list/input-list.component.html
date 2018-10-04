@@ -7,14 +7,14 @@
           (removed)="remove(fruit)"
           [disableRipple]="true"
           class = "chip-{{orientation}} chip-{{fruit.selected}} chip" 
-          (click)="select(fruit)">
-          <img src="assets/radio-on-button-smaller.png" *ngIf='fruit.selected && selectable' class="chip-image chip-radio"/>
-          <img src="assets/radio-off-button-smaller.png" *ngIf='!fruit.selected && selectable' class="chip-image chip-radio"/>
-          <div class='chip-text'> 
+          >
+          <img src="assets/radio-on-button-smaller.png" (click)="select(fruit)" *ngIf='fruit.selected && selectable' class="chip-image chip-radio"/>
+          <img src="assets/radio-off-button-smaller.png" (click)="select(fruit)" *ngIf='!fruit.selected && selectable' class="chip-image chip-radio"/>
+          <div class='chip-text' (click)="select(fruit)"> 
               {{fruit.name}}
           </div>
           <img src="assets/delete-button-smaller.png" matChipRemove *ngIf="removable == 'true'" class="chip-remove chip-image"/>
-          <app-visibility-select selected="fruit.visibility" [allowPrivate]="false" (selectionChange)="selectionChange(fruit, $event)" class="chip-image"></app-visibility-select>
+          <app-visibility-select *ngIf='visibilityChangeable' [selected]="fruit.visibility" [allowPrivate]="false" (selectionChange)="selectionChange(fruit, $event)" class="chip-image"></app-visibility-select>
         </mat-chip>
       </div>
       

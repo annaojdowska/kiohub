@@ -54,7 +54,10 @@ public class MainController {
     
     @Autowired
     protected AttachmentFileRepository attachmentFileRepository;   
-        
+
+    @Autowired
+    protected UserEmailRepository userEmailRepository;
+
     @Autowired
     protected ProjectService projectService;
     

@@ -89,6 +89,19 @@ public class AttachmentControler extends MainController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    @PostMapping(path = "/updateMetadata")
+    public ResponseEntity updateMetadata (
+            @RequestParam("id") String id,
+            @RequestParam("visibility") String visibility,
+            @RequestParam("mainPhoto") String mainPhoto) {
+        System.out.println("Aktualizuję ");
+        Attachment attachment = attachmentRepository.getOne(Long.parseLong(id));
+        attachment.setVisibility(Visibility.valueOf(visibility));
+        attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
+        attachmentRepository.save(attachment);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @CrossOrigin
     @GetMapping(path = "/download")
