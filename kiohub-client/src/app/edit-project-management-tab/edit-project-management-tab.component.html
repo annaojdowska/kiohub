@@ -5,16 +5,18 @@
     <input matInput name="supervisor" value="{{supervisor?.firstName}} {{supervisor?.lastName}}">
   </mat-form-field>
   <app-visibility-select [allowPrivate]="false" [selected]="supervisorVisibility" (selectionChange)="selectionSuperUserVisibilityChange($event)" class="chip-image"></app-visibility-select>
+  
   <br/>
   <form #authors="ngForm" (ngSubmit)="addAuthor()">
     <label class="wrapper-left">Autorzy pracy:</label>
     <mat-form-field class="wrapper-width">
       <input #authorInput name="author" ngModel matInput>
     </mat-form-field>
+  
     <br/>
   </form>
   <div class="list">
-    <app-input-list #authorsList [visibilityChangeable]="true" orientation="vertical" (changeElements)="recieveCollaborators($event)" removable="true" hideInput="true"></app-input-list>
+    <app-input-list #authorsList orientation="vertical" (changeElements)="recieveCollaborators($event)" removable="true" hideInput="true"></app-input-list>
   </div>
 
   <div id="button-container">
