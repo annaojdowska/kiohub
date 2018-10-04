@@ -3,6 +3,7 @@ import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.c
 import { FileUtils } from './file-utils';
 import { AttachmentType } from '../model/attachment-type.enum';
 import { ValueUtils } from './value-utils';
+import { isNullOrUndefined } from 'util';
 
 
 export class Validation {
@@ -17,9 +18,9 @@ export class Validation {
     readonly MAX_SIZE_EMAIL = 30;
 
     readonly MAX_FILENAME_LENGTH = 255;
-    readonly MAX_FILE_SIZE = 100000000; // in bytes
+    readonly MAX_FILE_SIZE = 2000000000; // in bytes
 
-    readonly WRONG_EXTENSION = 'Niepoprawny typ pliku. Podaj plik z jednym z poniższych rozszerzeń: ';
+    readonly WRONG_EXTENSION = 'Niepoprawny typ pliku lub plik jest zbyt duży (maksymalny rozmiar to ' + this.MAX_FILE_SIZE + '). Podaj plik z jednym z poniższych rozszerzeń: ';
 
     readonly errorStringSupervisor = 'Podane dane promotora muszą być krótsze niż ' + this.MAX_SIZE_SUPERVISOR + ' znaków.';
     readonly errorStringTag = 'Tag nie może zawierać znaków innych niż litery i cyfry. Maksymalna długość to ' + this.MAX_SIZE_TAG + ' znaków.';
@@ -43,14 +44,18 @@ export class Validation {
     // ******** ATTACHMENT VALIDATION ********
     validateAttachment(attachmentType: AttachmentType, event) {
         const file = event.target.files[0];
-        const name = file.name;
-        const size = file.size;
-        const type = file.type;
+        if (!isNullOrUndefined(file.name) && !isNullOrUndefined(file.size) && !isNullOrUndefined(file.type)) {
+            const name = file.name;
+            const size = file.size;
+            const type = file.type;
 
-        let validationOk = true;
-        validationOk = this.validateAttachmentsType(attachmentType, type) && validationOk;
-        validationOk = this.validateAttachmentsNameAndSize(name, size) && validationOk;
-        return validationOk;
+            let validationOk = true;
+            validationOk = this.validateAttachmentsType(attachmentType, type) && validationOk;
+            validationOk = this.validateAttachmentsNameAndSize(name, size) && validationOk;
+            return validationOk;
+        } else {
+            return false;
+        }
     }
 
     private validateAttachmentsType(attachmentType: AttachmentType, fileType: string) {

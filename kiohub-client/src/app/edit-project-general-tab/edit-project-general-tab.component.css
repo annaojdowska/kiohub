@@ -30,6 +30,11 @@ label {
     display: none;
 }
 
+#content {
+    /* \n as new line */
+        white-space: pre-line;
+}
+
 #button-container {
     text-align: center;
     margin-top: 50px;

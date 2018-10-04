@@ -141,6 +141,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     validationOk = this.checkValidityDescriptionEn() && validationOk;
     validationOk = this.checkValidityStatus() && validationOk;
     validationOk = this.checkValidityType() && validationOk;
+
     // validationOk = this.validation.validateElementAndHandleError(this.semesterChooserError, this.validateSemesterChooser()) && validationOk;
     // no tag validation - every successfully added tag had been already validated
 
@@ -390,102 +391,99 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.projectService.updateProject(updatedProject).subscribe(data => {
         this.updateResult.setComponent(true, 'SUCCESS', 'Pomyślnie zaktualizowano projekt.');
         window.scrollTo(0, 0);
-      },
-        error => {
-          this.updateResult.setComponent(true, 'ERROR', 'Wystąpił błąd zaktualizowania projektu.');
-          window.scrollTo(0, 0);
-        });
+      }, error => {
+        this.updateResult.setComponent(true, 'ERROR', 'Wystąpił błąd zaktualizowania projektu.');
+        window.scrollTo(0, 0);
+      });
 
-      // this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
+      this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
 
+      // thesis
       this.thesisList.elements.forEach(th => {
         if (!th.id) {
-          console.log('ZACZYNAM THESIS');
-
           this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, Visibility.EVERYONE, false)
             .subscribe(data => {
-              console.log('KOŃCZĘ THESIS');
-            },
-              error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-                console.log('KOŃCZĘ THESIS');
-              });
+              this.uploadInfoSpinner.addSuccess(th.name);
+            }, error => {
+              this.uploadInfoSpinner.addFail(th.name);
+            });
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.thesisList, AttachmentType.THESIS);
 
+      // source code
       this.programsList.elements.forEach(th => {
         if (!th.id) {
           this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, Visibility.EVERYONE, false)
-            .subscribe(data => { },
-              error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-              });
+            .subscribe(data => {
+              this.uploadInfoSpinner.addSuccess(th.name);
+            }, error => {
+              this.uploadInfoSpinner.addFail(th.name);
+            });
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.programsList, AttachmentType.SOURCE_CODE);
 
-      this.othersList.elements.forEach(th => {
+      // images
+      this.imagesList.elements.forEach(th => {
         if (!th.id) {
-          console.log('ZACZYNAM INNE');
-          this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, Visibility.EVERYONE, false)
+          this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, Visibility.EVERYONE,
+            th.selected ? th.selected : false)
             .subscribe(data => {
-
-
-              console.log('KOŃCZĘ INNE');
-
-             },
-              error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-                console.log('KOŃCZĘ INNE');
-              });
+              this.uploadInfoSpinner.addSuccess(th.name);
+            }, error => {
+              this.uploadInfoSpinner.addFail(th.name);
+            });
         }
       });
-      this.attachmentService.removeAttachments(this.editedProject, this.othersList, AttachmentType.OTHER);
+      this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
 
-      this.instructionsStartList.elements.forEach(th => {
-        if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, Visibility.EVERYONE, false)
-            .subscribe(data => { },
-              error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-              });
-        }
-      });
-      this.attachmentService.removeAttachments(this.editedProject, this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
-
+      // manual
       this.instructionsList.elements.forEach(th => {
         if (!th.id) {
           this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, Visibility.EVERYONE, false)
-            .subscribe(data => { },
-              error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-              });
+            .subscribe(data => {
+              this.uploadInfoSpinner.addSuccess(th.name);
+            }, error => {
+              this.uploadInfoSpinner.addFail(th.name);
+            });
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.instructionsList, AttachmentType.MANUAL_USAGE);
 
-      this.imagesList.elements.forEach(th => {
+      // manual startup
+      this.instructionsStartList.elements.forEach(th => {
         if (!th.id) {
-          console.log('ZACZYNAM IMG');
-          this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, Visibility.EVERYONE,
-            th.selected ? th.selected : false)
+          this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, Visibility.EVERYONE, false)
             .subscribe(data => {
-
-              console.log('KONCZE IMG'); },
-              error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-                console.log('KONCZE IMG');
-              });
+              this.uploadInfoSpinner.addSuccess(th.name);
+            }, error => {
+              this.uploadInfoSpinner.addFail(th.name);
+            });
         }
       });
-      this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
-      // window.location.reload(false);
+      this.attachmentService.removeAttachments(this.editedProject, this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
+
+      // other
+      this.othersList.elements.forEach(th => {
+        if (!th.id) {
+          this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, Visibility.EVERYONE, false)
+            .subscribe(data => {
+              this.uploadInfoSpinner.addSuccess(th.name);
+            }, error => {
+              this.uploadInfoSpinner.addFail(th.name);
+            });
+        }
+      });
+      this.attachmentService.removeAttachments(this.editedProject, this.othersList, AttachmentType.OTHER);
+
     }
   }
 
   updateCompleted(text: string, errorType: ErrorType) {
     this.updateResult.setComponent(true, errorType, text);
+   this.uploadInfoSpinner.setDisplay(false);
+    // window.location.reload(false);
   }
 
   saveSemesters() {
@@ -505,11 +503,11 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   private getAttachmentsToSaveAmount() {
-     return this.valueUtils.findElementsToSaveInArray(this.imagesList).length
-     + this.valueUtils.findElementsToSaveInArray(this.instructionsList).length
-     + this.valueUtils.findElementsToSaveInArray(this.instructionsStartList).length
-     + this.valueUtils.findElementsToSaveInArray(this.othersList).length
-     + this.valueUtils.findElementsToSaveInArray(this.programsList).length
-     + this.valueUtils.findElementsToSaveInArray(this.thesisList).length;
+    return this.valueUtils.findElementsToSaveInArray(this.imagesList).length
+      + this.valueUtils.findElementsToSaveInArray(this.instructionsList).length
+      + this.valueUtils.findElementsToSaveInArray(this.instructionsStartList).length
+      + this.valueUtils.findElementsToSaveInArray(this.othersList).length
+      + this.valueUtils.findElementsToSaveInArray(this.programsList).length
+      + this.valueUtils.findElementsToSaveInArray(this.thesisList).length;
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { EditProjectGeneralTabComponent } from '../../edit-project-general-tab/edit-project-general-tab.component';
 import { ErrorType } from '../../error-info/error-type.enum';
+import { ValueUtils } from '../../error-info/value-utils';
 
 @Component({
   selector: 'app-spinner',
@@ -12,6 +13,7 @@ export class SpinnerComponent implements OnInit {
   private editProjectComponent: EditProjectGeneralTabComponent;
   private succesList: string[] = [];
   private failedList: string[] = [];
+  private valueUtils = new ValueUtils();
   // how many attachments to upload
   private attachmentsToSave: number;
   // how many attachments had been already uploaded
@@ -46,7 +48,11 @@ export class SpinnerComponent implements OnInit {
   }
 
   updateSpinner() {
+    console.log('spinner');
+    console.log(this);
+
     if (this.attachmentsToSave === this.savedAttachments) {
+      this.setAttachmentUploadInfoText();
       this.setAttachmentUploadCompleted();
     } else {
       this.setAttachmentUploadInfoText();
@@ -66,10 +72,11 @@ export class SpinnerComponent implements OnInit {
     if (errorAmount > 0) {
       if (errorAmount === this.attachmentsToSave) {
         errorType = ErrorType.ERROR;
-        text = 'Nie udało się zapisać żadnego z załączników.';
+        text = 'Nie udało się zapisać żadnego z załączników. ';
       } else {
         errorType = ErrorType.WARNING;
-        text = 'Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników. Nie udało się zapisać następujących załączników: ' + this.failedList.toString();
+        // tslint:disable-next-line:max-line-length
+        text = 'Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników. Nie udało się zapisać następujących załączników: ' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
       }
     } else {
       errorType = ErrorType.SUCCESS;
@@ -79,12 +86,12 @@ export class SpinnerComponent implements OnInit {
   }
 
   private setAttachmentUploadInfoText() {
-    this.text = 'Trwa dodawanie załączników (zapisano ' + this.savedAttachments + ' z ' + this.attachmentsToSave + ')';
+    this.text = 'Trwa dodawanie załączników (zapisano ' + this.savedAttachments + ' z ' + this.attachmentsToSave + '). ';
     if (this.succesList.length > 0) {
-      this.text += 'Zapisane załączniki: ' + this.succesList.toString();
+      this.text += '\nZapisane załączniki: ' +  this.valueUtils.formatStringArrayToView(this.succesList) + '. ';
     }
     if (this.failedList.length > 0) {
-      this.text += 'Wystąpiły problemy z dodaniem załączników:' + this.failedList.toString();
+      this.text += '\nWystąpiły problemy z dodaniem załączników:' +  this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
     }
   }
   setText(text: string) {
