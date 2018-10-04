@@ -29,11 +29,11 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
      }
 
      getCollaboratorsDataByProjectId(id: number): Observable<ProjectCollaborator[]> {
-        return this.http.get<ProjectCollaborator[]>(address + '/collaborator/project/' + id, {responseType: 'json'});
+        return this.http.get<ProjectCollaborator[]>(address + '/collaborator/data/project/' + id, {responseType: 'json'});
      }
 
     getSupervisorDataByProjectId(id: number): Observable<ProjectCollaborator> {
-        return this.http.get<ProjectCollaborator>(address + '/collaborator/supervisor/project/' + id, {responseType: 'json'});
+        return this.http.get<ProjectCollaborator>(address + '/collaborator/data/supervisor/project/' + id, {responseType: 'json'});
      }
 
     getUserById(id: number): Observable<User> {
