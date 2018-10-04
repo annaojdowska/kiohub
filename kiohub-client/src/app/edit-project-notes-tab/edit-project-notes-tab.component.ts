@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
 import { Note } from '../model/note.interface';
 import { NoteService } from '../services/note.service';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
+import { Visibility } from '../model/visibility.enum';
 
 @Component({
   selector: 'app-edit-project-notes-tab',
@@ -18,9 +19,12 @@ export class EditProjectNotesTabComponent implements OnInit {
   noteEditInputShows: boolean;
   inputEditNote: string;
   inputEditId: number;
+  visibilitySelected: string;
 
+  @ViewChild('noteVisibility') noteVisibility: any;
   @ViewChild('newNoteContent') newNoteContent: any;
   @ViewChild('editNoteContent') editNoteContent: any;
+  @Input() visibilityChangeable = true;
 
   getProjectIdFromRouter() {
     let id: number;
@@ -43,19 +47,24 @@ export class EditProjectNotesTabComponent implements OnInit {
     }));
     this.noteInputShows = false;
     this.noteEditInputShows = false;
+    this.noteVisibility = 'COLLABORATORS';
   }
 
   addNote() {
     const newNoteContent = this.newNoteContent.nativeElement.value;
-   // TO DO: drugi parametr - widoczność, trzeci parametr - zalogowany użytkownik
-    this.noteService.addNote(newNoteContent, 0, 296, this.projectId).subscribe(result => console.log(result));
+    const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
+    // TO DO: trzeci parametr - zalogowany użytkownik
+    this.noteService.addNote(newNoteContent, visibility, 296, this.projectId).subscribe(result => console.log(result));
     window.location.reload();
   }
 
   editNote(noteId: number) {
     window.scrollTo(0, 0);
-    this.inputEditNote = this.notes.find(note => note.id === noteId).content;
+    let editingNote: Note;
+    editingNote = this.notes.find(note => note.id === noteId);
+    this.inputEditNote = editingNote.content;
     this.inputEditId = noteId;
+    this.noteVisibility = editingNote.isPrivate ? 'PRIVATE' : 'COLLABORATORS';
   }
 
   deleteNote(noteId: number) {
@@ -65,7 +74,8 @@ export class EditProjectNotesTabComponent implements OnInit {
 
   editExistingNote() {
     const editNoteContent = this.editNoteContent.nativeElement.value;
-    this.noteService.editNote(this.inputEditId, editNoteContent).subscribe(result => console.log(result));
+    const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
+    this.noteService.editNote(this.inputEditId, editNoteContent, visibility).subscribe(result => console.log(result));
 
     window.location.reload();
     this.noteEditInputShows = false;
@@ -85,5 +95,9 @@ export class EditProjectNotesTabComponent implements OnInit {
 
   closeEditNoteInput() {
     this.noteEditInputShows = false;
+  }
+
+  selectionChange(visibility: Visibility) {
+    this.noteVisibility = visibility.toString();
   }
 }

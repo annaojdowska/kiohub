@@ -44,7 +44,7 @@ public class NoteController extends MainController {
             @RequestParam("projectId") String projectId) {
         System.out.println("Jestem tutaj");
         Project project = projectRepository.findById(Long.parseLong(projectId)).get();
-        Note noteToAdd = new Note(Long.parseLong(ownerId), project, content, new Date(), Boolean.parseBoolean(isPrivate));
+        Note noteToAdd = new Note(Long.parseLong(ownerId), project, content, new Date(), Integer.parseInt(isPrivate) == 1 ? true : false);
         noteRepository.saveAndFlush(noteToAdd);
        
         return new ResponseEntity<>(noteToAdd, HttpStatus.OK);
@@ -66,10 +66,12 @@ public class NoteController extends MainController {
     @PostMapping(path = "/update/{id}")
     public ResponseEntity update(
             @PathVariable("id") Long id,
-            @RequestParam("content") String content){
+            @RequestParam("content") String content,
+            @RequestParam("isPrivate") String isPrivate){
         try { 
             Note noteToUpdate = noteRepository.findById(id).get();
             noteToUpdate.setContent(content);
+            noteToUpdate.setIsPrivate(Integer.parseInt(isPrivate) == 1 ? true : false);
             super.noteRepository.saveAndFlush(noteToUpdate);
          } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
