@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../model/project.interface';
@@ -41,23 +41,24 @@ export class EditProjectManagementTabComponent implements OnInit {
       this.editedProject = result;
       this.userService.getCollaboratorsByProjectId(projectId).subscribe(c => {
         this.collaborators = c;
-        let projectCollaborators: ProjectCollaborator[];
         this.userService.getCollaboratorsDataByProjectId(projectId).subscribe(pc => {
-          projectCollaborators = pc;
-        });
-        c.forEach(coll => {
-          const pcTmp = projectCollaborators.find(p => p.userId === coll.id);
-          if (pcTmp) {
-            this.collaboratorsVisibility.push(pcTmp.userDataVisible);
-          } else {
-            this.collaboratorsVisibility.push(Visibility.LOGGED_USERS);
-          }
-          console.log(coll);
-          this.authorsList.add({ id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email + ')'});
+          c.forEach(coll => {
+            console.log('ProjeCollab ' + pc.length + ' ' + pc[0].userDataVisible);
+            console.log(coll.id);
+            const pcTmp = pc.find(p => p.userId === coll.id);
+            this.authorsList.add({ id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email + ')',
+            visibility: (pcTmp && pcTmp.userDataVisible) ? pcTmp.userDataVisible : Visibility.LOGGED_USERS});
+          });
         });
       });
       this.userService.getSupervisorByProjectId(projectId).subscribe(s => this.supervisor = s);
-      this.userService.getSupervisorDataByProjectId(projectId).subscribe(s => this.supervisorVisibility = s.userDataVisible);
+      this.userService.getSupervisorDataByProjectId(projectId).subscribe(sd => {
+        if (sd && sd.userDataVisible) {
+          this.supervisorVisibility = sd.userDataVisible;
+        } else {
+          this.supervisorVisibility = Visibility.EVERYONE;
+        }
+      });
     });
   }
 
@@ -75,10 +76,5 @@ export class EditProjectManagementTabComponent implements OnInit {
 
   selectionSuperUserVisibilityChange(value: Visibility) {
     this.supervisorVisibility = value;
-  }
-
-  selectionCollaboratorVisibilityChange(user: UserEmail, visibility: Visibility) {
-    const index = this.collaborators.indexOf(user);
-    this.collaboratorsVisibility[index] = visibility;
   }
 }
