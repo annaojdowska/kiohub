@@ -168,62 +168,61 @@
         </div>
 
         <div>
-            <div>
-                <label>Wybierz licencję:</label>
-                <mat-form-field id="wrapper-width-licence">
-                    <mat-select #licence [value]="editedProject?.licence?.id ? editedProject?.licence?.id : 1">
-                        <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <br />
+            <label>Wybierz licencję:</label>
+            <mat-form-field id="wrapper-width-licence">
+                <mat-select #licence [value]="editedProject?.licence?.id ? editedProject?.licence?.id : 1">
+                    <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br />
+        </div>
+
+        <div>
+            <label>Semestry wytwarzania: </label>
+            <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
+            <br />
+            <br />
+            <div id="semesters-container" *ngIf="semestersHidden != false">
+                <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
+                    (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
+                <a (click)="saveSemesters()">
+                    <button type="button" id="save-semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź
+                        wybór</button>
+                </a>
             </div>
-
-            <div>
-                <label>Semestry wytwarzania: </label>
-                <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
-                <br />
-                <br />
-                <div id="semesters-container" *ngIf="semestersHidden != false">
-                    <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
-                        (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
-                    <a (click)="saveSemesters()">
-                        <button type="button" id="save-semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź
-                            wybór</button>
-                    </a>
-                </div>
-                <div class="list">
-                    <app-input-list [removable]="false" hideInput="true" #semestersList></app-input-list>
-                </div>
-                <app-error-info #semesterChooserError errorText="Zaznacz co najmniej jeden semestr." errorType="ERROR"></app-error-info>
-
+            <div class="list">
+                <app-input-list [removable]="false" hideInput="true" #semestersList></app-input-list>
             </div>
+            <app-error-info #semesterChooserError errorText="Zaznacz co najmniej jeden semestr." errorType="ERROR"></app-error-info>
 
-            <div>
-                <label>Tagi:</label>
-                <mat-form-field class="example-full-width" name="tags">
-                    <input #tagsListComponent ngModel matInput type="text" aria-label="Number" [formControl]="tagControl"
-                        [matAutocomplete]="auto" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
-                        <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
-                            {{option.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <app-error-info #tagsError errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
+        </div>
 
-                <div class="list">
-                    <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true"
-                        hideInput="true"></app-input-list>
-                </div>
+        <div>
+            <label>Tagi:</label>
+            <mat-form-field class="example-full-width" name="tags">
+                <input #tagsListComponent ngModel matInput type="text" aria-label="Number" [formControl]="tagControl"
+                    [matAutocomplete]="auto" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
+                    <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
+                        {{option.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <app-error-info #tagsError errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
+
+            <div class="list">
+                <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true"
+                    hideInput="true"></app-input-list>
             </div>
+        </div>
 
-            <div>
-                <div id="button-container">
-                    <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź
-                        zmiany</button>
-                    <div id="divider"></div>
-                    <button type="button" mat-stroked-button class="submit-button">Publikuj na stronie</button>
-                </div>
+        <div>
+            <div id="button-container">
+                <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź
+                    zmiany</button>
+                <div id="divider"></div>
+                <button type="button" mat-stroked-button class="submit-button">Publikuj na stronie</button>
             </div>
+        </div>
     </form>
 </div>
