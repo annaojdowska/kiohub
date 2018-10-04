@@ -8,6 +8,7 @@ import { DownloadElementComponent } from '../ui-elements/download-element/downlo
 import { AttachmentType } from '../model/attachment-type.enum';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
+import { UserEmail } from '../model/user-email.interface';
 
 @Component({
   selector: 'app-project-view',
@@ -34,7 +35,7 @@ export class ProjectViewComponent implements OnInit {
   @ViewChild('slider') imageSlider: ImageSliderComponent;
 
   supervisor: User;
-  collaborators: User[];
+  collaborators: UserEmail[];
   project: Project;
   id: number;
   descriptionHidden;
