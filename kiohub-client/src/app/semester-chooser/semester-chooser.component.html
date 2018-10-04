@@ -11,5 +11,10 @@
         <img src={{pathToRightArrow}} *ngIf="endIndex < this.semesters.length" (click)="moveToNext()"/>
     </div>
 </mat-grid-tile-footer>
+<div>
+    <a (click)="confirmSemesters()">
+        <button type="button" id="save-semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź wybór</button>
+    </a>
+</div>
 </div>
 

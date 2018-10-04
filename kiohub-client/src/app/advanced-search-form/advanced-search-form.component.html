@@ -38,9 +38,9 @@
         <label class="rightLabel" id="center">Semestry wytwarzania: &nbsp;
             <img src='assets/calendar.png' (click)="toggleSemesters()" />
         </label>
-        <div class=paddingTop id="semester-container">
+        <div class=paddingTop id="semesterContainer">
             <app-semester-chooser *ngIf="semestersHidden != false" [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
-                (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
+                (semesterRemoved)="removeAddedSemester($event)" (confirm)="toggleSemesters($event)" #semesterChooser></app-semester-chooser>
         </div>
         <app-error-info #errorSupervisor errorText="{{validation.errorStringSupervisor}}" errorType="ERROR"></app-error-info>
         <app-error-info #errorTag errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
