@@ -1,217 +1,228 @@
-<p id="h2">Edycja projektu </p>
-<app-error-info #sendingInvitationsError errorText="{{validation.errorStringSendingInvitations}}" errorType="WARNING" ></app-error-info>
-<app-error-info #updateResult></app-error-info>
-<div>
-    <mat-form-field class="wrapper-right">
-        <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*"
-            (selectionChange)="onProjectStatusChange($event)">
-            <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-    <app-error-info #projectStatusError errorText="{{validation.errorStringStatus}}" errorType="ERROR"></app-error-info>
+<div id="content">
+    <p id=" h2">Edycja projektu </p>
+    <app-error-info #sendingInvitationsError errorText="{{validation.errorStringSendingInvitations}}" errorType="WARNING"></app-error-info>
+    <app-error-info #updateResult></app-error-info>
+    <div>
+        <mat-form-field class="wrapper-right">
+            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*"
+                (selectionChange)="onProjectStatusChange($event)">
+                <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <app-error-info #projectStatusError errorText="{{validation.errorStringStatus}}" errorType="ERROR"></app-error-info>
+    </div>
+    <form>
+        <div>
+            <label>Tytuł (PL)*:</label>
+            <mat-form-field class="wrapper-width">
+                <input matInput ngModel #titlePl name="titlePl" (ngModelChange)="onTitlePlChange($event)" pattern="{{getTitlePlPattern()}}"
+                    value="{{editedProject?.title}}">
+            </mat-form-field>
+            <app-error-info #titlePlError errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
+            <br />
+        </div>
+
+        <div>
+            <label class="stay-up">Opis (PL):</label>
+            <mat-form-field class="wrapper-width">
+                <textarea matInput ngModel #descriptionPl id="wrapper-height" name="descriptionPl" (ngModelChange)="onDescriptionPlChange($event)"
+                    value="{{editedProject?.description}}"></textarea>
+            </mat-form-field>
+            <app-error-info #descriptionPlError errorText="{{validation.errorStringDescriptionPl}}" errorType="ERROR"></app-error-info>
+            <br />
+        </div>
+
+        <div>
+            <label>Tytuł (EN):</label>
+            <mat-form-field class="wrapper-width">
+                <input matInput #titleEn name="titleEn" (ngModelChange)="onTitleEnChange($event)" pattern="{{getString(0, 255)}}"
+                    value="{{editedProject?.titleEng}}" ngModel>
+            </mat-form-field>
+            <app-error-info #titleEnError errorText="{{validation.errorStringTitleEn}}" errorType="ERROR"></app-error-info>
+            <br />
+        </div>
+
+        <div>
+            <label class="stay-up">Opis (EN):</label>
+            <mat-form-field class="wrapper-width">
+                <textarea matInput ngModel #descriptionEn id="wrapper-height" name="descriptionEn" (ngModelChange)="onDescriptionEnChange($event)"
+                    value="{{editedProject?.descriptionEng}}"></textarea>
+            </mat-form-field>
+            <app-error-info #descriptionEnError errorText="{{validation.errorStringDescriptionEn}}" errorType="ERROR"></app-error-info>
+            <br />
+        </div>
+
+        <div>
+            <label>Typ projektu*:</label>
+            <mat-form-field>
+                <mat-select #projectType [value]="editedProject?.projectType?.id" (selectionChange)="onProjectTypeChange($event)">
+                    <mat-option *ngFor="let type of project_types" [value]="type.id">{{type.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <app-error-info #projectTypeError errorText="{{validation.errorStringType}}" errorType="ERROR"></app-error-info>
+            <br />
+            <br />
+        </div>
+
+        <app-spinner #uploadInfoSpinner></app-spinner>
+
+        <!-- thesis -->
+        <div>
+            <label class="file-upload">
+                <img class="cursor" src="assets/add-attachment.png" />
+                <input (change)="addThesis($event)" id="file-input" type="file" />
+            </label>
+            <label (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę
+                <input type="file" />
+            </label>
+            <div class="list">
+                <app-input-list #thesisList orientation="vertical" (changeElements)="recieveThesis($event)" removable="true"
+                    [visibilityChangeable]="true" hideInput="true"></app-input-list>
+            </div>
+            <app-error-info #thesisError errorText="{{validation.errorStringThesis}}" errorType="ERROR"></app-error-info>
+        </div>
+
+        <!-- source code -->
+        <div>
+            <label class="file-upload">
+                <img class="cursor" src="assets/add-attachment.png" />
+                <input (change)="addProgram($event)" id="file-input" type="file" />
+            </label>
+            <label (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu
+                <input type="file" />
+            </label>
+            <div class="list">
+                <app-input-list #programsList orientation="vertical" (changeElements)="recievePrograms($event)"
+                    [visibilityChangeable]="true" removable="true" hideInput="true"></app-input-list>
+            </div>
+            <app-error-info #sourceCodeError errorText="{{validation.errorStringSourceCode}}" errorType="ERROR"></app-error-info>
+        </div>
+
+        <!-- photo -->
+        <div>
+            <label class="file-upload">
+                <img class="cursor" src="assets/add-photo.png" />
+                <input (change)="addImage($event)" id="file-input" type="file" />
+            </label>
+            <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu oraz wybierz
+                zdjęcie
+                wyświetlające się na liście projektów
+                <input type="file" />
+            </label>
+            <div class="list">
+                <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true"
+                    [visibilityChangeable]="true" selectable="true" hideInput="true"></app-input-list>
+            </div>
+            <app-error-info #imageError errorText="{{validation.errorStringImage}}" errorType="ERROR"></app-error-info>
+        </div>
+
+        <!-- manual usage -->
+        <div>
+            <label class="file-upload">
+                <img class="cursor" src="assets/add-attachment.png" />
+                <input (change)="addInstruction($event)" id="file-input" type="file" />
+            </label>
+            <label (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi
+                programu
+                <input type="file" />
+            </label>
+            <div class="list">
+                <app-input-list #instructionsList orientation="vertical" (changeElements)="recieveInstructions($event)"
+                    [visibilityChangeable]="true" removable="true" hideInput="true"></app-input-list>
+            </div>
+            <app-error-info #manualUsageError errorText="{{validation.errorStringManual}}" errorType="ERROR"></app-error-info>
+        </div>
+
+        <!-- manual startup -->
+        <div>
+            <label class="file-upload">
+                <img class="cursor" src="assets/add-attachment.png" />
+                <input (change)="addInstructionStart($event)" id="file-input" type="file" />
+            </label>
+            <label (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję
+                uruchomienia
+                programu i opis wymaganego środowiska uruchomieniowego
+                <input type="file" />
+            </label>
+            <div class="list">
+                <app-input-list #instructionsStartList orientation="vertical" (changeElements)="recieveInstructionsStart($event)"
+                    [visibilityChangeable]="true" removable="true" hideInput="true"></app-input-list>
+            </div>
+            <app-error-info #manualUsageStartupError errorText="{{validation.errorStringManualStartup}}" errorType="ERROR"></app-error-info>
+        </div>
+
+        <!-- other -->
+        <div>
+            <label class="file-upload">
+                <img class="cursor" src="assets/add-attachment.png" />
+                <input (change)="addOther($event)" id="file-input" type="file" />
+            </label>
+            <label (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki
+                <input type="file" />
+            </label>
+            <div class="list">
+                <app-input-list #othersList orientation="vertical" (changeElements)="recieveOthers($event)" removable="true"
+                    [visibilityChangeable]="true" hideInput="true"></app-input-list>
+            </div>
+            <app-error-info #otherFileError errorText="{{validation.errorStringOther}}" errorType="ERROR"></app-error-info>
+        </div>
+
+        <div>
+            <label>Wybierz licencję:</label>
+            <mat-form-field id="wrapper-width-licence">
+                <mat-select #licence [value]="editedProject?.licence?.id ? editedProject?.licence?.id : 1">
+                    <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br />
+        </div>
+
+        <div>
+            <label>Semestry wytwarzania: </label>
+            <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
+            <br />
+            <br />
+            <div id="semesters-container" *ngIf="semestersHidden != false">
+                <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
+                    (semesterRemoved)="removeAddedSemester($event)" #semesterChooser></app-semester-chooser>
+                <a (click)="saveSemesters()">
+                    <button type="button" id="save-semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź
+                        wybór</button>
+                </a>
+            </div>
+            <div class="list">
+                <app-input-list [removable]="false" hideInput="true" #semestersList></app-input-list>
+            </div>
+            <app-error-info #semesterChooserError errorText="Zaznacz co najmniej jeden semestr." errorType="ERROR"></app-error-info>
+
+        </div>
+
+        <div>
+            <label>Tagi:</label>
+            <mat-form-field class="example-full-width" name="tags">
+                <input #tagsListComponent ngModel matInput type="text" aria-label="Number" [formControl]="tagControl"
+                    [matAutocomplete]="auto" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
+                    <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
+                        {{option.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <app-error-info #tagsError errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
+
+            <div class="list">
+                <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true"
+                    hideInput="true"></app-input-list>
+            </div>
+        </div>
+
+        <div>
+            <div id="button-container">
+                <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź
+                    zmiany</button>
+                <div id="divider"></div>
+                <button type="button" mat-stroked-button class="submit-button">Publikuj na stronie</button>
+            </div>
+        </div>
+    </form>
 </div>
-<form>
-    <div>
-        <label>Tytuł (PL)*:</label>
-        <mat-form-field class="wrapper-width">
-            <input matInput ngModel #titlePl name="titlePl" (ngModelChange)="onTitlePlChange($event)" pattern="{{getTitlePlPattern()}}"
-                value="{{editedProject?.title}}">
-        </mat-form-field>
-        <app-error-info #titlePlError errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
-        <br />
-    </div>
-
-    <div>
-        <label class="stay-up">Opis (PL):</label>
-        <mat-form-field class="wrapper-width">
-            <textarea matInput ngModel #descriptionPl id="wrapper-height" name="descriptionPl" (ngModelChange)="onDescriptionPlChange($event)"
-                value="{{editedProject?.description}}"></textarea>
-        </mat-form-field>
-        <app-error-info #descriptionPlError errorText="{{validation.errorStringDescriptionPl}}" errorType="ERROR"></app-error-info>
-        <br />
-    </div>
-
-    <div>
-        <label>Tytuł (EN):</label>
-        <mat-form-field class="wrapper-width">
-            <input matInput #titleEn name="titleEn" (ngModelChange)="onTitleEnChange($event)" pattern="{{getString(0, 255)}}"
-                value="{{editedProject?.titleEng}}" ngModel>
-        </mat-form-field>
-        <app-error-info #titleEnError errorText="{{validation.errorStringTitleEn}}" errorType="ERROR"></app-error-info>
-        <br />
-    </div>
-
-    <div>
-        <label class="stay-up">Opis (EN):</label>
-        <mat-form-field class="wrapper-width">
-            <textarea matInput ngModel #descriptionEn id="wrapper-height" name="descriptionEn" (ngModelChange)="onDescriptionEnChange($event)"
-                value="{{editedProject?.descriptionEng}}"></textarea>
-        </mat-form-field>
-        <app-error-info #descriptionEnError errorText="{{validation.errorStringDescriptionEn}}" errorType="ERROR"></app-error-info>
-        <br />
-    </div>
-
-    <div>
-        <label>Typ projektu*:</label>
-        <mat-form-field>
-            <mat-select #projectType [value]="editedProject?.projectType?.id" (selectionChange)="onProjectTypeChange($event)">
-                <mat-option *ngFor="let type of project_types" [value]="type.id">{{type.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <app-error-info #projectTypeError errorText="{{validation.errorStringType}}" errorType="ERROR"></app-error-info>
-        <br />
-        <br />
-    </div>
-
-    <app-spinner #uploadInfoSpinner></app-spinner>
-
-    <div>
-        <label class="file-upload">
-            <img class="cursor" src="assets/add-attachment.png" />
-            <input (change)="addThesis($event)" id="file-input" type="file" />
-        </label>
-        <label (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę
-            <input type="file" />
-        </label>
-        <div class="list">
-            <app-input-list #thesisList orientation="vertical" (changeElements)="recieveThesis($event)" removable="true" [visibilityChangeable]="true"
-                hideInput="true"></app-input-list>
-        </div>
-        <app-error-info #thesisError errorText="{{validation.errorStringThesis}}" errorType="ERROR"></app-error-info>
-    </div>
-
-    <div>
-        <label class="file-upload">
-            <img class="cursor" src="assets/add-attachment.png" />
-            <input (change)="addProgram($event)" id="file-input" type="file" />
-        </label>
-        <label (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu
-            <input type="file" />
-        </label>
-        <div class="list">
-            <app-input-list #programsList orientation="vertical" (changeElements)="recievePrograms($event)" removable="true" [visibilityChangeable]="true"
-                hideInput="true"></app-input-list>
-        </div>
-        <app-error-info #sourceCodeError errorText="{{validation.errorStringSourceCode}}" errorType="ERROR"></app-error-info>
-    </div>
-
-    <div>
-        <label class="file-upload">
-            <img class="cursor" src="assets/add-photo.png" />
-            <input (change)="addImage($event)" id="file-input" type="file" />
-        </label>
-        <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu oraz wybierz
-            zdjęcie
-            wyświetlające się na liście projektów
-            <input type="file" />
-        </label>
-        <div class="list">
-            <app-input-list #imagesList orientation="vertical" (changeElements)="recieveImages($event)" removable="true" [visibilityChangeable]="true"
-                selectable="true" hideInput="true"></app-input-list>
-        </div>
-        <app-error-info #imageError errorText="{{validation.errorStringImage}}" errorType="ERROR"></app-error-info>
-    </div>
-
-    <div>
-        <label class="file-upload">
-            <img class="cursor" src="assets/add-attachment.png" />
-            <input (change)="addInstruction($event)" id="file-input" type="file" />
-        </label>
-        <label (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi programu
-            <input type="file" />
-        </label>
-        <div class="list">
-            <app-input-list #instructionsList orientation="vertical" (changeElements)="recieveInstructions($event)"  [visibilityChangeable]="true"
-                removable="true" hideInput="true"></app-input-list>
-        </div>
-        <app-error-info #manualUsageError errorText="{{validation.errorStringManual}}" errorType="ERROR"></app-error-info>
-    </div>
-
-    <div>
-        <label class="file-upload">
-            <img class="cursor" src="assets/add-attachment.png" />
-            <input (change)="addInstructionStart($event)" id="file-input" type="file" />
-        </label>
-        <label (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję
-            uruchomienia
-            programu i opis wymaganego środowiska uruchomieniowego
-            <input type="file" />
-        </label>
-        <div class="list">
-            <app-input-list #instructionsStartList orientation="vertical" (changeElements)="recieveInstructionsStart($event)" [visibilityChangeable]="true"
-                removable="true" hideInput="true"></app-input-list>
-        </div>
-        <app-error-info #manualUsageStartupError errorText="{{validation.errorStringManualStartup}}" errorType="ERROR"></app-error-info>
-    </div>
-
-    <div>
-        <label class="file-upload">
-            <img class="cursor" src="assets/add-attachment.png" />
-            <input (change)="addOther($event)" id="file-input" type="file" />
-        </label>
-        <label (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki
-            <input type="file" />
-        </label>
-        <div class="list">
-            <app-input-list #othersList orientation="vertical" (changeElements)="recieveOthers($event)" removable="true" [visibilityChangeable]="true"
-                hideInput="true"></app-input-list>
-        </div>
-        <app-error-info #otherFileError errorText="{{validation.errorStringOther}}" errorType="ERROR"></app-error-info>
-
-    </div>
-    <div>
-        <!--no need for validation (option: BRAK)-->
-        <label>Wybierz licencję:</label>
-        <mat-form-field id="wrapper-width-licence">
-            <mat-select #licence [value]="editedProject?.licence?.id ? editedProject?.licence?.id : 1">
-                <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <br />
-    </div>
-
-    <div>
-        <!--no need for validation-->
-        <label>Semestry wytwarzania: </label>
-        <img class="cursor" src='assets/calendar.png' (click)="toggleSemesters()" />
-        <br />
-        <br />
-        <div id="semesters-container" *ngIf="semestersHidden != false">
-            <app-semester-chooser [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
-                (semesterRemoved)="removeAddedSemester($event)" (confirm)="saveSemesters($event)" #semesterChooser></app-semester-chooser>
-        </div>
-        <div class="list">
-            <app-input-list [removable]="false" hideInput="true" #semestersList></app-input-list>
-        </div>
-        <app-error-info #semesterChooserError errorText="Zaznacz co najmniej jeden semestr." errorType="ERROR"></app-error-info>
-
-    </div>
-
-    <div>
-        <label>Tagi:</label>
-        <mat-form-field class="example-full-width" name="tags">
-            <input #tagsListComponent ngModel matInput type="text" aria-label="Number" [formControl]="tagControl"
-                [matAutocomplete]="auto" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
-                <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
-                    {{option.name}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-        <app-error-info #tagsError errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
-
-        <div class="list">
-            <app-input-list #tagsList orientation="horizontal" (changeElements)="recieveTags($event)" removable="true"
-                hideInput="true"></app-input-list>
-        </div>
-    </div>
-
-    <div>
-        <div id="button-container">
-            <!--FIXME #1 validateAllElements-->
-            <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź zmiany</button>
-            <div id="divider"></div>
-            <button type="button" mat-stroked-button class="submit-button">Publikuj na stronie</button>
-        </div>
-    </div>
-</form>

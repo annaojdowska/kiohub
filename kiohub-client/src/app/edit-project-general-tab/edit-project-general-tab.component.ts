@@ -401,15 +401,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       this.thesisList.elements.forEach(th => {
         if (!th.id) {
-          console.log('ZACZYNAM THESIS');
 
           this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, th.visibility, false)
             .subscribe(data => {
-              console.log('KOŃCZĘ THESIS');
+              this.uploadInfoSpinner.addSuccess(th.name);
             },
               error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-                console.log('KOŃCZĘ THESIS');
+                this.uploadInfoSpinner.addFail(th.name);
               });
         } else {
           this.updateMetadata(th);
@@ -420,9 +418,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.programsList.elements.forEach(th => {
         if (!th.id) {
           this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, th.visibility, false)
-            .subscribe(data => { },
+            .subscribe(data => {
+              this.uploadInfoSpinner.addSuccess(th.name); },
               error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+                this.uploadInfoSpinner.addFail(th.name);
               });
         } else {
           this.updateMetadata(th);
@@ -432,17 +431,12 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       this.othersList.elements.forEach(th => {
         if (!th.id) {
-          console.log('ZACZYNAM INNE');
           this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, th.visibility, false)
             .subscribe(data => {
-
-
-              console.log('KOŃCZĘ INNE');
-
+              this.uploadInfoSpinner.addSuccess(th.name);
              },
               error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-                console.log('KOŃCZĘ INNE');
+                this.uploadInfoSpinner.addFail(th.name);
               });
         } else {
           this.updateMetadata(th);
@@ -453,9 +447,11 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.instructionsStartList.elements.forEach(th => {
         if (!th.id) {
           this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, th.visibility, false)
-            .subscribe(data => { },
+            .subscribe(data => {
+              this.uploadInfoSpinner.addSuccess(th.name);
+            },
               error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+                this.uploadInfoSpinner.addFail(th.name);
               });
         } else {
           this.updateMetadata(th);
@@ -466,9 +462,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.instructionsList.elements.forEach(th => {
         if (!th.id) {
           this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, th.visibility, false)
-            .subscribe(data => { },
+            .subscribe(data => {
+              this.uploadInfoSpinner.addSuccess(th.name); },
               error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
+                this.uploadInfoSpinner.addFail(th.name);
               });
         } else {
           this.updateMetadata(th);
@@ -482,11 +479,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
           this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, th.visibility,
             th.selected ? th.selected : false)
             .subscribe(data => {
-
-              console.log('KONCZE IMG'); },
+              this.uploadInfoSpinner.addSuccess(th.name);
+            },
               error => {
-                console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
-                console.log('KONCZE IMG');
+                this.uploadInfoSpinner.addFail(th.name);
               });
         } else {
           this.updateMetadata(th);

@@ -18,5 +18,16 @@ export class ValueUtils {
 
     findElementsToSaveInArray(array) {
         return array.elements.filter(e => (!e.id));
-      }
+    }
+
+    formatStringArrayToView(array: string[]) {
+        let text = '\n';
+        let i = 0;
+        for (const s of array) {
+           if (i++ !== array.length - 1) {
+               text += s + ', ';
+           }
+        }
+        return text;
+    }
 }

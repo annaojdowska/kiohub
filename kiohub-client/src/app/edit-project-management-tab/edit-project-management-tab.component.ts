@@ -5,6 +5,8 @@ import { Project } from '../model/project.interface';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
 import { InputListComponent } from '../input-list/input-list.component';
+import { Visibility } from '../model/visibility.enum';
+import { ProjectCollaborator } from '../model/project-collaborator';
 import { UserEmail } from '../model/user-email.interface';
 
 @Component({
@@ -15,6 +17,8 @@ import { UserEmail } from '../model/user-email.interface';
 export class EditProjectManagementTabComponent implements OnInit {
   editedProject: Project;
   supervisor: User;
+  supervisorVisibility: Visibility;
+  collaboratorsVisibility: Visibility[];
   collaborators: UserEmail[];
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
@@ -37,12 +41,23 @@ export class EditProjectManagementTabComponent implements OnInit {
       this.editedProject = result;
       this.userService.getCollaboratorsByProjectId(projectId).subscribe(c => {
         this.collaborators = c;
+        let projectCollaborators: ProjectCollaborator[];
+        this.userService.getCollaboratorsDataByProjectId(projectId).subscribe(pc => {
+          projectCollaborators = pc;
+        });
         c.forEach(coll => {
+          const pcTmp = projectCollaborators.find(p => p.userId === coll.id);
+          if (pcTmp) {
+            this.collaboratorsVisibility.push(pcTmp.userDataVisible);
+          } else {
+            this.collaboratorsVisibility.push(Visibility.LOGGED_USERS);
+          }
           console.log(coll);
           this.authorsList.add({ id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email + ')'});
         });
       });
       this.userService.getSupervisorByProjectId(projectId).subscribe(s => this.supervisor = s);
+      this.userService.getSupervisorDataByProjectId(projectId).subscribe(s => this.supervisorVisibility = s.userDataVisible);
     });
   }
 
@@ -56,5 +71,14 @@ export class EditProjectManagementTabComponent implements OnInit {
     this.projectService.deleteProject(this.editedProject.id).subscribe(result => console.log(result));
     // if success
     this.router.navigate(['home']);
+  }
+
+  selectionSuperUserVisibilityChange(value: Visibility) {
+    this.supervisorVisibility = value;
+  }
+
+  selectionCollaboratorVisibilityChange(user: UserEmail, visibility: Visibility) {
+    const index = this.collaborators.indexOf(user);
+    this.collaboratorsVisibility[index] = visibility;
   }
 }
