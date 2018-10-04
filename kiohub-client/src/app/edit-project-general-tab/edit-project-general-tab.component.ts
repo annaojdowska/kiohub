@@ -226,23 +226,23 @@ export class EditProjectGeneralTabComponent implements OnInit {
             break;
           }
           case AttachmentType.SOURCE_CODE: {
-            this.programsList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility  });
+            this.programsList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility });
             break;
           }
           case AttachmentType.PHOTO: {
-            this.imagesList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility, selected: at.mainPhoto  });
+            this.imagesList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility, selected: at.mainPhoto });
             break;
           }
           case AttachmentType.OTHER: {
-            this.othersList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility  });
+            this.othersList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility });
             break;
           }
           case AttachmentType.MANUAL_USAGE: {
-            this.instructionsList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility  });
+            this.instructionsList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility });
             break;
           }
           case AttachmentType.MANUAL_STARTUP: {
-            this.instructionsStartList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility  });
+            this.instructionsStartList.add({ id: at.id, name: at.fileName, visibility: at.visibility as Visibility });
             break;
           }
         }
@@ -397,7 +397,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
           window.scrollTo(0, 0);
         });
 
-      // this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
+      this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
 
       this.thesisList.elements.forEach(th => {
         if (!th.id) {
@@ -419,7 +419,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
         if (!th.id) {
           this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, th.visibility, false)
             .subscribe(data => {
-              this.uploadInfoSpinner.addSuccess(th.name); },
+              this.uploadInfoSpinner.addSuccess(th.name);
+            },
               error => {
                 this.uploadInfoSpinner.addFail(th.name);
               });
@@ -434,7 +435,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
           this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, th.visibility, false)
             .subscribe(data => {
               this.uploadInfoSpinner.addSuccess(th.name);
-             },
+            },
               error => {
                 this.uploadInfoSpinner.addFail(th.name);
               });
@@ -463,7 +464,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
         if (!th.id) {
           this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, th.visibility, false)
             .subscribe(data => {
-              this.uploadInfoSpinner.addSuccess(th.name); },
+              this.uploadInfoSpinner.addSuccess(th.name);
+            },
               error => {
                 this.uploadInfoSpinner.addFail(th.name);
               });
@@ -475,7 +477,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       this.imagesList.elements.forEach(th => {
         if (!th.id) {
-          console.log('ZACZYNAM IMG');
           this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, th.visibility,
             th.selected ? th.selected : false)
             .subscribe(data => {
@@ -495,6 +496,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   updateCompleted(text: string, errorType: ErrorType) {
     this.updateResult.setComponent(true, errorType, text);
+    this.uploadInfoSpinner.setDisplay(false);
   }
 
   saveSemesters() {
@@ -514,21 +516,21 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   private getAttachmentsToSaveAmount() {
-     return this.valueUtils.findElementsToSaveInArray(this.imagesList).length
-     + this.valueUtils.findElementsToSaveInArray(this.instructionsList).length
-     + this.valueUtils.findElementsToSaveInArray(this.instructionsStartList).length
-     + this.valueUtils.findElementsToSaveInArray(this.othersList).length
-     + this.valueUtils.findElementsToSaveInArray(this.programsList).length
-     + this.valueUtils.findElementsToSaveInArray(this.thesisList).length;
+    return this.valueUtils.findElementsToSaveInArray(this.imagesList).length
+      + this.valueUtils.findElementsToSaveInArray(this.instructionsList).length
+      + this.valueUtils.findElementsToSaveInArray(this.instructionsStartList).length
+      + this.valueUtils.findElementsToSaveInArray(this.othersList).length
+      + this.valueUtils.findElementsToSaveInArray(this.programsList).length
+      + this.valueUtils.findElementsToSaveInArray(this.thesisList).length;
   }
 
   private updateMetadata(th: InputListElement) {
     this.attachmentService.updateMetadata(th.id, th.visibility ? th.visibility : Visibility.EVERYONE, th.selected ? th.selected : false)
-            .subscribe(data => {
-              console.log('ERROR: Pomyślnie zaktualizowano załącznik ' + th.name + '. ');
-            },
-              error => {
-                console.log('ERROR: Wystąpił błąd aktualizacji załącznika ' + th.name + '. ' + error);
-              });
+      .subscribe(data => {
+        console.log('ERROR: Pomyślnie zaktualizowano załącznik ' + th.name + '. ');
+      },
+        error => {
+          console.log('ERROR: Wystąpił błąd aktualizacji załącznika ' + th.name + '. ' + error);
+        });
   }
 }
