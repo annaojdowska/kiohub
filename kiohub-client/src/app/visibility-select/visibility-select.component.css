@@ -16,6 +16,11 @@
 
   .visibility-select ::ng-deep .mat-select-trigger {
     display: block;
+    height: 0.9em;
+  }
+
+  .visibility-select ::ng-deep .mat-select-value {
+    width: 60%;
   }
 
   .visibility-select ::ng-deep .mat-form-field-wrapper, .visibility-select ::ng-deep .mat-form-field-flex, .visibility-select ::ng-deep .mat-form-field-infix, .visibility-select ::ng-deep .mat-form-field-label-wrapper {
