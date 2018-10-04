@@ -112,6 +112,6 @@ ul li a:hover,ul li a:focus{
     display: inline-block;
 }
 
-#pipeline {
+#no-pointer {
     cursor: default !important;
 }
