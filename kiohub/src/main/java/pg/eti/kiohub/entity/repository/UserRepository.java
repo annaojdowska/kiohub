@@ -21,13 +21,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //    Long checkIfUserExistsByEmail(@Param("email") String email);
     // FIXME
     @Query(value = "SELECT count(*) FROM users u " +
-            "left join users_emails email on u.user_id = email.user_id " +
+            "LEFT JOIN users_emails email on u.user_id = email.user_id " +
             "WHERE email.email = :email", nativeQuery = true)
     Long checkIfUserExistsByEmail(@Param("email") String email);
 
-
     @Query(value = "SELECT * FROM users u " +
-            "left join users_emails email on u.user_id = email.user_id " +
+            "LEFT JOIN users_emails email on u.user_id = email.user_id " +
             "WHERE email.email = :email", nativeQuery = true)
     User findUserByEmail(@Param("email") String email);
 }

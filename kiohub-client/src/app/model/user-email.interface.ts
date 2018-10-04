@@ -1,7 +1,7 @@
-import { ProjectType } from './project-type.interface';
+import { User } from './user.interface';
 
 export interface UserEmail {
     id: number;
-    user: ProjectType;
+    user: User;
     email: string;
 }

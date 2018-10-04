@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../model/user.interface';
 import { address } from './project.service';
 import { ProjectCollaborator } from '../model/project-collaborator';
+import { UserEmail } from '../model/user-email.interface';
 
 @Injectable()
 export class UserService {
@@ -19,8 +20,8 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
         return true; // loggged/unlogged
     }
 
-    getCollaboratorsByProjectId(id: number): Observable<User[]> {
-        return this.http.get<User[]>(address + '/collaborator/project/' + id, {responseType: 'json'});
+    getCollaboratorsByProjectId(id: number): Observable<UserEmail[]> {
+        return this.http.get<UserEmail[]>(address + '/collaborator/project/' + id, {responseType: 'json'});
      }
 
     getSupervisorByProjectId(id: number): Observable<User> {

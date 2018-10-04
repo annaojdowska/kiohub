@@ -7,6 +7,7 @@ import { User } from '../model/user.interface';
 import { InputListComponent } from '../input-list/input-list.component';
 import { Visibility } from '../model/visibility.enum';
 import { ProjectCollaborator } from '../model/project-collaborator';
+import { UserEmail } from '../model/user-email.interface';
 
 @Component({
   selector: 'app-edit-project-management-tab',
@@ -18,7 +19,7 @@ export class EditProjectManagementTabComponent implements OnInit {
   supervisor: User;
   supervisorVisibility: Visibility;
   collaboratorsVisibility: Visibility[];
-  collaborators: User[];
+  collaborators: UserEmail[];
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
   getProjectIdFromRouter() {
@@ -51,9 +52,8 @@ export class EditProjectManagementTabComponent implements OnInit {
           } else {
             this.collaboratorsVisibility.push(Visibility.LOGGED_USERS);
           }
-          // FIXME
-         // this.authorsList.add({ id: coll.id, name: coll.firstName + ' ' + coll.lastName + ' (' + coll.email + ')'});
-
+          console.log(coll);
+          this.authorsList.add({ id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email + ')'});
         });
       });
       this.userService.getSupervisorByProjectId(projectId).subscribe(s => this.supervisor = s);
@@ -77,7 +77,7 @@ export class EditProjectManagementTabComponent implements OnInit {
     this.supervisorVisibility = value;
   }
 
-  selectionCollaboratorVisibilityChange(user: User, visibility: Visibility) {
+  selectionCollaboratorVisibilityChange(user: UserEmail, visibility: Visibility) {
     const index = this.collaborators.indexOf(user);
     this.collaboratorsVisibility[index] = visibility;
   }
