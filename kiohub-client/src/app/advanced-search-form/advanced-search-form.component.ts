@@ -167,10 +167,10 @@ export class AdvancedSearchFormComponent implements OnInit {
   }
 
   removeAddedSemester(semester: Semester) {
-    const toRemove = this.semestersList.elements.find(element => element.name === semester.name);
-    this.semestersList.remove(toRemove);
     const index = this.chosenSemesters.findIndex(sem => sem.id === semester.id);
     this.chosenSemesters.splice(index, 1);
+    const toRemove = this.semestersList.elements.find(element => element.name === semester.name);
+    this.semestersList.remove(toRemove);
   }
 
   semesterRemovedFromList(element: InputListElement) {
