@@ -33,4 +33,14 @@ public class ProjectCollaboratorController extends MainController {
     public ResponseEntity<User> getProjectSupervisorByProjectId(@PathVariable("id") Long id) {
         return new ResponseEntity<>(collaboratorsRepository.getSupervisor(id), HttpStatus.OK);
     }  
+    
+//    @GetMapping(path = "data/project/{id}")
+//    public ResponseEntity<Iterable<ProjectCollaborator>> getProjectCollaboratorsDataByProjectId(@PathVariable("id") Long id) {
+//        return new ResponseEntity<>(collaboratorsRepository.getCollaboratorsData(id), HttpStatus.OK);
+//    }    
+//    
+//    @GetMapping(path = "data/supervisor/project/{id}")
+//    public ResponseEntity<ProjectCollaborator> getProjectSupervisorDataByProjectId(@PathVariable("id") Long id) {
+//        return new ResponseEntity<>(collaboratorsRepository.getSupervisorData(id), HttpStatus.OK);
+//    }  
 }
