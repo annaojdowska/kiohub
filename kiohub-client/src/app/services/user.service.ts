@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../model/user.interface';
 import { address } from './project.service';
 import { ProjectCollaborator } from '../model/project-collaborator';
 import { UserEmail } from '../model/user-email.interface';
+import { Visibility } from '../model/visibility.enum';
 
 @Injectable()
 export class UserService {
@@ -39,4 +40,12 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
     getUserById(id: number): Observable<User> {
         return this.http.get<User>(address + '/user/' + id, {responseType: 'json'});
      }
+
+     updateVisibility(projectId: number, userId: number, visibility: Visibility) {
+        const params = new HttpParams()
+          .set('projectId', projectId.toString())
+          .set('userId', userId.toString())
+          .set('visibility', visibility.toString());
+        return this.http.post(address + '/collaborator/updateVisibility', params);
+      }
 }

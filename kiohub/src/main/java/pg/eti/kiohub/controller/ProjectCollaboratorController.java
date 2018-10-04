@@ -13,7 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import pg.eti.kiohub.entity.enums.Visibility;
+import pg.eti.kiohub.entity.model.Attachment;
 import pg.eti.kiohub.entity.model.ProjectCollaborator;
 import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.model.UserEmail;
@@ -61,4 +65,18 @@ public class ProjectCollaboratorController extends MainController {
     public ResponseEntity<ProjectCollaborator> getProjectSupervisorDataByProjectId(@PathVariable("id") Long id) {
         return new ResponseEntity<>(collaboratorsRepository.getSupervisorData(id), HttpStatus.OK);
     }  
+    
+    @PostMapping(path = "/updateVisibility")
+    public ResponseEntity updateMetadata (
+            @RequestParam("projectId") String projectId,
+            @RequestParam("userId") String userId,
+            @RequestParam("visibility") String visibility) {
+        System.out.println("Aktualizuję ");
+        List<ProjectCollaborator> projectCollaborators = collaboratorsRepository.getCollaboratorsData(Long.parseLong(projectId));
+        projectCollaborators.add(collaboratorsRepository.getSupervisorData(Long.parseLong(projectId)));
+        ProjectCollaborator projectCollaborator = projectCollaborators.stream().filter(pc -> pc.getProjectId() == Long.parseLong(projectId) && pc.getUserId()== Long.parseLong(userId)).findFirst().get();
+        projectCollaborator.setUserDataVisible(Visibility.valueOf(visibility));
+        collaboratorsRepository.save(projectCollaborator);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
