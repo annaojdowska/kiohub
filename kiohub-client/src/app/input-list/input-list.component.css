@@ -6,6 +6,7 @@
     display: inline-block;
     float: left;
     clear: both;
+    width: 100%;
 }
 
 .chip-horizontal {
@@ -27,6 +28,10 @@
 
 .chip-remove {
     opacity: 0.95 !important;
+    float: right;
+}
+
+.chip-visibility {
     float: right;
 }
 

@@ -14,7 +14,7 @@
               {{fruit.name}}
           </div>
           <img src="assets/delete-button-smaller.png" matChipRemove *ngIf="removable == 'true'" class="chip-remove chip-image"/>
-          <app-visibility-select *ngIf='visibilityChangeable' [selected]="fruit.visibility" [allowPrivate]="false" (selectionChange)="selectionChange(fruit, $event)" class="chip-image"></app-visibility-select>
+          <app-visibility-select *ngIf='visibilityChangeable' [selected]="fruit.visibility" [allowPrivate]="false" (selectionChange)="selectionChange(fruit, $event)" class="chip-image chip-visibility"></app-visibility-select>
         </mat-chip>
       </div>
       
