@@ -33,6 +33,14 @@ export class AttachmentService {
     return this.http.post<string>(address + '/attachment/upload', formData, httpOptionsMultipart);
   }
 
+  updateMetadata(id: number, visibility: Visibility, mainPhoto: Boolean) {
+    const params = new HttpParams()
+      .set('id', id.toString())
+      .set('visibility', visibility.toString())
+      .set('mainPhoto', mainPhoto.toString());
+    return this.http.post(address + '/attachment/updateMetadata', params);
+  }
+
   remove(attachments: number[]) {
     return this.http.post(address + '/attachment/remove', attachments, this.httpOptions);
   }

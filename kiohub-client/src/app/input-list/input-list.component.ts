@@ -32,10 +32,14 @@ export class InputListComponent implements OnInit {
 
   add(element: InputListElement): void {
     if (element.name !== '') {
-      if (element.selected) {
-        this.select(element);
-      } else {
-        element.selected = false;
+      if (this.selectable) {
+        if (element.selected) {
+          this.select(element);
+        } else {
+          if (!this.elements.some(e => e.selected as boolean)) {
+            element.selected = true;
+          }
+        }
       }
       if (!element.visibility) {
         element.visibility = Visibility.EVERYONE;
@@ -50,7 +54,11 @@ export class InputListComponent implements OnInit {
     if (index >= 0) {
       this.elements.splice(index, 1);
       this.elementRemoved.emit(element);
+      if (this.elements.length > 0 && !this.elements.some(e => e.selected as boolean)) {
+        this.elements[0].selected = true;
+      }
     }
+
   }
 
   select(element: InputListElement): void {

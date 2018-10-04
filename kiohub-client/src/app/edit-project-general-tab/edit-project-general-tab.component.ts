@@ -27,6 +27,7 @@ import { Validation } from '../error-info/validation-patterns';
 import { ValueUtils } from '../error-info/value-utils';
 import { ErrorType } from '../error-info/error-type.enum';
 import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
+import { Attachment } from '../model/attachment.interface';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -410,6 +411,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
                 console.log('KOŃCZĘ THESIS');
               });
+        } else {
+          this.updateMetadata(th);
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.thesisList, AttachmentType.THESIS);
@@ -421,6 +424,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
               });
+        } else {
+          this.updateMetadata(th);
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.programsList, AttachmentType.SOURCE_CODE);
@@ -439,6 +444,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
                 console.log('KOŃCZĘ INNE');
               });
+        } else {
+          this.updateMetadata(th);
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.othersList, AttachmentType.OTHER);
@@ -450,6 +457,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
               });
+        } else {
+          this.updateMetadata(th);
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
@@ -461,6 +470,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
               error => {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
               });
+        } else {
+          this.updateMetadata(th);
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.instructionsList, AttachmentType.MANUAL_USAGE);
@@ -477,6 +488,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
                 console.log('ERROR: Wystąpił błąd wysłania załącznika ' + th.name + '. ' + error);
                 console.log('KONCZE IMG');
               });
+        } else {
+          this.updateMetadata(th);
         }
       });
       this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
@@ -511,5 +524,15 @@ export class EditProjectGeneralTabComponent implements OnInit {
      + this.valueUtils.findElementsToSaveInArray(this.othersList).length
      + this.valueUtils.findElementsToSaveInArray(this.programsList).length
      + this.valueUtils.findElementsToSaveInArray(this.thesisList).length;
+  }
+
+  private updateMetadata(th: InputListElement) {
+    this.attachmentService.updateMetadata(th.id, th.visibility ? th.visibility : Visibility.EVERYONE, th.selected ? th.selected : false)
+            .subscribe(data => {
+              console.log('ERROR: Pomyślnie zaktualizowano załącznik ' + th.name + '. ');
+            },
+              error => {
+                console.log('ERROR: Wystąpił błąd aktualizacji załącznika ' + th.name + '. ' + error);
+              });
   }
 }
