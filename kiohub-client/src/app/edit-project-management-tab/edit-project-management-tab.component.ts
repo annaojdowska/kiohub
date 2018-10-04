@@ -39,7 +39,7 @@ export class EditProjectManagementTabComponent implements OnInit {
         this.collaborators = c;
         c.forEach(coll => {
           console.log(coll);
-          this.authorsList.add({ id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email[0] + ')'});
+          this.authorsList.add({ id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email + ')'});
         });
       });
       this.userService.getSupervisorByProjectId(projectId).subscribe(s => this.supervisor = s);
