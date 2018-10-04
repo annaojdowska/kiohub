@@ -11,6 +11,7 @@ import { SemesterService } from '../services/semester-service';
 export class SemesterChooserComponent implements OnInit, AfterContentInit {
   @Output() semesterAdded = new EventEmitter<Semester>();
   @Output() semesterRemoved = new EventEmitter<Semester>();
+  @Output() confirm = new EventEmitter();
   @Input() semestersFromParent: Semester[];
   semesters: Semester[];
   chosenSemesters: Semester[];
@@ -60,9 +61,13 @@ export class SemesterChooserComponent implements OnInit, AfterContentInit {
   getColor(chosenSemester: Semester) {
     const index = this.chosenSemesters.findIndex(sem => sem.id === chosenSemester.id);
     if (index !== -1) {
-      return 'rgb(208, 211, 233)';
+      return '#D4E3FC';
     } else {
       return 'whitesmoke';
     }
+  }
+
+  confirmSemesters() {
+    this.confirm.emit();
   }
 }
