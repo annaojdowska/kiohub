@@ -6,6 +6,7 @@
 package pg.eti.kiohub.controller;
 
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
+import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,7 @@ import pg.eti.kiohub.utils.FileUtils;
 /**
  * @author Tomasz
  */
+@JBossLog
 @Controller
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {
@@ -73,17 +76,23 @@ public class AttachmentControler extends MainController {
         }
 
         try {
-            byte[] fileBytes = multipartFile.getBytes();
+            byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream());
             Blob blob = new javax.sql.rowset.serial.SerialBlob(fileBytes);
             AttachmentFile af = new AttachmentFile();
             af.setFile(blob);
             af.setId(attachment.getId()); //get Id from attachment
-            attachmentFileRepository.save(af);
+            attachmentFileRepository.saveAndFlush(af);
         } catch (SQLException ex) {
+            log.info(ex.getMessage());
+            log.info(ex.getStackTrace());
             return new ResponseEntity<>("SQL", HttpStatus.BAD_REQUEST);
         } catch (IOException ex) {
+            log.info(ex.getMessage());
+            log.info(ex.getStackTrace());
             return new ResponseEntity<>("File error", HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
+            log.info(ex.getMessage());
+            log.info(ex.getStackTrace());
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
 

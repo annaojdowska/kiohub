@@ -26,6 +26,8 @@ export class ValueUtils {
         for (const s of array) {
            if (i++ !== array.length - 1) {
                text += s + ', ';
+           } else {
+               text += s;
            }
         }
         return text;
