@@ -79,4 +79,23 @@ export class EditProjectManagementTabComponent implements OnInit {
   selectionSuperUserVisibilityChange(value: Visibility) {
     this.supervisorVisibility = value;
   }
+
+  updateProject() {
+    this.authorsList.elements.forEach(th => {
+      if (th.id) {
+        this.updateVisibility(th.id, th.visibility);
+      }
+    });
+    this.updateVisibility(this.supervisor.id, this.supervisorVisibility);
+  }
+
+  private updateVisibility(userId: number, visibility: Visibility) {
+    this.userService.updateVisibility(this.editedProject.id, userId, visibility)
+      .subscribe(data => {
+        console.log('ERROR: Pomyślnie zaktualizowano widocznosci danych uzytkownika ' + userId + '. ');
+      },
+        error => {
+          console.log('ERROR: Wystąpił błąd aktualizacji widocznosci danych uzytkownika ' + userId + '. ' + error);
+        });
+  }
 }

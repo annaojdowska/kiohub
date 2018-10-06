@@ -1,21 +1,36 @@
 <p id="h2">Notatki</p>
 
 <img (click)="toggleNoteInput()" src="../../assets/add.png"/> <label id="addNoteLabel" (click)="toggleNoteInput()">Dodaj nową notatkę</label>
+
+<!-- Formularz dodania notatki -->
 <div *ngIf="noteInputShows != false" class="addNoteDiv">
   <label class="stay-up">Treść notatki: </label>
   <mat-form-field class="wrapper-width">
       <textarea matInput ngModel #newNoteContent class="wrapper-height" name="newNoteContent"></textarea>
-  </mat-form-field>
+  </mat-form-field> <br/>  
+
+  <label>Widoczność notatki: </label>
+  <app-visibility-select *ngIf='visibilityChangeable' [selected]="noteVisibility"
+  [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true" 
+  (selectionChange)="selectionChange($event)"></app-visibility-select>
   <div class="button-container">
+
   <button type="button" mat-stroked-button class="submit-button" (click)="addNote()">Dodaj</button>
   </div>
 </div>
 
+<!-- Formularz edycji notatki -->
 <div *ngIf="noteEditInputShows != false" class="addNoteDiv">
     <label class="stay-up">Treść notatki: </label>
     <mat-form-field class="wrapper-width">
         <textarea matInput #editNoteContent [(ngModel)]="inputEditNote" class="wrapper-height" name="editNoteContent"></textarea>
     </mat-form-field>
+
+    <label>Widoczność notatki: </label>
+    <app-visibility-select *ngIf='visibilityChangeable' [selected]="noteVisibility"
+    [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true" 
+    (selectionChange)="selectionChange($event)"></app-visibility-select>
+
     <div class="button-container">
     <button type="button" mat-stroked-button class="submit-button" (click)="editExistingNote()">Edytuj</button>
     <div id="divider"></div>
@@ -26,9 +41,12 @@
 <ul>
   <li *ngFor="let note of notes; let i = index" [attr.data-index]="i">
       <a>
-        <img class="align-right" src="../../assets/edit-smaller.png" (click)="editNote(note?.id)" (click)="showEditNoteInput()"/>
-        <img class="align-right" id="pipeline" src="../../assets/pipeline.png"/>
-        <img class="align-right" src="../../assets/delete-button-smaller.png" (click)="deleteNote(note?.id)"/> 
+          <img matTooltip="Usuń notatkę" class="align-right" src="../../assets/delete-button-smaller.png" (click)="deleteNote(note?.id)"/> 
+          <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
+          <img matTooltip="Edytuj treść i widoczność notatki" class="align-right" src="../../assets/edit-smaller.png" (click)="editNote(note?.id)" (click)="showEditNoteInput()"/>
+          <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
+          <img [matTooltip]="note?.isPrivate ? 'Ta notatka nie jest widoczna dla innych współtwórców projektu.' : 'Ta notatka jest widoczna dla wszystkich współtwórców projektu.'" 
+          class="align-right" id="no-pointer" [src]="note?.isPrivate ? '../../assets/PRIVATE.png' : '../../assets/COLLABORATORS.png'" />
         <h2>~ {{notesOwners[i]?.firstName}} {{notesOwners[i]?.lastName}}, {{note?.publicationDate | date : "dd.MM.y r."}}</h2>
         <p>{{note?.content}}</p>
       </a> 
