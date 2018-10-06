@@ -46,14 +46,17 @@ export class ImageSliderComponent implements OnInit {
           let iimg: IImage;
           iimg = { url: this.imageToShow, caption: 'Aby zobaczyć więcej obrazków, użyj strzałek po bokach obrazka.' };
           this.iimagesUrl.push(iimg);
+          // 
           if (++loadedImages === imagesToLoad) {
             this.setHidden(false);
+            console.log(this.imageToShow);
+            window.open(this.imageToShow);
           }
         }, false);
 
         if (image) {
           reader.readAsDataURL(image);
-        }        
+        }
       }, error => console.log('No such file on server'));
     }
     // this.manageSliderVisibility(attachments);

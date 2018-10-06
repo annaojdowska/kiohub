@@ -83,17 +83,20 @@ public class AttachmentControler extends MainController {
             af.setId(attachment.getId()); //get Id from attachment
             attachmentFileRepository.saveAndFlush(af);
         } catch (SQLException ex) {
+            String errorInfo = ex.getMessage() + ex.getStackTrace() + ex.getCause();
             log.info(ex.getMessage());
             log.info(ex.getStackTrace());
-            return new ResponseEntity<>("SQL", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("SQL" + errorInfo, HttpStatus.BAD_REQUEST);
         } catch (IOException ex) {
+            String errorInfo = ex.getMessage() + ex.getStackTrace() + ex.getCause();
             log.info(ex.getMessage());
             log.info(ex.getStackTrace());
-            return new ResponseEntity<>("File error", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("File error" + errorInfo, HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
+            String errorInfo = ex.getMessage() + ex.getStackTrace() +ex.getCause();
             log.info(ex.getMessage());
             log.info(ex.getStackTrace());
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ex.getMessage() + errorInfo, HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
