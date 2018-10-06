@@ -6,19 +6,18 @@
 package pg.eti.kiohub.controller;
 
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.serial.SerialBlob;
 
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.glassfish.jersey.internal.util.ExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -77,7 +76,7 @@ public class AttachmentControler extends MainController {
 
         try {
             byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream());
-            Blob blob = new javax.sql.rowset.serial.SerialBlob(fileBytes);
+            Blob blob = new SerialBlob(fileBytes);
             AttachmentFile af = new AttachmentFile();
             af.setFile(blob);
             af.setId(attachment.getId()); //get Id from attachment
@@ -93,10 +92,13 @@ public class AttachmentControler extends MainController {
             log.info(ex.getStackTrace());
             return new ResponseEntity<>("File error" + errorInfo, HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
-            String errorInfo = ex.getMessage() + ex.getStackTrace() +ex.getCause();
+            StringWriter sw=new StringWriter();
+            ex.printStackTrace(new PrintWriter(sw));
+            sw.append(ex.getMessage());
+            sw.append(ex.getCause().toString());
             log.info(ex.getMessage());
             log.info(ex.getStackTrace());
-            return new ResponseEntity<>(ex.getMessage() + errorInfo, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>( sw, HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
