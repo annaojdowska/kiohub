@@ -24,12 +24,20 @@ export class ValueUtils {
         let text = '\n';
         let i = 0;
         for (const s of array) {
-           if (i++ !== array.length - 1) {
-               text += s + ', ';
-           } else {
-               text += s;
-           }
+            if (i++ !== array.length - 1) {
+                text += s + ', ';
+            } else {
+                text += s;
+            }
         }
         return text;
+    }
+
+    setDisplay(isVisible: boolean) {
+        if (isVisible) {
+           return 'block';
+        } else {
+           return 'none';
+        }
     }
 }

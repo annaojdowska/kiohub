@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {ErrorType } from './error-type.enum';
+import { ErrorType } from './error-type.enum';
+import { ValueUtils } from './value-utils';
 
 @Component({
   selector: 'app-error-info',
@@ -7,23 +8,20 @@ import {ErrorType } from './error-type.enum';
   styleUrls: ['./error-info.component.css']
 })
 export class ErrorInfoComponent implements OnInit {
-@Input() errorText: string;
-@Input() errorType: ErrorType;
-success: boolean;
-warning: boolean;
-error: boolean;
-display = 'none';
+  @Input() errorText: string;
+  @Input() errorType: ErrorType;
+  success: boolean;
+  warning: boolean;
+  error: boolean;
+  display = 'none';
+  valueUtils = new ValueUtils();
 
   ngOnInit() {
     this.setType(this.errorType);
   }
 
   setDisplay(isVisible: boolean) {
-    if (isVisible) {
-      this.display = 'block';
-    } else {
-      this.display = 'none';
-    }
+    this.display = this.valueUtils.setDisplay(isVisible);
   }
 
   setType(newType) {

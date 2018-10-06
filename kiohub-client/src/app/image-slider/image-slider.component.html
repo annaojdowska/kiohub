@@ -1,16 +1,17 @@
 <div id="content" [hidden]=hidden>
     <!-- <angular-image-slider #slider [images]="imagesUrl"><img src={{imageToShow}}></angular-image-slider> -->
-    <slideshow [height]="'25vw'"
+    <slideshow override id="slideshow" #slider
+           [height]="'25vw'"
            [minHeight]="'25vw'"
            [showArrows]="true"
-           [imageUrls]="imagesUrl"
+           [imageUrls]="iimagesUrl"
            [lazyLoad]="imageSources?.length > 1"
            [autoPlayWaitForLazyLoad]="true"
-           [showDots]="true"
+           [showDots]="false"
            [backgroundSize]="'contain'"
            [arrowSize]="'30px'"
-           [backgroundRepeat]="'repeat'"
+           [backgroundRepeat]="'no-repeat'"
            [dotColor]="'#FFF'"
-           [autoPlay]="'true'">
+           [autoPlay]="false">
 </slideshow>
 </div>
