@@ -49,7 +49,7 @@ public class AttachmentControler extends MainController {
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
-            @RequestParam("Type") AttachmentType type,
+            @RequestParam("Type") String type,
             @RequestParam("ProjectId") String projectId,
             @RequestParam("Visibility") String visibility,
             @RequestParam("MainPhoto") String mainPhoto) {
@@ -61,7 +61,7 @@ public class AttachmentControler extends MainController {
             String filename = new File(multipartFile.getOriginalFilename()).getName();
             attachment.setFileName(filename);
             attachment.setFileSize(multipartFile.getSize());
-            attachment.setType(type);
+            attachment.setType(AttachmentType.THESIS);
             attachment.setProject(project);
             attachment.setVisibility(Visibility.valueOf(visibility));
             attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
