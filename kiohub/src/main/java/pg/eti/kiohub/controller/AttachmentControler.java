@@ -82,26 +82,22 @@ public class AttachmentControler extends MainController {
             af.setId(attachment.getId()); //get Id from attachment
             attachmentFileRepository.saveAndFlush(af);
         } catch (SQLException ex) {
-            String errorInfo = ex.getMessage() + ex.getStackTrace() + ex.getCause();
-            log.info(ex.getMessage());
-            log.info(ex.getStackTrace());
-            return new ResponseEntity<>("SQL" + errorInfo, HttpStatus.BAD_REQUEST);
+            return handleException(ex);
         } catch (IOException ex) {
-            String errorInfo = ex.getMessage() + ex.getStackTrace() + ex.getCause();
-            log.info(ex.getMessage());
-            log.info(ex.getStackTrace());
-            return new ResponseEntity<>("File error" + errorInfo, HttpStatus.BAD_REQUEST);
+            return handleException(ex);
         } catch (Exception ex) {
-            StringWriter sw=new StringWriter();
-            ex.printStackTrace(new PrintWriter(sw));
-            sw.append(ex.getMessage());
-            sw.append(ex.getCause().toString());
-            log.info(ex.getMessage());
-            log.info(ex.getStackTrace());
-            return new ResponseEntity<>( sw, HttpStatus.BAD_REQUEST);
+            return handleException(ex);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private ResponseEntity handleException(Exception ex) {
+        StringWriter sw=new StringWriter();
+        ex.printStackTrace(new PrintWriter(sw));
+        sw.append("||||||" + ex.getMessage() + "||||||");
+        sw.append(ex.getCause().toString());
+        return new ResponseEntity<>( sw, HttpStatus.BAD_REQUEST);
     }
     
     @PostMapping(path = "/updateMetadata")
