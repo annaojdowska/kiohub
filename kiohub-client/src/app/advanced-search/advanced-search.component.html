@@ -3,12 +3,23 @@
 <div *ngIf="showFilters" [@fadeInOut]>
     <app-advanced-search-form (filtersSubmitted)="getSearchResults($event)"></app-advanced-search-form>
 </div>
-<div id="sort-results">
-    <app-sort-results [sortingRules]=sortingRules (ruleSelectionChanged)="applySorting($event)"></app-sort-results>
-</div>
+<table id="sort-bar">
+    <tr>
+        <th>
+            <div id="sort-results">
+                <app-sort-results [sortingRules]=sortingRules (ruleSelectionChanged)="applySorting($event)"></app-sort-results>
+            </div>
+        </th>
+        <th>
+            <div>
+                <label id="number-projects">Liczba wyświetlanych projektów: {{searchResults.length}}</label>
+            </div>
+        </th>
+    </tr>
+</table>
 <div>
     <div id="noResultsLabel" *ngIf="showNoResultsLabel">
-        <label >Nie znaleziono projektów spełniających zadane kryteria</label>
+        <label>Nie znaleziono projektów spełniających zadane kryteria</label>
     </div>
     <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="results">
@@ -22,5 +33,5 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons] = "true" *ngIf="displayPaginator()"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="displayPaginator()"></mat-paginator>
 </div>

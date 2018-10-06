@@ -47,4 +47,13 @@ img {
 #sort-results{
     margin-top: 15px;
     font-size: 15px;
+    float: left;
+}
+#number-projects{
+    float: right;
+    font-weight: normal;
+    cursor: default !important;
+}
+th{
+    width: 73%;
 }
