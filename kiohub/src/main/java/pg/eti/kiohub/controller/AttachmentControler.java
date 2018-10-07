@@ -71,7 +71,7 @@ public class AttachmentControler extends MainController {
             String filename = new File(multipartFile.getOriginalFilename()).getName();
             attachment.setFileName(filename);
             attachment.setFileSize(multipartFile.getSize());
-            attachment.setType(AttachmentType.THESIS);
+            attachment.setType(AttachmentType.valueOf(type));
             attachment.setProject(project);
             attachment.setVisibility(Visibility.valueOf(visibility));
             attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));

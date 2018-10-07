@@ -408,110 +408,48 @@ export class EditProjectGeneralTabComponent implements OnInit {
       console.log(updatedProject);
       this.updateResult.setDisplay(false);
       this.projectService.updateProject(updatedProject).subscribe(data => {
-        const infoString = 'Pomyślnie zaktualizowano projekt. ';
+        const infoString = 'Pomyślnie zaktualizowano dane projektu. ';
         if (attachmentsToSaveAmount === 0) {
           this.updateCompleted(infoString, ErrorType.SUCCESS);
         } else {
           this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
-          this.uploadFiles();
+          this.uploadAllFiles();
         }
       }, error => {
-        const infoString = 'Wystąpił błąd zaktualizowania projektu.';
+        const infoString = 'Wystąpił błąd zaktualizowania danych projektu. ';
         if (attachmentsToSaveAmount === 0) {
-          this.updateCompleted('Wystąpił błąd zaktualizowania projektu. ', ErrorType.ERROR);
+          this.updateCompleted(infoString, ErrorType.ERROR);
         } else {
           this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
-          this.uploadFiles();
+          this.uploadAllFiles();
         }
       });
     }
   }
 
-  private uploadFiles() {
-    this.thesisList.elements.forEach(th => {
-      if (!th.id) {
-        this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, th.visibility, false)
+  private uploadFiles(list, attachmentType: AttachmentType) {
+    list.elements.forEach(element => {
+      if (!element.id) {
+        this.attachmentService.upload(element.file, attachmentType, this.editedProject.id, element.visibility, false)
           .subscribe(data => {
-            this.uploadInfoSpinner.addSuccess(th.name);
+            this.uploadInfoSpinner.addSuccess(element.name);
           }, error => {
-            this.uploadInfoSpinner.addFail(th.name);
+            this.uploadInfoSpinner.addFail(element.name);
           });
       } else {
-        this.updateMetadata(th);
+        this.updateMetadata(element);
       }
     });
-    this.attachmentService.removeAttachments(this.editedProject, this.thesisList, AttachmentType.THESIS);
+    this.attachmentService.removeAttachments(this.editedProject, list, attachmentType);
+  }
 
-    this.programsList.elements.forEach(th => {
-      if (!th.id) {
-        this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, th.visibility, false)
-          .subscribe(data => {
-            this.uploadInfoSpinner.addSuccess(th.name);
-          }, error => {
-            this.uploadInfoSpinner.addFail(th.name);
-          });
-      } else {
-        this.updateMetadata(th);
-      }
-    });
-    this.attachmentService.removeAttachments(this.editedProject, this.programsList, AttachmentType.SOURCE_CODE);
-
-    this.othersList.elements.forEach(th => {
-      if (!th.id) {
-        this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, th.visibility, false)
-          .subscribe(data => {
-            this.uploadInfoSpinner.addSuccess(th.name);
-          }, error => {
-            this.uploadInfoSpinner.addFail(th.name);
-          });
-      } else {
-        this.updateMetadata(th);
-      }
-    });
-    this.attachmentService.removeAttachments(this.editedProject, this.othersList, AttachmentType.OTHER);
-
-    this.instructionsStartList.elements.forEach(th => {
-      if (!th.id) {
-        this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, th.visibility, false)
-          .subscribe(data => {
-            this.uploadInfoSpinner.addSuccess(th.name);
-          }, error => {
-            this.uploadInfoSpinner.addFail(th.name);
-          });
-      } else {
-        this.updateMetadata(th);
-      }
-    });
-    this.attachmentService.removeAttachments(this.editedProject, this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
-
-    this.instructionsList.elements.forEach(th => {
-      if (!th.id) {
-        this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, th.visibility, false)
-          .subscribe(data => {
-            this.uploadInfoSpinner.addSuccess(th.name);
-          }, error => {
-            this.uploadInfoSpinner.addFail(th.name);
-          });
-      } else {
-        this.updateMetadata(th);
-      }
-    });
-    this.attachmentService.removeAttachments(this.editedProject, this.instructionsList, AttachmentType.MANUAL_USAGE);
-
-    this.imagesList.elements.forEach(th => {
-      if (!th.id) {
-        this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, th.visibility,
-          th.selected ? th.selected : false)
-          .subscribe(data => {
-            this.uploadInfoSpinner.addSuccess(th.name);
-          }, error => {
-            this.uploadInfoSpinner.addFail(th.name);
-          });
-      } else {
-        this.updateMetadata(th);
-      }
-    });
-    this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
+  private uploadAllFiles() {
+      this.uploadFiles(this.thesisList, AttachmentType.THESIS);
+      this.uploadFiles(this.programsList, AttachmentType.SOURCE_CODE);
+      this.uploadFiles(this.othersList, AttachmentType.OTHER);
+      this.uploadFiles(this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
+      this.uploadFiles(this.instructionsList, AttachmentType.MANUAL_USAGE);
+      this.uploadFiles(this.imagesList, AttachmentType.PHOTO);
   }
 
   updateCompleted(text: string, errorType: ErrorType) {

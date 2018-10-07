@@ -25,8 +25,9 @@ export class AttachmentService {
 
   upload(file: Blob, type: AttachmentType, projectId: number | string, visibility: Visibility, mainPhoto: Boolean | string) {
     const formData = new FormData();
+    const attachmentTypeString = AttachmentType[type];
     formData.append('File', file);
-    formData.append('Type', type);
+    formData.append('Type', attachmentTypeString);
     formData.append('ProjectId', projectId.toString());
     formData.append('Visibility', visibility);
     formData.append('MainPhoto', String(mainPhoto));

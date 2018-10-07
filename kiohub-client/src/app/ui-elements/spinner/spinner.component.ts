@@ -50,9 +50,6 @@ export class SpinnerComponent implements OnInit {
   }
 
   updateSpinner() {
-    console.log('spinner');
-    console.log(this);
-
     if (this.attachmentsToSave === this.savedAttachments) {
       this.setAttachmentUploadInfoText();
       this.setAttachmentUploadCompleted();
@@ -74,15 +71,15 @@ export class SpinnerComponent implements OnInit {
     if (errorAmount > 0) {
       if (errorAmount === this.attachmentsToSave) {
         errorType = ErrorType.ERROR;
-        text = this.infoString + 'Nie udało się zapisać żadnego z załączników. ';
+        text = this.infoString + 'A załączniki? Nie udało się zapisać żadnego z załączników. ';
       } else {
         errorType = ErrorType.WARNING;
         // tslint:disable-next-line:max-line-length
-        text = this.infoString + 'Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników. Nie udało się zapisać następujących załączników: ' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
+        text = this.infoString + 'A załączniki? Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników. Nie udało się zapisać następujących załączników: ' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
       }
     } else {
       errorType = ErrorType.SUCCESS;
-      text = this.infoString + 'Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników.';
+      text = this.infoString + 'A załączniki? Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników.';
     }
     return { type: errorType, text: text };
   }
