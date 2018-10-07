@@ -89,7 +89,7 @@ public class AttachmentControler extends MainController {
 
             log.info("SAVED ATTACHMENT WITH ID " + attachment.getId() + ", FILE SIZE = " + attachment.getFileSize());
             DataSource ds = (DataSource) appContext.getBean("dataSource");
-            String insertQuery = "INSERT INTO `ATTACHMENTS_FILES` (attachments_id, file) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO `attachments_files` (attachments_id, file) VALUES (?, ?)";
 
             try (
                     Connection connection = ds.getConnection();
