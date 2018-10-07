@@ -75,7 +75,22 @@ public class AttachmentControler extends MainController {
         }
 
         try {
-            byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream());
+
+
+
+            byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream(), attachment.getFileSize());
+
+
+
+
+
+
+
+
+
+
+
+
             Blob blob = new SerialBlob(fileBytes);
             AttachmentFile af = new AttachmentFile();
             af.setFile(blob);
