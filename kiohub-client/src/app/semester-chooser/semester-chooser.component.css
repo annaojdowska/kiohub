@@ -1,14 +1,18 @@
 #container{
     max-width: 70vw;
     display: inline-grid;
-    width:55%;
+    width: 55%;
     height: auto;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
     border-style: solid;
-    border-color: black;
+    border-color: var(--color-black);
     border-width: 1px;
+}
+
+#center {
+    text-align: center;
 }
 
 mat-grid-list {
@@ -23,7 +27,7 @@ mat-grid-tile{
     margin: 0px;
     width:auto;
     border-style: solid;
-    border-color: black;
+    border-color: var(--color-black);
     border-width: 1px;
 }
 

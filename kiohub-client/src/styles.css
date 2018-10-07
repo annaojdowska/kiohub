@@ -9,10 +9,11 @@ body {
     --margin-bar-elements: 10px;
     --menu-bar-height: 55px;
     --footer-height: 100px;
-    --normal-font-size: 16px;
-    --main-font-name: 'PT Sans';
     --footer-main-page-height: 120px;
 
+    --normal-font-size: 16px;
+    --main-font-name: 'PT Sans';
+    
     --color-blue-light-muted: rgb(208, 211, 233); /* submit button background color */
     --color-blue-light: #D4E3FC; /* input list background color */
     --color-azure: #72bcf0; /* h4 */

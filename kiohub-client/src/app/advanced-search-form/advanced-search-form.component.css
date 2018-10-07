@@ -1,5 +1,5 @@
 #advanced-search {
-    border: 1px solid var(--filters-border-color);
+    border: 1px solid var(--color-orange-muted);
     margin-top: 15px;
     background: var(--color-blanc-with-opacity);
     overflow: hidden;
