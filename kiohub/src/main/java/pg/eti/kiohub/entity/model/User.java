@@ -42,9 +42,13 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
     
+    @Column(name = "is_supervisor")
+    private Boolean isSupervisor;
+        
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.isSupervisor = false;
     }
 
     public void setFirstName(String firstName) {
@@ -54,4 +58,5 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = StringUtils.capitalize(lastName);
     }
+
 }

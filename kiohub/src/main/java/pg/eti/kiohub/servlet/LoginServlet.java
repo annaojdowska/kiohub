@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import pg.eti.kiohub.controller.LoginController;
 
 ///**
 // *
@@ -31,19 +34,12 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
-        String firstName = attributes.get("firstName").toString();
-        String lastName = attributes.get("lastName").toString();
-        String personNumber = attributes.get("personNumber").toString();
-        String email = ((LinkedList)attributes.get("mail")).get(0).toString();
-
-        User user = new User(firstName, lastName);
-        UserEmail userEmail = new UserEmail(email, user);
-        //ale tego maila to gdzieś zapisz do bazy #FIXME
-        //i tego usera tyż
-        
-        
-        throw new NullPointerException("Koniec " + firstName + " " + lastName + " " + personNumber + " " + email);
+        try {
+            new LoginController().login();
+        } catch (Exception ex) {
+            throw new IOException();
+        }
+       
     }
 
 

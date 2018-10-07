@@ -12,6 +12,9 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class UserEmail {
+    
+    public static final String STUDENT_EMAIL = "@student";
+    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,5 +30,12 @@ public class UserEmail {
     public UserEmail(String email, User user) {
         this.email = email;
         this.user = user;
+    }
+    
+    public Boolean isStudentMail() {
+        if (email.contains(STUDENT_EMAIL)) {
+            return true;
+        }
+        return false;
     }
 }
