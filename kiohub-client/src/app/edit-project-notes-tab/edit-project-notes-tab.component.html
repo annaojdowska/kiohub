@@ -1,6 +1,6 @@
 <p id="h2">Notatki</p>
 
-<img (click)="toggleNoteInput()" src="../../assets/add.png"/> <label id="addNoteLabel" (click)="toggleNoteInput()">Dodaj nową notatkę</label>
+<img id="addImg" (click)="toggleNoteInput()" src="../../assets/add.png"/> <label id="addNoteLabel" (click)="toggleNoteInput()">Dodaj nową notatkę</label>
 
 <!-- Formularz dodania notatki -->
 <div *ngIf="noteInputShows != false" class="addNoteDiv">
@@ -45,7 +45,7 @@
           <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
           <img matTooltip="Edytuj treść i widoczność notatki" class="align-right" src="../../assets/edit-smaller.png" (click)="editNote(note?.id)" (click)="showEditNoteInput()"/>
           <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
-          <img [matTooltip]="note?.isPrivate ? 'Ta notatka nie jest widoczna dla innych współtwórców projektu.' : 'Ta notatka jest widoczna dla wszystkich współtwórców projektu.'" 
+          <img [matTooltip]="note?.isPrivate ? 'Ta notatka jest widoczna tylko dla Ciebie.' : 'Ta notatka jest widoczna dla wszystkich współtwórców projektu.'" 
           class="align-right" id="no-pointer" [src]="note?.isPrivate ? '../../assets/PRIVATE.png' : '../../assets/COLLABORATORS.png'" />
         <h2>~ {{notesOwners[i]?.firstName}} {{notesOwners[i]?.lastName}}, {{note?.publicationDate | date : "dd.MM.y r."}}</h2>
         <p>{{note?.content}}</p>

@@ -83,3 +83,7 @@ tr :first-child {
 #buttonsContainer {
     text-align: center;
 }
+
+img {
+    cursor: pointer;
+}
