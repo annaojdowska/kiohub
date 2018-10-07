@@ -48,7 +48,8 @@ import pg.eti.kiohub.utils.FileUtils;
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {
 
-    @Autowired JdbcTemplate jdbcTemplate;
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Autowired
     private ApplicationContext appContext;
@@ -86,9 +87,7 @@ public class AttachmentControler extends MainController {
         try {
 
 
-
-
-            DataSource ds = (DataSource)appContext.getBean("dataSource");
+            DataSource ds = (DataSource) appContext.getBean("dataSource");
             Connection connection = ds.getConnection();
 
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -98,8 +97,10 @@ public class AttachmentControler extends MainController {
             preparedStatement.setBlob(2, multipartFile.getInputStream());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
+                log.info("LIPA! PREPARED STATEMENT 0!");
                 return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
             }
+            log.info("WSZYSTO OK! ZAPISANO I AFFECTED ROWS 1!");
 
 
 //
@@ -128,15 +129,19 @@ public class AttachmentControler extends MainController {
     }
 
     private ResponseEntity handleException(Exception ex) {
-        StringWriter sw=new StringWriter();
+        StringWriter sw = new StringWriter();
         ex.printStackTrace(new PrintWriter(sw));
-        sw.append("||||||" + ex.getMessage() + "||||||");
-        sw.append(ex.getCause().toString());
-        return new ResponseEntity<>( sw, HttpStatus.BAD_REQUEST);
+        if (ex.getMessage() != null) {
+            sw.append("||||||" + ex.getMessage() + "||||||");
+        }
+        if (ex.getCause() != null) {
+            sw.append(ex.getCause().toString());
+        }
+        return new ResponseEntity<>(sw, HttpStatus.BAD_REQUEST);
     }
-    
+
     @PostMapping(path = "/updateMetadata")
-    public ResponseEntity updateMetadata (
+    public ResponseEntity updateMetadata(
             @RequestParam("id") String id,
             @RequestParam("visibility") String visibility,
             @RequestParam("mainPhoto") String mainPhoto) {
@@ -185,12 +190,13 @@ public class AttachmentControler extends MainController {
         Optional<Attachment> attachment = attachmentRepository.findById(id);
         if (attachmentExists(attachmentFile, attachment) && attachment.get().getType() == AttachmentType.PHOTO) {
             try {
-            prepareAndSaveAttachment(attachment, attachmentFile, response);
+                prepareAndSaveAttachment(attachment, attachmentFile, response);
             } catch (Exception ex) {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);    }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     private void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt, Optional<AttachmentFile> attachmentFileOpt, HttpServletResponse response) throws SQLException, IOException {
         Attachment attachment = attachmentOpt.get();
