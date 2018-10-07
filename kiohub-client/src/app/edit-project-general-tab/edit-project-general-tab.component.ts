@@ -87,6 +87,11 @@ export class EditProjectGeneralTabComponent implements OnInit {
   validation: Validation = new Validation();
   valueUtils = new ValueUtils();
 
+  // ******** COMPONENT STATE ********
+  hardlySavedNote = false;
+  hardlyUpdatedProject = false;
+  hardlySendEmails = false;
+
   constructor(
     @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -181,19 +186,30 @@ export class EditProjectGeneralTabComponent implements OnInit {
     return this.validation.validate(errorComponent, this.validation.validateAttachment(attachmentType, event));
   }
 
-  // other
   getParametersFromRouter() {
     let id: number;
     this.route.params.subscribe(routeParams => {
       id = routeParams.id;
       this.setInvitationError(routeParams.invitationsOk);
+      this.hardlySendEmails = true;
     });
     return id;
   }
 
+  getDataFromLocalStorage() {
+    // display info about project update
+    this.hardlyUpdatedProject = this.valueUtils.getBooleanAndRemoveFromSession(this.valueUtils.updatedProjectBoolean);
+    console.log(this.hardlyUpdatedProject);
+    if (this.hardlyUpdatedProject) {
+      const updatedProjectText = this.valueUtils.getAndRemoveFromSession(this.valueUtils.updatedProjectText);
+      const updatedProjectStatus = this.valueUtils.getAndRemoveFromSession(this.valueUtils.updatedProjectStatus);
+      this.updateResult.setComponent(true, updatedProjectStatus, updatedProjectText);
+    }
+  }
+
   setInvitationError(invitationsOk: boolean) {
     let showError: boolean;
-    // nie zmieniać tego porównania, invitationsOk zwraca co innego niż (invitationsOk === true)
+    // dont change line below, invitationsOk returns sth different than (invitationsOk === true)
     if (this.valueUtils.isNullOrUndefined(invitationsOk) || invitationsOk === true) {
       showError = false;
     } else {
@@ -209,6 +225,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   ngOnInit() {
     const projectId = this.getParametersFromRouter();
+    this.getDataFromLocalStorage();
 
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
@@ -386,117 +403,126 @@ export class EditProjectGeneralTabComponent implements OnInit {
         published: this.editedProject.published
       };
 
+      const attachmentsToSaveAmount = this.getAttachmentsToSaveAmount();
+
       console.log(updatedProject);
       this.updateResult.setDisplay(false);
       this.projectService.updateProject(updatedProject).subscribe(data => {
-        this.updateResult.setComponent(true, 'SUCCESS', 'Pomyślnie zaktualizowano projekt.');
-        window.scrollTo(0, 0);
-      },
-        error => {
-          this.updateResult.setComponent(true, 'ERROR', 'Wystąpił błąd zaktualizowania projektu.');
-          window.scrollTo(0, 0);
-        });
-
-      this.uploadInfoSpinner.beginUpload(this.getAttachmentsToSaveAmount(), this);
-
-      this.thesisList.elements.forEach(th => {
-        if (!th.id) {
-
-          this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, th.visibility, false)
-            .subscribe(data => {
-              this.uploadInfoSpinner.addSuccess(th.name);
-            },
-              error => {
-                this.uploadInfoSpinner.addFail(th.name);
-              });
+        const infoString = 'Pomyślnie zaktualizowano projekt. ';
+        if (attachmentsToSaveAmount === 0) {
+          this.updateCompleted(infoString, ErrorType.SUCCESS);
         } else {
-          this.updateMetadata(th);
+          this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
+          this.uploadFiles();
+        }
+      }, error => {
+        const infoString = 'Wystąpił błąd zaktualizowania projektu.';
+        if (attachmentsToSaveAmount === 0) {
+          this.updateCompleted('Wystąpił błąd zaktualizowania projektu. ', ErrorType.ERROR);
+        } else {
+          this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
+          this.uploadFiles();
         }
       });
-      this.attachmentService.removeAttachments(this.editedProject, this.thesisList, AttachmentType.THESIS);
-
-      this.programsList.elements.forEach(th => {
-        if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, th.visibility, false)
-            .subscribe(data => {
-              this.uploadInfoSpinner.addSuccess(th.name);
-            },
-              error => {
-                this.uploadInfoSpinner.addFail(th.name);
-              });
-        } else {
-          this.updateMetadata(th);
-        }
-      });
-      this.attachmentService.removeAttachments(this.editedProject, this.programsList, AttachmentType.SOURCE_CODE);
-
-      this.othersList.elements.forEach(th => {
-        if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, th.visibility, false)
-            .subscribe(data => {
-              this.uploadInfoSpinner.addSuccess(th.name);
-            },
-              error => {
-                this.uploadInfoSpinner.addFail(th.name);
-              });
-        } else {
-          this.updateMetadata(th);
-        }
-      });
-      this.attachmentService.removeAttachments(this.editedProject, this.othersList, AttachmentType.OTHER);
-
-      this.instructionsStartList.elements.forEach(th => {
-        if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, th.visibility, false)
-            .subscribe(data => {
-              this.uploadInfoSpinner.addSuccess(th.name);
-            },
-              error => {
-                this.uploadInfoSpinner.addFail(th.name);
-              });
-        } else {
-          this.updateMetadata(th);
-        }
-      });
-      this.attachmentService.removeAttachments(this.editedProject, this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
-
-      this.instructionsList.elements.forEach(th => {
-        if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, th.visibility, false)
-            .subscribe(data => {
-              this.uploadInfoSpinner.addSuccess(th.name);
-            },
-              error => {
-                this.uploadInfoSpinner.addFail(th.name);
-              });
-        } else {
-          this.updateMetadata(th);
-        }
-      });
-      this.attachmentService.removeAttachments(this.editedProject, this.instructionsList, AttachmentType.MANUAL_USAGE);
-
-      this.imagesList.elements.forEach(th => {
-        if (!th.id) {
-          this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, th.visibility,
-            th.selected ? th.selected : false)
-            .subscribe(data => {
-              this.uploadInfoSpinner.addSuccess(th.name);
-            },
-              error => {
-                this.uploadInfoSpinner.addFail(th.name);
-              });
-        } else {
-          this.updateMetadata(th);
-        }
-      });
-      this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
-      // window.location.reload(false);
     }
   }
 
+  private uploadFiles() {
+    this.thesisList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.THESIS, this.editedProject.id, th.visibility, false)
+          .subscribe(data => {
+            this.uploadInfoSpinner.addSuccess(th.name);
+          }, error => {
+            this.uploadInfoSpinner.addFail(th.name);
+          });
+      } else {
+        this.updateMetadata(th);
+      }
+    });
+    this.attachmentService.removeAttachments(this.editedProject, this.thesisList, AttachmentType.THESIS);
+
+    this.programsList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.SOURCE_CODE, this.editedProject.id, th.visibility, false)
+          .subscribe(data => {
+            this.uploadInfoSpinner.addSuccess(th.name);
+          }, error => {
+            this.uploadInfoSpinner.addFail(th.name);
+          });
+      } else {
+        this.updateMetadata(th);
+      }
+    });
+    this.attachmentService.removeAttachments(this.editedProject, this.programsList, AttachmentType.SOURCE_CODE);
+
+    this.othersList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.OTHER, this.editedProject.id, th.visibility, false)
+          .subscribe(data => {
+            this.uploadInfoSpinner.addSuccess(th.name);
+          }, error => {
+            this.uploadInfoSpinner.addFail(th.name);
+          });
+      } else {
+        this.updateMetadata(th);
+      }
+    });
+    this.attachmentService.removeAttachments(this.editedProject, this.othersList, AttachmentType.OTHER);
+
+    this.instructionsStartList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.MANUAL_STARTUP, this.editedProject.id, th.visibility, false)
+          .subscribe(data => {
+            this.uploadInfoSpinner.addSuccess(th.name);
+          }, error => {
+            this.uploadInfoSpinner.addFail(th.name);
+          });
+      } else {
+        this.updateMetadata(th);
+      }
+    });
+    this.attachmentService.removeAttachments(this.editedProject, this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
+
+    this.instructionsList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.MANUAL_USAGE, this.editedProject.id, th.visibility, false)
+          .subscribe(data => {
+            this.uploadInfoSpinner.addSuccess(th.name);
+          }, error => {
+            this.uploadInfoSpinner.addFail(th.name);
+          });
+      } else {
+        this.updateMetadata(th);
+      }
+    });
+    this.attachmentService.removeAttachments(this.editedProject, this.instructionsList, AttachmentType.MANUAL_USAGE);
+
+    this.imagesList.elements.forEach(th => {
+      if (!th.id) {
+        this.attachmentService.upload(th.file, AttachmentType.PHOTO, this.editedProject.id, th.visibility,
+          th.selected ? th.selected : false)
+          .subscribe(data => {
+            this.uploadInfoSpinner.addSuccess(th.name);
+          }, error => {
+            this.uploadInfoSpinner.addFail(th.name);
+          });
+      } else {
+        this.updateMetadata(th);
+      }
+    });
+    this.attachmentService.removeAttachments(this.editedProject, this.imagesList, AttachmentType.PHOTO);
+  }
+
   updateCompleted(text: string, errorType: ErrorType) {
-    this.updateResult.setComponent(true, errorType, text);
+    // this.updateResult.setComponent(true, errorType, text);
     this.uploadInfoSpinner.setDisplay(false);
+
+    this.valueUtils.saveToSession(this.valueUtils.updatedProjectBoolean, true);
+    this.valueUtils.saveToSession(this.valueUtils.updatedProjectText, text);
+    this.valueUtils.saveToSession(this.valueUtils.updatedProjectStatus, errorType);
+
+    window.location.reload();
   }
 
   saveSemesters() {
@@ -527,10 +553,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
   private updateMetadata(th: InputListElement) {
     this.attachmentService.updateMetadata(th.id, th.visibility ? th.visibility : Visibility.EVERYONE, th.selected ? th.selected : false)
       .subscribe(data => {
-        console.log('ERROR: Pomyślnie zaktualizowano załącznik ' + th.name + '. ');
+        console.log('Pomyślnie zaktualizowano załącznik ' + th.name + '. ');
       },
         error => {
-          console.log('ERROR: Wystąpił błąd aktualizacji załącznika ' + th.name + '. ' + error);
+          console.log('Wystąpił błąd aktualizacji załącznika ' + th.name + '. ' + error);
         });
   }
 }

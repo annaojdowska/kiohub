@@ -49,8 +49,6 @@ export class ImageSliderComponent implements OnInit {
           // 
           if (++loadedImages === imagesToLoad) {
             this.setHidden(false);
-            console.log(this.imageToShow);
-            window.open(this.imageToShow);
           }
         }, false);
 
