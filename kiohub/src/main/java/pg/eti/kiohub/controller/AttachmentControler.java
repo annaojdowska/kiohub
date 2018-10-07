@@ -63,6 +63,7 @@ public class AttachmentControler extends MainController {
             @RequestParam("Visibility") String visibility,
             @RequestParam("MainPhoto") String mainPhoto) {
 
+        log.info("_____________________________ NEW REQUEST ________________________________");
         Attachment attachment = new Attachment();
 
         try {
@@ -86,23 +87,25 @@ public class AttachmentControler extends MainController {
 
         try {
 
-
+            log.info("SAVED ATTACHMENT WITH ID " + attachment.getId() + ", FILE SIZE = " + attachment.getFileSize());
             DataSource ds = (DataSource) appContext.getBean("dataSource");
-            Connection connection = ds.getConnection();
+            String insertQuery = "INSERT INTO ATTACHMENTS_FILES (attachments_id, file) VALUES (?, ?)";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO ATTACHMENTS_FILES (attachments_id, file) VALUES (?, ?)"
-            );
-            preparedStatement.setLong(1, attachment.getId());
-            preparedStatement.setBlob(2, multipartFile.getInputStream());
-            int affectedRows = preparedStatement.executeUpdate();
-            if (affectedRows == 0) {
-                log.info("LIPA! PREPARED STATEMENT 0!");
-                return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
+            try (
+                    Connection connection = ds.getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)
+            ) {
+
+                preparedStatement.setLong(1, attachment.getId());
+                preparedStatement.setBinaryStream(2, multipartFile.getInputStream());
+                int affectedRows = preparedStatement.executeUpdate();
+                if (affectedRows == 0) {
+                    log.info("ERROR: affectedRows = 0");
+                    return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
+                }
+                log.info("EVERYTHING OK! SAVED " + affectedRows + " ROWS!");
+
             }
-            log.info("WSZYSTO OK! ZAPISANO I AFFECTED ROWS 1!");
-
-
 //
 //            Connection connection = DriverManager.g;
 //            Blob blob2 = new SerialBlob('d');
@@ -118,9 +121,9 @@ public class AttachmentControler extends MainController {
         } catch (SQLException ex) {
             return handleException(ex);
         }
-//        catch (IOException ex) {
-//            return handleException(ex);
-//        }
+        catch (OutOfMemoryError ex) {
+            return handleException(ex);
+        }
         catch (Exception ex) {
             return handleException(ex);
         }
@@ -128,7 +131,7 @@ public class AttachmentControler extends MainController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private ResponseEntity handleException(Exception ex) {
+    private ResponseEntity handleException(Throwable ex) {
         StringWriter sw = new StringWriter();
         ex.printStackTrace(new PrintWriter(sw));
         if (ex.getMessage() != null) {
