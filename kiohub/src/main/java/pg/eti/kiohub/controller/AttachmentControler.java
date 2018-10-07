@@ -7,20 +7,24 @@ package pg.eti.kiohub.controller;
 
 
 import java.io.*;
-import java.sql.Blob;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import javax.sql.rowset.serial.SerialBlob;
 
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.internal.util.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +48,12 @@ import pg.eti.kiohub.utils.FileUtils;
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private ApplicationContext appContext;
+
     @CrossOrigin
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity upload(
@@ -53,6 +63,7 @@ public class AttachmentControler extends MainController {
             @RequestParam("Visibility") String visibility,
             @RequestParam("MainPhoto") String mainPhoto) {
 
+        log.info("_____________________________ NEW REQUEST ________________________________");
         Attachment attachment = new Attachment();
 
         try {
@@ -60,7 +71,7 @@ public class AttachmentControler extends MainController {
             String filename = new File(multipartFile.getOriginalFilename()).getName();
             attachment.setFileName(filename);
             attachment.setFileSize(multipartFile.getSize());
-            attachment.setType(AttachmentType.THESIS);
+            attachment.setType(AttachmentType.valueOf(type));
             attachment.setProject(project);
             attachment.setVisibility(Visibility.valueOf(visibility));
             attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
@@ -76,47 +87,64 @@ public class AttachmentControler extends MainController {
 
         try {
 
+            log.info("SAVED ATTACHMENT WITH ID " + attachment.getId() + ", FILE SIZE = " + attachment.getFileSize());
+            DataSource ds = (DataSource) appContext.getBean("dataSource");
+            String insertQuery = "INSERT INTO `attachments_files` (attachments_id, file) VALUES (?, ?)";
 
+            try (
+                    Connection connection = ds.getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)
+            ) {
 
-            byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream(), attachment.getFileSize());
+                preparedStatement.setLong(1, attachment.getId());
+                preparedStatement.setBinaryStream(2, multipartFile.getInputStream());
+                int affectedRows = preparedStatement.executeUpdate();
+                if (affectedRows == 0) {
+                    log.info("ERROR: affectedRows = 0");
+                    return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
+                }
+                log.info("EVERYTHING OK! SAVED " + affectedRows + " ROWS!");
 
-
-
-
-
-
-
-
-
-
-
-
-            Blob blob = new SerialBlob(fileBytes);
-            AttachmentFile af = new AttachmentFile();
-            af.setFile(blob);
-            af.setId(attachment.getId()); //get Id from attachment
-            attachmentFileRepository.saveAndFlush(af);
+            }
+//
+//            Connection connection = DriverManager.g;
+//            Blob blob2 = new SerialBlob('d');
+//
+//
+//            byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream(), attachment.getFileSize());
+//
+//            Blob blob = new SerialBlob(fileBytes);
+//            AttachmentFile af = new AttachmentFile();
+//            af.setFile(blob);
+//            af.setId(attachment.getId()); //get Id from attachment
+//            attachmentFileRepository.saveAndFlush(af);
         } catch (SQLException ex) {
             return handleException(ex);
-        } catch (IOException ex) {
+        }
+        catch (OutOfMemoryError ex) {
             return handleException(ex);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             return handleException(ex);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private ResponseEntity handleException(Exception ex) {
-        StringWriter sw=new StringWriter();
+    private ResponseEntity handleException(Throwable ex) {
+        StringWriter sw = new StringWriter();
         ex.printStackTrace(new PrintWriter(sw));
-        sw.append("||||||" + ex.getMessage() + "||||||");
-        sw.append(ex.getCause().toString());
-        return new ResponseEntity<>( sw, HttpStatus.BAD_REQUEST);
+        if (ex.getMessage() != null) {
+            sw.append("||||||" + ex.getMessage() + "||||||");
+        }
+        if (ex.getCause() != null) {
+            sw.append(ex.getCause().toString());
+        }
+        return new ResponseEntity<>(sw, HttpStatus.BAD_REQUEST);
     }
-    
+
     @PostMapping(path = "/updateMetadata")
-    public ResponseEntity updateMetadata (
+    public ResponseEntity updateMetadata(
             @RequestParam("id") String id,
             @RequestParam("visibility") String visibility,
             @RequestParam("mainPhoto") String mainPhoto) {
@@ -165,12 +193,13 @@ public class AttachmentControler extends MainController {
         Optional<Attachment> attachment = attachmentRepository.findById(id);
         if (attachmentExists(attachmentFile, attachment) && attachment.get().getType() == AttachmentType.PHOTO) {
             try {
-            prepareAndSaveAttachment(attachment, attachmentFile, response);
+                prepareAndSaveAttachment(attachment, attachmentFile, response);
             } catch (Exception ex) {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);    }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     private void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt, Optional<AttachmentFile> attachmentFileOpt, HttpServletResponse response) throws SQLException, IOException {
         Attachment attachment = attachmentOpt.get();

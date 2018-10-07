@@ -19,18 +19,20 @@ export class SpinnerComponent implements OnInit {
   // how many attachments had been already uploaded
   private savedAttachments: number;
   private display = 'none';
+  private infoString = '';
 
   constructor() {
   }
 
   ngOnInit() { }
 
-  beginUpload(attachmentsToSave: number, editProjectComponent: EditProjectGeneralTabComponent) {
+  beginUpload(attachmentsToSave: number, editProjectComponent: EditProjectGeneralTabComponent, infoString: string) {
     this.savedAttachments = 0;
     this.attachmentsToSave = attachmentsToSave;
     this.editProjectComponent = editProjectComponent;
     this.succesList = [];
     this.failedList = [];
+    this.infoString = infoString;
     this.setDisplay(true);
     this.setAttachmentUploadInfoText();
   }
@@ -48,9 +50,6 @@ export class SpinnerComponent implements OnInit {
   }
 
   updateSpinner() {
-    console.log('spinner');
-    console.log(this);
-
     if (this.attachmentsToSave === this.savedAttachments) {
       this.setAttachmentUploadInfoText();
       this.setAttachmentUploadCompleted();
@@ -72,21 +71,21 @@ export class SpinnerComponent implements OnInit {
     if (errorAmount > 0) {
       if (errorAmount === this.attachmentsToSave) {
         errorType = ErrorType.ERROR;
-        text = 'Nie udało się zapisać żadnego z załączników. ';
+        text = this.infoString + 'A załączniki? Nie udało się zapisać żadnego z załączników. ';
       } else {
         errorType = ErrorType.WARNING;
         // tslint:disable-next-line:max-line-length
-        text = 'Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników. Nie udało się zapisać następujących załączników: ' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
+        text = this.infoString + 'A załączniki? Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników. Nie udało się zapisać następujących załączników: ' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
       }
     } else {
       errorType = ErrorType.SUCCESS;
-      text = 'Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników.';
+      text = this.infoString + 'A załączniki? Zapisano ' + (this.attachmentsToSave - errorAmount) + ' załączników.';
     }
     return { type: errorType, text: text };
   }
 
   private setAttachmentUploadInfoText() {
-    this.text = 'Trwa dodawanie załączników (zapisano ' + this.savedAttachments + ' z ' + this.attachmentsToSave + '). ';
+    this.text = this.infoString + 'Trwa dodawanie załączników (zapisano ' + this.savedAttachments + ' z ' + this.attachmentsToSave + '). ';
     if (this.succesList.length > 0) {
       this.text += '\nZapisane załączniki: ' +  this.valueUtils.formatStringArrayToView(this.succesList) + '. ';
     }
