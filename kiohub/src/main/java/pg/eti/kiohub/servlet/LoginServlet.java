@@ -35,8 +35,10 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         
         try {
+            System.out.println("Wchodze do lc.login");
             new LoginController().login();
         } catch (Exception ex) {
+            System.out.println("ex " + ex.getMessage());
             throw new IOException();
         }
        

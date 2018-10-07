@@ -43,7 +43,9 @@ public class LoginController extends MainController {
     @CrossOrigin
     @GetMapping(path = "/isLogged")
     public ResponseEntity<Boolean> isLogged() {
+        System.out.println("isLogged request=" + request);
         Boolean isValid = request.isRequestedSessionIdValid();
+        System.out.println("isLogged isValid=" + isValid);
         return new ResponseEntity<>(isValid, HttpStatus.OK);
     }
     
@@ -92,7 +94,7 @@ public class LoginController extends MainController {
         return "redirect:https://logowanie.pg.gda.pl/logout?service=http://kiohub.eti.pg.gda.pl";
     }
     
-    public String login() throws Exception {
+    public String login() {
         User user = userToLogIn();
         if (user != null) {
             return "redirect:http://kiohub.eti.pg.gda.pl";
@@ -100,7 +102,9 @@ public class LoginController extends MainController {
         return "redirect:http://kiohub.eti.pg.gda.pl/login";
     }
     
-    public User userToLogIn() throws Exception {
+    public User userToLogIn() {
+        System.out.println("Wszedlem do userToLogin");
+        System.out.println("isLoggedBody " + isLogged().getBody());
         if (isLogged().getBody()) {
             Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
             String firstName = attributes.get("firstName").toString();
