@@ -7,20 +7,24 @@ package pg.eti.kiohub.controller;
 
 
 import java.io.*;
-import java.sql.Blob;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import javax.sql.rowset.serial.SerialBlob;
 
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.internal.util.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +47,11 @@ import pg.eti.kiohub.utils.FileUtils;
 @Controller
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {
+
+    @Autowired JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private ApplicationContext appContext;
 
     @CrossOrigin
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -78,29 +87,40 @@ public class AttachmentControler extends MainController {
 
 
 
-            byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream(), attachment.getFileSize());
+
+            DataSource ds = (DataSource)appContext.getBean("dataSource");
+            Connection connection = ds.getConnection();
+
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO ATTACHMENTS_FILES (attachments_id, file) VALUES (?, ?)"
+            );
+            preparedStatement.setLong(1, attachment.getId());
+            preparedStatement.setBlob(2, multipartFile.getInputStream());
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
+            }
 
 
-
-
-
-
-
-
-
-
-
-
-            Blob blob = new SerialBlob(fileBytes);
-            AttachmentFile af = new AttachmentFile();
-            af.setFile(blob);
-            af.setId(attachment.getId()); //get Id from attachment
-            attachmentFileRepository.saveAndFlush(af);
+//
+//            Connection connection = DriverManager.g;
+//            Blob blob2 = new SerialBlob('d');
+//
+//
+//            byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream(), attachment.getFileSize());
+//
+//            Blob blob = new SerialBlob(fileBytes);
+//            AttachmentFile af = new AttachmentFile();
+//            af.setFile(blob);
+//            af.setId(attachment.getId()); //get Id from attachment
+//            attachmentFileRepository.saveAndFlush(af);
         } catch (SQLException ex) {
             return handleException(ex);
-        } catch (IOException ex) {
-            return handleException(ex);
-        } catch (Exception ex) {
+        }
+//        catch (IOException ex) {
+//            return handleException(ex);
+//        }
+        catch (Exception ex) {
             return handleException(ex);
         }
 
