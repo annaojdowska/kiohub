@@ -65,13 +65,13 @@ public class AttachmentControler extends MainController {
             attachment.setVisibility(Visibility.valueOf(visibility));
             attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return handleException(ex);
         }
 
         try {
             attachment = attachmentRepository.saveAndFlush(attachment);
         } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return handleException(ex);
         }
 
         try {
