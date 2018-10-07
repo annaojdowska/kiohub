@@ -6,7 +6,9 @@ export class ValueUtils {
     // SUCCESS, ERROR, WARNING
     updatedProjectStatus = 'udpatedProjectStatus';
 
-
+    /**
+     * For strings
+     */
     isNullOrEmpty(value: string) {
         if (this.isNullOrUndefined(value) || value.length === 0) {
             return true;
@@ -15,18 +17,30 @@ export class ValueUtils {
         }
     }
 
+     /**
+     * For any type
+     */
     isNullOrUndefined(value) {
         return value === undefined || value === null;
     }
 
+     /**
+     * Check if string length is shortert than value
+     */
     validateMaxSize(stringValue, maxSize) {
         return stringValue.length < maxSize;
     }
 
+     /**
+     * Return elements that doesn't have set id
+     */
     findElementsToSaveInArray(array) {
         return array.elements.filter(e => (!e.id));
     }
 
+     /**
+     * New line + elements separated by ','
+     */
     formatStringArrayToView(array: string[]) {
         let text = '\n';
         let i = 0;
@@ -48,17 +62,23 @@ export class ValueUtils {
         }
     }
 
-    // session storage
+    /**
+     * Save to session storage
+     */
     saveToSession(key: string, value) {
         sessionStorage.setItem(key, value);
     }
 
-    // session storage
+     /**
+     * Get from session storage
+     */
     getAndRemoveFromSession(key: string) {
         return this.getAndRemoveDataFromSessionStorage(key);
     }
 
-    // session storage
+     /**
+     * Get boolean from session storage
+     */
     getBooleanAndRemoveFromSession(key: string) {
         const value = this.getAndRemoveDataFromSessionStorage(key);
         if (this.isNullOrUndefined(value)) {
@@ -76,18 +96,21 @@ export class ValueUtils {
         }
     }
 
-    private getAndRemoveDataFromSessionStorage(key: string) {
-        const value = sessionStorage.getItem(key);
-        sessionStorage.removeItem(key);
-        console.log(value);
-        return value;
-    }
-
+     /**
+     * Ex. change "true" to true
+     */
     getBooleanFromString(value: string) {
         if (value === 'true' || value === '\"true\"' || value) {
             return true;
         } else {
             return false;
         }
+    }
+
+    private getAndRemoveDataFromSessionStorage(key: string) {
+        const value = sessionStorage.getItem(key);
+        sessionStorage.removeItem(key);
+        console.log(value);
+        return value;
     }
 }

@@ -27,7 +27,6 @@ import { Validation } from '../error-info/validation-patterns';
 import { ValueUtils } from '../error-info/value-utils';
 import { ErrorType } from '../error-info/error-type.enum';
 import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
-import { Attachment } from '../model/attachment.interface';
 
 @Component({
   selector: 'app-edit-project-general-tab',
