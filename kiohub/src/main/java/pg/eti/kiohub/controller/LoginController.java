@@ -107,7 +107,7 @@ public class LoginController extends MainController {
     @RequestMapping(path = "/login")
     public String login() throws Exception {
         //dodać if request.isLogin()
-        System.out.println("Wszedlem2 do login(), response=" + request);
+        System.out.println("login: response=" + request);
         User user = userToLogIn();
         if (user != null) {
             return "redirect:http://kiohub.eti.pg.gda.pl";
@@ -118,8 +118,7 @@ public class LoginController extends MainController {
     @CrossOrigin
     @RequestMapping(path = "/login/userToLogIn")
     public User userToLogIn()  throws Exception {
-        System.out.println("Wszedlem2 do userToLogin");
-        System.out.println("isLoggedBody2 " + isLogged().getBody());
+        System.out.println("userToLogIn: isLoggedBody=" + isLogged().getBody());
         if (isLogged().getBody()) {
             Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
             String firstName = attributes.get("firstName").toString();
@@ -133,12 +132,7 @@ public class LoginController extends MainController {
             int i = 0;
             while (i < emails.size() && user == null) {
                 System.out.println("userToLogin - while: przed findUserByEmail " + emails.get(i));
-                try {
-                    user = userRepository.findUserByEmail(emails.get(i));
-                } catch (Exception e) {
-                    System.out.println("userToLogin - findUserByEmail exception: " + e.getMessage() + " " + e.getCause());  
-                    e.printStackTrace();
-                }
+                user = userRepository.findUserByEmail(emails.get(i));
                 System.out.println("userToLogin - while: po findUserByEmail");
                 if (user != null) {
                     user.setFirstName(firstName);
@@ -151,16 +145,11 @@ public class LoginController extends MainController {
                 user = new User(firstName, lastName);
             }
             System.out.println("userToLogin: przed zapisem");
-            try {
-            userRepository.save(user);
-            } catch (Exception e) {
-                    System.out.println("userToLogin - save exception: " + e.getMessage() + " " + e.getCause());  
-                    e.printStackTrace();
-                }
+            userRepository.save(user); 
             System.out.println("userToLogin: po zapisie");
             UserEmail userEmail;
             for (String email : emails) {
-                System.out.println("userToLogin - for: przed findUserByEmail " + emails.get(i));
+                System.out.println("userToLogin - for: przed findUserByEmail " + email);
                 userEmail = userEmailRepository.findUserEmailByEmail(email);
                 System.out.println("userToLogin - for: po findUserByEmail");
                 if (userEmail == null) {
