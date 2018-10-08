@@ -130,8 +130,12 @@ public class LoginController extends MainController {
             User user = null;
             int i = 0;
             while (i < emails.size() && user == null) {
-                System.out.println("userToLogin - while: przed findUserByEmail");
-                user = userRepository.findUserByEmail(emails.get(i));
+                System.out.println("userToLogin - while: przed findUserByEmail " + emails.get(i));
+                try {
+                    user = userRepository.findUserByEmail(emails.get(i));
+                } catch (Exception e) {
+                    System.out.println("userToLogin - findUserByEmail exception: " + e.getMessage() + " " + e.getCause() + " " + e.getStackTrace());  
+                }
                 System.out.println("userToLogin - while: po findUserByEmail");
                 if (user != null) {
                     user.setFirstName(firstName);
