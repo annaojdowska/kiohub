@@ -12,8 +12,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,6 +34,8 @@ import pg.eti.kiohub.entity.model.UserEmail;
 
 @Controller
 public class LoginController extends MainController {
+    
+    private @Autowired HttpServletRequest request;
     
     @CrossOrigin
     @RequestMapping(path = "/login/all")
@@ -103,7 +107,7 @@ public class LoginController extends MainController {
     @RequestMapping(path = "/login")
     public String login() throws Exception {
         //dodać if request.isLogin()
-        System.out.println("Wszedlem2 do login()");
+        System.out.println("Wszedlem2 do login(), response=" + request);
         User user = userToLogIn();
         if (user != null) {
             return "redirect:http://kiohub.eti.pg.gda.pl";
