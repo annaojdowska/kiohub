@@ -124,23 +124,4 @@ export class AddProjectComponent implements OnInit {
         }
       );
   }
-
-  login(event) {
-    console.log('login');
-    this.loginService.login().subscribe(
-      data => console.log('i co teraz?'),
-      error => console.log('i dupa'));
-  }
-
-  loginN(event) {
-    console.log('login');
-      this.router.navigateByUrl('/login');
-  }
-
-  isLogged(event) {
-    console.log('isLogged');
-    this.loginService.isLogged().subscribe(
-      data => console.log('isLogged: i co teraz?' + data),
-      error => console.log('isLogged: i dupa' + error));
-  }
 }
