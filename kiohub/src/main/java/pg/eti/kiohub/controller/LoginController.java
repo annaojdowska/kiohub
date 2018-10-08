@@ -34,40 +34,36 @@ import pg.eti.kiohub.entity.model.UserEmail;
 
 @Controller
 public class LoginController extends MainController {
-    
-    private @Autowired HttpServletRequest request;
-    
-    @CrossOrigin
-    @RequestMapping(path = "/login/all")
-    public ResponseEntity<List<Project>>
-    getAllProjects() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        
+    LoginController(HttpServletRequest request) {
+        this.request = request;
     }
-
-
+    
     @CrossOrigin
     @RequestMapping(path = "/login/isLogged")
     public ResponseEntity<Boolean> isLogged() {
-        System.out.println("isLogged2 request=" + request);
         Boolean isValid = request.isRequestedSessionIdValid();
-        System.out.println("isLogged2 isValid=" + isValid);
         return new ResponseEntity<>(isValid, HttpStatus.OK);
     }
     
     @CrossOrigin
     @RequestMapping(path = "/login/isSupervisor")
     public ResponseEntity<Boolean> isSupervisor() throws Exception {
-        Boolean isValid = request.isRequestedSessionIdValid();
-        throw new Exception("eislogged2 " + isValid);
-        //return new ResponseEntity<>(isValid, HttpStatus.OK);
+        User loggedUser = getLogged().getBody();
+        if (loggedUser == null) {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(loggedUser.getIsSupervisor(), HttpStatus.OK);
     }
     
     @CrossOrigin
     @RequestMapping(path = "/login/isStudent")
     public ResponseEntity<Boolean> isStudent() throws Exception {
-        Boolean isValid = request.isRequestedSessionIdValid();
-        throw new Exception("eislogged2 " + isValid);
-        //return new ResponseEntity<>(isValid, HttpStatus.OK);
+        User loggedUser = getLogged().getBody();
+        if (loggedUser == null) {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(!loggedUser.getIsSupervisor(), HttpStatus.OK);
     }
     
     @CrossOrigin
@@ -86,9 +82,8 @@ public class LoginController extends MainController {
                 user = userRepository.findUserByEmail(emails.get(i));
                 i++;
             }
-            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        return new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
     
     @CrossOrigin
@@ -107,78 +102,47 @@ public class LoginController extends MainController {
     @RequestMapping(path = "/login")
     public String login() throws Exception {
         //dodać if request.isLogin()
-        System.out.println("login: response=" + request);
         User user = userToLogIn();
-        if (user != null) {
-            return "redirect:http://kiohub.eti.pg.gda.pl";
-        }
-        return "redirect:http://kiohub.eti.pg.gda.pl/logincui";
+        return "redirect:http://kiohub.eti.pg.gda.pl";
     }
     
     @CrossOrigin
     @RequestMapping(path = "/login/userToLogIn")
     public User userToLogIn()  throws Exception {
-        System.out.println("userToLogIn: isLoggedBody=" + isLogged().getBody());
         if (isLogged().getBody()) {
             Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
             String firstName = attributes.get("firstName").toString();
-            System.out.println("userToLogin: po odczytaniu firstName");
             String lastName = attributes.get("lastName").toString();
-            System.out.println("userToLogin: po odczytaniu lastName");
             //Long personNumber = (Long)attributes.get("personNumber");
             List<String> emails = (LinkedList)attributes.get("mail");
-            System.out.println("userToLogin: po odczytaniu mail");
             User user = null;
             int i = 0;
             while (i < emails.size() && user == null) {
-                System.out.println("userToLogin - while: przed findUserByEmail " + emails.get(i));
                 user = userRepository.findUserByEmail(emails.get(i));
-                System.out.println("userToLogin - while: po findUserByEmail");
                 if (user != null) {
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
                 }
                 i++;
             }
-            System.out.println("userToLogin: po petli while");
             if (user == null) {
                 user = new User(firstName, lastName);
             }
-            System.out.println("userToLogin: przed zapisem");
             userRepository.save(user); 
-            System.out.println("userToLogin: po zapisie");
             UserEmail userEmail;
             for (String email : emails) {
-                System.out.println("userToLogin - for: przed findUserByEmail " + email);
                 userEmail = userEmailRepository.findUserEmailByEmail(email);
-                System.out.println("userToLogin - for: po findUserByEmail");
                 if (userEmail == null) {
                     userEmail = new UserEmail(email, user);
                 }
                 if (!userEmail.isStudentMail()) {
                     user.setIsSupervisor(true);
                 }  
-                System.out.println("userToLogin: przed zapisem2");
                 userEmailRepository.save(userEmail);
-                System.out.println("userToLogin: po zapisie3");
             }
-            System.out.println("userToLogin: przed zapisem3");
             userRepository.save(user);
-            System.out.println("userToLogin: po zapisie3");
             return user;
         }
         return null;
     }
-    
-    
-
-        //ale tego maila to gdzieś zapisz do bazy #FIXME
-        //i tego usera tyż
-        
-        
-//        throw new NullPointerException("Koniec " + firstName + " " + lastName + " " + personNumber + " " + email);
-    
-    
-
-
 }

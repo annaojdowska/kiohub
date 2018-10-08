@@ -73,5 +73,7 @@ public class MainController {
     @Autowired
     protected NoteRepository noteRepository;
 
+    @Autowired 
+    protected HttpServletRequest request;
    
 }
