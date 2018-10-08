@@ -30,7 +30,7 @@ import pg.eti.kiohub.entity.model.UserEmail;
 //
 
 @Controller
-@RequestMapping(path = "/logininfo")
+@RequestMapping("/login")
 public class LoginController extends MainController {
     
     @CrossOrigin
@@ -94,7 +94,10 @@ public class LoginController extends MainController {
         return "redirect:https://logowanie.pg.gda.pl/logout?service=http://kiohub.eti.pg.gda.pl";
     }
     
+    @CrossOrigin
+    @GetMapping(path = "/")
     public String login() {
+        System.out.println("Wszedlem do login()");
         User user = userToLogIn();
         if (user != null) {
             return "redirect:http://kiohub.eti.pg.gda.pl";
