@@ -106,7 +106,7 @@ public class LoginController extends MainController {
     
     @CrossOrigin
     @GetMapping(path = "/")
-    public String login() {
+    public String login() throws Exception {
         System.out.println("Wszedlem2 do login()");
         User user = userToLogIn();
         if (user != null) {
@@ -115,7 +115,9 @@ public class LoginController extends MainController {
         return "redirect:http://kiohub.eti.pg.gda.pl/login";
     }
     
-    public User userToLogIn() {
+    @CrossOrigin
+    @GetMapping(path = "/userToLogIn")
+    public User userToLogIn()  throws Exception {
         System.out.println("Wszedlem2 do userToLogin");
         System.out.println("isLoggedBody2 " + isLogged().getBody());
         if (isLogged().getBody()) {
@@ -147,23 +149,27 @@ public class LoginController extends MainController {
             if (user == null) {
                 user = new User(firstName, lastName);
             }
-            
+            System.out.println("userToLogin: przed zapisem");
             userRepository.save(user);
-            
+            System.out.println("userToLogin: po zapisie");
             UserEmail userEmail;
             for (String email : emails) {
+                System.out.println("userToLogin - for: przed findUserByEmail " + emails.get(i));
                 userEmail = userEmailRepository.findUserEmailByEmail(email);
+                System.out.println("userToLogin - for: po findUserByEmail");
                 if (userEmail == null) {
                     userEmail = new UserEmail(email, user);
                 }
                 if (!userEmail.isStudentMail()) {
                     user.setIsSupervisor(true);
                 }  
+                System.out.println("userToLogin: przed zapisem2");
                 userEmailRepository.save(userEmail);
+                System.out.println("userToLogin: po zapisie3");
             }
-            
+            System.out.println("userToLogin: przed zapisem3");
             userRepository.save(user);
-
+            System.out.println("userToLogin: po zapisie3");
             return user;
         }
         return null;
