@@ -76,6 +76,9 @@ public class LoginController extends MainController {
     public ResponseEntity<User> getLogged() throws Exception {
        User user = null;
         if (isLogged().getBody()) { 
+            System.out.println("getLogged: request=" + request);
+            System.out.println("getLogged: userPrincipal=" + (AttributePrincipal)request.getUserPrincipal());
+            System.out.println("getLogged: attributes=" + ((AttributePrincipal)request.getUserPrincipal()).getAttributes());
             Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
             List<String> emails = (LinkedList)attributes.get("mail");
 
@@ -117,10 +120,12 @@ public class LoginController extends MainController {
         if (isLogged().getBody()) {
             Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
             String firstName = attributes.get("firstName").toString();
+            System.out.println("userToLogin: po odczytaniu firstName");
             String lastName = attributes.get("lastName").toString();
+            System.out.println("userToLogin: po odczytaniu lastName");
             //Long personNumber = (Long)attributes.get("personNumber");
             List<String> emails = (LinkedList)attributes.get("mail");
-
+            System.out.println("userToLogin: po odczytaniu mail");
             User user = null;
             int i = 0;
             while (i < emails.size() && user == null) {
@@ -130,7 +135,7 @@ public class LoginController extends MainController {
                     user.setLastName(lastName);
                 }
             }
-            
+            System.out.println("userToLogin: po petli while");
             if (user == null) {
                 user = new User(firstName, lastName);
             }
