@@ -43,9 +43,9 @@ public class LoginController extends MainController {
     @CrossOrigin
     @GetMapping(path = "/isLogged")
     public ResponseEntity<Boolean> isLogged() {
-        System.out.println("isLogged request=" + request);
+        System.out.println("isLogged2 request=" + request);
         Boolean isValid = request.isRequestedSessionIdValid();
-        System.out.println("isLogged isValid=" + isValid);
+        System.out.println("isLogged2 isValid=" + isValid);
         return new ResponseEntity<>(isValid, HttpStatus.OK);
     }
     
@@ -53,7 +53,7 @@ public class LoginController extends MainController {
     @GetMapping(path = "/isSupervisor")
     public ResponseEntity<Boolean> isSupervisor() throws Exception {
         Boolean isValid = request.isRequestedSessionIdValid();
-        throw new Exception("eislogged " + isValid);
+        throw new Exception("eislogged2 " + isValid);
         //return new ResponseEntity<>(isValid, HttpStatus.OK);
     }
     
@@ -61,7 +61,7 @@ public class LoginController extends MainController {
     @GetMapping(path = "/isStudent")
     public ResponseEntity<Boolean> isStudent() throws Exception {
         Boolean isValid = request.isRequestedSessionIdValid();
-        throw new Exception("eislogged " + isValid);
+        throw new Exception("eislogged2 " + isValid);
         //return new ResponseEntity<>(isValid, HttpStatus.OK);
     }
     
@@ -97,7 +97,7 @@ public class LoginController extends MainController {
     @CrossOrigin
     @GetMapping(path = "/")
     public String login() {
-        System.out.println("Wszedlem do login()");
+        System.out.println("Wszedlem2 do login()");
         User user = userToLogIn();
         if (user != null) {
             return "redirect:http://kiohub.eti.pg.gda.pl";
@@ -106,8 +106,8 @@ public class LoginController extends MainController {
     }
     
     public User userToLogIn() {
-        System.out.println("Wszedlem do userToLogin");
-        System.out.println("isLoggedBody " + isLogged().getBody());
+        System.out.println("Wszedlem2 do userToLogin");
+        System.out.println("isLoggedBody2 " + isLogged().getBody());
         if (isLogged().getBody()) {
             Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
             String firstName = attributes.get("firstName").toString();
