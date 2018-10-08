@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'projects-base', component: AdvancedSearchComponent },
   { path: 'details/:id', component: ProjectViewComponent },
   { path: 'test-post', component: TestPostComponent },
-  // { path: '**', component: UnloggedSearchComponent }
+  { path: '**', component: UnloggedSearchComponent }
 ];
 
 
