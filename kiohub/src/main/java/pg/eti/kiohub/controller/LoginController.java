@@ -136,7 +136,8 @@ public class LoginController extends MainController {
                 try {
                     user = userRepository.findUserByEmail(emails.get(i));
                 } catch (Exception e) {
-                    System.out.println("userToLogin - findUserByEmail exception: " + e.getMessage() + " " + e.getCause() + " " + e.getStackTrace());  
+                    System.out.println("userToLogin - findUserByEmail exception: " + e.getMessage() + " " + e.getCause());  
+                    e.printStackTrace();
                 }
                 System.out.println("userToLogin - while: po findUserByEmail");
                 if (user != null) {
@@ -150,7 +151,12 @@ public class LoginController extends MainController {
                 user = new User(firstName, lastName);
             }
             System.out.println("userToLogin: przed zapisem");
+            try {
             userRepository.save(user);
+            } catch (Exception e) {
+                    System.out.println("userToLogin - save exception: " + e.getMessage() + " " + e.getCause());  
+                    e.printStackTrace();
+                }
             System.out.println("userToLogin: po zapisie");
             UserEmail userEmail;
             for (String email : emails) {
