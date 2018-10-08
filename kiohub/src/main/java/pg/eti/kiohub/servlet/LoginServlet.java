@@ -35,6 +35,7 @@
 //            throws ServletException, IOException {
 //        
 //        try {
+//            System.out.println("Wchodze2 do lc.login");
 //            System.out.println("Wchodze do lc.login");
 //            new LoginController().login();
 //        } catch (Exception ex) {
