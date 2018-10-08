@@ -31,23 +31,18 @@ import pg.eti.kiohub.entity.model.UserEmail;
 //
 
 @Controller
-@RequestMapping("/login")
 public class LoginController extends MainController {
     
-    
-    public LoginController(HttpServletRequest requestL) {
-        request = requestL;
-    }
-     
     @CrossOrigin
-    @GetMapping(path = "/all")
+    @RequestMapping(path = "/login/all")
     public ResponseEntity<List<Project>>
     getAllProjects() {
-        return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
     @CrossOrigin
-    @GetMapping(path = "/isLogged")
+    @RequestMapping(path = "/login/isLogged")
     public ResponseEntity<Boolean> isLogged() {
         System.out.println("isLogged2 request=" + request);
         Boolean isValid = request.isRequestedSessionIdValid();
@@ -56,7 +51,7 @@ public class LoginController extends MainController {
     }
     
     @CrossOrigin
-    @GetMapping(path = "/isSupervisor")
+    @RequestMapping(path = "/login/isSupervisor")
     public ResponseEntity<Boolean> isSupervisor() throws Exception {
         Boolean isValid = request.isRequestedSessionIdValid();
         throw new Exception("eislogged2 " + isValid);
@@ -64,7 +59,7 @@ public class LoginController extends MainController {
     }
     
     @CrossOrigin
-    @GetMapping(path = "/isStudent")
+    @RequestMapping(path = "/login/isStudent")
     public ResponseEntity<Boolean> isStudent() throws Exception {
         Boolean isValid = request.isRequestedSessionIdValid();
         throw new Exception("eislogged2 " + isValid);
@@ -72,7 +67,7 @@ public class LoginController extends MainController {
     }
     
     @CrossOrigin
-    @GetMapping(path = "/getLogged")
+    @RequestMapping(path = "/login/getLogged")
     public ResponseEntity<User> getLogged() throws Exception {
        User user = null;
         if (isLogged().getBody()) { 
@@ -93,7 +88,7 @@ public class LoginController extends MainController {
     }
     
     @CrossOrigin
-    @GetMapping(path = "/logout")
+    @RequestMapping(path = "/login/logout")
     public String logout() {
         try {
             request.logout();
@@ -105,7 +100,7 @@ public class LoginController extends MainController {
     }
     
     @CrossOrigin
-    @GetMapping(path = "/")
+    @RequestMapping(path = "/login")
     public String login() throws Exception {
         //dodać if request.isLogin()
         System.out.println("Wszedlem2 do login()");
@@ -113,11 +108,11 @@ public class LoginController extends MainController {
         if (user != null) {
             return "redirect:http://kiohub.eti.pg.gda.pl";
         }
-        return "redirect:http://kiohub.eti.pg.gda.pl/login";
+        return "redirect:http://kiohub.eti.pg.gda.pl/logincui";
     }
     
     @CrossOrigin
-    @GetMapping(path = "/userToLogIn")
+    @RequestMapping(path = "/login/userToLogIn")
     public User userToLogIn()  throws Exception {
         System.out.println("Wszedlem2 do userToLogin");
         System.out.println("isLoggedBody2 " + isLogged().getBody());

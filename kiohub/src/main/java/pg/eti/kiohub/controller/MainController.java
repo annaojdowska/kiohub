@@ -74,9 +74,5 @@ public class MainController {
     protected NoteRepository noteRepository;
 
     protected HttpServletRequest request;
-    
-    @RequestMapping(path = "/")
-    public String homePage() {
-        return "index.html";
-    }
+   
 }
