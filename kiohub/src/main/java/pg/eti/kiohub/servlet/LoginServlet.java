@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         
         try {
             System.out.println("Wchodze do servletu login");
-            new LoginController().login();
+            new LoginController(request).login();
         } catch (Exception ex) {
             System.out.println("ex " + ex.getMessage());
             throw new IOException();

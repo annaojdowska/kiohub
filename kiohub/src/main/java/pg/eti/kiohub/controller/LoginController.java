@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,11 @@ import pg.eti.kiohub.entity.model.UserEmail;
 @RequestMapping("/login")
 public class LoginController extends MainController {
     
+    
+    public LoginController(HttpServletRequest requestL) {
+        request = requestL;
+    }
+     
     @CrossOrigin
     @GetMapping(path = "/all")
     public ResponseEntity<List<Project>>
