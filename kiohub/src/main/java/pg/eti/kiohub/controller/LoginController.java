@@ -85,6 +85,7 @@ public class LoginController extends MainController {
             int i = 0;
             while (i < emails.size() && user == null) {
                 user = userRepository.findUserByEmail(emails.get(i));
+                i++;
             }
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
@@ -136,6 +137,7 @@ public class LoginController extends MainController {
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
                 }
+                i++;
             }
             System.out.println("userToLogin: po petli while");
             if (user == null) {
