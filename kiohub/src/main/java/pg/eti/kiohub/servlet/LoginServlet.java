@@ -33,9 +33,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println(request.getServerName() + "/login");
-        response.sendRedirect(request.getServerName() + "/login");
-               
+            response.sendRedirect("/login");        
     }
 
 
