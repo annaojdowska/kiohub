@@ -107,6 +107,7 @@ public class LoginController extends MainController {
     @CrossOrigin
     @GetMapping(path = "/")
     public String login() throws Exception {
+        //dodać if request.isLogin()
         System.out.println("Wszedlem2 do login()");
         User user = userToLogIn();
         if (user != null) {

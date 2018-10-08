@@ -27,21 +27,15 @@ import pg.eti.kiohub.controller.LoginController;
 // */
 //
 
-@WebServlet(name = "Login", urlPatterns = {"/login"})
+@WebServlet(name = "Login", urlPatterns = {"/logincui"})
 public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        try {
-            System.out.println("Wchodze do servletu login");
-            new LoginController(request).login();
-        } catch (Exception ex) {
-            System.out.println("ex " + ex.getMessage());
-            throw new IOException();
-        }
-       
+        System.out.println(request.getServerName() + "/login");
+        response.sendRedirect(request.getServerName() + "/login");
+               
     }
 
 
