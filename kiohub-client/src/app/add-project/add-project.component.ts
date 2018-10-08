@@ -7,6 +7,7 @@ import { InputListComponent } from '../input-list/input-list.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../error-info/validation-patterns';
 import { ValueUtils } from '../error-info/value-utils';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-add-project',
@@ -30,6 +31,7 @@ export class AddProjectComponent implements OnInit {
   constructor(
     @Inject(Router) private router: Router,
     @Inject(EmailInvitationService) private emailInvitationService: EmailInvitationService,
+    @Inject(LoginService) private loginService: LoginService,
     @Inject(ProjectService) private projectService: ProjectService,
   ) { }
 
@@ -121,5 +123,24 @@ export class AddProjectComponent implements OnInit {
           this.router.navigate(['/edit-project', this.project.id, { invitationsOk: !this.SENDING_INVITATIONS_OK }]);
         }
       );
+  }
+
+  login(event) {
+    console.log('login');
+    this.loginService.login().subscribe(
+      data => console.log('i co teraz?'),
+      error => console.log('i dupa'));
+  }
+
+  loginN(event) {
+    console.log('login');
+      this.router.navigateByUrl('/login');
+  }
+
+  isLogged(event) {
+    console.log('isLogged');
+    this.loginService.isLogged().subscribe(
+      data => console.log('isLogged: i co teraz?' + data),
+      error => console.log('isLogged: i dupa' + error));
   }
 }
