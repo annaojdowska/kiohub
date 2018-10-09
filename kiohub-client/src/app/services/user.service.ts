@@ -6,21 +6,19 @@ import { address } from './project.service';
 import { ProjectCollaborator } from '../model/project-collaborator';
 import { UserEmail } from '../model/user-email.interface';
 import { Visibility } from '../model/visibility.enum';
-import { ValueUtils } from '../error-info/value-utils';
 
 @Injectable()
 export class UserService {
 
-private currentUser: any; // only temporarily, later will have interface User
+private currentUser: boolean; // only temporarily, later will have interface User
+
 constructor(@Inject(HttpClient) private http: HttpClient) { }
 
-    getCurrentUser(): Observable<User> {
-        const utils = new ValueUtils();
-        if (utils.isNullOrUndefined(this.currentUser) === false) {
-            return this.http.get<User>(address + '/login/getLogged', {responseType: 'json'});
-        } else {
-            return this.currentUser;
-        }
+    getCurrentUser(): boolean {
+        // return this.currentUser
+        // ? this.currentUser
+        // : this.http.get('api/login/currentUser', {responseType: 'json'}).subscribe(user => this.currentUser = user);
+        return true; // loggged/unlogged
     }
 
     getCollaboratorsByProjectId(id: number): Observable<UserEmail[]> {
