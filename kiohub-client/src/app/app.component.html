@@ -1,6 +1,6 @@
 <div class="container">
-    <app-menu-bar *ngIf="isLogged == true"></app-menu-bar>
-    <app-menu-bar-not-logged *ngIf="isLogged == false"></app-menu-bar-not-logged>
+    <app-menu-bar *ngIf="isLogged === true"></app-menu-bar>
+    <app-menu-bar-not-logged *ngIf="isLogged === false"></app-menu-bar-not-logged>
     <app-content-container></app-content-container>
     <app-footer></app-footer>
  </div>
