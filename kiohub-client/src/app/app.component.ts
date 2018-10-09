@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { UserService } from './services/user.service';
+import { ValueUtils } from './error-info/value-utils';
+import { User } from './model/user.interface';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,16 @@ import { UserService } from './services/user.service';
 export class AppComponent {
   title = 'app';
   isLogged = false;
+  currentUser: User;
+  valueUtils = new ValueUtils();
   public constructor(@Inject(UserService) userService: UserService) {
-    this.isLogged = userService.getCurrentUser(); // we'll have to change it to some Observable or smth
+    const toSubscribe = userService.getCurrentUser();
+    if (toSubscribe !== undefined) {
+      toSubscribe.subscribe(x => {
+      this.currentUser = x;
+      console.log(this.currentUser.firstName);
+      this.isLogged = !this.valueUtils.isNullOrUndefined(this.currentUser);
+    });
+  }
   }
 }

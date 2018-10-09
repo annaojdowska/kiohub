@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { address } from '../services/project.service';
 
 @Component({
   selector: 'app-menu-bar',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuBarComponent implements OnInit {
   pathToLogo: string;
+  private addressToLogOut = address + '/login/logout';
   constructor() {
     this.pathToLogo = '../../assets/logo/logo4.png';
    }
