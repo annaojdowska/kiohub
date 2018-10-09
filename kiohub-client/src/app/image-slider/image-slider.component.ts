@@ -4,6 +4,10 @@ import { Attachment } from '../model/attachment.interface';
 import { SlideshowModule } from 'ng-simple-slideshow';
 import { IImage } from 'ng-simple-slideshow/src/app/modules/slideshow/IImage';
 import { ValueUtils } from '../error-info/value-utils';
+import { MatDialog } from '../../../node_modules/@angular/material';
+import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
+import { SlideshowComponent } from '../../../node_modules/ng-simple-slideshow/src/app/modules/slideshow/slideshow.component';
+
 // import { SliderModule } from 'angular-image-slider';
 
 @Component({
@@ -12,7 +16,7 @@ import { ValueUtils } from '../error-info/value-utils';
   styleUrls: ['./image-slider.component.css']
 })
 export class ImageSliderComponent implements OnInit {
-  @ViewChild('slider') slider: SlideshowModule;
+  @ViewChild('slider') slider: any;
   imagesUrl: string[];
   iimagesUrl: IImage[];
   imageToShow;
@@ -20,7 +24,8 @@ export class ImageSliderComponent implements OnInit {
   valueUtils = new ValueUtils();
   hidden;
 
-  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) {
+  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService,
+              @Inject(MatDialog) private dialog: MatDialog) {
     this.imagesUrl = [];
     this.iimagesUrl = [];
     this.hidden = true;
@@ -46,7 +51,7 @@ export class ImageSliderComponent implements OnInit {
           let iimg: IImage;
           iimg = { url: this.imageToShow, caption: 'Aby zobaczyć więcej obrazków, użyj strzałek po bokach obrazka.' };
           this.iimagesUrl.push(iimg);
-          // 
+          //
           if (++loadedImages === imagesToLoad) {
             this.setHidden(false);
           }
@@ -71,6 +76,12 @@ export class ImageSliderComponent implements OnInit {
       this.setHidden(false);
     } else {
       this.setHidden(true);
+    }
+  }
+
+  onClick(event: MouseEvent) {
+    if (event.srcElement.classList.contains('slides')) {
+      this.dialog.open(ImageDialogComponent, { data: this.slider.slides[this.slider.slideIndex].image.url });
     }
   }
 }
