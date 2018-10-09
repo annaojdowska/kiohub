@@ -103,7 +103,7 @@ public class LoginController extends MainController {
     public String login() throws Exception {
         //dodać if request.isLogin()
         User user = userToLogIn();
-        return "redirect:/home";
+        return "redirect:http://kiohub.eti.pg.gda.pl";
     }
     
     @CrossOrigin
