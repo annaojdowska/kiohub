@@ -38,6 +38,7 @@ import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Attachment;
 import pg.eti.kiohub.entity.model.AttachmentFile;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 import pg.eti.kiohub.utils.FileUtils;
 
 /**
@@ -76,13 +77,13 @@ public class AttachmentControler extends MainController {
             attachment.setVisibility(Visibility.valueOf(visibility));
             attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
         } catch (Exception ex) {
-            return handleException(ex);
+            return ExceptionHandlingUtils.handleException(ex);
         }
 
         try {
             attachment = attachmentRepository.saveAndFlush(attachment);
         } catch (Exception ex) {
-            return handleException(ex);
+            return ExceptionHandlingUtils.handleException(ex);
         }
 
         try {
@@ -119,29 +120,19 @@ public class AttachmentControler extends MainController {
 //            af.setId(attachment.getId()); //get Id from attachment
 //            attachmentFileRepository.saveAndFlush(af);
         } catch (SQLException ex) {
-            return handleException(ex);
+            return ExceptionHandlingUtils.handleException(ex);
         }
         catch (OutOfMemoryError ex) {
-            return handleException(ex);
+            return ExceptionHandlingUtils.handleException(ex);
         }
         catch (Exception ex) {
-            return handleException(ex);
+            return ExceptionHandlingUtils.handleException(ex);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private ResponseEntity handleException(Throwable ex) {
-        StringWriter sw = new StringWriter();
-        ex.printStackTrace(new PrintWriter(sw));
-        if (ex.getMessage() != null) {
-            sw.append("||||||" + ex.getMessage() + "||||||");
-        }
-        if (ex.getCause() != null) {
-            sw.append(ex.getCause().toString());
-        }
-        return new ResponseEntity<>(sw, HttpStatus.BAD_REQUEST);
-    }
+
 
     @PostMapping(path = "/updateMetadata")
     public ResponseEntity updateMetadata(

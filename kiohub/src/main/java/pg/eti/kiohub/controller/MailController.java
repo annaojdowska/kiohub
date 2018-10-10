@@ -46,5 +46,4 @@ public class MailController extends MainController {
         }
         return new ResponseEntity(HttpStatus.OK);
     }
-    
 }

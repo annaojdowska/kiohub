@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.*;
+import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 
 import java.util.*;
 /**
@@ -53,17 +54,22 @@ public class ProjectController extends MainController {
     public ResponseEntity<Project> addProject(
             @RequestParam("titlePl") String titlePl,
             @RequestParam("collaborators") String emailsArray) {
-        Project project = new Project();
-        project.setTitle(titlePl);
-        project.setPublicationDate(new Date());
-        project.setPublished(Boolean.FALSE);
-        project = projectRepository.saveAndFlush(project);
+        try {
+            Project project = new Project();
+            project.setTitle(titlePl);
+            project.setPublicationDate(new Date());
+            project.setPublished(Boolean.FALSE);
+            project = projectRepository.saveAndFlush(project);
 
-        List<String> emails = Arrays.asList(emailsArray.split(", "));
-        List<User> users = createNewUsersAndGetAllByEmails(emails);
-        createAndSaveCollaborators(project, users);
+            List<String> emails = Arrays.asList(emailsArray.split(", "));
+            List<User> users = createNewUsersAndGetAllByEmails(emails);
+            createAndSaveCollaborators(project, users);
 
-        return new ResponseEntity<>(project, HttpStatus.CREATED);
+            return new ResponseEntity<>(project, HttpStatus.CREATED);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ExceptionHandlingUtils.handleException(e);
+        }
     }
 
     private void createAndSaveCollaborators(Project project, List<User> users) {
@@ -79,6 +85,7 @@ public class ProjectController extends MainController {
 
     private User createNewUserUsingEmail(String email) {
         User user = new User();
+        user.setIsSupervisor(true);
         // FIXME #2
         user = userRepository.saveAndFlush(user);
 
