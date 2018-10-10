@@ -35,3 +35,13 @@
     max-width: 100%;
     max-height: 100%;
 }
+
+.menu_label {
+    display: table-cell;
+    vertical-align: middle;
+    color: var(--color-blue-navy);
+    margin-left: 10px;
+    font-weight: bold;
+    height: 40px;
+    font-family: var(--main-font-name), sans-serif;
+}
