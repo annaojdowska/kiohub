@@ -8,7 +8,8 @@ import { AppComponent } from './app.component';
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
   MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule, MatDatepickerModule,
   MatNativeDateModule, MatTableModule, MatPaginatorModule, MatPaginatorIntl, MatProgressSpinnerModule,
-  MatTooltipModule} from '@angular/material';
+  MatTooltipModule,
+  MatDialog} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
@@ -56,6 +57,7 @@ import { SpinnerComponent } from './ui-elements/spinner/spinner.component';
 import { SortResultsComponent } from './sort-results/sort-results.component';
 import { SortingService } from './services/sorting-service';
 import { VisibilitySelectComponent } from './visibility-select/visibility-select.component';
+import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +87,8 @@ import { VisibilitySelectComponent } from './visibility-select/visibility-select
     EditProjectNotesTabComponent,
     SpinnerComponent,
     SortResultsComponent,
-    VisibilitySelectComponent
+    VisibilitySelectComponent,
+    ImageDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -127,6 +130,7 @@ import { VisibilitySelectComponent } from './visibility-select/visibility-select
     ProjectService,
     TagService,
     NoteService,
+    MatDialog,
     SortingService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
@@ -136,6 +140,9 @@ import { VisibilitySelectComponent } from './visibility-select/visibility-select
     },
     { provide: MAT_DATE_LOCALE, useValue: 'pl' },
     { provide: MatPaginatorIntl, useValue: getPolishPaginatorIntl() },
+  ],
+  entryComponents: [
+    ImageDialogComponent
   ],
   bootstrap: [AppComponent]
 })
