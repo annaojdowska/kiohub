@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
 import { ValueUtils } from './error-info/value-utils';
 import { User } from './model/user.interface';
@@ -8,19 +8,17 @@ import { User } from './model/user.interface';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
   isLogged = false;
   currentUser: User;
   valueUtils = new ValueUtils();
-  public constructor(@Inject(UserService) userService: UserService) {
-    const toSubscribe = userService.getCurrentUser();
-    if (toSubscribe !== undefined) {
-      toSubscribe.subscribe(x => {
-      this.currentUser = x;
-      console.log(this.currentUser.firstName);
-      this.isLogged = !this.valueUtils.isNullOrUndefined(this.currentUser);
+  public constructor(@Inject(UserService) private userService: UserService) {}
+
+  ngOnInit(): void {
+    console.log('APP COMPO ON INIT');
+     this.userService.isLogged().subscribe(x => {this.isLogged = x;
+      console.log('APP COMPO IS LOGGED ' + x);
     });
-  }
   }
 }
