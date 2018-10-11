@@ -34,27 +34,24 @@ label {
     cursor: pointer;
 }
 
-img {
-    vertical-align: middle;
-    cursor: pointer;
-}
-
-#noResultsLabel{
+#noResultsLabel {
     text-align: center;
     margin: 10%;
 }
 
-#sort-results{
+#sort-results {
     margin-top: 15px;
     font-size: 15px;
     float: left;
 }
-#number-projects{
+
+#number-projects {
     float: right;
     font-weight: normal;
     cursor: default !important;
 }
-th{
+
+th {
     width: 73%;
 }
 

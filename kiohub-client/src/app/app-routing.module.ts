@@ -6,6 +6,7 @@ import { EditProjectTabComponent } from './edit-project-tab/edit-project-tab.com
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 import { TestPostComponent } from './test-post/test-post.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
+import { MyProjectsComponent } from './my-projects/my-projects.component';
 
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'edit-project/:id', component: EditProjectTabComponent, data : {invitationsOk : false} },
   { path: 'projects-base', component: AdvancedSearchComponent },
   { path: 'details/:id', component: ProjectViewComponent },
+  { path: 'my-projects', component: MyProjectsComponent },
   { path: 'test-post', component: TestPostComponent },
   { path: '**', component: UnloggedSearchComponent }
 ];

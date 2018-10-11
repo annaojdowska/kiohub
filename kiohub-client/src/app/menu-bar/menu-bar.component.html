@@ -8,7 +8,7 @@
     <div id="menu_content" class="child_vertical_position">
       <app-menu-button title="Wyloguj" href="{{addressToLogOut}}" class="margin_extreme_right"></app-menu-button>
       <!-- <label title="{{currentUser.firstName}} {{currentUser.lastName}}" class="margin_extreme_right"></label>      -->
-      <app-menu-button title="Moje projekty" href="add-project" class="margin_extreme_right"></app-menu-button>
+      <app-menu-button title="Moje projekty" href="my-projects" class="margin_extreme_right"></app-menu-button>
       <app-menu-button title="Baza projektów" href="projects-base" class="margin_extreme_right"></app-menu-button>
       <div class="margin_extreme_right"  *ngIf="isUserDefined()">
         <label class="menu_label">{{currentUser.firstName}} {{currentUser.lastName}}</label>
