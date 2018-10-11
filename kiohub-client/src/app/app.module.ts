@@ -58,6 +58,7 @@ import { SortingService } from './services/sorting-service';
 import { VisibilitySelectComponent } from './visibility-select/visibility-select.component';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { MyProjectsComponent } from './my-projects/my-projects.component';
+import { MyProjectsSearchFormComponent } from './my-projects-search-form/my-projects-search-form.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { MyProjectsComponent } from './my-projects/my-projects.component';
     SortResultsComponent,
     VisibilitySelectComponent,
     ImageDialogComponent,
-    MyProjectsComponent
+    MyProjectsComponent,
+    MyProjectsSearchFormComponent
   ],
   imports: [
     BrowserModule,

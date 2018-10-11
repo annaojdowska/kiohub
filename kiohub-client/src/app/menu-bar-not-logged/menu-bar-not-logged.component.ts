@@ -11,7 +11,7 @@ export class MenuBarNotLoggedComponent implements OnInit {
   pathToLogo: string;
   private addresToLogIn = address + '/login';
   constructor() {
-    this.pathToLogo = '../../assets/kio_logo.png';
+    this.pathToLogo = '../../assets/logo/logo4.png';
    }
   ngOnInit() {
   }

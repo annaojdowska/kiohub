@@ -1,0 +1,91 @@
+#advanced-search {
+    border: 1px solid var(--color-orange-muted);
+    background: var(--color-blanc-with-opacity);
+    overflow: hidden;
+    margin-left: calc(-1 * var(--page-content-padding));
+    margin-right: calc(-1 * var(--page-content-padding));
+    height: 100%;
+    margin-top: -18px;
+    z-index: 99;
+    position: relative;
+}
+
+.leftLabel {
+    float: left;
+    width: 30%;
+}
+
+.rightLabel {
+    float: right;
+    width: 30%;
+}
+
+.paddingLeft {
+    float: left;
+    padding-left: 5%;
+    width: 30%;
+}
+
+.paddingBottom {
+    margin-bottom: 15px;
+}
+
+.paddingTop {
+    margin-top: 70px;
+}
+
+label {
+    font-family: var(--main-font-name), sans-serif;
+    margin-top: 15px;    
+}
+
+.submit-button {
+    display: inline-block;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.center {
+    text-align: center;  
+    display: block;
+    width: 60%;
+}
+
+#center {
+    text-align: center;
+}
+
+#textLeft {
+    text-align: left;
+}
+
+.form {
+    margin: 15px;
+}
+
+.inputListLabel {
+    float: left;
+}
+
+.dateInput {
+    color: var(--color-black) !important;
+}
+
+#inputListsTable {
+    table-layout: fixed;
+    width: 100%;
+}
+
+tr :first-child {
+    width:10%;
+}
+
+#buttonsContainer {
+    text-align: center;
+}
+
+img {
+    cursor: pointer;
+}

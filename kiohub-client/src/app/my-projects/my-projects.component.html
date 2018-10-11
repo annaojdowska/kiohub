@@ -1,2 +1,19 @@
-<a href="add-project"><img id="addImg" src="../../assets/add.png"/></a>
-<a href="add-project"><label id="addProjectLabel">Dodaj nowy projekt</label></a>
+<div id="addProject">
+    <a href="add-project">
+        <img id="addImg" src="../../assets/add.png" />
+    </a>
+    <a href="add-project">
+        <label id="addProjectLabel">Dodaj nowy projekt</label>
+    </a>
+</div>
+
+<div id="center">
+    <div id="{{showFilters ? '': 'wrapper'}}">
+        <button mat-stroked-button id="showFiltersButton" (click)="showFilters = !showFilters">
+            <img (click)="showFilters = !showFilters" [src]="showFilters ? 'assets/up-arrow2.png' :'assets/down-arrow2.png'" /> {{ showFilters ? 'Zwiń filtry' : 'Pokaż filtry' }}
+        </button>
+    </div>
+</div>
+<div *ngIf="showFilters" [@fadeInOut]>
+    <app-my-projects-search-form id="searchForm" (filtersSubmitted)="getSearchResults($event)"></app-my-projects-search-form>
+</div>
