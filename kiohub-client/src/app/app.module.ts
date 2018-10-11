@@ -8,8 +8,7 @@ import { AppComponent } from './app.component';
 import { MatButtonModule, MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatTabsModule,
   MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS, MatIconModule, MatGridListModule, MatDatepickerModule,
   MatNativeDateModule, MatTableModule, MatPaginatorModule, MatPaginatorIntl, MatProgressSpinnerModule,
-  MatTooltipModule,
-  MatDialog} from '@angular/material';
+  MatTooltipModule, MatDialog} from '@angular/material';
 import { MatSelectModule, MatDialogModule } from '@angular/material';
 import { MenuButtonComponent } from './menu-button/menu-button.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';

@@ -1,7 +1,12 @@
-<img (click)="showFilters = !showFilters" [src]="showFilters ? 'assets/up-arrow.png' :'assets/down-arrow.png'" />
-<label (click)="showFilters = !showFilters"> {{ show ? 'Zwiń filtry' : 'Pokaż filtry' }}</label>
+<div id="center">
+    <div id="{{showFilters ? '': 'wrapper'}}">
+        <button mat-stroked-button id="showFiltersButton" (click)="showFilters = !showFilters">
+            <img (click)="showFilters = !showFilters" [src]="showFilters ? 'assets/up-arrow2.png' :'assets/down-arrow2.png'" /> {{ showFilters ? 'Zwiń kryteria wyszukiwania' : 'Pokaż kryteria wyszukiwania' }}
+        </button>
+    </div>
+</div>
 <div *ngIf="showFilters" [@fadeInOut]>
-    <app-advanced-search-form (filtersSubmitted)="getSearchResults($event)"></app-advanced-search-form>
+    <app-advanced-search-form id="searchForm" (filtersSubmitted)="getSearchResults($event)"></app-advanced-search-form>
 </div>
 <table id="sort-bar">
     <tr>

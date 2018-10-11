@@ -1,11 +1,13 @@
 #advanced-search {
     border: 1px solid var(--color-orange-muted);
-    margin-top: 15px;
     background: var(--color-blanc-with-opacity);
     overflow: hidden;
     margin-left: calc(-1 * var(--page-content-padding));
     margin-right: calc(-1 * var(--page-content-padding));
     height: 100%;
+    margin-top: -18px;
+    z-index: 99;
+    position: relative;
 }
 
 .leftLabel {
