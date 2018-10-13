@@ -1,11 +1,6 @@
-<div id="addProject">
-    <a href="add-project">
-        <img id="addImg" src="../../assets/add.png" />
-    </a>
-    <a href="add-project">
-        <label id="addProjectLabel">Dodaj nowy projekt</label>
-    </a>
-</div>
+<button type="button" mat-stroked-button id="add-project-button" mat-stroked-button (click)="navigateToAddProjectPage()">
+   Dodaj nowy projekt
+</button>
 
 <div id="center">
     <div id="{{showFilters ? '': 'wrapper'}}">

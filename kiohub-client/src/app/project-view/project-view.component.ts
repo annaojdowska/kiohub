@@ -118,7 +118,7 @@ export class ProjectViewComponent implements OnInit {
     } else {
       this.descriptionHidden = true;
     }
-    if (project.attachments.length > 0) {
+    if (project.attachments.filter(att => att.type !== AttachmentType.PHOTO).length > 0) {
       this.filesHidden = false;
     } else {
       this.filesHidden = true;

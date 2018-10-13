@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { trigger, transition, animate, style } from '../../../node_modules/@angular/animations';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-my-projects',
@@ -19,9 +20,12 @@ import { trigger, transition, animate, style } from '../../../node_modules/@angu
 })
 export class MyProjectsComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(Router) private router: Router) { }
 
   ngOnInit() {
   }
 
+  navigateToAddProjectPage() {
+    this.router.navigate(['/add-project']);
+  }
 }

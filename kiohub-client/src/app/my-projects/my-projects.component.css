@@ -1,24 +1,3 @@
-
-#addProjectLabel {
-    color: var(--color-blue-navy);
-    font-weight: bold;
-    font-family: var(--main-font-name), sans-serif;
-    vertical-align: middle;
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-img {
-    vertical-align: middle;
-    cursor: pointer;
-}
-
-#addImg {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-}
-
 #showFiltersButton {
     min-width: 15rem;
     border-radius: 2rem;
@@ -34,7 +13,7 @@ img {
     width: 10rem;
     height: 1px;
     margin: 0 10px 4px;
-    background-color: rgba(255, 166, 0, 0.39);
+    background-color: var(--color-orange-muted);
     display:inline-block;
 }
 
@@ -48,4 +27,15 @@ img  {
 
 #addProject {
     margin-bottom: 30px;
+}
+
+#add-project-button {
+    background: url('../../assets/add-button-orange.png') no-repeat 8px 9px
+    var(--color-blanc-with-opacity);
+    border-color: var(--color-gray);
+    font-family: var(--main-font-name), sans-serif;
+    font-weight: bold;    
+    width: 210px;
+    margin-top: 7px;
+    margin-bottom: 20px;
 }
