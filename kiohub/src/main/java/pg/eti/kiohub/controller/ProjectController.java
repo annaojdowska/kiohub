@@ -152,4 +152,19 @@ public class ProjectController extends MainController {
         else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @CrossOrigin
+    @PostMapping(path = "/publish/{id}")
+    public ResponseEntity publishProject(@PathVariable("id") Long id){
+        Optional<Project> projectToPublish = this.projectRepository.findById(id);
+        if (projectToPublish.isPresent()) {
+            Project project = projectToPublish.get();
+            project.setPublished(true);
+            project.setProjectStatus(this.projectStatusRepository.findProjectStatusByName("Zakończony"));
+            this.projectRepository.save(project);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+    }
 }

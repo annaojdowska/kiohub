@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Zgoda na publikację projektu</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Oświadczam, że zapoznałem/am się z regulaminem strony.</h3>
+  <p>Od tej pory projekt i jego elementy będą widoczne w bazie projektów 
+  zgodnie z zaznaczonymi preferencjami widoczności.</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Anuluj</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Publikuj</button>
+</mat-dialog-actions>

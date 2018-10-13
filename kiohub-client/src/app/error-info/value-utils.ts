@@ -5,7 +5,9 @@ export class ValueUtils {
     updatedProjectText = 'updatedProjectText';
     // SUCCESS, ERROR, WARNING
     updatedProjectStatus = 'udpatedProjectStatus';
-
+    publishProjectBoolean = 'publishProject';
+    publishProjectText = 'publishProjectText';
+    publishProjectStatus = 'publishProjectStatus';
     /**
      * For strings
      */

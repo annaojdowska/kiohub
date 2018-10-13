@@ -3,7 +3,7 @@ import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map, debounceTime } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatDialog, MatDialogConfig } from '@angular/material';
 import { Licence } from '../model/licence.interface';
 import { ProjectType } from '../model/project-type.interface';
 import { Status } from '../model/status.interface';
@@ -28,6 +28,8 @@ import { ValueUtils } from '../error-info/value-utils';
 import { ErrorType } from '../error-info/error-type.enum';
 import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
 import { FileUtils } from '../error-info/file-utils';
+import { injectChangeDetectorRef } from '../../../node_modules/@angular/core/src/render3';
+import { PublishDialogComponent } from '../ui-elements/publish-dialog/publish-dialog.component';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -64,6 +66,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('semesterChooserError') semesterChooserError: ErrorInfoComponent;
   @ViewChild('tagsError') tagsError: ErrorInfoComponent;
   @ViewChild('updateResult') updateResult: ErrorInfoComponent;
+  @ViewChild('publishResult') publishResult: ErrorInfoComponent;
   @ViewChild('sendingInvitationsError') sendingInvitationsError: ErrorInfoComponent;
   // attachment errors
   @ViewChild('thesisError') thesisError: ErrorInfoComponent;
@@ -114,7 +117,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
     @Inject(ProjectService) private projectService: ProjectService,
     @Inject(AttachmentService) private attachmentService: AttachmentService,
-    @Inject(TagService) private tagService: TagService) {
+    @Inject(TagService) private tagService: TagService,
+    @Inject(MatDialog) private dialog: MatDialog) {
   }
 
   // ******** GETTERS ********
@@ -511,5 +515,37 @@ export class EditProjectGeneralTabComponent implements OnInit {
         error => {
           console.log('Wystąpił błąd aktualizacji załącznika ' + th.name + '. ' + error);
         });
+  }
+
+  publishCompleted(text: string, errorType: ErrorType) {
+    this.uploadInfoSpinner.setDisplay(false);
+
+    this.valueUtils.saveToSession(this.valueUtils.publishProjectBoolean, true);
+    this.valueUtils.saveToSession(this.valueUtils.publishProjectText, text);
+    this.valueUtils.saveToSession(this.valueUtils.publishProjectStatus, errorType);
+
+    window.location.reload();
+  }
+
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
+    let infoString;
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    const dialogRef = this.dialog.open(PublishDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.projectService.publishProject(this.editedProject.id).subscribe(data => {
+          infoString = 'Pomyślnie opublikowano projekt na stronie. Status projektu: "Zakończony".';
+          this.updateCompleted(infoString, ErrorType.SUCCESS);
+        }, error => {
+          infoString = 'Nie udało się opublikować projektu na stronie. ';
+          this.updateCompleted(infoString, ErrorType.ERROR);
+        });
+      }
+      window.location.reload();
+    });
+
   }
 }

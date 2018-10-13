@@ -59,6 +59,7 @@ import { VisibilitySelectComponent } from './visibility-select/visibility-select
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { MyProjectsComponent } from './my-projects/my-projects.component';
 import { MyProjectsSearchFormComponent } from './my-projects-search-form/my-projects-search-form.component';
+import { PublishDialogComponent } from './ui-elements/publish-dialog/publish-dialog.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { MyProjectsSearchFormComponent } from './my-projects-search-form/my-proj
     VisibilitySelectComponent,
     ImageDialogComponent,
     MyProjectsComponent,
-    MyProjectsSearchFormComponent
+    MyProjectsSearchFormComponent,
+    PublishDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +121,8 @@ import { MyProjectsSearchFormComponent } from './my-projects-search-form/my-proj
     SliderModule,
     SlideshowModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   providers: [
     SearchService,
@@ -145,7 +148,8 @@ import { MyProjectsSearchFormComponent } from './my-projects-search-form/my-proj
     { provide: MatPaginatorIntl, useValue: getPolishPaginatorIntl() },
   ],
   entryComponents: [
-    ImageDialogComponent
+    ImageDialogComponent,
+    PublishDialogComponent
   ],
   bootstrap: [AppComponent]
 })

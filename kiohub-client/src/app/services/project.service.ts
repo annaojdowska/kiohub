@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Project } from '../model/project.interface';
 import { Observable } from 'rxjs';
- // export const address = 'http://localhost:8443';
+//  export const address = 'http://localhost:8443';
 // export const address = 'http://kiohub.eti.pg.gda.pl:8080';
  export const address = 'http://kiohub.eti.pg.gda.pl';
 
@@ -48,6 +48,10 @@ export class ProjectService {
 
   deleteProject(id: number) {
     return this.http.delete(address + '/project/delete/' +  id);
+  }
+
+  publishProject(id: number) {
+    return this.http.post<Project>(address + '/project/publish/' + id, this.httpOptions);
   }
 
 //   getProjectByIdFromCache(id: number) {
