@@ -4,6 +4,7 @@ import { FileUtils } from './file-utils';
 import { AttachmentType } from '../model/attachment-type.enum';
 import { ValueUtils } from './value-utils';
 import { isNullOrUndefined } from 'util';
+import { InputListComponent } from '../input-list/input-list.component';
 
 
 export class Validation {
@@ -30,7 +31,8 @@ export class Validation {
     readonly errorStringTitleEn = 'Tytuł powinien mieć maksymalnie ' + this.MAX_SIZE_TITLE + ' znaków.';
     readonly errorStringDescriptionPl = 'Opis powinien mieć maksymalnie ' + this.MAX_SIZE_DESCRIPTION_PL + ' znaków.';
     readonly errorStringDescriptionEn = 'Opis powinien mieć maksymalnie' + this.MAX_SIZE_DESCRIPTION_EN + ' znaków.';
-    readonly errorStringEmail = 'Podaj poprawny adres email. Powinien mieć maksymalnie ' + this.MAX_SIZE_EMAIL + ' znaków.';
+    readonly errorStringEmail = 'Podaj poprawny adres email. Akceptowanymi identyfikatorami są: s<nr_albumu>@student.pg.edu.pl.';
+    readonly errorStringEmails = 'Podaj co najmniej jednego autora projektu.';
     readonly errorStringDatesOrder = 'Data publikacji "od" powinna być starsza od daty "do".';
     readonly errorStringSendingInvitations = 'Wysłanie zaproszeń do studentów nie powiodło się.';
     // attachment
@@ -110,8 +112,7 @@ export class Validation {
     }
 
     getStudentEmailPattern() {
-        // TODO
-        return this.getString(1, this.MAX_SIZE_EMAIL); // ^\w+(-+.\w+)*@\w+(-.\w+)*\.\w+(-.\w+)*$';
+        return this.getString(1, this.MAX_SIZE_EMAIL);
     }
 
     isLetterOrNumberPattern() {
@@ -162,6 +163,13 @@ export class Validation {
         return this.validateMandatoryInputWithPattern(emailInput); // && regexp.test(emailInput.nativeElement.value);
     }
 
+    validateStudentPGEmail(emailInput) {
+        return emailInput.nativeElement.value.toString().includes('@student.pg.edu.pl') && emailInput.nativeElement.value.toString().startsWith('s');
+    }
+
+    validateListOfStudentsEmails(list: InputListComponent) {
+        return list.elements.length > 0;
+    }
     // ******** COMPONENT TYPE VALIDATION ********
 
     validateInputWithPattern(element) {

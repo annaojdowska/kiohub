@@ -15,13 +15,17 @@
                                     <input #titleInput matInput ngModel name="title" (ngModelChange)="onTitlePlChange($event)"
                                         pattern="{{getTitlePlPattern()}}">
                                 </mat-form-field>
-                                <app-error-info #titlePlError errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
                             </th>
                             <th>
                             </th>
                         </tr>
+                        <tr>
+                            <th></th>
+                            <th><app-error-info #titlePlError errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info></th>
+                        </tr>
                     </tbody>
                 </table>
+               
                 <form #authors="ngForm" (ngSubmit)="addAuthor()">
                     <table>
                         <tbody>
@@ -31,20 +35,21 @@
                                 </th>
                                 <th>
                                     <mat-form-field class="right-element">
-                                        <input #authorInput ngModel matInput name="author" (ngModelChange)="onEmailChange($event)" pattern="{{getStudentEmailPattern()}}">
+                                        <input #authorInput ngModel matInput (ngModelChange)="onEmailsChange($event)" name="author">
                                     </mat-form-field>
-                                    <app-error-info #emailError errorText="{{validation.errorStringEmail}}"
-                                        errorType="ERROR"></app-error-info>
                                 </th>
                                 <th>
-                                    <button type="submit" mat-stroked-button class="submit-button submit-button-collaborator"
-                                        (click)="onEmailChange($event)">Dodaj</button>
+                                    <button type="submit" mat-stroked-button class="submit-button submit-button-collaborator">Dodaj</button>
                                 </th>
                             </tr>
                             <tr>
                                 <th>
                                 </th>
                                 <th>
+                                        <app-error-info #emailError errorText="{{validation.errorStringEmail}}"
+                                        errorType="ERROR"></app-error-info>
+                                        <app-error-info #emailsError errorText="{{validation.errorStringEmails}}"
+                                        errorType="ERROR"></app-error-info>
                                     <app-input-list id="list" #authorsList orientation="vertical" (changeElements)="recieveElements($event)"
                                         removable="true" hideInput="true"></app-input-list>
                                 </th>

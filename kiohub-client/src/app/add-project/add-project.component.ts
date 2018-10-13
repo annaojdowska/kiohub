@@ -27,6 +27,7 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('errorInput') errorInput: any;
   @ViewChild('titlePlError') titlePlError: ErrorInfoComponent;
   @ViewChild('emailError') emailError: ErrorInfoComponent;
+  @ViewChild('emailsError') emailsError: ErrorInfoComponent;
 
   constructor(
     @Inject(Router) private router: Router,
@@ -43,17 +44,17 @@ export class AddProjectComponent implements OnInit {
     return this.validation.getTitlePattern();
   }
 
-  getStudentEmailPattern() {
-    return this.validation.getStudentEmailPattern();
-  }
-
   // ******** CHECK VALIDITY ********
   checkValidityTitle() {
     return this.validation.validate(this.titlePlError, this.validation.validateTitlePl(this.titleInput));
   }
 
-  checkValidityEmail() {
-    return this.validation.validate(this.emailError, this.validation.validateStudentEmail(this.authorInput));
+  checkValidityStudentEmail() {
+    return this.validation.validate(this.emailError, this.validation.validateStudentPGEmail(this.authorInput));
+  }
+
+  checkValidityStudentsEmails() {
+    return this.validation.validate(this.emailsError, this.validation.validateListOfStudentsEmails(this.authorsList));
   }
 
   // ******** FUNCTION CALLED WHEN ELEMENT'S VALUE CHANGES ********
@@ -61,16 +62,12 @@ export class AddProjectComponent implements OnInit {
     this.checkValidityTitle();
   }
 
-  // validates email after user presses enter
-  onEmailChange(event) {
-    this.checkValidityEmail();
-    if (this.valueUtils.isNullOrEmpty(event)) {
-      this.emailError.setDisplay(false);
-    }
+  onEmailsChange(event) {
+    this.emailsError.setDisplay(false);
   }
 
   addAuthor() {
-    if (this.checkValidityEmail()) {
+    if (this.checkValidityStudentEmail()) {
       const author = this.authorInput.nativeElement.value;
       this.authorInput.nativeElement.value = '';
       this.authorsList.add({ name: author });
@@ -78,17 +75,18 @@ export class AddProjectComponent implements OnInit {
   }
 
   validateAllElements() {
-    let validationOk = true;
-    validationOk = this.checkValidityTitle() && validationOk;
-
+    let validationOk;
+    validationOk = this.checkValidityTitle() && this.checkValidityStudentsEmails();
+    if (this.checkValidityStudentsEmails()) {
+      this.emailError.setDisplay(false);
+    }
     return validationOk;
   }
 
   actionAddProject() {
     this.errorInput = 'tekst przykładowy';
     const title = this.titleInput.nativeElement.value;
-
-    if (this.validateAllElements() && this.authorsList.elements.length > 0) {
+    if (this.validateAllElements()) {
       console.log(title);
       // console.log('Próbuję dodać projekt.');
       // const httpStatus = this.projectService.getTitleUnique(title).subscribe(res => {
