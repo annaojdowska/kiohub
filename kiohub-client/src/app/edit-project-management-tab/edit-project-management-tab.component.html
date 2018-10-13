@@ -4,7 +4,7 @@
   <mat-form-field class="wrapper-width">
     <input disabled matInput name="supervisor" value="{{supervisor?.firstName}} {{supervisor?.lastName}}">
   </mat-form-field>
-  <app-visibility-select [allowPrivate]="false" [selected]="supervisorVisibility" (selectionChange)="selectionSuperUserVisibilityChange($event)" class="chip-image"></app-visibility-select>
+  <app-visibility-select matTooltip="{{tooltipVisibility}}" [allowPrivate]="false" [selected]="supervisorVisibility" (selectionChange)="selectionSuperUserVisibilityChange($event)" class="chip-image"></app-visibility-select>
   <br/>
   <form #authors="ngForm" (ngSubmit)="addAuthor()">
     <label class="wrapper-left">Autorzy pracy: <img matTooltip="Jeżeli chcesz dodać nowego współtwórcę projektu, wpisz jego adres e-mail i zatwierdź, klikając 'Dodaj'." src="../../assets/question.png"/></label> 

@@ -21,6 +21,12 @@ export class EditProjectNotesTabComponent implements OnInit {
   inputEditId: number;
   visibilitySelected: string;
 
+  tooltipVisibility = 'Zmień widoczność elementu.';
+  tooltipDelete = 'Usuń notatkę.';
+  tooltipEdit = 'Edytuj treść i widoczność notatki.';
+  tooltipPrivateNote = 'Ta notatka jest widoczna tylko dla Ciebie.';
+  tooltipPublicNote = 'Ta notatka jest widoczna dla wszystkich współtwórców projektu.';
+
   @ViewChild('noteVisibility') noteVisibility: any;
   @ViewChild('newNoteContent') newNoteContent: any;
   @ViewChild('editNoteContent') editNoteContent: any;

@@ -93,6 +93,9 @@ export class Validation {
         return validationOk;
     }
 
+    getMaxFileSizeInMegaBytes() {
+        return Math.round(this.MAX_FILE_SIZE / (1024 * 1024) * 100) / 100 + ' MB';
+    }
     // ******** REGEX PATTERNS ********
     // creates pattern string allowing to write any character <from,to> times
     getString(from, to) {

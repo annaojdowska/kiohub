@@ -10,7 +10,7 @@
   </mat-form-field> <br/>  
 
   <label>Widoczność notatki: </label>
-  <app-visibility-select *ngIf='visibilityChangeable' [selected]="noteVisibility"
+  <app-visibility-select matTooltip="{{tooltipVisibility}}" *ngIf='visibilityChangeable' [selected]="noteVisibility"
   [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true" 
   (selectionChange)="selectionChange($event)"></app-visibility-select>
   <div class="button-container">
@@ -27,7 +27,7 @@
     </mat-form-field>
 
     <label>Widoczność notatki: </label>
-    <app-visibility-select *ngIf='visibilityChangeable' [selected]="noteVisibility"
+    <app-visibility-select matTooltip="{{tooltipVisibility}}" *ngIf='visibilityChangeable' [selected]="noteVisibility"
     [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true" 
     (selectionChange)="selectionChange($event)"></app-visibility-select>
 
@@ -41,9 +41,9 @@
 <ul>
   <li *ngFor="let note of notes; let i = index" [attr.data-index]="i">
       <a>
-          <img matTooltip="Usuń notatkę" class="align-right" src="../../assets/delete-button-smaller.png" (click)="deleteNote(note?.id)"/> 
+          <img matTooltip="{{tooltipDelete}}" class="align-right" src="../../assets/delete-button-smaller.png" (click)="deleteNote(note?.id)"/> 
           <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
-          <img matTooltip="Edytuj treść i widoczność notatki" class="align-right" src="../../assets/edit-smaller.png" (click)="editNote(note?.id)" (click)="showEditNoteInput()"/>
+          <img matTooltip="{{tooltipEdit}}" class="align-right" src="../../assets/edit-smaller.png" (click)="editNote(note?.id)" (click)="showEditNoteInput()"/>
           <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
           <img [matTooltip]="note?.isPrivate ? 'Ta notatka jest widoczna tylko dla Ciebie.' : 'Ta notatka jest widoczna dla wszystkich współtwórców projektu.'" 
           class="align-right" id="no-pointer" [src]="note?.isPrivate ? '../../assets/PRIVATE.png' : '../../assets/COLLABORATORS.png'" />

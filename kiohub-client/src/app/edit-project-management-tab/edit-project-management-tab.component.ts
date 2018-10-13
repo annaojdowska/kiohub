@@ -23,6 +23,9 @@ export class EditProjectManagementTabComponent implements OnInit {
   supervisorVisibility: Visibility;
   collaboratorsVisibility: Visibility[] = [];
   validation: Validation = new Validation();
+
+  tooltipVisibility = 'Zmień widoczność elementu.';
+
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
   @ViewChild('emailError') emailError: ErrorInfoComponent;

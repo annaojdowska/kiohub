@@ -25,6 +25,11 @@ export class InputListComponent implements OnInit {
   visible = true;
   addOnBlur = false;
 
+  tooltipDelete = 'Usuń element.';
+  tooltipVisibility = 'Zmień widoczność elementu.';
+  tooltipChooseMainPhoto = 'Wybierz zdjęcie jako zdjęcie główne projektu.';
+  tooltipMainPhotoSelected = 'Te zdjęcie jest zdjęciem głównym projektu.';
+
   constructor() {}
 
   ngOnInit(): void {

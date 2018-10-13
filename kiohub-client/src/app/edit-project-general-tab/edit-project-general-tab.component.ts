@@ -27,6 +27,7 @@ import { Validation } from '../error-info/validation-patterns';
 import { ValueUtils } from '../error-info/value-utils';
 import { ErrorType } from '../error-info/error-type.enum';
 import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
+import { FileUtils } from '../error-info/file-utils';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -85,6 +86,21 @@ export class EditProjectGeneralTabComponent implements OnInit {
   nr = 0;
   validation: Validation = new Validation();
   valueUtils = new ValueUtils();
+  fileUtils = new FileUtils();
+
+  tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
+                  + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+  tooltipSourceCodes = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getSourceCodeExtensions()
+                      + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+  tooltipPhotos = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getImageExtensions()
+                  + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+  tooltipManualUsages = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getManualExtensions()
+                    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+  tooltipManualUsageStartups = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getManualStartupExtensions()
+                              + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+  tooltipOtherFiles = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getOtherFileExtensions()
+                    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+  tooltipSemesters = 'Wybór semestrów, w czasie których wytwarzana była praca.';
 
   // ******** COMPONENT STATE ********
   hardlySavedNote = false;
