@@ -34,13 +34,18 @@ public class ProjectCollaboratorController extends MainController {
     @GetMapping(path = "/project/{id}")
     public ResponseEntity<Iterable<UserEmail>> getProjectCollaboratorsByProjectId(@PathVariable("id") Long id) {
         List<Object[]> pc = collaboratorsRepository.getCollaborators(id);
-        System.out.println(pc.size());
         List<UserEmail> usersemails = new ArrayList<UserEmail>();
         for (Object[] r : pc) {
             User user = new User();
             user.setId(Long.parseLong(r[0].toString()));
-            user.setFirstName(r[1].toString());
-            user.setLastName(r[2].toString());
+            if(r[1] != null) {
+                user.setFirstName(r[1].toString());
+                user.setLastName(r[2].toString());
+            } else
+            {
+                user.setFirstName("");
+                user.setLastName("");
+            }
             UserEmail useremail = new UserEmail();
             useremail.setUser(user);
             useremail.setEmail(r[3].toString());
