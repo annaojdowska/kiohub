@@ -8,6 +8,8 @@ import { InputListComponent } from '../input-list/input-list.component';
 import { UserEmail } from '../model/user-email.interface';
 import { Visibility } from '../model/visibility.enum';
 import { ProjectCollaborator } from '../model/project-collaborator';
+import { Validation } from '../error-info/validation-patterns';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
 
 @Component({
   selector: 'app-edit-project-management-tab',
@@ -20,8 +22,10 @@ export class EditProjectManagementTabComponent implements OnInit {
   collaborators: UserEmail[] = [];
   supervisorVisibility: Visibility;
   collaboratorsVisibility: Visibility[] = [];
+  validation: Validation = new Validation();
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
+  @ViewChild('emailError') emailError: ErrorInfoComponent;
   getProjectIdFromRouter() {
     let id: number;
     this.route.params.subscribe(routeParams => {
@@ -65,10 +69,16 @@ export class EditProjectManagementTabComponent implements OnInit {
     });
   }
 
+  checkValidityStudentEmail() {
+    return this.validation.validate(this.emailError, this.validation.validateStudentPGEmail(this.authorInput));
+  }
+
   addAuthor() {
-    const author = this.authorInput.nativeElement.value;
-    this.authorInput.nativeElement.value = '';
-    this.authorsList.add({ name: author });
+    if (this.checkValidityStudentEmail()) {
+      const author = this.authorInput.nativeElement.value;
+      this.authorInput.nativeElement.value = '';
+      this.authorsList.add({ name: author });
+    }
   }
 
   deleteProject() {

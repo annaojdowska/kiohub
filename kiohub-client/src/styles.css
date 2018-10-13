@@ -11,6 +11,7 @@ body {
     --footer-height: 100px;
     --footer-main-page-height: 120px;
 
+    --small-font-size: 13px;
     --normal-font-size: 16px;
     --main-font-name: 'PT Sans';
     
@@ -142,4 +143,9 @@ a:link, a:visited, a:hover, a:active {
     margin-right: auto;
     font-family: var(--main-font-name), sans-serif;
     font-weight: normal;
+}
+
+.mat-tooltip {
+    font-family: var(--main-font-name), sans-serif;
+    font-size: var(--small-font-size);
 }

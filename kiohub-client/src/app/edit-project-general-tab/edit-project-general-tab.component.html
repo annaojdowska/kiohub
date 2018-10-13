@@ -69,10 +69,10 @@
         <!-- thesis -->
         <div>
             <label class="file-upload">
-                <img class="cursor" src="assets/add-attachment.png" />
-                <input (change)="addThesis($event)" id="file-input" type="file" />
+                <img matTooltip="Dopuszczalne rozszerzenia to: .pdf, .doc, .docx, .txt, .tex, .dvi i .odt." class="cursor" src="assets/add-attachment.png" />
+                <input  (change)="addThesis($event)" id="file-input" type="file" />
             </label>
-            <label (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę
+            <label  matTooltip="Dopuszczalne rozszerzenia to: .pdf, .doc, .docx, .txt, .tex, .dvi i .odt." (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę
                 <input type="file" />
             </label>
             <div class="list">
@@ -85,10 +85,10 @@
         <!-- source code -->
         <div>
             <label class="file-upload">
-                <img class="cursor" src="assets/add-attachment.png" />
+                <img matTooltip="Dopuszczalne rozszerzenia to: .zip i .tgz." class="cursor" src="assets/add-attachment.png" />
                 <input (change)="addProgram($event)" id="file-input" type="file" />
             </label>
-            <label (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu
+            <label matTooltip="Dopuszczalne rozszerzenia to: .zip i .tgz." (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu
                 <input type="file" />
             </label>
             <div class="list">
@@ -101,12 +101,10 @@
         <!-- photo -->
         <div>
             <label class="file-upload">
-                <img class="cursor" src="assets/add-photo.png" />
+                <img matTooltip="Dodaj zdjęcia i wybierz zdjęcie główne projektu poprzez wybranie go na liście dodanych zdjęć. Dopuszczalne rozszerzenia to: .gif, .jpg, .jpeg i.png."  class="cursor" src="assets/add-photo.png" />
                 <input (change)="addImage($event)" id="file-input" type="file" />
             </label>
-            <label (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu oraz wybierz
-                zdjęcie
-                wyświetlające się na liście projektów
+            <label matTooltip="Dodaj zdjęcia i wybierz zdjęcie główne projektu poprzez wybranie go na liście dodanych zdjęć. Dopuszczalne rozszerzenia to: .gif, .jpg, .jpeg i.png."  (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu
                 <input type="file" />
             </label>
             <div class="list">
@@ -119,10 +117,10 @@
         <!-- manual usage -->
         <div>
             <label class="file-upload">
-                <img class="cursor" src="assets/add-attachment.png" />
+                <img matTooltip="Dopuszczalne rozszerzenia to: .pdf, .doc, .docx, .txt, .tex, .dvi i .odt." class="cursor" src="assets/add-attachment.png" />
                 <input (change)="addInstruction($event)" id="file-input" type="file" />
             </label>
-            <label (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi
+            <label matTooltip="Dopuszczalne rozszerzenia to: .pdf, .doc, .docx, .txt, .tex, .dvi i .odt." (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi
                 programu
                 <input type="file" />
             </label>
@@ -136,10 +134,10 @@
         <!-- manual startup -->
         <div>
             <label class="file-upload">
-                <img class="cursor" src="assets/add-attachment.png" />
+                <img matTooltip="Dopuszczalne rozszerzenia to: .pdf, .doc, .docx, .txt, .tex, .dvi i .odt." class="cursor" src="assets/add-attachment.png" />
                 <input (change)="addInstructionStart($event)" id="file-input" type="file" />
             </label>
-            <label (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję
+            <label matTooltip="Dopuszczalne rozszerzenia to: .pdf, .doc, .docx, .txt, .tex, .dvi i .odt." (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję
                 uruchomienia
                 programu i opis wymaganego środowiska uruchomieniowego
                 <input type="file" />
@@ -154,10 +152,10 @@
         <!-- other -->
         <div>
             <label class="file-upload">
-                <img class="cursor" src="assets/add-attachment.png" />
+                <img matTooltip="Dopuszczalne rozszerzenia to:  .pdf, .doc, .docx, .txt, .tex, .dvi, .zip, .odt, .tgz, .gif, .jpg, .jpeg i .png" class="cursor" src="assets/add-attachment.png" />
                 <input (change)="addOther($event)" id="file-input" type="file" />
             </label>
-            <label (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki
+            <label matTooltip="Dopuszczalne rozszerzenia to:  .pdf, .doc, .docx, .txt, .tex, .dvi, .zip, .odt, .tgz, .gif, .jpg, .jpeg i .png" (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki
                 <input type="file" />
             </label>
             <div class="list">

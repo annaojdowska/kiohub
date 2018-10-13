@@ -1,6 +1,6 @@
 <div class="center_vertically_parent">
     <div id="bigger_content">
-        <img src='assets/add.png' />
+        <img id="addPhoto" src='assets/add.png' />
         <h2>Dodaj projekt</h2>
         <div>
             <form #createproject="ngForm">
@@ -8,7 +8,8 @@
                     <tbody>
                         <tr>
                             <th>
-                                Tytuł projektu*:
+                                Tytuł projektu
+                                <img matTooltip="Pole wymagane. Podaj tytuł projektu w języku polskim." src="../../assets/question.png"/>
                             </th>
                             <th>
                                 <mat-form-field class="right-element">
@@ -31,7 +32,8 @@
                         <tbody>
                             <tr>
                                 <th>
-                                    Współtwórcy*:
+                                    Współtwórcy
+                                    <img matTooltip="Pole wymagane. Zaproś współtwórców projektu do jego edycji, podając ich adresy e-mail." src="../../assets/question.png"/>
                                 </th>
                                 <th>
                                     <mat-form-field class="right-element">
