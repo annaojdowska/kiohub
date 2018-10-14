@@ -9,7 +9,9 @@ import org.springframework.boot.autoconfigure.*;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.*;
-
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 
 
 @SpringBootApplication
@@ -42,5 +44,8 @@ public class KiohubApplication extends SpringBootServletInitializer{
             
             FilterRegistration.Dynamic wrapper = sc.addFilter("CAS HttpServletRequest Wrapper Filter", org.jasig.cas.client.util.HttpServletRequestWrapperFilter.class);
             wrapper.addMappingForUrlPatterns(null, false, "/login/*");
+
+
         }
+
 }

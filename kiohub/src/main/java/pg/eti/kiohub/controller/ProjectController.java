@@ -6,29 +6,40 @@
 package pg.eti.kiohub.controller;
 
 
+import lombok.extern.jbosslog.JBossLog;
+import org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.*;
 import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 /**
  *
  * @author Aleksander Kania <kania>
  */
+@JBossLog
+@CrossOrigin
 @Controller
 @RequestMapping(path = "/project")
 public class ProjectController extends MainController {
-    
-    @CrossOrigin
+
     @GetMapping(path = "/all")
+    @PreAuthorize("@securityService.hasPermission(#http)")
     public ResponseEntity<List<Project>>
-    getAllProjects() {
+    getAllProjects(HttpServletRequest  http) {
         return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
     }
 
@@ -112,10 +123,10 @@ public class ProjectController extends MainController {
     public ResponseEntity<Iterable<Project>> getMatchingProjects(@RequestParam("phrase") String phrase) {
        return new ResponseEntity<>(projectService.getAllMatchingProjects(phrase), HttpStatus.OK);
     }
-    
-    @CrossOrigin
+
     @PostMapping(path = "/update")
-    public ResponseEntity updateProject(@RequestBody Project project){
+    @PreAuthorize("@securityService.isCollaborator(#http)")
+    public ResponseEntity updateProject(HttpServletRequest http, @RequestBody Project project){
         try { 
             List<Tag> tags = tagService.addTags(project.getTags());
             project.setTags(tags);
@@ -128,15 +139,13 @@ public class ProjectController extends MainController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
-    @CrossOrigin
+
     @PostMapping(path = "/post-multipart", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity examplePostMultipart(@RequestParam("File") MultipartFile project){
         
     return new ResponseEntity<>(HttpStatus.OK);
     }
-    
-    @CrossOrigin
+
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
         Optional<Project> projectToDelete = this.projectRepository.findById(id);
@@ -153,7 +162,6 @@ public class ProjectController extends MainController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @CrossOrigin
     @PostMapping(path = "/publish/{id}")
     public ResponseEntity publishProject(@PathVariable("id") Long id){
         Optional<Project> projectToPublish = this.projectRepository.findById(id);
@@ -167,4 +175,6 @@ public class ProjectController extends MainController {
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
+
+
 }

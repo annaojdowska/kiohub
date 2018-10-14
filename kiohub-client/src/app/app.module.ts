@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import { AppComponent } from './app.component';
@@ -60,6 +60,7 @@ import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { MyProjectsComponent } from './my-projects/my-projects.component';
 import { MyProjectsSearchFormComponent } from './my-projects-search-form/my-projects-search-form.component';
 import { PublishDialogComponent } from './ui-elements/publish-dialog/publish-dialog.component';
+import { KiohubHttpInterceptor } from './services/login.service';
 
 @NgModule({
   declarations: [
@@ -145,7 +146,8 @@ import { PublishDialogComponent } from './ui-elements/publish-dialog/publish-dia
       }
     },
     { provide: MAT_DATE_LOCALE, useValue: 'pl' },
-    { provide: MatPaginatorIntl, useValue: getPolishPaginatorIntl() },
+    { provide: MatPaginatorIntl, useValue: getPolishPaginatorIntl() }
+    { provide: HTTP_INTERCEPTORS, useClass: KiohubHttpInterceptor, multi: true}
   ],
   entryComponents: [
     ImageDialogComponent,

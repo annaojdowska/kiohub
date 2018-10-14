@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '../../../node_modules/@angular/common/http';
+import { HttpClient, HttpHeaders, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '../../../node_modules/@angular/common/http';
 import { address } from './project.service';
 import { Observable } from '../../../node_modules/rxjs';
 import { User } from '../model/user.interface';
@@ -8,6 +8,8 @@ import { User } from '../model/user.interface';
   providedIn: 'root'
 })
 export class LoginService {
+
+  authenticated: boolean;
 
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
@@ -28,4 +30,33 @@ export class LoginService {
   }
 
 
+
+  authenticate(credentials, callback) {
+    const headers = new HttpHeaders(credentials ? {
+      authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+    } : {});
+
+    this.isLogged().subscribe(response => {
+      if (response['name']) {
+        this.authenticated = true;
+      } else {
+        this.authenticated = false;
+      }
+      return callback && callback();
+    });
+  }
+}
+
+@Injectable()
+export class KiohubHttpInterceptor implements HttpInterceptor {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // const customReq = request.clone({
+    //   headers: request.headers.set('app-language', 'it')
+    // });
+    // console.log('IDZIE KURWA REQUEST!');
+    console.log(request);
+    console.log(request.body);
+
+    return next.handle(request);
+  }
 }

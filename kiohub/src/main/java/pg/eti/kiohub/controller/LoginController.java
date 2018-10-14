@@ -18,6 +18,10 @@ import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +42,8 @@ public class LoginController extends MainController {
     LoginController(HttpServletRequest request) {
         this.request = request;
     }
+
+
     
     @CrossOrigin
     @RequestMapping(path = "/login/isLogged")
@@ -45,7 +51,7 @@ public class LoginController extends MainController {
         Boolean isValid = request.isRequestedSessionIdValid();
         return new ResponseEntity<>(isValid, HttpStatus.OK);
     }
-    
+
     @CrossOrigin
     @RequestMapping(path = "/login/isSupervisor")
     public ResponseEntity<Boolean> isSupervisor() throws Exception {
@@ -103,7 +109,13 @@ public class LoginController extends MainController {
     public String login() throws Exception {
         //dodać if request.isLogin()
         User user = userToLogIn();
-        return "redirect:http://kiohub.eti.pg.gda.pl";
+
+        // ustawienie, że użytkownik jest zalogowany
+        Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
+                AuthorityUtils.createAuthorityList("ROLE_USER"));
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        return "OK";
+       // return "redirect:http://kiohub.eti.pg.gda.pl";
     }
     
     @CrossOrigin

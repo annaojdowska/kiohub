@@ -5,18 +5,23 @@
  */
 package pg.eti.kiohub.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.stereotype.Controller;
 import pg.eti.kiohub.entity.repository.*;
 import pg.eti.kiohub.service.MailService;
 import pg.eti.kiohub.service.ProjectService;
 import pg.eti.kiohub.service.SemesterService;
 import pg.eti.kiohub.service.TagService;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- *
  * @author Aleksander Kania <kania>
  */
 @Controller
@@ -30,16 +35,16 @@ public class MainController {
 
     @Autowired
     protected ProjectStatusRepository projectStatusRepository;
-    
+
     @Autowired
     protected UserRepository userRepository;
-    
+
     @Autowired
     protected SemesterRepository semesterRepository;
-    
+
     @Autowired
     protected TagRepository tagRepository;
-    
+
     @Autowired
     protected LicenceRepository licenceRepository;
 
@@ -48,32 +53,50 @@ public class MainController {
 
     @Autowired
     protected UserPinnedProjectRepository userPinnedProjectRepository;
-    
+
     @Autowired
     protected AttachmentRepository attachmentRepository;
-    
+
     @Autowired
-    protected AttachmentFileRepository attachmentFileRepository;   
+    protected AttachmentFileRepository attachmentFileRepository;
 
     @Autowired
     protected UserEmailRepository userEmailRepository;
 
     @Autowired
     protected ProjectService projectService;
-    
+
     @Autowired
     protected TagService tagService;
-    
+
     @Autowired
     protected MailService mailService;
 
     @Autowired
     protected SemesterService semesterService;
-    
+
     @Autowired
     protected NoteRepository noteRepository;
 
-    @Autowired 
+    @Autowired
     protected HttpServletRequest request;
-   
+
+    @Configuration
+    @EnableGlobalMethodSecurity(prePostEnabled = true)
+    @Order()
+    protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .httpBasic()
+                .and()
+                .authorizeRequests()
+//                .antMatchers("/index.html", "/", "/home", "/login").permitAll()
+                    .antMatchers("/project/**").permitAll()
+                .anyRequest().permitAll()
+                    .and().csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+        }
+    }
+
 }
