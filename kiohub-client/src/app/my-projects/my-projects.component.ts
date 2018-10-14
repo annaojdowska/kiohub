@@ -5,6 +5,8 @@ import { Project } from '../model/project.interface';
 import { MatTableDataSource, MatPaginator } from '../../../node_modules/@angular/material';
 import { ProjectService } from '../services/project.service';
 import { ValueUtils } from '../error-info/value-utils';
+import { UserService } from '../services/user.service';
+import { User } from '../model/user.interface';
 
 @Component({
   selector: 'app-my-projects',
@@ -29,13 +31,19 @@ export class MyProjectsComponent implements OnInit {
   displayedColumns: string[] = ['results'];
   paginator: MatPaginator;
   valueUtils = new ValueUtils();
+  currentUser: User;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) { this.paginator = mp; this.assignPaginatorToDataSource(); }
-  constructor(@Inject(Router) private router: Router, @Inject(ProjectService) private projectService: ProjectService) { }
+  constructor(@Inject(Router) private router: Router, @Inject(ProjectService) private projectService: ProjectService,
+                @Inject(UserService) private userService: UserService) { }
 
   ngOnInit() {
-    this.projectService.getAllProjects().subscribe(results => {
-      this.projects = results;
-      this.dataSource = new MatTableDataSource<Project>(this.projects);
+    this.userService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+      this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
+      .subscribe(results => {
+        this.projects = results;
+        this.dataSource = new MatTableDataSource<Project>(this.projects);
+      });
     });
   }
 
