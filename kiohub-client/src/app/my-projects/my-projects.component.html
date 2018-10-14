@@ -12,3 +12,22 @@
 <div *ngIf="showFilters" [@fadeInOut]>
     <app-my-projects-search-form id="searchForm" (filtersSubmitted)="getSearchResults($event)"></app-my-projects-search-form>
 </div>
+
+<div>
+    <div id="noResultsLabel" *ngIf="showNoResultsLabel">
+        <label>Nie znaleziono projektów spełniających zadane kryteria</label>
+    </div>
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="results">
+            <th mat-header-cell *matHeaderCellDef [hidden]="true"> Wyniki wyszukiwania </th>
+            <td mat-cell *matCellDef="let project">
+                <a>
+                    <app-search-result-single-project [project]="project"></app-search-result-single-project>
+                </a>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="displayPaginator()"></mat-paginator>
+    </div>

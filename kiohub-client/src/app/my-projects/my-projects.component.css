@@ -39,3 +39,15 @@ img  {
     margin-top: 7px;
     margin-bottom: 20px;
 }
+
+table {
+    float: none;
+    display: block;
+    overflow: hidden;
+    background-color: transparent;   
+    margin-top: 30px;
+}
+
+mat-paginator{
+    background-color: transparent;
+}
