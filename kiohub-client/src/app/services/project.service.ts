@@ -54,12 +54,7 @@ export class ProjectService {
     return this.http.post<Project>(address + '/project/publish/' + id, this.httpOptions);
   }
 
-//   getProjectByIdFromCache(id: number) {
-//    while (this.cacheStatus !== true) { }
-//    return this.projectsCache.find(project => project.id === id);
-//  }
-
-//  async initProjectsCache() {
-//   return await this.getAllProjects().toPromise();
-//  }
+  getProjectsByCollaboratorId(id: number): Observable<Project> {
+    return this.http.get<Project>(address + 'collaborator/project/byCollaborator/' + id, {responseType: 'json'});
+  }
 }

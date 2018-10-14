@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.ProjectCollaborator;
 import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.model.UserEmail;
@@ -47,4 +48,9 @@ public interface ProjectCollaboratorRepository extends JpaRepository<ProjectColl
     @Modifying
     @Query("DELETE FROM ProjectCollaborator WHERE projectId = :id")
     void deleteAllCollaborators(@Param("id") Long id);
+    
+    @Query(value = "SELECT p FROM ProjectCollaborator pc "
+        + "LEFT JOIN Project p ON pc.projectId = p.id "
+        + "WHERE pc.userId = :id")
+    List<Project> getListOfCollaboratorsProjects(@Param("id") Long id);
 }

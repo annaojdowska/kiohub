@@ -84,4 +84,9 @@ public class ProjectCollaboratorController extends MainController {
         collaboratorsRepository.save(projectCollaborator);
         return new ResponseEntity(HttpStatus.OK);
     }
+    
+    @GetMapping(path = "/project/byCollaborator/{id}")
+    public ResponseEntity getProjectsByCollaboratorId(@PathVariable("id") Long id){
+        return new ResponseEntity<>(collaboratorsRepository.getListOfCollaboratorsProjects(id), HttpStatus.OK);
+    }
 }
