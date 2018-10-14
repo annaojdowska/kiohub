@@ -26,10 +26,13 @@ public class TagService {
         for(Tag tag : tags) {
             if (tagRepository.checkIfTagExists(tag.getName()) == 0) {
                 tag = tagRepository.saveAndFlush(tag);
-            } else if (tag.getId() == null) {
+            } else {
                 tag = tagRepository.getTagByName(tag.getName());
             }
-            tagsToReturn.add(tag);
+
+            if (!tagsToReturn.contains(tag)) {
+                tagsToReturn.add(tag);
+            }
         }
         return tagsToReturn;
     }

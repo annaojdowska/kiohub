@@ -543,8 +543,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
           infoString = 'Nie udało się opublikować projektu na stronie. ';
           this.updateCompleted(infoString, ErrorType.ERROR);
         });
+        window.location.reload();
       }
-      window.location.reload();
     });
 
   }

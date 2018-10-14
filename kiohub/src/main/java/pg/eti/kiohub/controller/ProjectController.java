@@ -116,13 +116,13 @@ public class ProjectController extends MainController {
     @CrossOrigin
     @PostMapping(path = "/update")
     public ResponseEntity updateProject(@RequestBody Project project){
-        try { 
+        try {
             List<Tag> tags = tagService.addTags(project.getTags());
             project.setTags(tags);
             List<Semester> semesters = semesterService.findSemestersId(project.getSemesters());
             project.setSemesters(semesters);
             super.projectRepository.saveAndFlush(project);
-         } catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
