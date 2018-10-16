@@ -28,7 +28,7 @@ export class MyProjectsComponent implements OnInit {
   showNoResultsLabel: boolean;
   projects: Project[];
   dataSource: MatTableDataSource<Project>;
-  displayedColumns: string[] = ['results'];
+  displayedColumns: string[] = ['results', 'menu'];
   paginator: MatPaginator;
   valueUtils = new ValueUtils();
   currentUser: User;
@@ -39,11 +39,19 @@ export class MyProjectsComponent implements OnInit {
   ngOnInit() {
     this.userService.getCurrentUser().subscribe(user => {
       this.currentUser = user;
-      this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
-      .subscribe(results => {
-        this.projects = results;
-        this.dataSource = new MatTableDataSource<Project>(this.projects);
+      if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
+        this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
+        .subscribe(results => {
+          this.projects = results;
+          this.dataSource = new MatTableDataSource<Project>(this.projects);
+        });
+      } else {
+        this.projectService.getProjectsByCollaboratorId(868)
+        .subscribe(results => {
+          this.projects = results;
+          this.dataSource = new MatTableDataSource<Project>(this.projects);
       });
+    }
     });
   }
 

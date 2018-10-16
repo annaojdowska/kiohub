@@ -29,7 +29,6 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   }
 
   ngAfterContentInit(): void {
-    console.log('SINGLE' + this.project.title);
     this.getImageFromService();
     this.initializeDescriptionDisplay();
     this.project.tags.forEach(tag => this.tagsList.add({name: tag.name}));
@@ -41,6 +40,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
 
   getImageFromService() {
     const id = this.getMainPhotoId();
+    console.log(id);
     if (id !== -1) {
       this.attachmentService.getPhotoAttachment(id).subscribe(data => {
       this.createImageFromBlob(data);
@@ -62,6 +62,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
 
   private getMainPhotoId(): number {
     const mainPhoto = this.project.attachments.find(attachment => attachment.mainPhoto === true);
+    console.log(this.project.attachments);
     if (mainPhoto === undefined) {
       return -1;
     } else {
