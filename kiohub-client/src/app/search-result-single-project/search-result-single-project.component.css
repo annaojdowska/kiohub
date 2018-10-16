@@ -11,7 +11,7 @@
     display: block;
     background-color: transparent;
     min-height: 17vh;    
-    min-width: 60vw;
+    min-width: 50vw;
     overflow: hidden;
     flex-wrap: wrap;
     text-overflow: ellipsis; 
