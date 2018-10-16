@@ -153,7 +153,6 @@ public class DAOTest {
         project.setProjectType(createSaveProjectType());
         project.setProjectStatus(createSaveProjectStatus());
         project.setLicence(createSaveLicence());
-        project.setProjectSettings(createSaveProjectSettings());
         project.setTags(createSaveTags());
         project.setSemesters(createSaveSemesters());
         return project;

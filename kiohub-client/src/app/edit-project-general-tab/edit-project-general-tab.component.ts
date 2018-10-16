@@ -303,7 +303,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
         map(value => this.filter(value))
       );
     this.chosenSemesters = [];
-    this.searchService.getAllProjects().subscribe(res => this.projects = res);
+    this.searchService.getAllProjects().subscribe(res => {
+      this.projects = res.filter(x => x.id !== this.editedProject.id);
+    });
+
     this.relatedToFilteredResults = this.relatedToControl.valueChanges
       .pipe(
         debounceTime(100),
@@ -311,11 +314,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
         map(value => this.filterProject(value))
       );
 
-      this.projectService.getRelatedProjects(projectId).subscribe(result =>
-        result.forEach(pr => {
-          console.log(result);
-          this.relatedToList.add({ id: pr.id, name: pr.title });
-      }));
+    this.projectService.getRelatedProjects(projectId).subscribe(result =>
+      result.forEach(pr => {
+        this.relatedToList.add({ id: pr.id, name: pr.title });
+    }));
   }
 
   filter(phrase: string): Tag[] {
@@ -446,9 +448,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
         projectType: type,
         licence: { id: this.licence.value, name: '' },
         attachments: [], // send later
-        relatedToProjects: [], // not used so far
-        relatedFromProjects: [], // not used so far
-        projectSettings: null, // not used so far
+        relatedToProjects: this.getRelatedProjects(),
         tags: this.tagsList.elements.map(tag => <Tag>{ id: tag.id, name: tag.name }),
         semesters: this.semestersList.elements.map(semester => <Semester>{ id: semester.id, name: semester.name }),
         titleEng: this.titleEn.nativeElement.value,
@@ -462,7 +462,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
       console.log(updatedProject);
       this.updateResult.setDisplay(false);
       this.projectService.updateProject(updatedProject).subscribe(data => {
+        this.projectService.setRelatedProjects(this.editedProject.id, this.getRelatedProjects()).subscribe();
         const infoString = 'Pomyślnie zaktualizowano dane projektu. ';
+        console.log(updatedProject);
         if (attachmentsToSaveAmount === 0) {
           this.updateCompleted(infoString, ErrorType.SUCCESS);
         } else {
@@ -479,6 +481,15 @@ export class EditProjectGeneralTabComponent implements OnInit {
         }
       });
     }
+  }
+
+  private getRelatedProjects(): Project[] {
+    const relatedProjects: Project[] = [];
+    this.relatedToList.elements.forEach(rp => {
+      const project = this.projects.find(x => x.id === rp.id);
+      relatedProjects.push(project);
+    });
+    return relatedProjects;
   }
 
   private uploadFiles(list, attachmentType: AttachmentType) {

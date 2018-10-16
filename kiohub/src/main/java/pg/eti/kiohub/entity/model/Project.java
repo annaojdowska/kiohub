@@ -65,10 +65,12 @@ public class Project implements Serializable {
     )
     private List<Project> relatedToProjects;
 
+/*
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
 
     private ProjectSettings projectSettings;
+*/
 
     @ManyToMany
     @JoinTable(name = "project_tags",
@@ -125,7 +127,7 @@ public class Project implements Serializable {
     }
 
     public void addRelationWithProject(Project project) {
-        this.getRelatedToProjects().add(project);
+        this.relatedToProjects.add(project);
         project.getRelatedToProjects().add(this);
     }
 

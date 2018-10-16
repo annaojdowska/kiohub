@@ -13,8 +13,6 @@ export interface Project {
     licence: Licence;
     attachments: Attachment[];
     relatedToProjects: Project[];
-    relatedFromProjects: Project[];
-    projectSettings: ProjectSettings;
     tags: Tag[];
     semesters: Semester[];
     title: string;
