@@ -303,7 +303,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
         map(value => this.filter(value))
       );
     this.chosenSemesters = [];
-    this.searchService.getAllProjects().subscribe(res => this.projects = res);
+    this.projectService.getAllProjects().subscribe(res => this.projects = res);
     this.relatedToFilteredResults = this.relatedToControl.valueChanges
       .pipe(
         debounceTime(100),

@@ -32,7 +32,6 @@ import { InputListComponent } from './input-list/input-list.component';
 import { SemesterService } from './services/semester-service';
 import { SearchResultSingleProjectComponent } from './search-result-single-project/search-result-single-project.component';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
-import { TestPostComponent } from './test-post/test-post.component';
 import { AdvancedSearchFormComponent } from './advanced-search-form/advanced-search-form.component';
 import { MAT_DATE_LOCALE} from '@angular/material/core';
 import { ProjectTypeService } from './services/project-type-service';
@@ -79,7 +78,6 @@ import { KiohubHttpInterceptor } from './services/login.service';
     InputListComponent,
     SearchResultSingleProjectComponent,
     AdvancedSearchComponent,
-    TestPostComponent,
     AdvancedSearchFormComponent,
     ProjectViewComponent,
     ErrorInfoComponent,
