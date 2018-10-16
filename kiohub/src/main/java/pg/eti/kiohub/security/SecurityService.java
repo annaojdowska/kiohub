@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import pg.eti.kiohub.controller.LoginController;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.service.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component("securityService")
 public class SecurityService {
     @Autowired
-    LoginController loginController;
+    LoginService loginService;
 
     public boolean isSupervisor(Long personId) {
         return false;
@@ -55,9 +56,9 @@ public class SecurityService {
     }
 
     public boolean hasPermission(HttpServletRequest http) {
-        log.info(loginController.isLogged());
+        log.info(loginService.isUserLogged(http));
         log.info(http);
-        if (loginController.isLogged().getBody()) {
+        if (loginService.isUserLogged(http)) {
             dbg("JEST BODY!");
             return false;
         }

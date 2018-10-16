@@ -61,6 +61,9 @@ public class MainController {
     protected UserEmailRepository userEmailRepository;
 
     @Autowired
+    protected NoteRepository noteRepository;
+
+    @Autowired
     protected ProjectService projectService;
 
     @Autowired
@@ -79,10 +82,8 @@ public class MainController {
     protected SemesterService semesterService;
 
     @Autowired
-    protected NoteRepository noteRepository;
+    LoginService loginService;
 
-    @Autowired
-    protected HttpServletRequest request;
 
     @Configuration
     @EnableGlobalMethodSecurity(prePostEnabled = true)

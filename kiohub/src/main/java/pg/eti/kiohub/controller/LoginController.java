@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.model.UserEmail;
+import pg.eti.kiohub.service.LoginService;
 
 ///**
 // *
@@ -38,24 +39,21 @@ import pg.eti.kiohub.entity.model.UserEmail;
 
 @Controller
 public class LoginController extends MainController {
-        
-    LoginController(HttpServletRequest request) {
-        this.request = request;
-    }
 
+    @Autowired
+    LoginService loginService;
 
-    
     @CrossOrigin
     @RequestMapping(path = "/login/isLogged")
-    public ResponseEntity<Boolean> isLogged() {
-        Boolean isValid = request.isRequestedSessionIdValid();
+    public ResponseEntity<Boolean> isLogged(HttpServletRequest request) {
+        Boolean isValid = loginService.isUserLogged(request);
         return new ResponseEntity<>(isValid, HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(path = "/login/isSupervisor")
-    public ResponseEntity<Boolean> isSupervisor() throws Exception {
-        User loggedUser = getLogged().getBody();
+    public ResponseEntity<Boolean> isSupervisor(HttpServletRequest request) throws Exception {
+        User loggedUser = loginService.getLoggedUser(request);
         if (loggedUser == null) {
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
@@ -64,8 +62,8 @@ public class LoginController extends MainController {
     
     @CrossOrigin
     @RequestMapping(path = "/login/isStudent")
-    public ResponseEntity<Boolean> isStudent() throws Exception {
-        User loggedUser = getLogged().getBody();
+    public ResponseEntity<Boolean> isStudent(HttpServletRequest request) throws Exception {
+        User loggedUser = loginService.getLoggedUser(request);
         if (loggedUser == null) {
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
@@ -74,27 +72,14 @@ public class LoginController extends MainController {
     
     @CrossOrigin
     @RequestMapping(path = "/login/getLogged")
-    public ResponseEntity<User> getLogged() throws Exception {
-       User user = null;
-        if (isLogged().getBody()) { 
-            System.out.println("getLogged: request=" + request);
-            System.out.println("getLogged: userPrincipal=" + (AttributePrincipal)request.getUserPrincipal());
-            System.out.println("getLogged: attributes=" + ((AttributePrincipal)request.getUserPrincipal()).getAttributes());
-            Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
-            List<String> emails = (LinkedList)attributes.get("mail");
-
-            int i = 0;
-            while (i < emails.size() && user == null) {
-                user = userRepository.findUserByEmail(emails.get(i));
-                i++;
-            }
-        }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<User> getLogged(HttpServletRequest request) throws Exception {
+       User user = loginService.getLoggedUser(request);
+       return new ResponseEntity<>(user, HttpStatus.OK);
     }
     
     @CrossOrigin
     @RequestMapping(path = "/login/logout")
-    public String logout() {
+    public String logout(HttpServletRequest request) {
         try {
             request.logout();
             request.getSession().invalidate();
@@ -106,9 +91,9 @@ public class LoginController extends MainController {
     
     @CrossOrigin
     @RequestMapping(path = "/login")
-    public String login() throws Exception {
+    public String login(HttpServletRequest request) throws Exception {
         //dodać if request.isLogin()
-        User user = userToLogIn();
+        User user = userToLogIn(request);
 
         // ustawienie, że użytkownik jest zalogowany
         Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
@@ -120,39 +105,14 @@ public class LoginController extends MainController {
     
     @CrossOrigin
     @RequestMapping(path = "/login/userToLogIn")
-    public User userToLogIn()  throws Exception {
-        if (isLogged().getBody()) {
+    public User userToLogIn(HttpServletRequest request)  throws Exception {
+        if (loginService.isUserLogged(request)) {
             Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
             String firstName = attributes.get("firstName").toString();
             String lastName = attributes.get("lastName").toString();
-            //Long personNumber = (Long)attributes.get("personNumber");
+
             List<String> emails = (LinkedList)attributes.get("mail");
-            User user = null;
-            int i = 0;
-            while (i < emails.size() && user == null) {
-                user = userRepository.findUserByEmail(emails.get(i));
-                if (user != null) {
-                    user.setFirstName(firstName);
-                    user.setLastName(lastName);
-                }
-                i++;
-            }
-            if (user == null) {
-                user = new User(firstName, lastName);
-            }
-            userRepository.save(user); 
-            UserEmail userEmail;
-            for (String email : emails) {
-                userEmail = userEmailRepository.findUserEmailByEmail(email);
-                if (userEmail == null) {
-                    userEmail = new UserEmail(email, user);
-                }
-                if (!userEmail.isStudentMail()) {
-                    user.setIsSupervisor(true);
-                }  
-                userEmailRepository.save(userEmail);
-            }
-            userRepository.save(user);
+            User user = loginService.createAndSaveLoggingUser(emails, firstName, lastName);
             return user;
         }
         return null;
