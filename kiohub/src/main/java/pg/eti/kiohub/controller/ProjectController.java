@@ -37,12 +37,19 @@ import java.util.*;
 public class ProjectController extends MainController {
 
     @GetMapping(path = "/all")
-    @PreAuthorize("@securityService.hasPermission(#http)")
-    public ResponseEntity<List<Project>>
-    getAllProjects(HttpServletRequest  http) {
+    //@PreAuthorize("@securityService.hasPermission(#http)")
+    public ResponseEntity<List<Project>> getAllProjects(HttpServletRequest  http) {
         return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/published")
+    public ResponseEntity<List<Project>> getAllPublishedProjects(HttpServletRequest http){
+        List<Project> publishedProjects = projectRepository.findAll()
+                .stream().filter(project -> project.getPublished()).collect(Collectors.toList());
+        return new ResponseEntity<>(publishedProjects, HttpStatus.OK);
+    }
+
+    //@PreAuthorize("@securityService.isCollaborator(#http)")
     @GetMapping(path = "/{id}")
     public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id) {
         Optional<Project> p = projectRepository.findById(id);

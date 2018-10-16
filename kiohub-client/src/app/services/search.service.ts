@@ -11,18 +11,12 @@ export class SearchService {
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   // not used right now
-  search(phrase: string): Observable<Project[]> {
-    const params = new HttpParams().set('phrase', phrase);
-    this.allProjects = this.http.get<Project[]>(address + '/project/quick-search',
-    {responseType: 'json', params: params});
-     return this.allProjects;
-  }
-
-  getAllProjects() {
-     this.allProjects = this.http.get<Project[]>(address + '/project/all', {responseType: 'json'});
-    // this.allProjects = this.http.get<Project[]>('../../assets/projectExample.code-workspace', {responseType: 'json'});
-    return this.allProjects;
-  }
+  // search(phrase: string): Observable<Project[]> {
+  //   const params = new HttpParams().set('phrase', phrase);
+  //   this.allProjects = this.http.get<Project[]>(address + '/project/quick-search',
+  //   {responseType: 'json', params: params});
+  //    return this.allProjects;
+  // }
 
   getProjectsBasedOnQuery(query: QueryDescription): Observable<SearchResult[]> {
     const httpOptions = { headers: new HttpHeaders({ 'ContentType' : 'application/json' }) };

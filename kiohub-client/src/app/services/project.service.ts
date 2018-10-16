@@ -32,6 +32,10 @@ export class ProjectService {
     return this.http.get<Project[]>(address + '/project/all', { responseType: 'json' });
   }
 
+  getPublishedProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(address + '/project/published', { responseType: 'json' });
+  }
+
   getTitleUnique(titlePl: string) {
     const params = new HttpParams().set('titlePl', titlePl);
     return this.http.get(address + '/project/checkTitleUniqueness',

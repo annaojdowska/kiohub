@@ -5,6 +5,7 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { SearchResult } from '../model/helpers/search-result.class';
 import { SortingService } from '../services/sorting-service';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-advanced-search',
@@ -35,7 +36,8 @@ export class AdvancedSearchComponent implements OnInit {
   paginator: MatPaginator;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) { this.paginator = mp; this.assignPaginatorToDataSource(); }
 
-  constructor(@Inject(SearchService) private searchService: SearchService,
+  constructor(@Inject(ProjectService) private projectService: ProjectService,
+      @Inject(SearchService) private searchService: SearchService,
       @Inject(SortingService) private sortingService: SortingService) {
     this.showNoResultsLabel = false;
     this.searchResults = [];
@@ -43,7 +45,7 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchService.getAllProjects().subscribe(results => {
+    this.projectService.getPublishedProjects().subscribe(results => {
       this.searchResults = results.map(r => new SearchResult(r, 0));
       this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
     });

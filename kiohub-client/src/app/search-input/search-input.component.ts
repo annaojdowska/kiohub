@@ -6,6 +6,7 @@ import { Project } from '../model/project.interface';
 import { Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { Observable } from 'rxjs';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-search-input',
@@ -19,10 +20,10 @@ export class SearchInputComponent implements OnInit {
   queryField: FormControl = new FormControl();
   proxyValue: any;
 
-  constructor(@Inject(SearchService) private searchService: SearchService, @Inject(Router) private router: Router) {}
+  constructor(@Inject(ProjectService) private projectService: ProjectService, @Inject(Router) private router: Router) {}
 
   ngOnInit() {
-    this.searchService.getAllProjects().subscribe(res => this.results = res);
+    this.projectService.getPublishedProjects().subscribe(res => this.results = res);
     this.filteredResults = this.queryField.valueChanges
       .pipe(
         debounceTime(100),
