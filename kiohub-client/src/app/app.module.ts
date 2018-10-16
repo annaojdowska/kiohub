@@ -146,7 +146,7 @@ import { KiohubHttpInterceptor } from './services/login.service';
       }
     },
     { provide: MAT_DATE_LOCALE, useValue: 'pl' },
-    { provide: MatPaginatorIntl, useValue: getPolishPaginatorIntl() }
+    { provide: MatPaginatorIntl, useValue: getPolishPaginatorIntl() },
     { provide: HTTP_INTERCEPTORS, useClass: KiohubHttpInterceptor, multi: true}
   ],
   entryComponents: [
