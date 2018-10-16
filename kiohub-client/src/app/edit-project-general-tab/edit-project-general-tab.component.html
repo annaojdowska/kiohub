@@ -196,8 +196,8 @@
             <label>Tagi:</label>
             <mat-form-field class="example-full-width" name="tags">
                 <input #tagsListComponent ngModel matInput type="text" aria-label="Number" [formControl]="tagControl"
-                    [matAutocomplete]="auto" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
+                    [matAutocomplete]="autoTags" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
+                <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
                     <mat-option *ngFor="let option of tagFilteredOptions | async" [value]="option">
                         {{option.name}}
                     </mat-option>
@@ -210,7 +210,24 @@
                     hideInput="true"></app-input-list>
             </div>
         </div>
+        
+        <div>
+            <label>Powiązane projekty: <img id="tooltipImg" matTooltip="{{tooltipRelatedTo}}" src="../../assets/question.png"/></label>
+            <mat-form-field class="example-full-width" name="relatedTo">
+                <input ngModel matInput type="text" aria-label="Number" [formControl]="relatedToControl"
+                    [matAutocomplete]="autoRelatedTo">
+                <mat-autocomplete #autoRelatedTo="matAutocomplete" (optionSelected)="relatedToSelectionChanged($event)">
+                    <mat-option *ngFor="let result of relatedToFilteredResults | async" [value]="result">
+                        {{ result.title }}
+                      </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
 
+            <div class="list">
+                <app-input-list #relatedToList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+            </div>
+        </div>
+       
         <div>
             <div id="button-container">
                 <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź

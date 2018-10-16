@@ -121,7 +121,7 @@ public class DAOTest {
     private void persistEntities(List<User> users, ProjectCollaborator projectCollaborator, List<Note> notes) {
         projectRepository.save(project);
         projectRepository.save(project2);
-        project2.addRelationWithProject(project);
+        //project2.addRelationWithProject(project);
 
         userRepository.saveAll(users);
         userPinnedProjectRepository.save(new UserPinnedProject(userId1, projectId));

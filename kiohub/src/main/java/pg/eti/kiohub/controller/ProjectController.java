@@ -7,9 +7,6 @@ package pg.eti.kiohub.controller;
 
 
 import lombok.extern.jbosslog.JBossLog;
-import org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.*;
 import pg.eti.kiohub.utils.ExceptionHandlingUtils;
@@ -136,13 +130,13 @@ public class ProjectController extends MainController {
     @PreAuthorize("@securityService.isCollaborator(#http)")
     @PostMapping(path = "/update")
     public ResponseEntity updateProject(@RequestBody Project project, HttpServletRequest http){
-        try { 
+        try {
             List<Tag> tags = tagService.addTags(project.getTags());
             project.setTags(tags);
             List<Semester> semesters = semesterService.findSemestersId(project.getSemesters());
             project.setSemesters(semesters);
             super.projectRepository.saveAndFlush(project);
-         } catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -172,7 +166,7 @@ public class ProjectController extends MainController {
     }
 
     @PreAuthorize("@securityService.isCollaborator(#http)")
-    @RequestMapping(path = "/publish/{id}", method = RequestMethod.POST)
+    @PostMapping(path = "/publish/{id}")
     public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest http){
         Optional<Project> projectToPublish = this.projectRepository.findById(id);
         if (projectToPublish.isPresent()) {
@@ -186,5 +180,14 @@ public class ProjectController extends MainController {
 
     }
 
-
+    @GetMapping(path = "/relatedTo/{id}")
+    public ResponseEntity<List<Project>> getRelatedProjectsById(@PathVariable("id") Long id) {
+        Optional<Project> p = projectRepository.findById(id);
+        if(p.isPresent()) {
+            List<Project> relatedProjects = p.get().getRelatedToProjects();
+            return new ResponseEntity<>(relatedProjects, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

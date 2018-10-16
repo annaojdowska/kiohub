@@ -93,6 +93,7 @@ export class MyProjectsSearchFormComponent implements OnInit {
   addLicence() {
     const index = this.licencesList.elements.findIndex(licence => licence.name === this.selectedLicence.name);
     // co znaczy -1? warto to wrzucić jako stałe pole klasy
+    // AO: to znaczy, ze nie ma takiego elementu w liście. Wtedy zwraca indeks -1.
     if (index === -1) {
       this.licencesList.add({ name: this.selectedLicence.name });
     }

@@ -16,7 +16,8 @@ export class AppComponent implements OnInit {
   public constructor(@Inject(UserService) private userService: UserService) {}
 
   ngOnInit(): void {
-    console.log('APP COMPO ON INIT 2');
-     this.userService.isLogged().subscribe(x => this.isLogged = x);
+    console.log('APP COMPO ON INIT');
+     this.userService.isLogged().subscribe(x => {this.isLogged = x;
+    console.log('IsLogged has arrived: ' + this.isLogged); });
   }
 }

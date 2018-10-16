@@ -30,6 +30,7 @@ import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
 import { FileUtils } from '../error-info/file-utils';
 import { injectChangeDetectorRef } from '../../../node_modules/@angular/core/src/render3';
 import { PublishDialogComponent } from '../ui-elements/publish-dialog/publish-dialog.component';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -45,6 +46,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('instructionsStartList') instructionsStartList: InputListComponent;
   @ViewChild('othersList') othersList: InputListComponent;
   @ViewChild('tagsList') tagsList: InputListComponent;
+  @ViewChild('relatedToList') relatedToList: InputListComponent;
   @ViewChild('tagsListComponent') tagsListComponent: any;
   @ViewChild('titlePl') titlePl: any;
   @ViewChild('descriptionPl') descriptionPl: any;
@@ -90,6 +92,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
   validation: Validation = new Validation();
   valueUtils = new ValueUtils();
   fileUtils = new FileUtils();
+  relatedToFilteredResults: Observable<Project[]>;
+  relatedToControl: FormControl = new FormControl();
+  projects: Project[] = [];
 
   tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
                   + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
@@ -104,6 +109,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   tooltipOtherFiles = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getOtherFileExtensions()
                     + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
   tooltipSemesters = 'Wybór semestrów, w czasie których wytwarzana była praca.';
+  tooltipRelatedTo = 'Wyszukaj projekty, z którymi Twój projekt jest powiązany.';
 
   // ******** COMPONENT STATE ********
   hardlySavedNote = false;
@@ -118,7 +124,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(ProjectService) private projectService: ProjectService,
     @Inject(AttachmentService) private attachmentService: AttachmentService,
     @Inject(TagService) private tagService: TagService,
-    @Inject(MatDialog) private dialog: MatDialog) {
+    @Inject(MatDialog) private dialog: MatDialog,
+    @Inject(SearchService) private searchService: SearchService) {
   }
 
   // ******** GETTERS ********
@@ -289,23 +296,37 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
     this.semestersHidden = true;
     this.tagService.getTags().subscribe(result => this.tagOptions = result);
+
     this.tagFilteredOptions = this.tagControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this.filter(value))
       );
     this.chosenSemesters = [];
+    this.searchService.getAllProjects().subscribe(res => this.projects = res);
+    this.relatedToFilteredResults = this.relatedToControl.valueChanges
+      .pipe(
+        debounceTime(100),
+        startWith(''),
+        map(value => this.filterProject(value))
+      );
+
+      this.projectService.getRelatedProjects(projectId).subscribe(result =>
+        result.forEach(pr => {
+          console.log(result);
+          this.relatedToList.add({ id: pr.id, name: pr.title });
+      }));
   }
 
   filter(phrase: string): Tag[] {
+    let filterValue;
     if (phrase === '') {
       return [];
     }
-    // console.log(phrase);
     if (typeof phrase === 'string') {
-      const filterValue = phrase.toLowerCase();
+      filterValue = phrase.toLowerCase();
     }
-    return this.tagOptions.filter(option => option.name.toLowerCase().includes(phrase));
+    return this.tagOptions.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   keyUpTag(event: KeyboardEvent) {
@@ -327,15 +348,25 @@ export class EditProjectGeneralTabComponent implements OnInit {
     }
   }
 
-
   tagSelectionChanged(event: MatAutocompleteSelectedEvent) {
     this.addTag(event.option.viewValue);
     this.tagControl.setValue(null);
   }
 
-  private _filter(value: InputListElement): InputListElement[] {
-    const filterValue = value.name.toLowerCase();
-    return this.tagOptions.filter(option => option.name.toLowerCase().includes(filterValue)).map(o => <InputListElement>{ name: o.name });
+  relatedToSelectionChanged(event: MatAutocompleteSelectedEvent) {
+    this.addRelatedToProject(event);
+    this.relatedToControl.setValue(null);
+  }
+
+  filterProject(phrase: string): Project[] {
+    let filterValue;
+    if (phrase === '') {
+      return [];
+    }
+    if (typeof phrase === 'string') {
+      filterValue = phrase.toLowerCase();
+    }
+    return this.projects.filter(option => option.title.toLowerCase().includes(filterValue));
   }
 
   // Functions for itemsList (add and recive attachments and tags)
@@ -388,6 +419,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   addTag(event) {
     this.tagsList.add({ name: event });
+  }
+
+  addRelatedToProject(event) {
+    this.relatedToList.add({ id: event.option.value.id, name: event.option.viewValue });
   }
 
   updateProject() {
@@ -543,8 +578,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
           infoString = 'Nie udało się opublikować projektu na stronie. ';
           this.updateCompleted(infoString, ErrorType.ERROR);
         });
+        window.location.reload();
       }
-      window.location.reload();
     });
 
   }
