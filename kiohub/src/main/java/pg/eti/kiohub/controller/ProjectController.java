@@ -76,8 +76,8 @@ public class ProjectController extends MainController {
             project = projectRepository.saveAndFlush(project);
 
             List<String> emails = Arrays.asList(emailsArray.split(", "));
-            List<User> users = createNewUsersAndGetAllByEmails(emails);
-            createAndSaveCollaborators(project, users);
+            List<User> users = userService.createNewUsersAndGetAllByEmails(emails);
+            collaboratorsService.createAndSaveCollaborators(project, users);
 
             return new ResponseEntity<>(project, HttpStatus.CREATED);
         } catch(Exception e) {
@@ -85,48 +85,7 @@ public class ProjectController extends MainController {
             return ExceptionHandlingUtils.handleException(e);
         }
     }
-
-    private void createAndSaveCollaborators(Project project, List<User> users) {
-        for (User user : users) {
-            ProjectCollaborator collaborator = new ProjectCollaborator();
-            collaborator.setUserId(user.getId());
-            collaborator.setProjectId(project.getId());
-            collaborator.setIsSupervisor(Boolean.FALSE);
-            collaborator.setUserDataVisible(Visibility.EVERYONE);
-            collaboratorsRepository.saveAndFlush(collaborator);
-        }
-    }
-
-    private User createNewUserUsingEmail(String email) {
-        User user = new User();
-        user.setIsSupervisor(true);
-        // FIXME #2
-        user = userRepository.saveAndFlush(user);
-
-        UserEmail userEmail = new UserEmail(email, user);
-        userEmailRepository.save(userEmail);
-        return user;
-    }
-
-    private List<User> createNewUsersAndGetAllByEmails(List<String> emails) {
-        List<User> users = new ArrayList<>();
-        for (String email : emails) {
-            User user = null;
-            if (userRepository.checkIfUserExistsByEmail(email) > 0) {
-                user = userRepository.findUserByEmail(email);
-            } else {
-                user = createNewUserUsingEmail(email);
-            }
-            users.add(user);
-        }
-        return users;
-    }
     
-    @GetMapping(path = "/quick-search")
-    public ResponseEntity<Iterable<Project>> getMatchingProjects(@RequestParam("phrase") String phrase) {
-       return new ResponseEntity<>(projectService.getAllMatchingProjects(phrase), HttpStatus.OK);
-    }
-
     @PreAuthorize("@securityService.isCollaborator(#http)")
     @PostMapping(path = "/update")
     public ResponseEntity updateProject(@RequestBody Project project, HttpServletRequest http){

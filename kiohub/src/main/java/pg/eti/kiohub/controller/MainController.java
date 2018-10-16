@@ -14,10 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import pg.eti.kiohub.entity.repository.*;
-import pg.eti.kiohub.service.MailService;
-import pg.eti.kiohub.service.ProjectService;
-import pg.eti.kiohub.service.SemesterService;
-import pg.eti.kiohub.service.TagService;
+import pg.eti.kiohub.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -71,6 +68,12 @@ public class MainController {
 
     @Autowired
     protected MailService mailService;
+
+    @Autowired
+    protected UserService userService;
+
+    @Autowired
+    protected CollaboratorsService collaboratorsService;
 
     @Autowired
     protected SemesterService semesterService;
