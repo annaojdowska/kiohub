@@ -26,6 +26,8 @@ import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  *
  * @author Aleksander Kania <kania>
@@ -131,9 +133,9 @@ public class ProjectController extends MainController {
        return new ResponseEntity<>(projectService.getAllMatchingProjects(phrase), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/update")
     @PreAuthorize("@securityService.isCollaborator(#http)")
-    public ResponseEntity updateProject(HttpServletRequest http, @RequestBody Project project){
+    @PostMapping(path = "/update")
+    public ResponseEntity updateProject(@RequestBody Project project, HttpServletRequest http){
         try { 
             List<Tag> tags = tagService.addTags(project.getTags());
             project.setTags(tags);
@@ -169,8 +171,9 @@ public class ProjectController extends MainController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(path = "/publish/{id}")
-    public ResponseEntity publishProject(@PathVariable("id") Long id){
+    @PreAuthorize("@securityService.isCollaborator(#http)")
+    @RequestMapping(path = "/publish/{id}", method = RequestMethod.POST)
+    public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest http){
         Optional<Project> projectToPublish = this.projectRepository.findById(id);
         if (projectToPublish.isPresent()) {
             Project project = projectToPublish.get();

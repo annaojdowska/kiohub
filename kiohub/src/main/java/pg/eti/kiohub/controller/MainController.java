@@ -94,8 +94,8 @@ public class MainController {
 //                .antMatchers("/index.html", "/", "/home", "/login").permitAll()
                     .antMatchers("/project/**").permitAll()
                 .anyRequest().permitAll()
-                    .and().csrf()
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                    .and().csrf().disable();
+                    //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         }
     }
 
