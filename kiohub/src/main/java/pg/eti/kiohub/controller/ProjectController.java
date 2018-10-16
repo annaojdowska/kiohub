@@ -167,4 +167,15 @@ public class ProjectController extends MainController {
         else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
+
+    @GetMapping(path = "/relatedTo/{id}")
+    public ResponseEntity<List<Project>> getRelatedProjectsById(@PathVariable("id") Long id) {
+        Optional<Project> p = projectRepository.findById(id);
+        if(p.isPresent()) {
+            List<Project> relatedProjects = p.get().getRelatedToProjects();
+            return new ResponseEntity<>(relatedProjects, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }

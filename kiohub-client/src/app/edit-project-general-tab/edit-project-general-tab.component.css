@@ -96,3 +96,7 @@ img, .verticalMiddle {
     max-width: 80vw;
     display: contents;
 }
+
+#tooltipImg {
+    vertical-align: initial;
+}

@@ -57,4 +57,8 @@ export class ProjectService {
   getProjectsByCollaboratorId(id: number): Observable<Project[]> {
     return this.http.get<Project[]>(address + '/collaborator/project/byCollaborator/' + id, {responseType: 'json'});
   }
+
+  getRelatedProjects(id: number): Observable<Project[]> {
+    return this.http.get<Project[]>(address + '/project/relatedTo/' + id, {responseType: 'json'});
+  }
 }

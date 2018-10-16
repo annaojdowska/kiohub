@@ -6,6 +6,7 @@
 package pg.eti.kiohub.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -56,19 +57,13 @@ public class Project implements Serializable {
     /*
     Projekty, z którymi jest powiązany projekt (on z nimi)
      */
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "RELATED_PROJECTS",
-            joinColumns = {
-                @JoinColumn(name = "project_id")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "related_project_id")})
-    private List<Project> relatedToProjects = new ArrayList<Project>();
-
-    /*
-    Projekty, z którymi jest powiązany projekt (one z nim)
-     */
-    @ManyToMany(mappedBy = "relatedToProjects")
-    private List<Project> relatedFromProjects = new ArrayList<Project>();
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name="related_projects",
+            joinColumns=@JoinColumn(name="project_id"),
+            inverseJoinColumns=@JoinColumn(name="related_project_id")
+    )
+    private List<Project> relatedToProjects;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
