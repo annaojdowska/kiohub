@@ -168,7 +168,7 @@
 
         <div>
             <label>Wybierz licencję:</label>
-            <mat-form-field id="wrapper-width-licence">
+            <mat-form-field class="wrapper-width-midium">
                 <mat-select #licence [value]="editedProject?.licence?.id ? editedProject?.licence?.id : 1">
                     <mat-option *ngFor="let licence of licences" [value]="licence.id">{{licence.name}}</mat-option>
                 </mat-select>
@@ -194,7 +194,7 @@
 
         <div>
             <label>Tagi:</label>
-            <mat-form-field class="example-full-width" name="tags">
+            <mat-form-field  name="tags">
                 <input #tagsListComponent ngModel matInput type="text" aria-label="Number" [formControl]="tagControl"
                     [matAutocomplete]="autoTags" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
                 <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
@@ -213,7 +213,7 @@
         
         <div>
             <label>Powiązane projekty: <img id="tooltipImg" matTooltip="{{tooltipRelatedTo}}" src="../../assets/question.png"/></label>
-            <mat-form-field class="example-full-width" name="relatedTo">
+            <mat-form-field class="wrapper-width-midium" name="relatedTo">
                 <input ngModel matInput type="text" aria-label="Number" [formControl]="relatedToControl"
                     [matAutocomplete]="autoRelatedTo">
                 <mat-autocomplete #autoRelatedTo="matAutocomplete" (optionSelected)="relatedToSelectionChanged($event)">
@@ -224,7 +224,7 @@
             </mat-form-field>
 
             <div class="list">
-                <app-input-list #relatedToList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+                <app-input-list #relatedToList orientation="vertical" removable="true" hideInput="true"></app-input-list>
             </div>
         </div>
        

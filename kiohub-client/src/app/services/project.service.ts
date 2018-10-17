@@ -2,9 +2,9 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Project } from '../model/project.interface';
 import { Observable } from 'rxjs';
-  export const address = 'http://localhost:8443';
+ // export const address = 'http://localhost:8443';
 // export const address = 'http://kiohub.eti.pg.gda.pl:8080';
-// export const address = 'http://kiohub.eti.pg.gda.pl';
+  export const address = 'http://kiohub.eti.pg.gda.pl';
 
 @Injectable()
 export class ProjectService {
@@ -17,10 +17,7 @@ export class ProjectService {
     })
   };
 
-  constructor(@Inject(HttpClient) private http: HttpClient) {
-    //  this.initProjectsCache()
-    //  .then(projects => { this.projectsCache = projects; this.cacheStatus = true; });
-  }
+  constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   addProject(titlePl: string, collaborators: string[]) {
     const params = new HttpParams().set('titlePl', titlePl).set('collaborators', collaborators.join(', '));
@@ -64,5 +61,9 @@ export class ProjectService {
 
   getRelatedProjects(id: number): Observable<Project[]> {
     return this.http.get<Project[]>(address + '/project/relatedTo/' + id, {responseType: 'json'});
+  }
+
+  setRelatedProjects(id: number, relatedProjects: Project[]) {
+    return this.http.post<Project>(address + '/project/set-related/' + id , relatedProjects, this.httpOptions);
   }
 }

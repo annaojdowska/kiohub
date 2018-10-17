@@ -100,10 +100,20 @@ public class ProjectController extends MainController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    @PostMapping(path = "/set-related/{id}")
+    public ResponseEntity setRelatedProjects(@PathVariable("id") Long id, @RequestBody List<Project> projects){
+        this.projectRepository.deleteAllRelatedProjects(id);
+        for (Project pr : projects) {
+            this.projectRepository.addRelatedProjects(id, pr.getId());
+            this.projectRepository.addRelatedProjects(pr.getId(), id);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping(path = "/post-multipart", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity examplePostMultipart(@RequestParam("File") MultipartFile project){
-        
+
     return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -116,6 +126,7 @@ public class ProjectController extends MainController {
             });	
             this.collaboratorsRepository.deleteAllCollaborators(id);
             this.userPinnedProjectRepository.deleteAllPinnedProject(id);
+            this.projectRepository.deleteAllRelatedProjects(id);
             this.projectRepository.delete(projectToDelete.get());
             return new ResponseEntity<>(HttpStatus.OK);
         }
