@@ -9,7 +9,7 @@ import { address } from '../services/project.service';
 
 export class MenuBarNotLoggedComponent implements OnInit {
   pathToLogo: string;
-  private addresToLogIn = address + '/login/login';
+  private addresToLogIn = address + '/login';
   constructor() {
     this.pathToLogo = '../../assets/logo/logo4.png';
    }
