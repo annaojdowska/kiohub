@@ -7,10 +7,12 @@ package pg.eti.kiohub.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.repository.ProjectRepository;
 
 /**
@@ -26,5 +28,6 @@ public class ProjectService {
     public List<Project> getAllMatchingProjects(String phrase){
         if(phrase.isEmpty()) return new ArrayList<Project>();
         return projectRepository.findAll().stream().filter(project -> project.getTitle().toLowerCase().contains(phrase.toLowerCase())).collect(Collectors.toList());
-    } 
+    }
+
 }

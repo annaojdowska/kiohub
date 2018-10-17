@@ -74,14 +74,14 @@ export class EditProjectNotesTabComponent implements OnInit {
   }
 
   deleteNote(noteId: number) {
-    this.noteService.deleteNote(noteId).subscribe(result => console.log(result));
+    this.noteService.deleteNote(this.projectId, noteId).subscribe(result => console.log(result));
     window.location.reload();
   }
 
   editExistingNote() {
     const editNoteContent = this.editNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
-    this.noteService.editNote(this.inputEditId, editNoteContent, visibility).subscribe(result => console.log(result));
+    this.noteService.editNote(this.inputEditId, editNoteContent, visibility, this.projectId).subscribe(result => console.log(result));
 
     window.location.reload();
     this.noteEditInputShows = false;

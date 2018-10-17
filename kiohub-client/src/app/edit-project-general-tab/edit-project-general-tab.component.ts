@@ -555,7 +555,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   private updateMetadata(th: InputListElement) {
-    this.attachmentService.updateMetadata(th.id, th.visibility ? th.visibility : Visibility.EVERYONE, th.selected ? th.selected : false)
+    this.attachmentService.updateMetadata(this.editedProject.id, th.id, th.visibility ? th.visibility : Visibility.EVERYONE, th.selected ? th.selected : false)
       .subscribe(data => {
         console.log('Pomyślnie zaktualizowano załącznik ' + th.name + '. ');
       },

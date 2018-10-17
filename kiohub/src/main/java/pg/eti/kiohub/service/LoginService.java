@@ -74,4 +74,16 @@ public class LoginService {
         return user;
     }
 
+    public User userToLogIn(HttpServletRequest request)  throws Exception {
+        if (isUserLogged(request)) {
+            Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
+            String firstName = attributes.get("firstName").toString();
+            String lastName = attributes.get("lastName").toString();
+
+            List<String> emails = (LinkedList)attributes.get("mail");
+            User user = createAndSaveLoggingUser(emails, firstName, lastName);
+            return user;
+        }
+        return null;
+    }
 }

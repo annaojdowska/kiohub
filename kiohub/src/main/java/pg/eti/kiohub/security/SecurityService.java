@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import pg.eti.kiohub.controller.LoginController;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.entity.model.User;
+import pg.eti.kiohub.service.CollaboratorsService;
 import pg.eti.kiohub.service.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,52 +19,38 @@ import javax.servlet.http.HttpServletRequest;
 public class SecurityService {
     @Autowired
     LoginService loginService;
+    @Autowired
+    CollaboratorsService collaboratorsService;
 
-    public boolean isSupervisor(Long personId) {
-        return false;
+    public boolean isLogged(HttpServletRequest request) {
+        return loginService.isUserLogged(request);
     }
 
-    public boolean isSupervisorOrStudent(Long personId) {
-        return false;
-    }
-
-    public boolean isCollaborator(HttpServletRequest http) {
-        // na razie tylko sprawdza, czy zautoryzowany
-//        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            dbg("TO WSPÓLPRACOWNIK!");
-           // return true;
-       // }
-        dbg("TO NIE WSPÓLPRACOWNIK!");
-        return false;
-    }
-
-    public boolean isNoteAuthor(Long personId, Long noteId) {
-        return false;
-    }
-
-    public boolean isSupervisorOfThisProject(Long personId, Long projectId) {
-        return false;
-    }
-
-
-    private void dbg(String tekst) {
-        log.info("-------########---------------------------------------------------");
-        log.info("-------########---------------------------------------------------");
-        log.info("-------########---------" + tekst + "------------------------------");
-        log.info("-------########---------" + tekst + "------------------------------");
-        log.info("-------########---------" + tekst + "------------------------------");
-        log.info("-------########---------------------------------------------------");
-        log.info("-------########---------------------------------------------------");
-    }
-
-    public boolean hasPermission(HttpServletRequest http) {
-        log.info(loginService.isUserLogged(http));
-        log.info(http);
-        if (loginService.isUserLogged(http)) {
-            dbg("JEST BODY!");
+    public boolean isLoggedAndSupervisor(HttpServletRequest request){
+        User user = loginService.getLoggedUser(request);
+        if(user == null)
             return false;
-        }
-        dbg("NIE MA BODY!");
-        return false;
+
+        return user.getIsSupervisor();
     }
+
+    public boolean isCollaborator(HttpServletRequest request, long projectId){
+        User user = loginService.getLoggedUser(request);
+        if(user == null)
+            return false;
+
+        return collaboratorsService.isProjectCollaborator(user.getId(), projectId);
+    }
+
+    public boolean isCollaboratorAndSupervisor(HttpServletRequest request, long projectId){
+        User user = loginService.getLoggedUser(request);
+        if(user == null)
+            return false;
+
+        return collaboratorsService.isSupervisorOfProject(user.getId(), projectId);
+    }
+
+//    public boolean isAuthor(HttpServletRequest request, long noteId){
+//
+//    }
 }

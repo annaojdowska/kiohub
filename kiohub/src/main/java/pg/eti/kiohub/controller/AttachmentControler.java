@@ -10,6 +10,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import javax.sql.rowset.serial.SerialBlob;
@@ -25,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +47,7 @@ import pg.eti.kiohub.utils.FileUtils;
  * @author Tomasz
  */
 @JBossLog
+@CrossOrigin
 @Controller
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {
@@ -55,14 +58,16 @@ public class AttachmentControler extends MainController {
     @Autowired
     private ApplicationContext appContext;
 
-    @CrossOrigin
+
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
             @RequestParam("Type") String type,
             @RequestParam("ProjectId") String projectId,
             @RequestParam("Visibility") String visibility,
-            @RequestParam("MainPhoto") String mainPhoto) {
+            @RequestParam("MainPhoto") String mainPhoto,
+            HttpServletRequest request) {
 
         log.info("_____________________________ NEW REQUEST ________________________________");
         Attachment attachment = new Attachment();
@@ -133,21 +138,22 @@ public class AttachmentControler extends MainController {
     }
 
 
-
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/updateMetadata")
     public ResponseEntity updateMetadata(
-            @RequestParam("id") String id,
+            @RequestParam("projectId") String projectId,
+            @RequestParam("attachmentId") String attachmentId,
             @RequestParam("visibility") String visibility,
-            @RequestParam("mainPhoto") String mainPhoto) {
+            @RequestParam("mainPhoto") String mainPhoto,
+            HttpServletRequest request) {
         System.out.println("Aktualizuję ");
-        Attachment attachment = attachmentRepository.getOne(Long.parseLong(id));
+        Attachment attachment = attachmentRepository.getOne(Long.parseLong(attachmentId));
         attachment.setVisibility(Visibility.valueOf(visibility));
         attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
         attachmentRepository.save(attachment);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping(path = "/download")
     public ResponseEntity downloadAttachment(@RequestParam("id") long id, HttpServletResponse response) {
         Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
@@ -163,9 +169,11 @@ public class AttachmentControler extends MainController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @CrossOrigin
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/remove")
-    public ResponseEntity removeAttachment(@RequestBody List<Long> attachmentsToRemove) {
+    public ResponseEntity removeAttachment(@RequestBody List<Long> attachmentsToRemove,
+                                           @RequestParam("projectId") long projectId,
+                                           HttpServletRequest request) {
         try {
             for (Long a : attachmentsToRemove) {
                 attachmentFileRepository.deleteById(a);
@@ -177,7 +185,6 @@ public class AttachmentControler extends MainController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
     @GetMapping(path = "/downloadPhoto")
     public ResponseEntity downloadPhoto(@RequestParam("id") long id, HttpServletResponse response) {
         Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
@@ -192,7 +199,9 @@ public class AttachmentControler extends MainController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    private void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt, Optional<AttachmentFile> attachmentFileOpt, HttpServletResponse response) throws SQLException, IOException {
+    private void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt,
+                                          Optional<AttachmentFile> attachmentFileOpt,
+                                          HttpServletResponse response) throws SQLException, IOException {
         Attachment attachment = attachmentOpt.get();
         AttachmentFile attachmentFile = attachmentFileOpt.get();
 

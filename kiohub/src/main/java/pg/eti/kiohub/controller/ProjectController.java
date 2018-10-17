@@ -32,11 +32,6 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/project")
 public class ProjectController extends MainController {
 
-    @GetMapping(path = "/all")
-    public ResponseEntity<List<Project>> getAllProjects(HttpServletRequest  http) {
-        return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
-    }
-
     @GetMapping(path = "/published")
     public ResponseEntity<List<Project>> getAllPublishedProjects(HttpServletRequest http){
         List<Project> publishedProjects = projectRepository.findAll()
@@ -50,11 +45,12 @@ public class ProjectController extends MainController {
     public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id) {
         Optional<Project> p = projectRepository.findById(id);
         return new ResponseEntity<>(p, HttpStatus.OK);
-    }    
-    
+    }
+
+    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     @GetMapping(path = "/checkTitleUniqueness")
-    public ResponseEntity checkTitleuniqueness(
-            @RequestParam("titlePl") String titlePl) {
+    public ResponseEntity checkTitleUniqueness(
+            @RequestParam("titlePl") String titlePl, HttpServletRequest request) {
         Long rowsMatchingTitle = projectRepository.checkIfUniqueTitle(titlePl);
 
         if (rowsMatchingTitle > 0) {
@@ -64,10 +60,12 @@ public class ProjectController extends MainController {
         }
     }
 
+    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     @PostMapping(path = "/add")
     public ResponseEntity<Project> addProject(
             @RequestParam("titlePl") String titlePl,
-            @RequestParam("collaborators") String emailsArray) {
+            @RequestParam("collaborators") String emailsArray,
+            HttpServletRequest request) {
         try {
             Project project = new Project();
             project.setTitle(titlePl);
@@ -86,6 +84,7 @@ public class ProjectController extends MainController {
         }
     }
 
+    @PreAuthorize("@securityService.isCollaborator(#request, #project.getId())")
     @PostMapping(path = "/update")
     public ResponseEntity updateProject(@RequestBody Project project, HttpServletRequest http){
         try {
@@ -100,9 +99,11 @@ public class ProjectController extends MainController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
+
+    @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     @PostMapping(path = "/set-related/{id}")
-    public ResponseEntity setRelatedProjects(@PathVariable("id") Long id, @RequestBody List<Project> projects){
+    public ResponseEntity setRelatedProjects(@PathVariable("id") Long id, @RequestBody List<Project> projects,
+                                             HttpServletRequest request){
         this.projectRepository.deleteAllRelatedProjects(id);
         for (Project pr : projects) {
             this.projectRepository.addRelatedProjects(id, pr.getId());
@@ -111,14 +112,10 @@ public class ProjectController extends MainController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "/post-multipart", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity examplePostMultipart(@RequestParam("File") MultipartFile project){
 
-    return new ResponseEntity<>(HttpStatus.OK);
-    }
-
+    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id) {
+    public ResponseEntity delete(@PathVariable("id") Long id, HttpServletRequest request) {
         Optional<Project> projectToDelete = this.projectRepository.findById(id);
         if (projectToDelete.isPresent()) {
             projectToDelete.get().getAttachments().forEach((att) -> {
@@ -134,6 +131,7 @@ public class ProjectController extends MainController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     @PostMapping(path = "/publish/{id}")
     public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest http){
         Optional<Project> projectToPublish = this.projectRepository.findById(id);

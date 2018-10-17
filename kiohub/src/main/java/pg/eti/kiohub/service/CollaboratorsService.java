@@ -9,6 +9,7 @@ import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CollaboratorsService {
@@ -25,6 +26,18 @@ public class CollaboratorsService {
             collaborator.setUserDataVisible(Visibility.EVERYONE);
             projectCollaboratorRepository.saveAndFlush(collaborator);
         }
+    }
+
+    public boolean isProjectCollaborator(long userId, long projectId){
+        List<Long> collaboratorsIds = projectCollaboratorRepository.getListOfProjectCollaboratorsIds(projectId);
+        return collaboratorsIds.contains(userId);
+    }
+
+    public boolean isSupervisorOfProject(long userId, long projectId){
+        User supervisor = projectCollaboratorRepository.getSupervisor(projectId);
+        if(supervisor == null) return false;
+
+        return supervisor.getId() == userId;
     }
 
 }
