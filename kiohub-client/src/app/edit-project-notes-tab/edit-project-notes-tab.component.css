@@ -118,3 +118,7 @@ ul li a:hover,ul li a:focus{
 #no-pointer {
     cursor: default !important;
 }
+
+.maxlength {
+    font-size: var(--small-font-size);
+}

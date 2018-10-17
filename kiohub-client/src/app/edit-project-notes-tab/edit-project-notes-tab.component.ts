@@ -21,6 +21,8 @@ export class EditProjectNotesTabComponent implements OnInit {
   inputEditId: number;
   visibilitySelected: string;
 
+  MAX_LENGTH = 500; // value from database
+
   tooltipVisibility = 'Zmień widoczność elementu.';
   tooltipDelete = 'Usuń notatkę.';
   tooltipEdit = 'Edytuj treść i widoczność notatki.';
