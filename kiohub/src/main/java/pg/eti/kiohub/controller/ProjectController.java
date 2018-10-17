@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 public class ProjectController extends MainController {
 
     @GetMapping(path = "/all")
-    //@PreAuthorize("@securityService.hasPermission(#http)")
     public ResponseEntity<List<Project>> getAllProjects(HttpServletRequest  http) {
         return new ResponseEntity<>( projectRepository.findAll(), HttpStatus.OK);
     }
@@ -41,11 +40,12 @@ public class ProjectController extends MainController {
     @GetMapping(path = "/published")
     public ResponseEntity<List<Project>> getAllPublishedProjects(HttpServletRequest http){
         List<Project> publishedProjects = projectRepository.findAll()
-                .stream().filter(project -> project.getPublished()).collect(Collectors.toList());
+                                                    .stream()
+                                                    .filter(project -> project.getPublished())
+                                                    .collect(Collectors.toList());
         return new ResponseEntity<>(publishedProjects, HttpStatus.OK);
     }
 
-    //@PreAuthorize("@securityService.isCollaborator(#http)")
     @GetMapping(path = "/{id}")
     public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id) {
         Optional<Project> p = projectRepository.findById(id);
@@ -85,8 +85,7 @@ public class ProjectController extends MainController {
             return ExceptionHandlingUtils.handleException(e);
         }
     }
-    
-    @PreAuthorize("@securityService.isCollaborator(#http)")
+
     @PostMapping(path = "/update")
     public ResponseEntity updateProject(@RequestBody Project project, HttpServletRequest http){
         try {
@@ -124,7 +123,6 @@ public class ProjectController extends MainController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PreAuthorize("@securityService.isCollaborator(#http)")
     @PostMapping(path = "/publish/{id}")
     public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest http){
         Optional<Project> projectToPublish = this.projectRepository.findById(id);
