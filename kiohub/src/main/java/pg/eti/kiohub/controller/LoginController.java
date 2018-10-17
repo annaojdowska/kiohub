@@ -96,11 +96,11 @@ public class LoginController extends MainController {
         User user = userToLogIn(request);
 
         // ustawienie, że użytkownik jest zalogowany
-        Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
-                AuthorityUtils.createAuthorityList("ROLE_USER"));
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        return "OK";
-       // return "redirect:http://kiohub.eti.pg.gda.pl";
+//        Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
+//                AuthorityUtils.createAuthorityList("ROLE_USER"));
+//        SecurityContextHolder.getContext().setAuthentication(auth);
+//        return "OK";
+        return "redirect:http://kiohub.eti.pg.gda.pl";
     }
     
     @CrossOrigin
