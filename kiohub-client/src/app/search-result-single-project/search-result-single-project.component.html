@@ -1,12 +1,13 @@
-<div id="project_result_container" (click)="navigateToDetails()">
-  <img class="project_image" *ngIf="!showDefault; else noImageFound" [src]="mainPhoto">
+<div id="project_result_container">
+    <app-search-result-single-project-options class="options" [projectId]="project.id"></app-search-result-single-project-options>
+  <img class="project_image" *ngIf="!showDefault; else noImageFound" [src]="mainPhoto" (click)="navigateToDetails()">
   <ng-template #noImageFound>
-      <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
+      <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik" (click)="navigateToDetails()">
   </ng-template>
   <div id="info">
-    <h2>{{project.title}}</h2>
-    <h3>{{project.titleEng}}</h3>
-    <p>{{descriptionToDisplay}}</p>
-    <app-input-list [removable]="false" hideInput="true" #tagsList></app-input-list>
+    <h2 class="title" (click)="navigateToDetails()">{{project.title}}</h2>
+    <h3 (click)="navigateToDetails()">{{project.titleEng}}</h3>
+    <p (click)="navigateToDetails()">{{descriptionToDisplay}}</p>
+    <app-input-list (click)="navigateToDetails()" [removable]="false" hideInput="true" #tagsList></app-input-list>
   </div>
 </div>

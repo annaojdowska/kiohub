@@ -1,0 +1,15 @@
+<div class="pinwrapper" *ngIf='pinned'>
+  <img src="assets/pin.png" class="pin">
+</div>
+<mat-form-field class="search-result-single-project-options">
+    <mat-select>
+          <mat-option *ngIf='allowPin' (click)="selectChange('PIN')">
+            <img src="assets/pin.png" class="icon-inline">
+            {{pinText}}
+          </mat-option>
+          <mat-option *ngIf='allowEdit' (click)="selectChange('EDIT')">
+            <img src="assets/edit.png" class="icon-inline">
+            Edytuj
+          </mat-option>
+    </mat-select>
+  </mat-form-field>

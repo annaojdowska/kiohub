@@ -60,6 +60,7 @@ import { MyProjectsComponent } from './my-projects/my-projects.component';
 import { MyProjectsSearchFormComponent } from './my-projects-search-form/my-projects-search-form.component';
 import { PublishDialogComponent } from './ui-elements/publish-dialog/publish-dialog.component';
 import { KiohubHttpInterceptor } from './services/login.service';
+import { SearchResultSingleProjectOptionsComponent } from './search-result-single-project-options/search-result-single-project-options.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { KiohubHttpInterceptor } from './services/login.service';
     ImageDialogComponent,
     MyProjectsComponent,
     MyProjectsSearchFormComponent,
-    PublishDialogComponent
+    PublishDialogComponent,
+    SearchResultSingleProjectOptionsComponent
   ],
   imports: [
     BrowserModule,
