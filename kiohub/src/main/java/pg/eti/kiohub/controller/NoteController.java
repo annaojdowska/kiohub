@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path = "/note")
 public class NoteController extends MainController {
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #id)")
+    @PreAuthorize("@securityService.isLogged(#request)")
     @GetMapping(path = "/project/{id}")
     public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long id,
                                                               HttpServletRequest request) {
