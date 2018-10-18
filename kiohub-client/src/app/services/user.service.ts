@@ -39,8 +39,10 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
         return this.http.get<ProjectCollaborator>(address + '/collaborator/data/supervisor/project/' + id, {responseType: 'json'});
      }
 
-    getUserById(id: number): Observable<User> {
-        return this.http.get<User>(address + '/user/' + id, {responseType: 'json'});
+    getUserById(id: number, projectId: number): Observable<User> {
+        const params = new HttpParams()
+          .set('projectId', projectId.toString());
+        return this.http.get<User>(address + '/user/' + id, {responseType: 'json', params: params});
      }
 
      updateVisibility(projectId: number, userId: number, visibility: Visibility) {

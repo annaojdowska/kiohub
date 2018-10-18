@@ -51,7 +51,7 @@ export class EditProjectNotesTabComponent implements OnInit {
     this.projectId = this.getProjectIdFromRouter();
     this.noteService.getNotesByProjectId(this.projectId).subscribe(result => result.forEach(note => {
       this.notes.push(note);
-      this.userService.getUserById(note.ownerId).subscribe(owner => this.notesOwners.push(owner));
+      this.userService.getUserById(note.ownerId, this.projectId).subscribe(owner => this.notesOwners.push(owner));
     }));
     this.noteInputShows = false;
     this.noteEditInputShows = false;
