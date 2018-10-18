@@ -29,9 +29,6 @@ public class LoginService {
     public User getLoggedUser(HttpServletRequest request){
         User user = null;
         if (isUserLogged(request)) {
-            System.out.println("getLogged: request=" + request);
-            System.out.println("getLogged: userPrincipal=" + (AttributePrincipal) request.getUserPrincipal());
-            System.out.println("getLogged: attributes=" + ((AttributePrincipal) request.getUserPrincipal()).getAttributes());
             Map<String, Object> attributes = ((AttributePrincipal) request.getUserPrincipal()).getAttributes();
             List<String> emails = (LinkedList) attributes.get("mail");
 
