@@ -28,7 +28,7 @@ import pg.eti.kiohub.entity.search.SearchResult;
 public class SearchService {
 
     @Autowired
-    private ProjectRepository projectRepository;
+    private ProjectService projectService;
     @Autowired
     private ProjectCollaboratorRepository collaboratorRepository;
 
@@ -46,7 +46,7 @@ public class SearchService {
     }
 
     private List<SearchResult> scoreProjects(QueryDescription query) {
-        List<Project> projects = projectRepository.findAll();
+        List<Project> projects = projectService.getAllPublishedProjects();
         if (query.isEmpty()) {
             return projects.stream().map((project) -> new SearchResult(project, 0)).collect(Collectors.toList());
         }

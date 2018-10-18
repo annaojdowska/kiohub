@@ -79,7 +79,11 @@ public class ProjectCollaboratorController extends MainController {
         System.out.println("Aktualizuję ");
         List<ProjectCollaborator> projectCollaborators = collaboratorsRepository.getCollaboratorsData(Long.parseLong(projectId));
         projectCollaborators.add(collaboratorsRepository.getSupervisorData(Long.parseLong(projectId)));
-        ProjectCollaborator projectCollaborator = projectCollaborators.stream().filter(pc -> pc.getProjectId() == Long.parseLong(projectId) && pc.getUserId()== Long.parseLong(userId)).findFirst().get();
+        ProjectCollaborator projectCollaborator = projectCollaborators
+                .stream()
+                .filter(pc -> pc.getProjectId() == Long.parseLong(projectId) && pc.getUserId()== Long.parseLong(userId))
+                .findFirst()
+                .get();
         projectCollaborator.setUserDataVisible(Visibility.valueOf(visibility));
         collaboratorsRepository.save(projectCollaborator);
         return new ResponseEntity(HttpStatus.OK);

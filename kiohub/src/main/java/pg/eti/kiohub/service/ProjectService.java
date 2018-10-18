@@ -30,4 +30,10 @@ public class ProjectService {
         return projectRepository.findAll().stream().filter(project -> project.getTitle().toLowerCase().contains(phrase.toLowerCase())).collect(Collectors.toList());
     }
 
+    public List<Project> getAllPublishedProjects(){
+        return projectRepository.findAll()
+                .stream()
+                .filter(project -> project.getPublished())
+                .collect(Collectors.toList());
+    }
 }

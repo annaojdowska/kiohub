@@ -34,10 +34,7 @@ public class ProjectController extends MainController {
 
     @GetMapping(path = "/published")
     public ResponseEntity<List<Project>> getAllPublishedProjects(HttpServletRequest http){
-        List<Project> publishedProjects = projectRepository.findAll()
-                                                    .stream()
-                                                    .filter(project -> project.getPublished())
-                                                    .collect(Collectors.toList());
+        List<Project> publishedProjects = projectService.getAllPublishedProjects();
         return new ResponseEntity<>(publishedProjects, HttpStatus.OK);
     }
 
