@@ -43,7 +43,7 @@ public class KiohubApplication extends SpringBootServletInitializer{
             validation.addMappingForUrlPatterns(null, false, "/login/*");
             
             FilterRegistration.Dynamic wrapper = sc.addFilter("CAS HttpServletRequest Wrapper Filter", org.jasig.cas.client.util.HttpServletRequestWrapperFilter.class);
-            wrapper.addMappingForUrlPatterns(null, false, "/login/*");
+            wrapper.addMappingForUrlPatterns(null, false, "/*");
 
 
         }

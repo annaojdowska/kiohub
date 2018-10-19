@@ -41,20 +41,6 @@ public class NoteController extends MainController {
     @Autowired
     SecurityService securityService;
 
-    @GetMapping(path="test")
-    public ResponseEntity<User> blabla(HttpServletRequest request) {
-        User user = null;
-        Map<String, Object> attributes = ((AttributePrincipal) request.getUserPrincipal()).getAttributes();
-        List<String> emails = (LinkedList) attributes.get("mail");
-
-        int i = 0;
-        while (i < emails.size() && user == null) {
-            user = userRepository.findUserByEmail(emails.get(i));
-            i++;
-        }
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
  //   @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     @GetMapping(path = "/project/{id}")
     public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long id,
