@@ -5,9 +5,9 @@
  */
 package pg.eti.kiohub.controller;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pg.eti.kiohub.entity.model.Note;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.security.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,20 @@ import javax.servlet.http.HttpServletRequest;
 public class NoteController extends MainController {
     @Autowired
     SecurityService securityService;
+
+    @GetMapping(path="test")
+    public ResponseEntity<User> blabla(HttpServletRequest request) {
+        User user = null;
+        Map<String, Object> attributes = ((AttributePrincipal) request.getUserPrincipal()).getAttributes();
+        List<String> emails = (LinkedList) attributes.get("mail");
+
+        int i = 0;
+        while (i < emails.size() && user == null) {
+            user = userRepository.findUserByEmail(emails.get(i));
+            i++;
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
  //   @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     @GetMapping(path = "/project/{id}")
@@ -61,7 +76,7 @@ public class NoteController extends MainController {
         Project project = projectRepository.findById(Long.parseLong(projectId)).get();
         Note noteToAdd = new Note(Long.parseLong(ownerId), project, content, new Date(), Integer.parseInt(isPrivate) == 1 ? true : false);
         noteRepository.saveAndFlush(noteToAdd);
-       
+
         return new ResponseEntity<>(noteToAdd, HttpStatus.OK);
     }
 
@@ -71,7 +86,7 @@ public class NoteController extends MainController {
                                  @RequestParam("projectId") Long projectId,
                                  HttpServletRequest request) {
         Optional<Note> noteToDelete = this.noteRepository.findById(id);
-        if (noteToDelete.isPresent()) {            
+        if (noteToDelete.isPresent()) {
             this.noteRepository.delete(noteToDelete.get());
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -87,7 +102,7 @@ public class NoteController extends MainController {
             @RequestParam("isPrivate") String isPrivate,
             @RequestParam("projectId") Long projectId,
             HttpServletRequest request){
-        try { 
+        try {
             Note noteToUpdate = noteRepository.findById(id).get();
             noteToUpdate.setContent(content);
             noteToUpdate.setIsPrivate(Integer.parseInt(isPrivate) == 1 ? true : false);
