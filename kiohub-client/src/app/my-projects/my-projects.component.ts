@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, EventEmitter, Output } from '@angular/core';
 import { trigger, transition, animate, style } from '../../../node_modules/@angular/animations';
 import { Router } from '../../../node_modules/@angular/router';
 import { Project } from '../model/project.interface';
@@ -7,6 +7,9 @@ import { ProjectService } from '../services/project.service';
 import { ValueUtils } from '../error-info/value-utils';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
+import { ProjectStatusService } from '../services/project-status-service';
+import { ProjectStatus } from '../model/project-status.interface';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-my-projects',
@@ -25,6 +28,9 @@ import { User } from '../model/user.interface';
   ]
 })
 export class MyProjectsComponent implements OnInit {
+  readonly statusInProgress = 'W trakcie';
+  readonly statusClosed = 'Zakończony';
+  readonly statusProblematic = 'Problematyczny';
   showNoResultsLabel: boolean;
   projects: Project[];
   dataSource: MatTableDataSource<Project>;
@@ -32,11 +38,22 @@ export class MyProjectsComponent implements OnInit {
   paginator: MatPaginator;
   valueUtils = new ValueUtils();
   currentUser: User;
+  checkedInProgress: boolean;
+  checkedClosed: boolean;
+  checkedProblematic: boolean;
+  projectStatuses: ProjectStatus[];
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) { this.paginator = mp; this.assignPaginatorToDataSource(); }
-  constructor(@Inject(Router) private router: Router, @Inject(ProjectService) private projectService: ProjectService,
-                @Inject(UserService) private userService: UserService) { }
+  constructor(@Inject(Router) private router: Router,
+              @Inject(ProjectService) private projectService: ProjectService,
+              @Inject(UserService) private userService: UserService,
+              @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
+              @Inject(SearchService) private searchService: SearchService) { }
 
   ngOnInit() {
+    this.checkedClosed = false;
+    this.checkedInProgress = false;
+    this.checkedProblematic = false;
+    this.projectStatusService.getStatuses().subscribe(result => this.projectStatuses = result);
     this.userService.getCurrentUser().subscribe(user => {
       this.currentUser = user;
       if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
@@ -73,4 +90,32 @@ export class MyProjectsComponent implements OnInit {
       return this.projects.length > 0;
     }
   }
+
+  checkButton(inProgress: boolean, closed: boolean, problematic: boolean) {
+    this.checkedInProgress = inProgress;
+    this.checkedClosed = closed;
+    this.checkedProblematic = problematic;
+  }
+
+  filterByStatus(statusName: string) {
+    if (statusName === this.statusInProgress) {
+      this.checkButton(true, false, false);
+    } else if (statusName === this.statusClosed) {
+      this.checkButton(false, true, false);
+    } else {
+      this.checkButton(false, false, true);
+    }
+    console.log(this.projectStatuses);
+    console.log(this.projectStatuses.filter(pr => pr.name === statusName));
+    this.getSearchResults(this.projectStatuses.find(pr => pr.name === statusName.toString()).id);
+  }
+
+  getSearchResults(statusId: number) {
+    this.searchService.getProjectsBasedOnStatus(statusId, this.currentUser.id).subscribe(results => {
+      this.projects = results;
+      console.log(results);
+    });
+  }
+
+
 }

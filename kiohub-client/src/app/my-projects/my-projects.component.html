@@ -13,6 +13,13 @@
     <app-my-projects-search-form id="searchForm" (filtersSubmitted)="getSearchResults($event)"></app-my-projects-search-form>
 </div>
 
+<div id="quick-filter-buttons-container">
+        <button class="quick-filter-button" id="{{checkedInProgress ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusInProgress)">{{statusInProgress}}</button>
+        <button class="quick-filter-button" id="{{checkedClosed ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusClosed)">{{statusClosed}}</button> 
+        <button class="quick-filter-button" id="{{checkedProblematic ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusProblematic)">{{statusProblematic}}</button>
+</div>
+
+
 <div>
     <div id="noResultsLabel" *ngIf="showNoResultsLabel">
         <label>Nie znaleziono projektów spełniających zadane kryteria</label>
