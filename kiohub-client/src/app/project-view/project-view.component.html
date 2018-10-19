@@ -22,7 +22,7 @@
             <table>
                 <tbody>
                     <tr>
-                        <th>
+                        <th [hidden]="supervisorHidden">
                             Promotor
                         </th>
                         <th>
@@ -30,7 +30,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th [hidden]=authorsHidden>
+                        <th [hidden]="authorsHidden">
                             Autorzy
                         </th>
                         <th>
@@ -65,7 +65,7 @@
                         </th>
                     </tr>
                     <tr>
-                        <th [hidden]=semestersHidden>
+                        <th [hidden]="semestersHidden">
                             Semestry wytwarzania
                         </th>
                         <th>
@@ -75,15 +75,15 @@
                         </th>
                     </tr>
                     <tr>
-                        <th [hidden]=licenceHidden>
+                        <th [hidden]="licenceHidden">
                             Licencja
                         </th>
-                        <th [hidden]=licenceHidden>
+                        <th [hidden]="licenceHidden">
                             {{project?.licence?.name}}
                         </th>
                     </tr>
                     <tr>
-                        <th [hidden]=tagsHidden>
+                        <th [hidden]="tagsHidden">
                             Tagi
                         </th>
                         <th>
@@ -96,7 +96,18 @@
             </table>
         </div>
 
-        <div [hidden]=filesHidden class="component">
+        <div [hidden]="relatedProjectsHidden" class="component">
+            <img src="../../assets/related.png" />
+            <h4>Powiązane projekty</h4>
+            <div id="list">
+                <li *ngFor="let relatedProject of relatedProjects">
+                    <img id="bullet-character" src="../../assets/bullet-character.png"/>
+                    <a [routerLink]="['/details/', relatedProject?.id]">{{relatedProject?.title}}</a>
+                </li>
+            </div>
+        </div>
+
+        <div [hidden]="filesHidden" class="component">
             <img src="assets/download.png" />
             <h4>Pliki do pobrania</h4>
             <app-download-element #downloadThesis title="Praca dyplomowa"></app-download-element>

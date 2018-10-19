@@ -15,7 +15,7 @@ h4 {
     font-size: 20px;
 }
 
-img {
+img, a {
     vertical-align: middle;
     padding-right: 5px;
 }
@@ -29,8 +29,11 @@ img {
     display: inline-block;
 }
 
-th, .description_content, label {
+th, .description_content, label { 
     margin-top: 10px;
+}
+
+th, .description_content, label, li {
     font-weight: normal;
     font-size: var(--normal-font-size);
     font-family: var(--main-font-name), sans-serif;
@@ -67,7 +70,7 @@ table>*:first-child:not(thead) th:first-child {
 
 /* #1 ?  #2 n-ta kolumna, n = 2  */
 
-table>*:first-child:not(thead) th:nth-child(2), .description_content {
+table>*:first-child:not(thead) th:nth-child(2), .description_content, li {
     /*h6*/
     text-align: left;
     color: var(--color-black);
@@ -88,4 +91,12 @@ table>*:first-child:not(thead) th:nth-child(2), .description_content {
 .description-english {
     height: 100%;
     overflow: hidden;
+}
+
+#list {
+   margin-top: 5px; 
+}
+
+#bullet-character {
+    margin-right: 7px;
 }
