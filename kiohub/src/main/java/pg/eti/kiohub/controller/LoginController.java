@@ -44,7 +44,7 @@ public class LoginController extends MainController {
     @Autowired
     LoginService loginService;
 
-    @GetMapping(path="test")
+    @GetMapping(path="/login/test")
     public ResponseEntity<User> blabla(HttpServletRequest request) {
         User user = null;
         Map<String, Object> attributes = ((AttributePrincipal) request.getUserPrincipal()).getAttributes();
