@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
-import pg.eti.kiohub.entity.repository.ProjectRepository;
 import pg.eti.kiohub.entity.search.QueryDescription;
 import pg.eti.kiohub.entity.search.ScoredQueryDescription;
 import pg.eti.kiohub.entity.search.SearchResult;
@@ -149,5 +148,16 @@ public class SearchService {
             sum += i + 1;
         
         return sum;
+    }
+
+    public List<Project> findMatchingProjectsBasedOnStatusId(Long statusId, Long collaboratorId) {
+        List<Project> projects = this.collaboratorRepository.getListOfCollaboratorsProjects(collaboratorId);
+        List<Project> filteredProjects = new ArrayList<>();
+        for (Project p : projects) {
+            if (p.getProjectStatus().getId() == statusId) {
+                filteredProjects.add(p);
+            }
+        }
+        return filteredProjects;
     }
 }
