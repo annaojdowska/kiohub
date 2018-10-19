@@ -44,7 +44,19 @@ public class LoginController extends MainController {
     @Autowired
     LoginService loginService;
 
+    @GetMapping(path="test")
+    public ResponseEntity<User> blabla(HttpServletRequest request) {
+        User user = null;
+        Map<String, Object> attributes = ((AttributePrincipal) request.getUserPrincipal()).getAttributes();
+        List<String> emails = (LinkedList) attributes.get("mail");
 
+        int i = 0;
+        while (i < emails.size() && user == null) {
+            user = userRepository.findUserByEmail(emails.get(i));
+            i++;
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
     @RequestMapping(path = "/login/isLogged")
     public ResponseEntity<Boolean> isLogged(HttpServletRequest request) {
         Boolean isValid = loginService.isUserLogged(request);
