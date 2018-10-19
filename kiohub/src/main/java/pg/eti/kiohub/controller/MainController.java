@@ -85,9 +85,6 @@ public class MainController {
     @Autowired
     LoginService loginService;
 
-    @Autowired
-    SecurityService securityService;
-
 
     @Configuration
     @EnableGlobalMethodSecurity(prePostEnabled = true)

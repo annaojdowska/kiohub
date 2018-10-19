@@ -7,6 +7,8 @@ package pg.eti.kiohub.controller;
 
 import java.util.Date;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pg.eti.kiohub.entity.model.Note;
 import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.security.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,12 +37,16 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(path = "/note")
 public class NoteController extends MainController {
+    @Autowired
+    SecurityService securityService;
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #id)")
+ //   @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     @GetMapping(path = "/project/{id}")
     public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long id,
                                                               HttpServletRequest request) {
-        return new ResponseEntity<>(noteRepository.getNotes(id), HttpStatus.OK);
+        if(securityService.isCollaborator(request, id))
+            return new ResponseEntity<>(noteRepository.getNotes(id), HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     }
 
     @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
