@@ -105,15 +105,13 @@ export class MyProjectsComponent implements OnInit {
     } else {
       this.checkButton(false, false, true);
     }
-    console.log(this.projectStatuses);
-    console.log(this.projectStatuses.filter(pr => pr.name === statusName));
     this.getSearchResults(this.projectStatuses.find(pr => pr.name === statusName.toString()).id);
   }
 
   getSearchResults(statusId: number) {
     this.searchService.getProjectsBasedOnStatus(statusId, this.currentUser.id).subscribe(results => {
       this.projects = results;
-      console.log(results);
+      this.dataSource = new MatTableDataSource<Project>(this.projects);
     });
   }
 

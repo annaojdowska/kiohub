@@ -15,8 +15,8 @@
 
 <div id="quick-filter-buttons-container">
         <button class="quick-filter-button" id="{{checkedInProgress ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusInProgress)">{{statusInProgress}}</button>
-        <button class="quick-filter-button" id="{{checkedClosed ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusClosed)">{{statusClosed}}</button> 
-        <button class="quick-filter-button" id="{{checkedProblematic ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusProblematic)">{{statusProblematic}}</button>
+        <button class="quick-filter-button" id="{{checkedClosed ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusClosed)">Zakończone</button> 
+        <button class="quick-filter-button" id="{{checkedProblematic ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusProblematic)">Problematyczne</button>
 </div>
 
 
