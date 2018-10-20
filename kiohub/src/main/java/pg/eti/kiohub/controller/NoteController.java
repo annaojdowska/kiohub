@@ -41,7 +41,7 @@ public class NoteController extends MainController {
     @Autowired
     SecurityService securityService;
 
- //   @PreAuthorize("@securityService.isCollaborator(#request, #id)")
+    @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     @GetMapping(path = "/project/{id}")
     public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long id,
                                                               HttpServletRequest request) {
