@@ -65,3 +65,20 @@ mat-paginator {
 #lets-color {
     background-color: var(--color-blue-light);
 }
+
+#number-label{
+    font-family: var(--main-font-name), sans-serif;
+    float: right;
+    margin-top: 35px;
+    margin-right: 5px;
+}
+
+#sort-results {
+    margin-top: 15px;
+    font-size: 15px;
+    float: left;
+}
+
+#sort-bar{
+    display: flow-root;
+}

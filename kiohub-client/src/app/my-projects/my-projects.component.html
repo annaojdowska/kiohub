@@ -1,5 +1,5 @@
 <button type="button" mat-stroked-button id="add-project-button" mat-stroked-button (click)="navigateToAddProjectPage()">
-   Dodaj nowy projekt
+    Dodaj nowy projekt
 </button>
 
 <div id="center">
@@ -14,9 +14,17 @@
 </div>
 
 <div id="quick-filter-buttons-container">
-        <button class="quick-filter-button" id="{{checkedInProgress ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusInProgress)">{{statusInProgress}}</button>
-        <button class="quick-filter-button" id="{{checkedClosed ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusClosed)">Zakończone</button> 
-        <button class="quick-filter-button" id="{{checkedProblematic ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusProblematic)">Problematyczne</button>
+    <button class="quick-filter-button" id="{{checkedInProgress ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusInProgress)">{{statusInProgress}}</button>
+    <button class="quick-filter-button" id="{{checkedClosed ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusClosed)">Zakończone</button>
+    <button class="quick-filter-button" id="{{checkedProblematic ? 'lets-color': ''}}" mat-stroked-button (click)="filterByStatus(statusProblematic)">Problematyczne</button>
+</div>
+<div id="sort-bar">
+    <div id="sort-results">
+        <app-sort-results [sortingRules]=sortingRules (ruleSelectionChanged)="applySorting($event)"></app-sort-results>
+    </div>
+    <div id="number-label">
+        <label>Liczba wyświetlanych projektów: {{readDisplayedProjectsLength()}}</label>
+    </div>
 </div>
 
 
@@ -37,4 +45,4 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" *ngIf="displayPaginator()"></mat-paginator>
-    </div>
+</div>

@@ -10,6 +10,7 @@ import { User } from '../model/user.interface';
 import { ProjectStatusService } from '../services/project-status-service';
 import { ProjectStatus } from '../model/project-status.interface';
 import { SearchService } from '../services/search.service';
+import { SortingService } from '../services/sorting-service';
 
 @Component({
   selector: 'app-my-projects',
@@ -33,9 +34,11 @@ export class MyProjectsComponent implements OnInit {
   readonly statusProblematic = 'Problematyczny';
   showNoResultsLabel: boolean;
   projects: Project[];
+  displayedProjects: Project[];
   dataSource: MatTableDataSource<Project>;
   displayedColumns: string[] = ['results'];
   paginator: MatPaginator;
+  sortingRules: string[];
   valueUtils = new ValueUtils();
   currentUser: User;
   checkedInProgress: boolean;
@@ -47,9 +50,13 @@ export class MyProjectsComponent implements OnInit {
               @Inject(ProjectService) private projectService: ProjectService,
               @Inject(UserService) private userService: UserService,
               @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
+              @Inject(SortingService) private sortingService: SortingService,
               @Inject(SearchService) private searchService: SearchService) { }
 
   ngOnInit() {
+    this.sortingRules = [this.sortingService.alphabetical,
+      this.sortingService.by_publication_date_descending,
+      this.sortingService.by_publication_date_ascending];
     this.checkedClosed = false;
     this.checkedInProgress = false;
     this.checkedProblematic = false;
@@ -60,16 +67,18 @@ export class MyProjectsComponent implements OnInit {
         this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
         .subscribe(results => {
           this.projects = results;
-          this.dataSource = new MatTableDataSource<Project>(this.projects);
+          this.displayedProjects = this.projects;
+          this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
         });
-      } else {
-        this.projectService.getProjectsByCollaboratorId(868)
-        .subscribe(results => {
-          this.projects = results;
-          this.dataSource = new MatTableDataSource<Project>(this.projects);
-      });
-    }
-    });
+      }});
+
+    // debug
+      // this.projectService.getProjectsByCollaboratorId(868)
+      // .subscribe(results => {
+      //   this.projects = results;
+      //   this.displayedProjects = this.projects;
+      //   this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+      // });
   }
 
   navigateToAddProjectPage() {
@@ -105,7 +114,12 @@ export class MyProjectsComponent implements OnInit {
     } else {
       this.checkButton(false, false, true);
     }
-    this.getSearchResults(this.projectStatuses.find(pr => pr.name === statusName.toString()).id);
+   this.executeFilterByStatus(statusName);
+  }
+
+  executeFilterByStatus(status: string) {
+    this.displayedProjects = this.projects.filter(project => project.projectStatus.name === status);
+    this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
   }
 
   getSearchResults(statusId: number) {
@@ -115,5 +129,26 @@ export class MyProjectsComponent implements OnInit {
     });
   }
 
+  applySorting(sortingRule: string) {
+    if (sortingRule === this.sortingService.alphabetical) {
+      this.displayedProjects = this.displayedProjects
+        .sort((a, b) => this.sortingService.sortAlphabetically(a.title, b.title));
+    } else if (sortingRule === this.sortingService.by_publication_date_descending) {
+      this.displayedProjects = this.displayedProjects
+        .sort((a, b) => this.sortingService.sortByDateDescending(a.publicationDate, b.publicationDate));
+    } else if (sortingRule === this.sortingService.by_publication_date_ascending) {
+      this.displayedProjects = this.displayedProjects
+      .sort((a, b) => this.sortingService.sortByDateAscending(a.publicationDate, b.publicationDate));
+    }
+    this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+    this.assignPaginatorToDataSource();
+  }
 
+  readDisplayedProjectsLength(): number {
+    if (this.valueUtils.isNullOrUndefined(this.displayedProjects)) {
+      return 0;
+    } else {
+      return this.displayedProjects.length;
+    }
+  }
 }
