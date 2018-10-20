@@ -44,7 +44,8 @@ export class ProjectService {
   }
 
   updateProject(project: Project) {
-    return this.http.post<Project>(address + '/project/update/', project, this.httpOptions);
+    return this.http.post<Project>(address + '/project/update/', project,
+    {headers: this.httpOptions.headers, params: {'projectId' : project.id.toString()}});
   }
 
   deleteProject(id: number) {

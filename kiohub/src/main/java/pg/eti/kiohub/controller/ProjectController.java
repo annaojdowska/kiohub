@@ -81,9 +81,12 @@ public class ProjectController extends MainController {
         }
     }
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #project.getId())")
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/update")
-    public ResponseEntity updateProject(@RequestBody Project project, HttpServletRequest http){
+    public ResponseEntity updateProject(
+            @RequestBody Project project,
+            @RequestParam("projectId") Long projectId,
+            HttpServletRequest request){
         try {
             List<Tag> tags = tagService.addTags(project.getTags());
             project.setTags(tags);
@@ -99,7 +102,8 @@ public class ProjectController extends MainController {
 
     @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     @PostMapping(path = "/set-related/{id}")
-    public ResponseEntity setRelatedProjects(@PathVariable("id") Long id, @RequestBody List<Project> projects,
+    public ResponseEntity setRelatedProjects(@PathVariable("id") Long id,
+                                             @RequestBody List<Project> projects,
                                              HttpServletRequest request){
         this.projectRepository.deleteAllRelatedProjects(id);
         for (Project pr : projects) {
