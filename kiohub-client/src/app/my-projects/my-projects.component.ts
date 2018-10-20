@@ -11,6 +11,8 @@ import { ProjectStatusService } from '../services/project-status-service';
 import { ProjectStatus } from '../model/project-status.interface';
 import { SearchService } from '../services/search.service';
 import { SortingService } from '../services/sorting-service';
+import { QueryDescription } from '../model/helpers/query-description.class';
+import { FilterService } from '../services/filter.service';
 
 @Component({
   selector: 'app-my-projects',
@@ -51,7 +53,7 @@ export class MyProjectsComponent implements OnInit {
               @Inject(UserService) private userService: UserService,
               @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
               @Inject(SortingService) private sortingService: SortingService,
-              @Inject(SearchService) private searchService: SearchService) { }
+              @Inject(FilterService) private filterService: FilterService) { }
 
   ngOnInit() {
     this.sortingRules = [this.sortingService.alphabetical,
@@ -122,11 +124,9 @@ export class MyProjectsComponent implements OnInit {
     this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
   }
 
-  getSearchResults(statusId: number) {
-    this.searchService.getProjectsBasedOnStatus(statusId, this.currentUser.id).subscribe(results => {
-      this.projects = results;
-      this.dataSource = new MatTableDataSource<Project>(this.projects);
-    });
+  getSearchResults(query: QueryDescription) {
+    console.log('SUBMIT in get search results');
+    this.filterService.filterBasedOnQuery(query, this.projects);
   }
 
   applySorting(sortingRule: string) {
