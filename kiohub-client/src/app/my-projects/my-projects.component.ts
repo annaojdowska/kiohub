@@ -34,7 +34,7 @@ export class MyProjectsComponent implements OnInit {
   showNoResultsLabel: boolean;
   projects: Project[];
   dataSource: MatTableDataSource<Project>;
-  displayedColumns: string[] = ['results', 'menu'];
+  displayedColumns: string[] = ['results'];
   paginator: MatPaginator;
   valueUtils = new ValueUtils();
   currentUser: User;
