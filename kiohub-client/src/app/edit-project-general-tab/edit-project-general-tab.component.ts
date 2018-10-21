@@ -505,7 +505,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
   private uploadFiles(list, attachmentType: AttachmentType) {
     list.elements.forEach(element => {
       if (!element.id) {
-        this.attachmentService.upload(element.file, attachmentType, this.editedProject.id, element.visibility, false)
+        this.attachmentService.upload(element.file, attachmentType, this.editedProject.id, element.visibility,
+          (attachmentType === AttachmentType.PHOTO && element.selected ? element.selected : false))
           .subscribe(data => {
             this.uploadInfoSpinner.addSuccess(element.name);
           }, error => {
