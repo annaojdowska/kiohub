@@ -16,8 +16,8 @@ import { LoginService } from '../services/login.service';
 })
 export class SearchResultSingleProjectComponent implements OnInit, AfterContentInit {
   @Input() project: Project;
-  @Input() allowPin = true;
-  @Input() allowEdit = true;
+  @Input() allowPin = false;
+  @Input() allowEdit = false;
   @ViewChild('tagsList') tagsList: InputListComponent;
   @ViewChild('options') options: SearchResultSingleProjectOptionsComponent;
   private descriptionToDisplay: string;
