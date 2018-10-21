@@ -9,7 +9,6 @@ import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
 import { ProjectStatusService } from '../services/project-status-service';
 import { ProjectStatus } from '../model/project-status.interface';
-import { SearchService } from '../services/search.service';
 import { SortingService } from '../services/sorting-service';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { FilterService } from '../services/filter.service';
@@ -36,6 +35,7 @@ export class MyProjectsComponent implements OnInit {
   readonly statusInProgress = 'W trakcie';
   readonly statusClosed = 'Zakończony';
   readonly statusProblematic = 'Problematyczny';
+
   showNoResultsLabel: boolean;
   projects: Project[];
   displayedProjects: Project[];
@@ -49,7 +49,10 @@ export class MyProjectsComponent implements OnInit {
   checkedClosed: boolean;
   checkedProblematic: boolean;
   projectStatuses: ProjectStatus[];
-  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) { this.paginator = mp; this.assignPaginatorToDataSource(); }
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp; this.assignPaginatorToDataSource();
+  }
+
   constructor(@Inject(Router) private router: Router,
               @Inject(ProjectService) private projectService: ProjectService,
               @Inject(UserService) private userService: UserService,

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit, Injectable } from '@angular/core';
 import { SearchService } from '../services/search.service';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
@@ -7,6 +7,8 @@ import { SearchResult } from '../model/helpers/search-result.class';
 import { SortingService } from '../services/sorting-service';
 import { ProjectService } from '../services/project.service';
 import { ValueUtils } from '../error-info/value-utils';
+import { AdvancedSearchFormComponent } from '../advanced-search-form/advanced-search-form.component';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
 
 @Component({
   selector: 'app-advanced-search',
@@ -15,11 +17,11 @@ import { ValueUtils } from '../error-info/value-utils';
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
-        style({height: '0px'}),
-      animate('500ms linear', style({height: '*'}))
+        style({ height: '0px' }),
+        animate('500ms linear', style({ height: '*' }))
       ]),
       transition(':leave', [
-      animate('500ms linear', style({height: '0px'}))
+        animate('500ms linear', style({ height: '0px' }))
       ])
     ])
   ]
@@ -32,16 +34,18 @@ export class AdvancedSearchComponent implements OnInit {
   sortingRules: string[];
   paginator: MatPaginator;
   valueUtils = new ValueUtils();
+  @ViewChild('searchForm') searchForm: AdvancedSearchFormComponent;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) { this.paginator = mp; this.assignPaginatorToDataSource(); }
+  @ViewChild('noResultsError') noResultsError: ErrorInfoComponent;
 
   constructor(@Inject(ProjectService) private projectService: ProjectService,
-      @Inject(SearchService) private searchService: SearchService,
-      @Inject(SortingService) private sortingService: SortingService) {
+    @Inject(SearchService) private searchService: SearchService,
+    @Inject(SortingService) private sortingService: SortingService) {
     this.showNoResultsLabel = false;
     this.searchResults = [];
     this.sortingRules = [sortingService.alphabetical,
-      sortingService.by_publication_date_descending,
-      sortingService.by_publication_date_ascending];
+    sortingService.by_publication_date_descending,
+    sortingService.by_publication_date_ascending];
   }
 
   ngOnInit() {
@@ -51,20 +55,29 @@ export class AdvancedSearchComponent implements OnInit {
     });
   }
 
- private assignPaginatorToDataSource(): void {
-   if (!this.valueUtils.isNullOrUndefined(this.dataSource)) {
-    this.dataSource.paginator = this.paginator;
-   }
+  private assignPaginatorToDataSource(): void {
+    if (!this.valueUtils.isNullOrUndefined(this.dataSource)) {
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
   getSearchResults(query: QueryDescription) {
     this.searchService.getProjectsBasedOnQuery(query).subscribe(results => {
       this.searchResults = results;
       this.applySorting(this.sortingService.by_relevancy);
-      this.showNoResultsLabel = this.searchResults.length === 0;
+      this.handleNoResults(this.searchResults.length === 0);
       this.sortingRules = [this.sortingService.alphabetical, this.sortingService.by_publication_date_descending,
-        this.sortingService.by_publication_date_ascending, this.sortingService.by_relevancy];
+      this.sortingService.by_publication_date_ascending, this.sortingService.by_relevancy];
     });
+  }
+
+  handleNoResults(value: boolean) {
+    this.showNoResultsLabel = value;
+    if (value) {
+      this.noResultsError.setComponent(true, 'WARNING', 'Nie znaleziono projektów spełniających zadane kryteria.');
+    } else {
+      this.noResultsError.setComponent(true, 'SUCCESS', 'Znaleziono poniższe projekty.');
+    }
   }
 
   displayPaginator(): boolean {
@@ -87,7 +100,7 @@ export class AdvancedSearchComponent implements OnInit {
         .sort((a, b) => this.sortingService.sortByScore(a.score, b.score));
     } else if (sortingRule === this.sortingService.by_publication_date_ascending) {
       this.searchResults = this.searchResults
-      .sort((a, b) => this.sortingService.sortByDateAscending(a.project.publicationDate, b.project.publicationDate));
+        .sort((a, b) => this.sortingService.sortByDateAscending(a.project.publicationDate, b.project.publicationDate));
     }
     this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
     this.assignPaginatorToDataSource();

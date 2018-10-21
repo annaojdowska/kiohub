@@ -37,8 +37,6 @@ export class ErrorInfoComponent implements OnInit {
       this.error = false;
       this.success = true;
       this.warning = false;
-    } else {
-      console.log('Niepoprawny styl błędu o treści: ' + this.errorText);
     }
   }
 

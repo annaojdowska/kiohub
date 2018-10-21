@@ -45,7 +45,6 @@ export class ImageSliderComponent implements OnInit {
             this.setHidden(false);
           }
         }, false);
-
         if (image) {
           reader.readAsDataURL(image);
         }

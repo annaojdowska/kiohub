@@ -41,13 +41,17 @@ export class AdvancedSearchFormComponent implements OnInit {
   @ViewChild('errorTitle') errorTitle: ErrorInfoComponent;
   @ViewChild('errorDescription') errorDescription: ErrorInfoComponent;
   @ViewChild('errorDate') errorDate: ErrorInfoComponent;
-  @ViewChild('searchResult') searchResult: ErrorInfoComponent;
+  @ViewChild('searchError') searchError: ErrorInfoComponent;
 
   chosenSemesters: Semester[];
   selectedType: ProjectType;
   selectedLicence: Licence;
+  // correctly validated dates
   dateFrom: Date;
   dateTo: Date;
+  // dates provided by user (not necessarilly correct); used to validate all elements
+  enteredDateFrom: Date;
+  enteredDateTo: Date;
   validation = new Validation();
 
   licences: Licence[];
@@ -85,25 +89,31 @@ export class AdvancedSearchFormComponent implements OnInit {
     if (this.checkValidityDates(event.value, this.dateTo)) {
       this.dateFrom = event.value;
     }
+    this.enteredDateFrom = event.value;
+    this.hideSearchResultsError();
   }
 
   public dateToChanged(type: string, event: MatDatepickerInputEvent<Date>) {
     if (this.checkValidityDates(this.dateFrom, event.value)) {
       this.dateTo = event.value;
     }
+    this.enteredDateTo = event.value;
+    this.hideSearchResultsError();
   }
 
   onSupervisorChange(event) {
     this.checkValiditySupervisor();
+    this.hideSearchResultsError();
   }
 
   onTitlePlChange(event) {
     this.checkValidityTitle();
+    this.hideSearchResultsError();
   }
 
   onDescriptionPlChange(event) {
     this.checkValidityDescription();
-    console.log(this.descriptionInput);
+    this.hideSearchResultsError();
   }
 
   onKeyUpTag(event: KeyboardEvent) {
@@ -120,6 +130,7 @@ export class AdvancedSearchFormComponent implements OnInit {
         break;
       }
     }
+    this.hideSearchResultsError();
   }
 
   // ******** CHECK VALIDITY ********
@@ -154,7 +165,7 @@ export class AdvancedSearchFormComponent implements OnInit {
     validationOk = this.checkValidityTag() && validationOk;
     validationOk = this.checkValiditySupervisor() && validationOk;
     // console.log(validationOk);
-    validationOk = this.checkValidityDates(this.dateFrom, this.dateTo) && validationOk;
+    validationOk = this.checkValidityDates(this.enteredDateFrom, this.enteredDateTo) && validationOk;
     // console.log(validationOk);
 
     return validationOk;
@@ -203,9 +214,9 @@ export class AdvancedSearchFormComponent implements OnInit {
       this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
       this.filtersSubmitted.emit(query);
 
-      this.searchResult.setComponent(true, 'SUCCESS', 'Znaleziono poniższe projekty.');
+      this.searchError.setDisplay(false);
     } else {
-      this.searchResult.setComponent(true, 'ERROR', 'Podane filtry wyszukiwania są niepoprawne.');
+      this.searchError.setDisplay(true);
     }
   }
 
@@ -228,6 +239,13 @@ export class AdvancedSearchFormComponent implements OnInit {
     this.dateFrom = undefined;
     this.dateInput2.value = '';
     this.dateTo = undefined;
+
+    this.searchError.setDisplay(false);
+    this.errorDate.setDisplay(false);
+    this.errorDescription.setDisplay(false);
+    this.errorSupervisor.setDisplay(false);
+  this.errorTag.setDisplay(false);
+    this.errorTitle.setDisplay(false);
   }
 
   canExecuteClearFilters(): boolean {
@@ -281,5 +299,13 @@ export class AdvancedSearchFormComponent implements OnInit {
     if (index === -1) {
       this.typesList.add({ name: this.selectedType.name });
     }
+  }
+
+  /**
+   * Called after every value change. If user provided wrong data and clicked 'Apply filters', he will get an error;
+   * On any value change this error should be hidden because this error is out-of-date due to change in filters.
+   */
+  hideSearchResultsError() {
+    this.searchError.setDisplay(false);
   }
 }
