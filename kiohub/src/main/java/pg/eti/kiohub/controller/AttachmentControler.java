@@ -81,7 +81,7 @@ public class AttachmentControler extends MainController {
             attachment.setProject(project);
             attachment.setVisibility(Visibility.valueOf(visibility));
             attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             return ExceptionHandlingUtils.handleException(ex);
         }
 
@@ -112,31 +112,30 @@ public class AttachmentControler extends MainController {
                 log.info("EVERYTHING OK! SAVED " + affectedRows + " ROWS!");
 
             }
-//
-//            Connection connection = DriverManager.g;
-//            Blob blob2 = new SerialBlob('d');
-//
-//
-//            byte[] fileBytes = IOUtils.toByteArray(multipartFile.getInputStream(), attachment.getFileSize());
-//
-//            Blob blob = new SerialBlob(fileBytes);
-//            AttachmentFile af = new AttachmentFile();
-//            af.setFile(blob);
-//            af.setId(attachment.getId()); //get Id from attachment
-//            attachmentFileRepository.saveAndFlush(af);
         } catch (SQLException ex) {
+            rollbackSaveAttachment(attachment);
             return ExceptionHandlingUtils.handleException(ex);
         }
         catch (OutOfMemoryError ex) {
+            rollbackSaveAttachment(attachment);
             return ExceptionHandlingUtils.handleException(ex);
         }
         catch (Exception ex) {
+            rollbackSaveAttachment(attachment);
             return ExceptionHandlingUtils.handleException(ex);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    private void rollbackSaveAttachment(Attachment attachment) {
+        if (attachment != null) {
+            if (attachment.getId() != null) {
+            attachmentRepository.deleteById(attachment.getId());
+            }
+        }
+    }
+    
 
     @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/updateMetadata")
