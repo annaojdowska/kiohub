@@ -13,6 +13,8 @@ import { SearchService } from '../services/search.service';
 import { SortingService } from '../services/sorting-service';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { FilterService } from '../services/filter.service';
+import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-my-projects',
@@ -52,7 +54,9 @@ export class MyProjectsComponent implements OnInit {
               @Inject(ProjectService) private projectService: ProjectService,
               @Inject(UserService) private userService: UserService,
               @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
+              @Inject(LoginService) private loginService: LoginService,
               @Inject(SortingService) private sortingService: SortingService,
+              @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
               @Inject(FilterService) private filterService: FilterService) { }
 
   ngOnInit() {
@@ -117,11 +121,13 @@ export class MyProjectsComponent implements OnInit {
       this.checkButton(false, false, true);
     }
    this.executeFilterByStatus(statusName);
+   this.sortAndSetByPinned();
   }
 
   executeFilterByStatus(status: string) {
     this.displayedProjects = this.projects.filter(project => project.projectStatus.name === status);
     this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+    this.sortAndSetByPinned();
   }
 
   getSearchResults(query: QueryDescription) {
@@ -140,8 +146,7 @@ export class MyProjectsComponent implements OnInit {
       this.displayedProjects = this.displayedProjects
       .sort((a, b) => this.sortingService.sortByDateAscending(a.publicationDate, b.publicationDate));
     }
-    this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
-    this.assignPaginatorToDataSource();
+    this.sortAndSetByPinned();
   }
 
   readDisplayedProjectsLength(): number {
@@ -150,5 +155,21 @@ export class MyProjectsComponent implements OnInit {
     } else {
       return this.displayedProjects.length;
     }
+  }
+
+  sortAndSetByPinned() {
+    this.loginService.getLogged().subscribe(user => {
+      if (user) {
+        this.userPinnedProjectsService.allPinned(user.id).subscribe(pinneds => {
+          this.displayedProjects = this.displayedProjects
+          .sort((a, b) => this.sortingService.sortByPinned(pinneds.includes(a.id), pinneds.includes(b.id)));
+          this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+          this.assignPaginatorToDataSource();
+        });
+      } else {
+        this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+        this.assignPaginatorToDataSource();
+      }
+    });
   }
 }

@@ -5,6 +5,8 @@
  */
 package pg.eti.kiohub.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,8 +29,13 @@ public class UserPinnedProjectController extends MainController {
     
     @CrossOrigin
     @GetMapping(path = "/user/{userId}")
-    public ResponseEntity<Iterable<UserPinnedProject>> getUserPinnedProjectsByUserId(@PathVariable("userId") Long userId) {
-         return new ResponseEntity<>(userPinnedProjectRepository.getPinnedProjects(userId), HttpStatus.OK);
+    public ResponseEntity<Iterable<Long>> getUserPinnedProjectsIdsByUserId(@PathVariable("userId") Long userId) {
+        List<UserPinnedProject> pinnedProjects = userPinnedProjectRepository.getPinnedProjects(userId);
+        List<Long> pinnedIds = new ArrayList();
+        for(UserPinnedProject upp : pinnedProjects) {
+            pinnedIds.add(upp.getProjectId());
+        }
+         return new ResponseEntity<>(pinnedIds, HttpStatus.OK);
     }   
     
     @CrossOrigin

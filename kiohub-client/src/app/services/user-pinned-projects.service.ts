@@ -39,9 +39,7 @@ export class UserPinnedProjectsService {
     return this.http.post<boolean>(address + '/userpinnedproject/ispinned', params, this.httpOptions);
   }
 
-
-//   getUserPinnedProjects(): Observable<Tag[]> {
-//     return this.http.get<Tag[]>(address + '/userpinnedproject/all', {responseType: 'json'});
-//  }
-
+  allPinned(userId: number): Observable<number[]> {
+    return this.http.get<number[]>(address + '/userpinnedproject/user/' + userId, { responseType: 'json' });
+  }
 }

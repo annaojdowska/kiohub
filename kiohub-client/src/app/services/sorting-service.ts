@@ -1,4 +1,5 @@
 import { Injectable } from '../../../node_modules/@angular/core';
+import { Project } from '../model/project.interface';
 
 @Injectable()
 export class SortingService {
@@ -39,6 +40,15 @@ export class SortingService {
     if (a === b) {
         return 0;
       } else if (a > b) {
+        return -1;
+      }
+      return 1;
+  }
+
+  sortByPinned(a: boolean, b: boolean): number {
+    if (a === b) {
+        return 0;
+      } else if (a) {
         return -1;
       }
       return 1;
