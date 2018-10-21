@@ -9,6 +9,7 @@ export class QueryDescription {
     semestersIds: number[];
     dateFrom: Date;
     dateTo: Date;
+    statusesIds: number[];
 
     constructor() {
         this.supervisors = [];
@@ -18,5 +19,6 @@ export class QueryDescription {
         this.licencesIds = [];
         this.projectTypesIds = [];
         this.semestersIds = [];
+        this.statusesIds = [];
     }
 }

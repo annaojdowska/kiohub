@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
-import pg.eti.kiohub.entity.repository.ProjectRepository;
 import pg.eti.kiohub.entity.search.QueryDescription;
 import pg.eti.kiohub.entity.search.ScoredQueryDescription;
 import pg.eti.kiohub.entity.search.SearchResult;
@@ -28,7 +27,7 @@ import pg.eti.kiohub.entity.search.SearchResult;
 public class SearchService {
 
     @Autowired
-    private ProjectRepository projectRepository;
+    private ProjectService projectService;
     @Autowired
     private ProjectCollaboratorRepository collaboratorRepository;
 
@@ -46,7 +45,7 @@ public class SearchService {
     }
 
     private List<SearchResult> scoreProjects(QueryDescription query) {
-        List<Project> projects = projectRepository.findAll();
+        List<Project> projects = projectService.getAllPublishedProjects();
         if (query.isEmpty()) {
             return projects.stream().map((project) -> new SearchResult(project, 0)).collect(Collectors.toList());
         }
@@ -149,5 +148,16 @@ public class SearchService {
             sum += i + 1;
         
         return sum;
+    }
+
+    public List<Project> findMatchingProjectsBasedOnStatusId(Long statusId, Long collaboratorId) {
+        List<Project> projects = this.collaboratorRepository.getListOfCollaboratorsProjects(collaboratorId);
+        List<Project> filteredProjects = new ArrayList<>();
+        for (Project p : projects) {
+            if (p.getProjectStatus().getId() == statusId) {
+                filteredProjects.add(p);
+            }
+        }
+        return filteredProjects;
     }
 }

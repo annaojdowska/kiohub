@@ -10,8 +10,11 @@ import java.util.Date;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,15 +27,18 @@ import pg.eti.kiohub.entity.model.User;
  *
  * @author Tomasz
  */
+
+@CrossOrigin
 @Controller
 @RequestMapping(path = "/email")
 public class MailController extends MainController {
-    
-    @CrossOrigin
+
+    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     @PostMapping(path = "/sendinvitation")
     public ResponseEntity sendInvitation (
             @RequestParam("titlePl") String titlePl,
-            @RequestParam("collaborators") String emails) {
+            @RequestParam("collaborators") String emails,
+            HttpServletRequest request) {
 
         List<String> mails = Arrays.asList(emails.split(", "));
         try {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Output, EventEmitter } from '@angular/core';
 import { LicenceService } from '../services/licence-service';
 import { Licence } from '../model/licence.interface';
 import { ProjectTypeService } from '../services/project-type-service';
@@ -9,6 +9,9 @@ import { InputListComponent } from '../input-list/input-list.component';
 import { Semester } from '../model/semester.interface';
 import { MatDatepickerInputEvent, MatInput } from '../../../node_modules/@angular/material';
 import { InputListElement } from '../model/input-list-element';
+import { QueryDescription } from '../model/helpers/query-description.class';
+import { Validation } from '../error-info/validation-patterns';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
 
 @Component({
   selector: 'app-my-projects-search-form',
@@ -16,6 +19,7 @@ import { InputListElement } from '../model/input-list-element';
   styleUrls: ['./my-projects-search-form.component.css']
 })
 export class MyProjectsSearchFormComponent implements OnInit {
+  @Output() filtersSubmitted = new EventEmitter<QueryDescription>();
   @ViewChild('titleInput') titleInput: any;
   @ViewChild('tagInput') tagInput: any;
   @ViewChild('dateInput1', { read: MatInput }) dateInput1: MatInput;
@@ -28,6 +32,12 @@ export class MyProjectsSearchFormComponent implements OnInit {
   @ViewChild('statusesList') statusesList: InputListComponent;
   @ViewChild('semestersList') semestersList: InputListComponent;
 
+  // errors
+  @ViewChild('errorTag') errorTag: ErrorInfoComponent;
+  @ViewChild('errorTitle') errorTitle: ErrorInfoComponent;
+  @ViewChild('errorDate') errorDate: ErrorInfoComponent;
+  @ViewChild('filterResult') filterResult: ErrorInfoComponent;
+
   chosenSemesters: Semester[];
   selectedType: ProjectType;
   selectedLicence: Licence;
@@ -38,6 +48,7 @@ export class MyProjectsSearchFormComponent implements OnInit {
   project_types: ProjectType[];
   statuses: Status[];
   semestersHidden: boolean;
+  validation = new Validation();
 
   constructor(@Inject(LicenceService) private licenceService: LicenceService,
               @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
@@ -52,7 +63,28 @@ export class MyProjectsSearchFormComponent implements OnInit {
   }
 
   submit() {
-    // TODO
+    if (this.validateAllElements()) {
+    const query = new QueryDescription();
+    this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
+    this.titlesList.elements.map(element => element.name).forEach(name => query.titles.push(name));
+    query.dateFrom = this.dateFrom;
+    query.dateTo = this.dateTo;
+    this.licences.filter(licence =>
+      this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
+    ).forEach(licence => query.licencesIds.push(licence.id));
+    this.project_types.filter(type =>
+      this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
+    ).forEach(type => query.projectTypesIds.push(type.id));
+    this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
+    this.statuses.filter(status =>
+      this.statusesList.elements.map(element => element.name).findIndex(chosen => chosen === status.name) !== -1
+    ).forEach(status => query.statusesIds.push(status.id));
+
+    this.filtersSubmitted.emit(query);
+    this.filterResult.setComponent(true, 'SUCCESS', 'Znaleziono poniższe projekty.');
+    } else {
+      this.filterResult.setComponent(true, 'ERROR', 'Podane filtry wyszukiwania są niepoprawne.');
+    }
   }
 
   clearFilters() {
@@ -144,4 +176,31 @@ export class MyProjectsSearchFormComponent implements OnInit {
     this.semestersList.add({ name: semester.name });
   }
 
+
+  checkValidityTitle() {
+    return this.validation.validate(this.errorTitle, this.validation.validateInputWithPattern(this.titleInput));
+  }
+
+  checkValidityDates(from: Date, to: Date) {
+    return this.validation.validate(this.errorDate, this.validation.validateDatesOrder(from, to));
+  }
+
+  checkValidityDatesNotNull(from: Date, to: Date) {
+    return this.validation.validate(this.errorDate, this.validation.validateDatesOrderNotNull(from, to));
+  }
+
+  checkValidityTag() {
+    return this.validation.validate(this.errorTag, this.validation.validateInputTag(this.tagInput));
+  }
+
+  validateAllElements() {
+    let validationOk = true;
+    validationOk = this.checkValidityTitle() && validationOk;
+    validationOk = this.checkValidityTag() && validationOk;
+    // console.log(validationOk);
+    validationOk = this.checkValidityDates(this.dateFrom, this.dateTo) && validationOk;
+    // console.log(validationOk);
+
+    return validationOk;
+  }
 }

@@ -18,6 +18,7 @@ import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -36,21 +37,18 @@ import pg.eti.kiohub.service.LoginService;
 // * @author Tomasz
 // */
 //
-
+@CrossOrigin
 @Controller
 public class LoginController extends MainController {
 
-    @Autowired
-    LoginService loginService;
 
-    @CrossOrigin
     @RequestMapping(path = "/login/isLogged")
     public ResponseEntity<Boolean> isLogged(HttpServletRequest request) {
         Boolean isValid = loginService.isUserLogged(request);
         return new ResponseEntity<>(isValid, HttpStatus.OK);
     }
 
-    @CrossOrigin
+    @PreAuthorize("@securityService.isLogged(#request)")
     @RequestMapping(path = "/login/isSupervisor")
     public ResponseEntity<Boolean> isSupervisor(HttpServletRequest request) throws Exception {
         User loggedUser = loginService.getLoggedUser(request);
@@ -59,8 +57,8 @@ public class LoginController extends MainController {
         }
         return new ResponseEntity<>(loggedUser.getIsSupervisor(), HttpStatus.OK);
     }
-    
-    @CrossOrigin
+
+    @PreAuthorize("@securityService.isLogged(#request)")
     @RequestMapping(path = "/login/isStudent")
     public ResponseEntity<Boolean> isStudent(HttpServletRequest request) throws Exception {
         User loggedUser = loginService.getLoggedUser(request);
@@ -69,15 +67,15 @@ public class LoginController extends MainController {
         }
         return new ResponseEntity<>(!loggedUser.getIsSupervisor(), HttpStatus.OK);
     }
-    
-    @CrossOrigin
+
+    @PreAuthorize("@securityService.isLogged(#request)")
     @RequestMapping(path = "/login/getLogged")
     public ResponseEntity<User> getLogged(HttpServletRequest request) throws Exception {
        User user = loginService.getLoggedUser(request);
        return new ResponseEntity<>(user, HttpStatus.OK);
     }
-    
-    @CrossOrigin
+
+    @PreAuthorize("@securityService.isLogged(#request)")
     @RequestMapping(path = "/login/logout")
     public String logout(HttpServletRequest request) {
         try {
@@ -88,12 +86,11 @@ public class LoginController extends MainController {
         }
         return "redirect:https://logowanie.pg.gda.pl/logout?service=http://kiohub.eti.pg.gda.pl";
     }
-    
-    @CrossOrigin
+
     @RequestMapping(path = "/login")
     public String login(HttpServletRequest request) throws Exception {
         //dodać if request.isLogin()
-        User user = userToLogIn(request);
+        User user = loginService.userToLogIn(request);
 
         // ustawienie, że użytkownik jest zalogowany
 //        Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
@@ -101,20 +98,5 @@ public class LoginController extends MainController {
 //        SecurityContextHolder.getContext().setAuthentication(auth);
 //        return "OK";
         return "redirect:http://kiohub.eti.pg.gda.pl";
-    }
-    
-    @CrossOrigin
-    @RequestMapping(path = "/login/userToLogIn")
-    public User userToLogIn(HttpServletRequest request)  throws Exception {
-        if (loginService.isUserLogged(request)) {
-            Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
-            String firstName = attributes.get("firstName").toString();
-            String lastName = attributes.get("lastName").toString();
-
-            List<String> emails = (LinkedList)attributes.get("mail");
-            User user = loginService.createAndSaveLoggingUser(emails, firstName, lastName);
-            return user;
-        }
-        return null;
     }
 }

@@ -29,9 +29,6 @@ public class LoginService {
     public User getLoggedUser(HttpServletRequest request){
         User user = null;
         if (isUserLogged(request)) {
-            System.out.println("getLogged: request=" + request);
-            System.out.println("getLogged: userPrincipal=" + (AttributePrincipal) request.getUserPrincipal());
-            System.out.println("getLogged: attributes=" + ((AttributePrincipal) request.getUserPrincipal()).getAttributes());
             Map<String, Object> attributes = ((AttributePrincipal) request.getUserPrincipal()).getAttributes();
             List<String> emails = (LinkedList) attributes.get("mail");
 
@@ -74,4 +71,16 @@ public class LoginService {
         return user;
     }
 
+    public User userToLogIn(HttpServletRequest request)  throws Exception {
+        if (isUserLogged(request)) {
+            Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
+            String firstName = attributes.get("firstName").toString();
+            String lastName = attributes.get("lastName").toString();
+
+            List<String> emails = (LinkedList)attributes.get("mail");
+            User user = createAndSaveLoggingUser(emails, firstName, lastName);
+            return user;
+        }
+        return null;
+    }
 }

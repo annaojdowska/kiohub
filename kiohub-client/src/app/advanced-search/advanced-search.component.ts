@@ -6,6 +6,7 @@ import { QueryDescription } from '../model/helpers/query-description.class';
 import { SearchResult } from '../model/helpers/search-result.class';
 import { SortingService } from '../services/sorting-service';
 import { ProjectService } from '../services/project.service';
+import { ValueUtils } from '../error-info/value-utils';
 
 @Component({
   selector: 'app-advanced-search',
@@ -28,12 +29,9 @@ export class AdvancedSearchComponent implements OnInit {
   searchResults: SearchResult[];
   dataSource: MatTableDataSource<SearchResult>;
   displayedColumns: string[] = ['results'];
-  alphabetical = 'Alfabetycznie';
-  by_publication_date_descending = 'Od najnowszych';
-  by_publication_date_ascending = 'Od najstarszych';
-  by_relevancy = 'Najtrafniejsze';
   sortingRules: string[];
   paginator: MatPaginator;
+  valueUtils = new ValueUtils();
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) { this.paginator = mp; this.assignPaginatorToDataSource(); }
 
   constructor(@Inject(ProjectService) private projectService: ProjectService,
@@ -41,7 +39,9 @@ export class AdvancedSearchComponent implements OnInit {
       @Inject(SortingService) private sortingService: SortingService) {
     this.showNoResultsLabel = false;
     this.searchResults = [];
-    this.sortingRules = [this.alphabetical, this.by_publication_date_descending, this.by_publication_date_ascending];
+    this.sortingRules = [sortingService.alphabetical,
+      sortingService.by_publication_date_descending,
+      sortingService.by_publication_date_ascending];
   }
 
   ngOnInit() {
@@ -52,16 +52,18 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
  private assignPaginatorToDataSource(): void {
+   if (!this.valueUtils.isNullOrUndefined(this.dataSource)) {
     this.dataSource.paginator = this.paginator;
+   }
   }
 
   getSearchResults(query: QueryDescription) {
     this.searchService.getProjectsBasedOnQuery(query).subscribe(results => {
       this.searchResults = results;
-      this.applySorting(this.by_relevancy);
+      this.applySorting(this.sortingService.by_relevancy);
       this.showNoResultsLabel = this.searchResults.length === 0;
-      this.sortingRules = [this.alphabetical, this.by_publication_date_descending,
-        this.by_publication_date_ascending, this.by_relevancy];
+      this.sortingRules = [this.sortingService.alphabetical, this.sortingService.by_publication_date_descending,
+        this.sortingService.by_publication_date_ascending, this.sortingService.by_relevancy];
     });
   }
 
@@ -74,16 +76,16 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
   applySorting(sortingRule: string) {
-    if (sortingRule === this.alphabetical) {
+    if (sortingRule === this.sortingService.alphabetical) {
       this.searchResults = this.searchResults
         .sort((a, b) => this.sortingService.sortAlphabetically(a.project.title, b.project.title));
-    } else if (sortingRule === this.by_publication_date_descending) {
+    } else if (sortingRule === this.sortingService.by_publication_date_descending) {
       this.searchResults = this.searchResults
         .sort((a, b) => this.sortingService.sortByDateDescending(a.project.publicationDate, b.project.publicationDate));
-    } else if (sortingRule === this.by_relevancy) {
+    } else if (sortingRule === this.sortingService.by_relevancy) {
       this.searchResults = this.searchResults
         .sort((a, b) => this.sortingService.sortByScore(a.score, b.score));
-    } else if (sortingRule === this.by_publication_date_ascending) {
+    } else if (sortingRule === this.sortingService.by_publication_date_ascending) {
       this.searchResults = this.searchResults
       .sort((a, b) => this.sortingService.sortByDateAscending(a.project.publicationDate, b.project.publicationDate));
     }

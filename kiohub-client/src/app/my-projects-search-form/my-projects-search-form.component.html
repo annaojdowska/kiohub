@@ -42,6 +42,11 @@
             (semesterRemoved)="removeAddedSemester($event)" (confirm)="toggleSemesters($event)" #semesterChooser></app-semester-chooser>
     </div>
 
+    <app-error-info #errorTag errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
+    <app-error-info #errorTitle errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
+    <app-error-info #errorDate errorText="{{validation.errorStringDatesOrder}}" errorType="ERROR"></app-error-info>
+    <app-error-info #filterResult></app-error-info>
+
     <table id="inputListsTable">
       <tr>
         <td>

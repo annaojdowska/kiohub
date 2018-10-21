@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import pg.eti.kiohub.entity.repository.*;
+import pg.eti.kiohub.security.SecurityService;
 import pg.eti.kiohub.service.*;
 
 import javax.servlet.http.HttpServletRequest;

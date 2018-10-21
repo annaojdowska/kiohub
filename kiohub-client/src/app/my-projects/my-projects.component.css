@@ -21,6 +21,17 @@
     text-align: center;
 }
 
+#quick-filter-buttons-container {
+    text-align: right;
+    margin-top: 50px;
+}
+
+.quick-filter-button {
+    border-color: var(--color-gray);
+    font-family: var(--main-font-name), sans-serif;
+    width: 120px;
+}
+
 img  {
     margin-right: 15px;
 }
@@ -44,10 +55,30 @@ table {
     float: none;
     display: block;
     overflow: hidden;
-    background-color: transparent;   
-    margin-top: 30px;
+    background-color: transparent;
 }
 
-mat-paginator{
+mat-paginator {
     background-color: transparent;
+}
+
+#lets-color {
+    background-color: var(--color-blue-light);
+}
+
+#number-label{
+    font-family: var(--main-font-name), sans-serif;
+    float: right;
+    margin-top: 35px;
+    margin-right: 5px;
+}
+
+#sort-results {
+    margin-top: 15px;
+    font-size: 15px;
+    float: left;
+}
+
+#sort-bar{
+    display: flow-root;
 }

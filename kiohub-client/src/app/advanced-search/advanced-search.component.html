@@ -8,20 +8,15 @@
 <div *ngIf="showFilters" [@fadeInOut]>
     <app-advanced-search-form id="searchForm" (filtersSubmitted)="getSearchResults($event)"></app-advanced-search-form>
 </div>
-<table id="sort-bar">
-    <tr>
-        <th>
-            <div id="sort-results">
-                <app-sort-results [sortingRules]=sortingRules (ruleSelectionChanged)="applySorting($event)"></app-sort-results>
-            </div>
-        </th>
-        <th>
-            <div>
-                <label id="number-projects">Liczba wyświetlanych projektów: {{searchResults.length}}</label>
-            </div>
-        </th>
-    </tr>
-</table>
+<div id="sort-bar">
+    <div id="sort-results">
+        <app-sort-results [sortingRules]=sortingRules (ruleSelectionChanged)="applySorting($event)"></app-sort-results>
+    </div>
+
+    <div id="number-projects">
+        <label>Liczba wyświetlanych projektów: {{searchResults.length}}</label>
+    </div>
+</div>
 <div>
     <div id="noResultsLabel" *ngIf="showNoResultsLabel">
         <label>Nie znaleziono projektów spełniających zadane kryteria</label>

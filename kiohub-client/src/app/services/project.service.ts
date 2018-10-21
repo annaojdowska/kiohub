@@ -2,9 +2,9 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Project } from '../model/project.interface';
 import { Observable } from 'rxjs';
-  export const address = 'http://localhost:8080';
+// export const address = 'http://localhost:8443';
 // export const address = 'http://kiohub.eti.pg.gda.pl:8080';
-//  export const address = 'http://kiohub.eti.pg.gda.pl';
+  export const address = 'http://kiohub.eti.pg.gda.pl';
 
 @Injectable()
 export class ProjectService {
@@ -44,7 +44,8 @@ export class ProjectService {
   }
 
   updateProject(project: Project) {
-    return this.http.post<Project>(address + '/project/update/', project, this.httpOptions);
+    return this.http.post<Project>(address + '/project/update/', project,
+    {headers: this.httpOptions.headers, params: {'projectId' : project.id.toString()}});
   }
 
   deleteProject(id: number) {

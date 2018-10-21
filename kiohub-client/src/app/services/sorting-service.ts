@@ -2,7 +2,10 @@ import { Injectable } from '../../../node_modules/@angular/core';
 
 @Injectable()
 export class SortingService {
-
+  alphabetical = 'Alfabetycznie';
+  by_publication_date_descending = 'Od najnowszych';
+  by_publication_date_ascending = 'Od najstarszych';
+  by_relevancy = 'Najtrafniejsze';
   constructor() { }
 
   sortAlphabetically(a: string, b: string): number {

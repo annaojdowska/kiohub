@@ -49,10 +49,11 @@ label {
     float: right;
     font-weight: normal;
     cursor: default !important;
+    margin-top: 35px;
 }
 
-th {
-    width: 73%;
+#sort-bar{
+    display: flow-root;
 }
 
 #showFiltersButton {

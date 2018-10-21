@@ -34,20 +34,22 @@ export class AttachmentService {
     return this.http.post<string>(address + '/attachment/upload', formData, httpOptionsMultipart);
   }
 
-  updateMetadata(id: number, visibility: Visibility, mainPhoto: Boolean) {
+  updateMetadata(projectId: number, attachmentId: number, visibility: Visibility, mainPhoto: Boolean) {
     const params = new HttpParams()
-      .set('id', id.toString())
+      .set('projectId', projectId.toString())
+      .set('attachmentId', attachmentId.toString())
       .set('visibility', visibility.toString())
       .set('mainPhoto', mainPhoto.toString());
     return this.http.post(address + '/attachment/updateMetadata', params);
   }
 
-  remove(attachments: number[]) {
-    return this.http.post(address + '/attachment/remove', attachments, this.httpOptions);
+  remove(projectId: number, attachments: number[]) {
+    return this.http.post(address + '/attachment/remove', attachments,
+    { headers: this.httpOptions.headers, params : {'projectId' : projectId.toString()}});
   }
 
   removeAttachments(editedProject: Project, attachmentList: InputListComponent, type: AttachmentType) {
-    this.remove(editedProject.attachments.filter(att => att.type === type)
+    this.remove(editedProject.id, editedProject.attachments.filter(att => att.type === type)
       .map(att => att.id).filter(id => !attachmentList.elements.filter(el => el.id).map(el => el.id).includes(id))).subscribe(data => { },
         error => {
           console.log('ERROR: Wystąpił błąd usunięcia załącznika.');

@@ -53,4 +53,8 @@ public interface ProjectCollaboratorRepository extends JpaRepository<ProjectColl
         + "LEFT JOIN Project p ON pc.projectId = p.id "
         + "WHERE pc.userId = :id")
     List<Project> getListOfCollaboratorsProjects(@Param("id") Long id);
+
+    @Query(value = "SELECT pc.userId FROM ProjectCollaborator pc "
+            + "WHERE pc.projectId = :projectId")
+    List<Long> getListOfProjectCollaboratorsIds(@Param("projectId") Long projectId);
 }

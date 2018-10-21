@@ -29,12 +29,15 @@ export class NoteService {
         return this.http.post<string>(address + '/note/add', params);
     }
 
-    deleteNote(id: number) {
-        return this.http.delete(address + '/note/delete/' +  id);
+    deleteNote(projectId: number, id: number) {
+        return this.http.delete(address + '/note/delete/' +  id, {params: {'projectId' : projectId.toString()}});
     }
 
-    editNote(id: number, content: string, isPrivate: number) {
-        const params = new HttpParams().set('content', content).set('isPrivate', isPrivate.toString());
+    editNote(id: number, content: string, isPrivate: number, projectId: number) {
+        const params = new HttpParams()
+            .set('content', content)
+            .set('isPrivate', isPrivate.toString())
+            .set('projectId', projectId.toString());
         return this.http.post<string>(address + '/note/update/' + id, params);
     }
 }

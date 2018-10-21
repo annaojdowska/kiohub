@@ -5,22 +5,14 @@ import { Observable } from 'rxjs';
 import { address } from './project.service';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { SearchResult } from '../model/helpers/search-result.class';
+
 @Injectable()
 export class SearchService {
-  private allProjects: Observable<Project[]>;
+  httpOptions = { headers: new HttpHeaders({ 'ContentType' : 'application/json' }) };
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
-  // not used right now
-  // search(phrase: string): Observable<Project[]> {
-  //   const params = new HttpParams().set('phrase', phrase);
-  //   this.allProjects = this.http.get<Project[]>(address + '/project/quick-search',
-  //   {responseType: 'json', params: params});
-  //    return this.allProjects;
-  // }
-
   getProjectsBasedOnQuery(query: QueryDescription): Observable<SearchResult[]> {
-    const httpOptions = { headers: new HttpHeaders({ 'ContentType' : 'application/json' }) };
-    return this.http.post<SearchResult[]>(address + '/search/advanced', query, httpOptions);
+    return this.http.post<SearchResult[]>(address + '/search/advanced', query, this.httpOptions);
   }
 }
 

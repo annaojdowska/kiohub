@@ -38,12 +38,15 @@ export class ProjectViewComponent implements OnInit {
   collaborators: UserEmail[];
   project: Project;
   id: number;
+  relatedProjects: Project[];
   descriptionHidden;
   filesHidden;
   authorsHidden;
+  supervisorHidden;
   semestersHidden;
   tagsHidden;
   licenceHidden;
+  relatedProjectsHidden;
 
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -52,9 +55,11 @@ export class ProjectViewComponent implements OnInit {
       this.descriptionHidden = true;
       this.filesHidden = true;
       this.authorsHidden = true;
+      this.supervisorHidden = true;
       this.tagsHidden = true;
       this.semestersHidden = true;
       this.licenceHidden = true;
+      this.relatedProjectsHidden = true;
   }
 
   ngOnInit(): void {
@@ -101,7 +106,14 @@ export class ProjectViewComponent implements OnInit {
       this.collaborators = result;
       this.manageAuthorsVisibility(result);
     });
-    this.userService.getSupervisorByProjectId(projectId).subscribe(result => this.supervisor = result);
+    this.userService.getSupervisorByProjectId(projectId).subscribe(result => {
+      this.supervisor = result;
+      this.manageSupervisorVisibility(result);
+    });
+    this.projectService.getRelatedProjects(projectId).subscribe(result => {
+      this.relatedProjects = result;
+      this.manageRelatedProjectsVisibility(result);
+    });
   }
 
   manageAuthorsVisibility(result) {
@@ -109,6 +121,14 @@ export class ProjectViewComponent implements OnInit {
       this.authorsHidden = false;
     } else {
       this.authorsHidden = true;
+    }
+  }
+
+  manageSupervisorVisibility(result) {
+    if (result.length > 0) {
+      this.supervisorHidden = false;
+    } else {
+      this.supervisorHidden = true;
     }
   }
 
@@ -137,6 +157,14 @@ export class ProjectViewComponent implements OnInit {
       this.licenceHidden = false;
     } else {
       this.licenceHidden = true;
+    }
+  }
+
+  manageRelatedProjectsVisibility(relatedProjects: Project[]) {
+    if (relatedProjects.length > 0) {
+      this.relatedProjectsHidden = false;
+    } else {
+      this.relatedProjectsHidden = true;
     }
   }
 }
