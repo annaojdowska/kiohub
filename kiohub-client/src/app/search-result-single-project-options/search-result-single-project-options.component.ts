@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Inject, AfterContentInit } from '@angular/core';
 import { Router } from '../../../node_modules/@angular/router';
 import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
+import { UserService } from '../services/user.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-search-result-single-project-options',
@@ -22,6 +24,7 @@ export class SearchResultSingleProjectOptionsComponent {
 
   constructor(
     @Inject(UserPinnedProjectsService) private userPinnedProjects: UserPinnedProjectsService,
+    @Inject(LoginService) private loginService: LoginService,
     @Inject(Router) private router: Router) { }
 
   pinnedTextRefresh() {
@@ -34,25 +37,31 @@ export class SearchResultSingleProjectOptionsComponent {
   }
 
   selectChange(value: string) {
-    switch (value) {
-      case this.PIN:
-        if (this.pinned) {
-          this.userPinnedProjects.unPin(844, this.projectId).subscribe(data => {
-            this.pinned = false;
-            this.pinnedTextRefresh();
-          console.log('ok pinnded:' + this.pinned);
-          });
-        } else {
-          this.userPinnedProjects.pin(844, this.projectId).subscribe(data => {
-            this.pinned = true;
-            this.pinnedTextRefresh();
-          console.log('ok pinnded:' + this.pinned);
-          });
+    this.loginService.getLogged().subscribe(user => {
+      if (user) {
+        const userId = user.id;
+
+        switch (value) {
+          case this.PIN:
+            if (this.pinned) {
+              this.userPinnedProjects.unPin(userId, this.projectId).subscribe(data => {
+                this.pinned = false;
+                this.pinnedTextRefresh();
+              console.log('ok pinnded:' + this.pinned);
+              });
+            } else {
+              this.userPinnedProjects.pin(userId, this.projectId).subscribe(data => {
+                this.pinned = true;
+                this.pinnedTextRefresh();
+              console.log('ok pinnded:' + this.pinned);
+              });
+            }
+            break;
+          case this.EDIT:
+            this.router.navigate(['/edit-project', this.projectId]);
+            break;
         }
-        break;
-      case this.EDIT:
-        this.router.navigate(['/edit-project', this.projectId]);
-        break;
-    }
+      }
+    });
   }
 }

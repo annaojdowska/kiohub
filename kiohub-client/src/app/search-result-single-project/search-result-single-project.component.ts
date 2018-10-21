@@ -7,6 +7,7 @@ import { Tag } from '../model/tag.interface';
 import { InputListComponent } from '../input-list/input-list.component';
 import { SearchResultSingleProjectOptionsComponent } from '../search-result-single-project-options/search-result-single-project-options.component';
 import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-search-result-single-project',
@@ -28,14 +29,20 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   private end: string;
   constructor(@Inject(Router) private router: Router,
    @Inject(AttachmentService) private attachmentService: AttachmentService,
-   @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService) { }
+   @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
+   @Inject(LoginService) private loginService: LoginService) { }
 
   ngOnInit() {
     this.showDefault = true;
     if (this.allowEdit || this.allowPin) {
-      this.userPinnedProjectsService.isPinned(844, this.project.id).subscribe(data => {
-        this.options.pinned = data;
-        this.options.pinnedTextRefresh();
+      this.loginService.getLogged().subscribe(user => {
+        if (user) {
+          const userId = user.id;
+          this.userPinnedProjectsService.isPinned(userId, this.project.id).subscribe(data => {
+            this.options.pinned = data;
+            this.options.pinnedTextRefresh();
+          });
+        }
       });
     }
 
