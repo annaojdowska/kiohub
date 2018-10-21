@@ -73,8 +73,7 @@ export class MyProjectsComponent implements OnInit {
         this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
         .subscribe(results => {
           this.projects = results;
-          this.displayedProjects = this.projects;
-          this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+          this.sortAndSetByPinned();
         });
       }});
 
@@ -121,7 +120,6 @@ export class MyProjectsComponent implements OnInit {
       this.checkButton(false, false, true);
     }
    this.executeFilterByStatus(statusName);
-   this.sortAndSetByPinned();
   }
 
   executeFilterByStatus(status: string) {
