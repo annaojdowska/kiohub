@@ -5,6 +5,8 @@ import { AttachmentService } from '../services/attachment.service';
 import { Observable } from 'rxjs';
 import { Tag } from '../model/tag.interface';
 import { InputListComponent } from '../input-list/input-list.component';
+import { SearchResultSingleProjectOptionsComponent } from '../search-result-single-project-options/search-result-single-project-options.component';
+import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
 
 @Component({
   selector: 'app-search-result-single-project',
@@ -13,7 +15,10 @@ import { InputListComponent } from '../input-list/input-list.component';
 })
 export class SearchResultSingleProjectComponent implements OnInit, AfterContentInit {
   @Input() project: Project;
+  @Input() allowPin = true;
+  @Input() allowEdit = true;
   @ViewChild('tagsList') tagsList: InputListComponent;
+  @ViewChild('options') options: SearchResultSingleProjectOptionsComponent;
   private descriptionToDisplay: string;
   private numberOfCharsToDisplay = 300;
   private mainPhoto: Observable<Blob>;
@@ -22,10 +27,19 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   private start: string;
   private end: string;
   constructor(@Inject(Router) private router: Router,
-   @Inject(AttachmentService) private attachmentService: AttachmentService) { }
+   @Inject(AttachmentService) private attachmentService: AttachmentService,
+   @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService) { }
 
   ngOnInit() {
     this.showDefault = true;
+    if (this.allowEdit || this.allowPin) {
+      this.userPinnedProjectsService.isPinned(844, this.project.id).subscribe(data => {
+        this.options.pinned = data;
+        this.options.pinnedTextRefresh();
+      });
+    }
+
+
   }
 
   ngAfterContentInit(): void {

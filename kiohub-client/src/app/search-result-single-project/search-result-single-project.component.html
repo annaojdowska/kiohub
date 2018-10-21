@@ -1,5 +1,5 @@
 <div id="project_result_container">
-    <app-search-result-single-project-options class="options" [projectId]="project.id"></app-search-result-single-project-options>
+    <app-search-result-single-project-options #options *ngIf="allowPin || allowEdit" [allowPin]="allowPin" [allowEdit]="allowEdit" class="options" [projectId]="project.id"></app-search-result-single-project-options>
   <img class="project_image" *ngIf="!showDefault; else noImageFound" [src]="mainPhoto" (click)="navigateToDetails()">
   <ng-template #noImageFound>
       <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik" (click)="navigateToDetails()">
