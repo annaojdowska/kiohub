@@ -20,6 +20,7 @@ export class EditProjectNotesTabComponent implements OnInit {
   inputEditNote: string;
   inputEditId: number;
   visibilitySelected: string;
+  currentUser: User;
 
   MAX_LENGTH = 500; // value from database
 
@@ -53,6 +54,7 @@ export class EditProjectNotesTabComponent implements OnInit {
       this.notes.push(note);
       this.userService.getUserById(note.ownerId, this.projectId).subscribe(owner => this.notesOwners.push(owner));
     }));
+    this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
     this.noteInputShows = false;
     this.noteEditInputShows = false;
     this.noteVisibility = 'COLLABORATORS';
@@ -61,8 +63,7 @@ export class EditProjectNotesTabComponent implements OnInit {
   addNote() {
     const newNoteContent = this.newNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
-    // TO DO: trzeci parametr - zalogowany użytkownik
-    this.noteService.addNote(newNoteContent, visibility, 844, this.projectId).subscribe(result => console.log(result));
+    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId).subscribe(result => console.log(result));
     window.location.reload();
   }
 
