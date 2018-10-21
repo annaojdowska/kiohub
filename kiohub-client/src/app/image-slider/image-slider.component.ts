@@ -1,14 +1,10 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { AttachmentService } from '../services/attachment.service';
 import { Attachment } from '../model/attachment.interface';
-import { SlideshowModule } from 'ng-simple-slideshow';
 import { IImage } from 'ng-simple-slideshow/src/app/modules/slideshow/IImage';
 import { ValueUtils } from '../error-info/value-utils';
 import { MatDialog } from '../../../node_modules/@angular/material';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
-import { SlideshowComponent } from '../../../node_modules/ng-simple-slideshow/src/app/modules/slideshow/slideshow.component';
-
-// import { SliderModule } from 'angular-image-slider';
 
 @Component({
   selector: 'app-image-slider',
@@ -17,22 +13,18 @@ import { SlideshowComponent } from '../../../node_modules/ng-simple-slideshow/sr
 })
 export class ImageSliderComponent implements OnInit {
   @ViewChild('slider') slider: any;
-  imagesUrl: string[];
-  iimagesUrl: IImage[];
-  imageToShow;
+  images: IImage[];
   color: 'red';
   valueUtils = new ValueUtils();
   hidden;
 
   constructor(@Inject(AttachmentService) private attachmentService: AttachmentService,
               @Inject(MatDialog) private dialog: MatDialog) {
-    this.imagesUrl = [];
-    this.iimagesUrl = [];
+    this.images = [];
     this.hidden = true;
   }
   ngOnInit() {
-    this.imagesUrl = [];
-    this.iimagesUrl = [];
+    this.images = [];
   }
 
   setImages(attachments: Attachment[]) {
@@ -44,14 +36,11 @@ export class ImageSliderComponent implements OnInit {
         // zamiana bloba na obrazek do wyświetlenia w base64
         const reader = new FileReader();
         reader.addEventListener('load', () => {
-          this.imageToShow = reader.result;
+          const imageToShow = reader.result;
           // dodanie obrazka do tablicy obrazków do wyświetlenia
-          // this.imagesUrl.push(this.imageToShow);
-
-          let iimg: IImage;
-          iimg = { url: this.imageToShow, caption: 'Aby zobaczyć więcej obrazków, użyj strzałek po bokach obrazka.' };
-          this.iimagesUrl.push(iimg);
-          //
+          let iImage;
+          iImage = { url: imageToShow };
+          this.images.push(iImage);
           if (++loadedImages === imagesToLoad) {
             this.setHidden(false);
           }
@@ -63,7 +52,6 @@ export class ImageSliderComponent implements OnInit {
       }, error => console.log('No such file on server'));
     }
     // this.manageSliderVisibility(attachments);
-    console.log(this.imagesUrl);
   }
 
   setHidden(value: boolean) {
