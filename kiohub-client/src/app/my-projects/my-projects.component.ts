@@ -185,11 +185,15 @@ export class MyProjectsComponent implements OnInit {
           .sort((a, b) => this.sortingService.sortByPinned(pinneds.includes(a.id), pinneds.includes(b.id)));
           this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
           this.assignPaginatorToDataSource();
+          this.handleNoResults(this.displayedProjects.length === 0);
         }});
       } else {
         this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
         this.assignPaginatorToDataSource();
+        this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
       }
-    });
+    }, error => {
+      this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
+   });
   }
 }
