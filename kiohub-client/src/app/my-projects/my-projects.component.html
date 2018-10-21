@@ -29,8 +29,8 @@
 
 
 <div>
+        <app-error-info #noResultsError></app-error-info>
     <div id="noResultsLabel" *ngIf="showNoResultsLabel">
-        <label>Nie znaleziono projektów spełniających zadane kryteria</label>
     </div>
     <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="results">

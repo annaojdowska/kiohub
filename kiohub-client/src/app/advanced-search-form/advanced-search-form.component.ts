@@ -10,7 +10,9 @@ import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../error-info/validation-patterns';
-import { ENTER } from '@angular/cdk/keycodes';
+import { AdvancedSearchFormValidation } from './advanced-search-form-validation';
+import { IAdvancedSearchFormValidation } from './iadvanced-search-form';
+import { SearchType } from './search-type.enum';
 
 @Component({
   selector: 'app-advanced-search-form',
@@ -18,7 +20,7 @@ import { ENTER } from '@angular/cdk/keycodes';
   styleUrls: ['./advanced-search-form.component.css'],
 })
 
-export class AdvancedSearchFormComponent implements OnInit {
+export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormValidation {
   @Output() filtersSubmitted = new EventEmitter<QueryDescription>();
   @ViewChild('supervisorInput') supervisorInput: any;
   @ViewChild('titleInput') titleInput: any;
@@ -52,6 +54,7 @@ export class AdvancedSearchFormComponent implements OnInit {
   // dates provided by user (not necessarilly correct); used to validate all elements
   enteredDateFrom: Date;
   enteredDateTo: Date;
+  formVal = new AdvancedSearchFormValidation(this, SearchType.PROJECTS_BASE);
   validation = new Validation();
 
   licences: Licence[];
@@ -65,110 +68,6 @@ export class AdvancedSearchFormComponent implements OnInit {
     this.semestersHidden = false;
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.licenceService.getLicences().subscribe(result => this.licences = result);
-  }
-
-  // ******** GETTERS ********
-  getTitlePattern() {
-    return this.validation.getTitlePattern();
-  }
-
-  getSupervisorPattern() {
-    return this.validation.getSupervisorPattern();
-  }
-
-  getIsLetterOrNumberPattern() {
-    return this.validation.isLetterOrNumberPattern();
-  }
-
-  getDescriptionPattern() {
-    return this.validation.getDescriptionPattern();
-  }
-
-  // ******** FUNCTION CALLED WHEN ELEMENT'S VALUE CHANGES ********
-  public dateFromChanged(type: string, event: MatDatepickerInputEvent<Date>) {
-    if (this.checkValidityDates(event.value, this.dateTo)) {
-      this.dateFrom = event.value;
-    }
-    this.enteredDateFrom = event.value;
-    this.hideSearchResultsError();
-  }
-
-  public dateToChanged(type: string, event: MatDatepickerInputEvent<Date>) {
-    if (this.checkValidityDates(this.dateFrom, event.value)) {
-      this.dateTo = event.value;
-    }
-    this.enteredDateTo = event.value;
-    this.hideSearchResultsError();
-  }
-
-  onSupervisorChange(event) {
-    this.checkValiditySupervisor();
-    this.hideSearchResultsError();
-  }
-
-  onTitlePlChange(event) {
-    this.checkValidityTitle();
-    this.hideSearchResultsError();
-  }
-
-  onDescriptionPlChange(event) {
-    this.checkValidityDescription();
-    this.hideSearchResultsError();
-  }
-
-  onKeyUpTag(event: KeyboardEvent) {
-    switch (event.keyCode) {
-      case ENTER: {
-        if (this.checkValidityTag()) {
-          // const value = (<HTMLInputElement>event.target).value;
-          this.addTag();
-        }
-        break;
-      }
-      default: {
-        this.checkValidityTag();
-        break;
-      }
-    }
-    this.hideSearchResultsError();
-  }
-
-  // ******** CHECK VALIDITY ********
-  checkValidityTitle() {
-    return this.validation.validate(this.errorTitle, this.validation.validateInputWithPattern(this.titleInput));
-  }
-
-  checkValidityDescription() {
-    return this.validation.validate(this.errorDescription, this.validation.validateInputWithPattern(this.descriptionInput));
-  }
-
-  checkValiditySupervisor() {
-    return this.validation.validate(this.errorSupervisor, this.validation.validateInputWithPattern(this.supervisorInput));
-  }
-
-  checkValidityDates(from: Date, to: Date) {
-    return this.validation.validate(this.errorDate, this.validation.validateDatesOrder(from, to));
-  }
-
-  checkValidityDatesNotNull(from: Date, to: Date) {
-    return this.validation.validate(this.errorDate, this.validation.validateDatesOrderNotNull(from, to));
-  }
-
-  checkValidityTag() {
-    return this.validation.validate(this.errorTag, this.validation.validateInputTag(this.tagInput));
-  }
-
-  validateAllElements() {
-    let validationOk = true;
-    validationOk = this.checkValidityTitle() && validationOk;
-    validationOk = this.checkValidityDescription() && validationOk;
-    validationOk = this.checkValidityTag() && validationOk;
-    validationOk = this.checkValiditySupervisor() && validationOk;
-    // console.log(validationOk);
-    validationOk = this.checkValidityDates(this.enteredDateFrom, this.enteredDateTo) && validationOk;
-    // console.log(validationOk);
-
-    return validationOk;
   }
 
   // ******** OTHER ********
@@ -197,7 +96,7 @@ export class AdvancedSearchFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.validateAllElements()) {
+    if (this.formVal.validateAllElements()) {
       const query = new QueryDescription();
       this.supervisorsList.elements.map(element => element.name).forEach(name => query.supervisors.push(name));
       this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
@@ -240,11 +139,14 @@ export class AdvancedSearchFormComponent implements OnInit {
     this.dateInput2.value = '';
     this.dateTo = undefined;
 
+    this.enteredDateFrom = undefined;
+    this.enteredDateTo = undefined;
+
     this.searchError.setDisplay(false);
     this.errorDate.setDisplay(false);
     this.errorDescription.setDisplay(false);
     this.errorSupervisor.setDisplay(false);
-  this.errorTag.setDisplay(false);
+    this.errorTag.setDisplay(false);
     this.errorTitle.setDisplay(false);
   }
 
@@ -255,32 +157,29 @@ export class AdvancedSearchFormComponent implements OnInit {
   }
 
   // ******** FUNCTION CALLED WHEN ENTER HITTED ********
-
-
-
   addTag() {
-    if (this.checkValidityTag()) {
+    if (this.formVal.checkValidityTag()) {
       this.tagsList.add({ name: this.tagInput.nativeElement.value });
       this.tagInput.nativeElement.value = '';
     }
   }
 
   addSupervisor() {
-    if (this.checkValiditySupervisor()) {
+    if (this.formVal.checkValiditySupervisor()) {
       this.supervisorsList.add({ name: this.supervisorInput.nativeElement.value });
       this.supervisorInput.nativeElement.value = '';
     }
   }
 
   addTitle() {
-    if (this.checkValidityTitle()) {
+    if (this.formVal.checkValidityTitle()) {
       this.titlesList.add({ name: this.titleInput.nativeElement.value });
       this.titleInput.nativeElement.value = '';
     }
   }
 
   addDescription() {
-    if (this.checkValidityDescription()) {
+    if (this.formVal.checkValidityDescription()) {
       this.descriptionsList.add({ name: this.descriptionInput.nativeElement.value });
       this.descriptionInput.nativeElement.value = '';
     }
@@ -301,11 +200,4 @@ export class AdvancedSearchFormComponent implements OnInit {
     }
   }
 
-  /**
-   * Called after every value change. If user provided wrong data and clicked 'Apply filters', he will get an error;
-   * On any value change this error should be hidden because this error is out-of-date due to change in filters.
-   */
-  hideSearchResultsError() {
-    this.searchError.setDisplay(false);
-  }
 }

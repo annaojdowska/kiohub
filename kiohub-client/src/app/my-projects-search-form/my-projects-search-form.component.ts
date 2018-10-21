@@ -7,18 +7,21 @@ import { Status } from '../model/status.interface';
 import { ProjectStatusService } from '../services/project-status-service';
 import { InputListComponent } from '../input-list/input-list.component';
 import { Semester } from '../model/semester.interface';
-import { MatDatepickerInputEvent, MatInput } from '../../../node_modules/@angular/material';
+import { MatDatepickerInputEvent, MatInput, MatDatepickerInput } from '../../../node_modules/@angular/material';
 import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { Validation } from '../error-info/validation-patterns';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { IAdvancedSearchFormValidation } from '../advanced-search-form/iadvanced-search-form';
+import { AdvancedSearchFormValidation } from '../advanced-search-form/advanced-search-form-validation';
+import { SearchType } from '../advanced-search-form/search-type.enum';
 
 @Component({
   selector: 'app-my-projects-search-form',
   templateUrl: './my-projects-search-form.component.html',
   styleUrls: ['./my-projects-search-form.component.css']
 })
-export class MyProjectsSearchFormComponent implements OnInit {
+export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFormValidation {
   @Output() filtersSubmitted = new EventEmitter<QueryDescription>();
   @ViewChild('titleInput') titleInput: any;
   @ViewChild('tagInput') tagInput: any;
@@ -36,7 +39,16 @@ export class MyProjectsSearchFormComponent implements OnInit {
   @ViewChild('errorTag') errorTag: ErrorInfoComponent;
   @ViewChild('errorTitle') errorTitle: ErrorInfoComponent;
   @ViewChild('errorDate') errorDate: ErrorInfoComponent;
-  @ViewChild('filterResult') filterResult: ErrorInfoComponent;
+  @ViewChild('searchError') searchError: ErrorInfoComponent;
+  dateInputFrom: MatDatepickerInput<Date>;
+  dateInputTo: MatDatepickerInput<Date>;
+  supervisorInput = null;
+  descriptionInput = null;
+  errorSupervisor = null;
+  errorDescription = null;
+  enteredDateFrom: Date;
+  enteredDateTo: Date;
+  // @ViewChild('filterResult') filterResult: ErrorInfoComponent;
 
   chosenSemesters: Semester[];
   selectedType: ProjectType;
@@ -49,10 +61,11 @@ export class MyProjectsSearchFormComponent implements OnInit {
   statuses: Status[];
   semestersHidden: boolean;
   validation = new Validation();
+  formVal = new AdvancedSearchFormValidation(this, SearchType.MY_PROJECTS);
 
   constructor(@Inject(LicenceService) private licenceService: LicenceService,
-              @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
-              @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService) { }
+    @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
+    @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService) { }
 
   ngOnInit() {
     this.chosenSemesters = [];
@@ -63,27 +76,27 @@ export class MyProjectsSearchFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.validateAllElements()) {
-    const query = new QueryDescription();
-    this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
-    this.titlesList.elements.map(element => element.name).forEach(name => query.titles.push(name));
-    query.dateFrom = this.dateFrom;
-    query.dateTo = this.dateTo;
-    this.licences.filter(licence =>
-      this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
-    ).forEach(licence => query.licencesIds.push(licence.id));
-    this.project_types.filter(type =>
-      this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
-    ).forEach(type => query.projectTypesIds.push(type.id));
-    this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
-    this.statuses.filter(status =>
-      this.statusesList.elements.map(element => element.name).findIndex(chosen => chosen === status.name) !== -1
-    ).forEach(status => query.statusesIds.push(status.id));
+    if (this.formVal.validateAllElements()) {
+      const query = new QueryDescription();
+      this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
+      this.titlesList.elements.map(element => element.name).forEach(name => query.titles.push(name));
+      query.dateFrom = this.dateFrom;
+      query.dateTo = this.dateTo;
+      this.licences.filter(licence =>
+        this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
+      ).forEach(licence => query.licencesIds.push(licence.id));
+      this.project_types.filter(type =>
+        this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
+      ).forEach(type => query.projectTypesIds.push(type.id));
+      this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
+      this.statuses.filter(status =>
+        this.statusesList.elements.map(element => element.name).findIndex(chosen => chosen === status.name) !== -1
+      ).forEach(status => query.statusesIds.push(status.id));
 
-    this.filtersSubmitted.emit(query);
-    this.filterResult.setComponent(true, 'SUCCESS', 'Znaleziono poniższe projekty.');
+      this.filtersSubmitted.emit(query);
+      this.searchError.setDisplay(false);
     } else {
-      this.filterResult.setComponent(true, 'ERROR', 'Podane filtry wyszukiwania są niepoprawne.');
+      this.searchError.setDisplay(true);
     }
   }
 
@@ -104,6 +117,17 @@ export class MyProjectsSearchFormComponent implements OnInit {
     this.dateFrom = undefined;
     this.dateInput2.value = '';
     this.dateTo = undefined;
+
+    this.enteredDateFrom = undefined;
+    this.enteredDateTo = undefined;
+
+
+    this.searchError.setDisplay(false);
+    this.errorDate.setDisplay(false);
+    this.errorDescription.setDisplay(false);
+    this.errorSupervisor.setDisplay(false);
+    this.errorTag.setDisplay(false);
+    this.errorTitle.setDisplay(false);
   }
 
   canExecuteClearFilters(): boolean {
@@ -113,13 +137,17 @@ export class MyProjectsSearchFormComponent implements OnInit {
   }
 
   addTitle() {
+    if (this.formVal.checkValidityTitle()) {
       this.titlesList.add({ name: this.titleInput.nativeElement.value });
       this.titleInput.nativeElement.value = '';
+    }
   }
 
   addTag() {
+    if (this.formVal.checkValidityTag()) {
       this.tagsList.add({ name: this.tagInput.nativeElement.value });
       this.tagInput.nativeElement.value = '';
+    }
   }
 
   addLicence() {
@@ -193,14 +221,4 @@ export class MyProjectsSearchFormComponent implements OnInit {
     return this.validation.validate(this.errorTag, this.validation.validateInputTag(this.tagInput));
   }
 
-  validateAllElements() {
-    let validationOk = true;
-    validationOk = this.checkValidityTitle() && validationOk;
-    validationOk = this.checkValidityTag() && validationOk;
-    // console.log(validationOk);
-    validationOk = this.checkValidityDates(this.dateFrom, this.dateTo) && validationOk;
-    // console.log(validationOk);
-
-    return validationOk;
-  }
 }

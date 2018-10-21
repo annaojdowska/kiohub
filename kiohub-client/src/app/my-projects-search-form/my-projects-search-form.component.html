@@ -1,10 +1,10 @@
 <div id="advanced-search">
   <div class="form">
     <mat-form-field class="leftLabel">
-      <input matInput ngModel #titleInput placeholder="Tytuł" (keyup.enter)="addTitle()">
+      <input matInput ngModel #titleInput placeholder="Tytuł" (keyup.enter)="addTitle()" (ngModelChange)="formVal.onTitlePlChange($event)" pattern="{{formVal.getTitlePattern()}}">
     </mat-form-field>
     <mat-form-field class="leftLabel paddingLeft">
-      <input matInput ngModel #tagInput placeholder="Tag" (keyup.enter)="addTag()">
+      <input matInput ngModel #tagInput placeholder="Tag" (keyup)="formVal.onKeyUpTag($event)" pattern="{{formVal.getIsLetterOrNumberPattern()}}">
     </mat-form-field>
     <mat-form-field class="rightLabel">
       <mat-select [(value)]="selectedLicence" placeholder="Licencja" (selectionChange)="addLicence()">
@@ -23,13 +23,13 @@
     </mat-form-field>
     <label class="center">Data publikacji:</label>
     <mat-form-field class="leftLabel">
-        <input matInput ngModel #dateInput1  [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="dateFromChanged('change', $event)"
+        <input matInput ngModel #dateInput1  [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="formVal.dateFromChanged('change', $event)"
             disabled>
         <mat-datepicker-toggle matSuffix [for]="datePicker1"></mat-datepicker-toggle>
         <mat-datepicker #datePicker1 disabled="false"></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="leftLabel paddingLeft">
-        <input matInput ngModel #dateInput2 [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="dateToChanged('change', $event)"
+        <input matInput ngModel #dateInput2 [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="formVal.dateToChanged('change', $event)"
             disabled>
         <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
         <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
@@ -42,10 +42,12 @@
             (semesterRemoved)="removeAddedSemester($event)" (confirm)="toggleSemesters($event)" #semesterChooser></app-semester-chooser>
     </div>
 
+    <app-error-info #errorSupervisor errorText="{{validation.errorStringSupervisor}}" errorType="ERROR"></app-error-info>
     <app-error-info #errorTag errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
     <app-error-info #errorTitle errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
+    <app-error-info #errorDescription errorText="{{validation.errorStringDescriptionPl}}" errorType="ERROR"></app-error-info>
     <app-error-info #errorDate errorText="{{validation.errorStringDatesOrder}}" errorType="ERROR"></app-error-info>
-    <app-error-info #filterResult></app-error-info>
+    <app-error-info #searchError errorText="Podane filtry są niepoprawne." errorType="ERROR"></app-error-info>
 
     <table id="inputListsTable">
       <tr>

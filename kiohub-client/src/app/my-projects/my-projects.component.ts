@@ -14,6 +14,7 @@ import { QueryDescription } from '../model/helpers/query-description.class';
 import { FilterService } from '../services/filter.service';
 import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
 import { LoginService } from '../services/login.service';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
 
 @Component({
   selector: 'app-my-projects',
@@ -52,6 +53,7 @@ export class MyProjectsComponent implements OnInit {
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp; this.assignPaginatorToDataSource();
   }
+  @ViewChild('noResultsError') noResultsError: ErrorInfoComponent;
 
   constructor(@Inject(Router) private router: Router,
               @Inject(ProjectService) private projectService: ProjectService,
@@ -78,8 +80,14 @@ export class MyProjectsComponent implements OnInit {
           this.projects = results;
           this.displayedProjects = this.projects;
           this.sortAndSetByPinned();
+          this.handleNoResults(results.length === 0);
         });
-      }});
+      } else {
+        this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
+      }
+    }, error => {
+       this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
+    });
 
     // debug
       // this.projectService.getProjectsByCollaboratorId(868)
@@ -124,6 +132,15 @@ export class MyProjectsComponent implements OnInit {
       this.checkButton(false, false, true);
     }
    this.executeFilterByStatus(statusName);
+  }
+
+  handleNoResults(value: boolean) {
+    this.showNoResultsLabel = value;
+    if (value) {
+      this.noResultsError.setComponent(true, 'WARNING', 'Nie znaleziono projektów spełniających zadane kryteria.');
+    } else {
+      this.noResultsError.setComponent(true, 'SUCCESS', 'Znaleziono poniższe projekty.');
+    }
   }
 
   executeFilterByStatus(status: string) {
