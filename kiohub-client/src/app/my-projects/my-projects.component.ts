@@ -73,6 +73,7 @@ export class MyProjectsComponent implements OnInit {
         this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
         .subscribe(results => {
           this.projects = results;
+          this.displayedProjects = this.projects;
           this.sortAndSetByPinned();
         });
       }});
@@ -159,11 +160,12 @@ export class MyProjectsComponent implements OnInit {
     this.loginService.getLogged().subscribe(user => {
       if (user) {
         this.userPinnedProjectsService.allPinned(user.id).subscribe(pinneds => {
+          if (!this.valueUtils.isNullOrUndefined(this.displayedProjects)) {
           this.displayedProjects = this.displayedProjects
           .sort((a, b) => this.sortingService.sortByPinned(pinneds.includes(a.id), pinneds.includes(b.id)));
           this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
           this.assignPaginatorToDataSource();
-        });
+        }});
       } else {
         this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
         this.assignPaginatorToDataSource();
