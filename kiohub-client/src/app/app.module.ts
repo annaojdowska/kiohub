@@ -61,6 +61,7 @@ import { MyProjectsSearchFormComponent } from './my-projects-search-form/my-proj
 import { PublishDialogComponent } from './ui-elements/publish-dialog/publish-dialog.component';
 import { KiohubHttpInterceptor } from './services/login.service';
 import { SearchResultSingleProjectOptionsComponent } from './search-result-single-project-options/search-result-single-project-options.component';
+import { FilterService } from './services/filter.service';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { SearchResultSingleProjectOptionsComponent } from './search-result-singl
     TagService,
     NoteService,
     MatDialog,
+    FilterService,
     SortingService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
