@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -95,6 +95,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   relatedToFilteredResults: Observable<Project[]>;
   relatedToControl: FormControl = new FormControl();
   projects: Project[] = [];
+  projectUpdatingInProgress: boolean;
 
   tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
                   + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
@@ -126,6 +127,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(TagService) private tagService: TagService,
     @Inject(MatDialog) private dialog: MatDialog,
     @Inject(SearchService) private searchService: SearchService) {
+  }
+
+  @HostListener('window:beforeunload', [ '$event' ])
+  beforeUnloadHander(event) {
+    if (this.projectUpdatingInProgress) {
+          event.returnValue = 'Are you sure?';
+    }
   }
 
   // ******** GETTERS ********
@@ -250,6 +258,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.projectUpdatingInProgress = true;
     const projectId = this.getParametersFromRouter();
     this.getDataFromLocalStorage();
 
@@ -525,7 +534,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectBoolean, true);
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectText, text);
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectStatus, errorType);
-
+    this.projectUpdatingInProgress = false;
     window.location.reload();
   }
 
