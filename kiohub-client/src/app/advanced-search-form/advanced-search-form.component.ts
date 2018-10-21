@@ -10,9 +10,9 @@ import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../error-info/validation-patterns';
-import { AdvancedSearchFormValidation } from './advanced-search-form-validation';
-import { IAdvancedSearchFormValidation } from './iadvanced-search-form';
-import { SearchType } from './search-type.enum';
+import { AdvancedSearchFormValidation } from '../search/advanced-search-form-validation';
+import { IAdvancedSearchFormValidation } from '../search/iadvanced-search-form';
+import { SearchType } from '../search/search-type.enum';
 
 @Component({
   selector: 'app-advanced-search-form',

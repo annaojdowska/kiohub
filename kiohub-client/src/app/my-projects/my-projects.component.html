@@ -5,7 +5,8 @@
 <div id="center">
     <div id="{{showFilters ? '': 'wrapper'}}">
         <button mat-stroked-button id="showFiltersButton" (click)="showFilters = !showFilters">
-            <img (click)="showFilters = !showFilters" [src]="showFilters ? 'assets/up-arrow2.png' :'assets/down-arrow2.png'" /> {{ showFilters ? 'Zwiń filtry' : 'Pokaż filtry' }}
+            <img (click)="showFilters = !showFilters" [src]="showFilters ? 'assets/up-arrow2.png' :'assets/down-arrow2.png'" />
+            {{ showFilters ? 'Zwiń filtry' : 'Pokaż filtry' }}
         </button>
     </div>
 </div>
@@ -29,7 +30,7 @@
 
 
 <div>
-        <app-error-info #noResultsError></app-error-info>
+    <app-error-info #noResultsError></app-error-info>
     <div id="noResultsLabel" *ngIf="showNoResultsLabel">
     </div>
     <table mat-table [dataSource]="dataSource">

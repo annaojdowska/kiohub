@@ -12,9 +12,9 @@ import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { Validation } from '../error-info/validation-patterns';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { IAdvancedSearchFormValidation } from '../advanced-search-form/iadvanced-search-form';
-import { AdvancedSearchFormValidation } from '../advanced-search-form/advanced-search-form-validation';
-import { SearchType } from '../advanced-search-form/search-type.enum';
+import { IAdvancedSearchFormValidation } from '../search/iadvanced-search-form';
+import { AdvancedSearchFormValidation } from '../search/advanced-search-form-validation';
+import { SearchType } from '../search/search-type.enum';
 
 @Component({
   selector: 'app-my-projects-search-form',
@@ -48,7 +48,6 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   errorDescription = null;
   enteredDateFrom: Date;
   enteredDateTo: Date;
-  // @ViewChild('filterResult') filterResult: ErrorInfoComponent;
 
   chosenSemesters: Semester[];
   selectedType: ProjectType;
@@ -121,11 +120,8 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.enteredDateFrom = undefined;
     this.enteredDateTo = undefined;
 
-
     this.searchError.setDisplay(false);
     this.errorDate.setDisplay(false);
-    this.errorDescription.setDisplay(false);
-    this.errorSupervisor.setDisplay(false);
     this.errorTag.setDisplay(false);
     this.errorTitle.setDisplay(false);
   }
