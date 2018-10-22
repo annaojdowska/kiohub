@@ -9,6 +9,7 @@ import { AttachmentType } from '../model/attachment-type.enum';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
 import { UserEmail } from '../model/user-email.interface';
+import { ValueUtils } from '../error-info/value-utils';
 
 @Component({
   selector: 'app-project-view',
@@ -34,6 +35,7 @@ export class ProjectViewComponent implements OnInit {
   @ViewChild('downloadOther') downloadOther: DownloadElementComponent;
   @ViewChild('slider') imageSlider: ImageSliderComponent;
 
+  valueUtils = new ValueUtils();
   supervisor: User;
   collaborators: UserEmail[];
   project: Project;
@@ -124,8 +126,8 @@ export class ProjectViewComponent implements OnInit {
     }
   }
 
-  manageSupervisorVisibility(result) {
-    if (result.length > 0) {
+  manageSupervisorVisibility(result: User) {
+    if (!this.valueUtils.isNullOrUndefined(result)) {
       this.supervisorHidden = false;
     } else {
       this.supervisorHidden = true;
