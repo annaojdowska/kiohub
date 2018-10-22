@@ -33,6 +33,9 @@ public interface ProjectCollaboratorRepository extends JpaRepository<ProjectColl
             "WHERE pc.is_supervisor = false AND  pc.project_id = :id", nativeQuery = true)
     List<Object[]> getCollaborators(@Param("id") Long id);
     
+    @Query("SELECT pc FROM ProjectCollaborator pc WHERE pc.projectId = :pid AND pc.userId = :uid AND pc.isSupervisor = false")
+    ProjectCollaborator getCollaborator(@Param("pid") Long pid, @Param("uid") Long uid);
+    
     @Query("SELECT pc FROM ProjectCollaborator pc WHERE pc.projectId = :id AND pc.isSupervisor = false")
     List<ProjectCollaborator> getCollaboratorsData(@Param("id") Long id);
     
@@ -48,6 +51,11 @@ public interface ProjectCollaboratorRepository extends JpaRepository<ProjectColl
     @Modifying
     @Query("DELETE FROM ProjectCollaborator WHERE projectId = :id")
     void deleteAllCollaborators(@Param("id") Long id);
+    
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM ProjectCollaborator WHERE projectId = :pid AND userId = :uid")
+    void deleteCollaborator(@Param("pid") Long pid, @Param("uid") Long uid);
     
     @Query(value = "SELECT p FROM ProjectCollaborator pc "
         + "LEFT JOIN Project p ON pc.projectId = p.id "

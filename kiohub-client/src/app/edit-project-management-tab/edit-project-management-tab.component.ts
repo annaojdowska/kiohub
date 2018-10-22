@@ -10,6 +10,7 @@ import { Visibility } from '../model/visibility.enum';
 import { ProjectCollaborator } from '../model/project-collaborator';
 import { Validation } from '../error-info/validation-patterns';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { forEach } from '../../../node_modules/@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-edit-project-management-tab',
@@ -94,13 +95,37 @@ export class EditProjectManagementTabComponent implements OnInit {
   }
 
   updateProject() {
-    this.authorsList.elements.forEach(th => {
-      if (th.id) {
-        this.updateVisibility(th.id, th.visibility);
-      }
-    });
-    this.updateVisibility(this.supervisor.id, this.supervisorVisibility);
-  }
+    this.authorsList.elements.forEach(element => {
+        if (!element.id) {
+          // if walidacja element.name jako e-mail studenta zakonczona powodzeniem
+          this.userService.addCollaboratorByEmail(this.editedProject.id, element.name);
+          // endIf
+        } else {
+          this.updateVisibility(element.id, element.visibility);
+        }
+      });
+      this.userService.getCollaboratorsByProjectId(this.editedProject.id).subscribe(collaborators => {
+        const collaboratorsIds = collaborators.map(c => c.id);
+        const authorsListIds = this.authorsList.elements.filter(e => e.id).map(e => e.id);
+        const collaboratorsIdsToRemove: number[] = [];
+        collaboratorsIds.forEach(cId => {
+          if (!authorsListIds.includes(cId)) {
+            this.userService.removeCollaborator(this.editedProject.id, cId);
+          }
+        });
+      });
+      this.updateVisibility(this.supervisor.id, this.supervisorVisibility);
+    }
+
+
+
+    // this.authorsList.elements.forEach(th => {
+    //   if (th.id) {
+    //     this.updateVisibility(th.id, th.visibility);
+    //   }
+    // });
+    // this.updateVisibility(this.supervisor.id, this.supervisorVisibility);
+
 
   private updateVisibility(userId: number, visibility: Visibility) {
     this.userService.updateVisibility(this.editedProject.id, userId, visibility)

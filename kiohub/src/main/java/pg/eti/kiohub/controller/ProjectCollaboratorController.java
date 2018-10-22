@@ -6,11 +6,13 @@
 package pg.eti.kiohub.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Attachment;
+import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.ProjectCollaborator;
 import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.model.UserEmail;
@@ -92,5 +95,35 @@ public class ProjectCollaboratorController extends MainController {
     @GetMapping(path = "/project/byCollaborator/{id}")
     public ResponseEntity getProjectsByCollaboratorId(@PathVariable("id") Long id){
         return new ResponseEntity<>(collaboratorsRepository.getListOfCollaboratorsProjects(id), HttpStatus.OK);
+    }
+    
+    @CrossOrigin
+    @PostMapping(path = "/add")
+    public ResponseEntity addCollaborator (
+            @RequestParam("email") String email,
+            @RequestParam("projectId") String projectId) {
+
+        User user = userService.createNewUsersAndGetAllByEmails(Arrays.asList(email)).get(0);
+        Project project = projectRepository.getOne(Long.parseLong(projectId));
+        if (project != null) {
+            collaboratorsService.createAndSaveCollaborators(project, Arrays.asList(user));
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    
+    @CrossOrigin
+    @PostMapping(path = "/remove")
+    public ResponseEntity removeCollaborator (
+            @RequestParam("collaboratorId") String collaboratorId,
+            @RequestParam("projectId") String projectId) {
+        try {
+            collaboratorsRepository.deleteCollaborator(Long.parseLong(projectId), Long.parseLong(collaboratorId));
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

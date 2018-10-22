@@ -52,4 +52,18 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
           .set('visibility', visibility.toString());
         return this.http.post(address + '/collaborator/updateVisibility', params);
       }
+
+      addCollaboratorByEmail(projectId: number, email: string) {
+        const params = new HttpParams()
+        .set('projectId', projectId.toString())
+        .set('email', email);
+      return this.http.post(address + '/collaborator/add', params);
+      }
+
+      removeCollaborator(projectId: number, collaboratorId: number) {
+        const params = new HttpParams()
+          .set('projectId', projectId.toString())
+          .set('collaboratorId', collaboratorId.toString());
+        return this.http.post(address + '/collaborator/remove', params);
+      }
 }
