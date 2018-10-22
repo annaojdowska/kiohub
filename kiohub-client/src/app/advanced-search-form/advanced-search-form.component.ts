@@ -45,6 +45,12 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   @ViewChild('errorDate') errorDate: ErrorInfoComponent;
   @ViewChild('searchError') searchError: ErrorInfoComponent;
 
+  supervisorTooltip = 'Wpisz nazwisko promotora projektu i zatwierdź, klikając "Enter".';
+  tagTooltip = 'Wpisz tag i zatwierdź, klikając "Enter".';
+  titleTooltip = 'Wpisz fragment tytułu projektu i zatwierdź, klikając "Enter".';
+  descriptionTooltip = 'Wpisz fragment opisu projektu i zatwierdź, klikając "Enter".';
+  semesterTooltip = 'Kliknij tu, aby wybrać semestry, w czasie których wytwarzany był projekt.';
+
   chosenSemesters: Semester[];
   selectedType: ProjectType;
   selectedLicence: Licence;

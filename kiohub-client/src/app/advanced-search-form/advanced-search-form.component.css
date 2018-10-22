@@ -20,6 +20,10 @@
     width: 30%;
 }
 
+.tooltip-img {
+    cursor: initial;
+}
+
 .paddingLeft {
     float: left;
     padding-left: 5%;
