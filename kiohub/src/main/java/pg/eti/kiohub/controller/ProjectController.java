@@ -10,6 +10,7 @@ import lombok.extern.jbosslog.JBossLog;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- *
- * @author Aleksander Kania <kania>
- */
 @JBossLog
 @CrossOrigin
 @Controller
@@ -33,19 +30,22 @@ import java.util.stream.Collectors;
 public class ProjectController extends MainController {
 
     @GetMapping(path = "/published")
-    public ResponseEntity<List<Project>> getAllPublishedProjects(HttpServletRequest http){
+    @PostAuthorize("@visibilityService.checkVisibilityOfProjects(returnObject, #request)")
+    public ResponseEntity<List<Project>> getAllPublishedProjects(HttpServletRequest request){
         List<Project> publishedProjects = projectService.getAllPublishedProjects();
         return new ResponseEntity<>(publishedProjects, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id) {
+    @PostAuthorize("@visibilityService.checkVisibilityOfSingleProject(returnObject, #request)")
+    public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id,
+                                                            HttpServletRequest request) {
         Optional<Project> p = projectRepository.findById(id);
         return new ResponseEntity<>(p, HttpStatus.OK);
     }
 
-    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     @GetMapping(path = "/checkTitleUniqueness")
+    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     public ResponseEntity checkTitleUniqueness(
             @RequestParam("titlePl") String titlePl, HttpServletRequest request) {
         Long rowsMatchingTitle = projectRepository.checkIfUniqueTitle(titlePl);
@@ -57,8 +57,8 @@ public class ProjectController extends MainController {
         }
     }
 
-    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     @PostMapping(path = "/add")
+    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     public ResponseEntity<Project> addProject(
             @RequestParam("titlePl") String titlePl,
             @RequestParam("collaborators") String emailsArray,
@@ -81,8 +81,8 @@ public class ProjectController extends MainController {
         }
     }
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/update")
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity updateProject(
             @RequestBody Project project,
             @RequestParam("projectId") Long projectId,
@@ -100,8 +100,8 @@ public class ProjectController extends MainController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     @PostMapping(path = "/set-related/{id}")
+    @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     public ResponseEntity setRelatedProjects(@PathVariable("id") Long id,
                                              @RequestBody List<Project> projects,
                                              HttpServletRequest request){
@@ -114,8 +114,8 @@ public class ProjectController extends MainController {
     }
 
 
-    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     @DeleteMapping(value = "/delete/{id}")
+    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     public ResponseEntity delete(@PathVariable("id") Long id, HttpServletRequest request) {
         Optional<Project> projectToDelete = this.projectRepository.findById(id);
         if (projectToDelete.isPresent()) {
@@ -132,8 +132,8 @@ public class ProjectController extends MainController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     @PostMapping(path = "/publish/{id}")
+    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest http){
         Optional<Project> projectToPublish = this.projectRepository.findById(id);
         if (projectToPublish.isPresent()) {
@@ -148,7 +148,9 @@ public class ProjectController extends MainController {
     }
 
     @GetMapping(path = "/relatedTo/{id}")
-    public ResponseEntity<List<Project>> getRelatedProjectsById(@PathVariable("id") Long id) {
+    @PostAuthorize("@visibilityService.checkVisibilityOfProjects(returnObject, #request)")
+    public ResponseEntity<List<Project>> getRelatedProjectsById(@PathVariable("id") Long id,
+                                                                HttpServletRequest request) {
         Optional<Project> p = projectRepository.findById(id);
         if(p.isPresent()) {
             List<Project> relatedProjects = p.get().getRelatedToProjects();

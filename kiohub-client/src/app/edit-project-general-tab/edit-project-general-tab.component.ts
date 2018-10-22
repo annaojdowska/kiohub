@@ -95,7 +95,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   relatedToFilteredResults: Observable<Project[]>;
   relatedToControl: FormControl = new FormControl();
   projects: Project[] = [];
-  projectUpdatingInProgress: boolean;
+  projectAttachmentsUpdatingInProgress: boolean;
 
   tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
                   + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
@@ -131,7 +131,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   @HostListener('window:beforeunload', [ '$event' ])
   beforeUnloadHander(event) {
-    if (this.projectUpdatingInProgress) {
+    if (this.projectAttachmentsUpdatingInProgress) {
           event.returnValue = 'Are you sure?';
     }
   }
@@ -258,7 +258,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectUpdatingInProgress = true;
     const projectId = this.getParametersFromRouter();
     this.getDataFromLocalStorage();
 
@@ -477,15 +476,19 @@ export class EditProjectGeneralTabComponent implements OnInit {
         console.log(updatedProject);
         if (attachmentsToSaveAmount === 0) {
           this.updateCompleted(infoString, ErrorType.SUCCESS);
+          this.projectAttachmentsUpdatingInProgress = false;
         } else {
+          this.projectAttachmentsUpdatingInProgress = true;
           this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
           this.uploadAllFiles();
         }
       }, error => {
         const infoString = 'Wystąpił błąd zaktualizowania danych projektu. ';
         if (attachmentsToSaveAmount === 0) {
+          this.projectAttachmentsUpdatingInProgress = false;
           this.updateCompleted(infoString, ErrorType.ERROR);
         } else {
+          this.projectAttachmentsUpdatingInProgress = true;
           this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
           this.uploadAllFiles();
         }
@@ -535,7 +538,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectBoolean, true);
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectText, text);
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectStatus, errorType);
-    this.projectUpdatingInProgress = false;
+    this.projectAttachmentsUpdatingInProgress = false;
     window.location.reload();
   }
 

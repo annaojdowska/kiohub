@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.model.Semester;
 
-/**
- *
- * @author Anna
- */
 @Controller
 @RequestMapping(path = "/semester")
 public class SemesterController extends MainController {

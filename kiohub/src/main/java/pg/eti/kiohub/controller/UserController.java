@@ -17,17 +17,12 @@ import pg.eti.kiohub.entity.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- *
- * @author Kasia
- */
-
 @Controller
 @RequestMapping(path = "/user")
 public class UserController extends MainController {
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @GetMapping(path = "/{id}")
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity<User> getUserById(
             @PathVariable("id") Long id,
             @RequestParam("projectId") Long projectId,

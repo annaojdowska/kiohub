@@ -40,6 +40,11 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   @ViewChild('errorTitle') errorTitle: ErrorInfoComponent;
   @ViewChild('errorDate') errorDate: ErrorInfoComponent;
   @ViewChild('searchError') searchError: ErrorInfoComponent;
+
+  tagTooltip = 'Wpisz tag i zatwierdź, klikając "Enter".';
+  titleTooltip = 'Wpisz tytuł projektu i zatwierdź, klikając "Enter".';
+  semesterTooltip = 'Kliknij tu, aby wybrać semestry, w czasie których wytwarzany był projekt.';
+
   dateInputFrom: MatDatepickerInput<Date>;
   dateInputTo: MatDatepickerInput<Date>;
   supervisorInput = null;

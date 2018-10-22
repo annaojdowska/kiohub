@@ -15,13 +15,11 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import pg.eti.kiohub.entity.repository.*;
 import pg.eti.kiohub.security.SecurityService;
+import pg.eti.kiohub.security.VisibilityService;
 import pg.eti.kiohub.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * @author Aleksander Kania <kania>
- */
 @Controller
 public class MainController {
 
@@ -84,6 +82,12 @@ public class MainController {
 
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    SearchService searchService;
+
+    @Autowired
+    AttachmentService attachmentService;
 
 
     @Configuration
