@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.model.ProjectStatus;
 
-/**
- *
- * @author Kasia
- */
-
 @Controller
 @RequestMapping(path = "/status")
 public class ProjectStatusController extends MainController {

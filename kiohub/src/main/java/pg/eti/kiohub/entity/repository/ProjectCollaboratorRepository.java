@@ -5,17 +5,18 @@
  */
 package pg.eti.kiohub.entity.repository;
 
-import java.util.List;
-import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.ProjectCollaborator;
 import pg.eti.kiohub.entity.model.User;
-import pg.eti.kiohub.entity.model.UserEmail;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  *
@@ -57,4 +58,8 @@ public interface ProjectCollaboratorRepository extends JpaRepository<ProjectColl
     @Query(value = "SELECT pc.userId FROM ProjectCollaborator pc "
             + "WHERE pc.projectId = :projectId")
     List<Long> getListOfProjectCollaboratorsIds(@Param("projectId") Long projectId);
+
+    @Query(value="SELECT pc.userDataVisible FROM ProjectCollaborator pc "
+    + "WHERE pc.projectId = :projectId AND pc.userId = :userId")
+    Visibility getCollaboratorVisibility(@Param("projectId") Long projectId, @Param("userId") Long userId);
 }

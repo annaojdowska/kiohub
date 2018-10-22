@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,17 +20,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pg.eti.kiohub.entity.model.UserPinnedProject;
 
-/**
- *
- * @author Tomasz
- */
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
+@CrossOrigin
 @RequestMapping(path = "/userpinnedproject")
 public class UserPinnedProjectController extends MainController {
     
-    @CrossOrigin
+
     @GetMapping(path = "/user/{userId}")
-    public ResponseEntity<Iterable<Long>> getUserPinnedProjectsIdsByUserId(@PathVariable("userId") Long userId) {
+    @PreAuthorize("@securityService.isMyself(#request, #userId)")
+    public ResponseEntity<Iterable<Long>> getUserPinnedProjectsIdsByUserId(@PathVariable("userId") Long userId,
+                                                                           HttpServletRequest request) {
         List<UserPinnedProject> pinnedProjects = userPinnedProjectRepository.getPinnedProjects(userId);
         List<Long> pinnedIds = new ArrayList();
         for(UserPinnedProject upp : pinnedProjects) {
@@ -37,12 +39,13 @@ public class UserPinnedProjectController extends MainController {
         }
          return new ResponseEntity<>(pinnedIds, HttpStatus.OK);
     }   
-    
-    @CrossOrigin
+
     @PostMapping(path = "/pin")
+    @PreAuthorize("@securityService.isMyself(#request, #userId)")
     public ResponseEntity<UserPinnedProject> pin (
             @RequestParam("userId") String userId,
-            @RequestParam("projectId") String projectId) {
+            @RequestParam("projectId") String projectId,
+            HttpServletRequest request) {
         System.out.println("Przypne " + userId + " " + projectId);
         UserPinnedProject userPinnedProject = new UserPinnedProject(Long.parseLong(userId), Long.parseLong(projectId));
 
@@ -50,11 +53,13 @@ public class UserPinnedProjectController extends MainController {
         System.out.println("Udalo sie przypiac " + userPinnedProject);
         return new ResponseEntity<>(userPinnedProject, HttpStatus.OK);
     }
-    @CrossOrigin
+
     @PostMapping(path = "/unpin")
+    @PreAuthorize("@securityService.isMyself(#request, #userId)")
     public ResponseEntity<UserPinnedProject> unPin (
             @RequestParam("userId") String userId,
-            @RequestParam("projectId") String projectId) {
+            @RequestParam("projectId") String projectId,
+            HttpServletRequest request) {
        
         Long _userId = Long.parseLong(userId);
         Long _projectId = Long.parseLong(projectId);
@@ -68,11 +73,13 @@ public class UserPinnedProjectController extends MainController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     
-    @CrossOrigin
+
     @PostMapping(path = "/ispinned")
+    @PreAuthorize("@securityService.isMyself(#request, #userId)")
     public ResponseEntity<Boolean> isPinned (
             @RequestParam("userId") String userId,
-            @RequestParam("projectId") String projectId) {
+            @RequestParam("projectId") String projectId,
+            HttpServletRequest request) {
        
         Long _userId = Long.parseLong(userId);
         Long _projectId = Long.parseLong(projectId);

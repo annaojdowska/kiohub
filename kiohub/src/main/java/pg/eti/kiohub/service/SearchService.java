@@ -149,15 +149,4 @@ public class SearchService {
         
         return sum;
     }
-
-    public List<Project> findMatchingProjectsBasedOnStatusId(Long statusId, Long collaboratorId) {
-        List<Project> projects = this.collaboratorRepository.getListOfCollaboratorsProjects(collaboratorId);
-        List<Project> filteredProjects = new ArrayList<>();
-        for (Project p : projects) {
-            if (p.getProjectStatus().getId() == statusId) {
-                filteredProjects.add(p);
-            }
-        }
-        return filteredProjects;
-    }
 }

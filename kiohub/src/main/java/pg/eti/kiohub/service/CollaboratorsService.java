@@ -9,7 +9,6 @@ import pg.eti.kiohub.entity.model.User;
 import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CollaboratorsService {
@@ -40,4 +39,7 @@ public class CollaboratorsService {
         return supervisor.getId() == userId;
     }
 
+    public Visibility getCollaboratorVisibility(Long projectId, Long userId){
+        return projectCollaboratorRepository.getCollaboratorVisibility(projectId, userId);
+    }
 }

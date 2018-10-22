@@ -23,18 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.model.User;
 
-/**
- *
- * @author Tomasz
- */
-
 @CrossOrigin
 @Controller
 @RequestMapping(path = "/email")
 public class MailController extends MainController {
 
-    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     @PostMapping(path = "/sendinvitation")
+    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     public ResponseEntity sendInvitation (
             @RequestParam("titlePl") String titlePl,
             @RequestParam("collaborators") String emails,

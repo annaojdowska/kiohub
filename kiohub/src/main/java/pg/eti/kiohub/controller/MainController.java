@@ -19,9 +19,6 @@ import pg.eti.kiohub.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * @author Aleksander Kania <kania>
- */
 @Controller
 public class MainController {
 
@@ -84,6 +81,9 @@ public class MainController {
 
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    AttachmentService attachmentService;
 
 
     @Configuration

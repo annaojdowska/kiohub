@@ -43,9 +43,7 @@ import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 import pg.eti.kiohub.utils.FileUtils;
 
-/**
- * @author Tomasz
- */
+
 @JBossLog
 @CrossOrigin
 @Controller
@@ -58,9 +56,8 @@ public class AttachmentControler extends MainController {
     @Autowired
     private ApplicationContext appContext;
 
-
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
             @RequestParam("Type") String type,
@@ -113,32 +110,23 @@ public class AttachmentControler extends MainController {
 
             }
         } catch (SQLException ex) {
-            rollbackSaveAttachment(attachment);
+            attachmentService.rollbackSaveAttachment(attachment);
             return ExceptionHandlingUtils.handleException(ex);
         }
         catch (OutOfMemoryError ex) {
-            rollbackSaveAttachment(attachment);
+            attachmentService.rollbackSaveAttachment(attachment);
             return ExceptionHandlingUtils.handleException(ex);
         }
         catch (Exception ex) {
-            rollbackSaveAttachment(attachment);
+            attachmentService.rollbackSaveAttachment(attachment);
             return ExceptionHandlingUtils.handleException(ex);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void rollbackSaveAttachment(Attachment attachment) {
-        if (attachment != null) {
-            if (attachment.getId() != null) {
-            attachmentRepository.deleteById(attachment.getId());
-            }
-        }
-    }
-    
-
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/updateMetadata")
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity updateMetadata(
             @RequestParam("projectId") String projectId,
             @RequestParam("attachmentId") String attachmentId,
@@ -153,23 +141,8 @@ public class AttachmentControler extends MainController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping(path = "/download")
-    public ResponseEntity downloadAttachment(@RequestParam("id") long id, HttpServletResponse response) {
-        Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
-        Optional<Attachment> attachment = attachmentRepository.findById(id);
-        if (attachmentExists(attachmentFile, attachment)) {
-            try {
-                prepareAndSaveAttachment(attachment, attachmentFile, response);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } catch (Exception ex) {
-                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/remove")
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity removeAttachment(@RequestBody List<Long> attachmentsToRemove,
                                            @RequestParam("projectId") long projectId,
                                            HttpServletRequest request) {
@@ -184,13 +157,17 @@ public class AttachmentControler extends MainController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(path = "/downloadPhoto")
-    public ResponseEntity downloadPhoto(@RequestParam("id") long id, HttpServletResponse response) {
+    @GetMapping(path = "/download")
+    @PreAuthorize("@securityService.checkAttachmentVisibility(#request, #id)")
+    public ResponseEntity downloadAttachment(@RequestParam("id") long id,
+                                             HttpServletResponse response,
+                                             HttpServletRequest request) {
         Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
         Optional<Attachment> attachment = attachmentRepository.findById(id);
-        if (attachmentExists(attachmentFile, attachment) && attachment.get().getType() == AttachmentType.PHOTO) {
+        if (attachmentService.attachmentExists(attachmentFile, attachment)) {
             try {
-                prepareAndSaveAttachment(attachment, attachmentFile, response);
+                attachmentService.prepareAndSaveAttachment(attachment, attachmentFile, response);
+                return new ResponseEntity<>(HttpStatus.OK);
             } catch (Exception ex) {
                 return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
             }
@@ -198,23 +175,23 @@ public class AttachmentControler extends MainController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    private void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt,
-                                          Optional<AttachmentFile> attachmentFileOpt,
-                                          HttpServletResponse response) throws SQLException, IOException {
-        Attachment attachment = attachmentOpt.get();
-        AttachmentFile attachmentFile = attachmentFileOpt.get();
-
-        String name = attachment.getFileName();
-        String extension = FilenameUtils.getExtension(name);
-        Blob blob = attachmentFile.getFile();
-
-        InputStream in = blob.getBinaryStream();
-        response.setContentType(FileUtils.getMimeType(extension));
-        IOUtils.copy(in, response.getOutputStream());
+    @GetMapping(path = "/downloadPhoto")
+    @PreAuthorize("@securityService.checkAttachmentVisibility(#request, #id)")
+    public ResponseEntity downloadPhoto(@RequestParam("id") long id,
+                                        HttpServletResponse response,
+                                        HttpServletRequest request) {
+        Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
+        Optional<Attachment> attachment = attachmentRepository.findById(id);
+        if (attachmentService.attachmentExists(attachmentFile, attachment) && attachment.get().getType() == AttachmentType.PHOTO) {
+            try {
+                attachmentService.prepareAndSaveAttachment(attachment, attachmentFile, response);
+            } catch (Exception ex) {
+                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    private boolean attachmentExists(Optional<AttachmentFile> attachmentFile, Optional<Attachment> attachment) {
-        return attachmentFile.isPresent() && attachment.isPresent();
-    }
+
 }
 

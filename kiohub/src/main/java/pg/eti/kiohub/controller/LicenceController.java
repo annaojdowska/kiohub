@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.model.Licence;
 
-/**
- *
- * @author Kasia
- */
-
 @Controller
 @RequestMapping(path = "/licence")
 public class LicenceController extends MainController {

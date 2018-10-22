@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,29 +30,21 @@ import pg.eti.kiohub.security.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- *
- * @author Kasia
- */
-
 @CrossOrigin
 @Controller
 @RequestMapping(path = "/note")
 public class NoteController extends MainController {
-    @Autowired
-    SecurityService securityService;
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     @GetMapping(path = "/project/{id}")
-    public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long id,
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+    @PostAuthorize("@securityService.checkProjectNotesVisibility(returnObject, #projectId, #request)")
+    public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long projectId,
                                                               HttpServletRequest request) {
-        if(securityService.isCollaborator(request, id))
-            return new ResponseEntity<>(noteRepository.getNotes(id), HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(noteRepository.getNotes(projectId), HttpStatus.OK);
     }
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/add")
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity<Note> addNote (
             @RequestParam("content") String content,
             @RequestParam("isPrivate") String isPrivate,
@@ -66,8 +59,8 @@ public class NoteController extends MainController {
         return new ResponseEntity<>(noteToAdd, HttpStatus.OK);
     }
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @DeleteMapping(value = "/delete/{id}")
+    @PreAuthorize("@securityService.hasPermissionToNote(#request, #projectId)")
     public ResponseEntity delete(@PathVariable("id") Long id,
                                  @RequestParam("projectId") Long projectId,
                                  HttpServletRequest request) {
@@ -80,8 +73,8 @@ public class NoteController extends MainController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostMapping(path = "/update/{id}")
+    @PreAuthorize("@securityService.hasPermissionToNote(#request, #projectId)")
     public ResponseEntity update(
             @PathVariable("id") Long id,
             @RequestParam("content") String content,

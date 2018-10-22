@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.model.ProjectType;
 
-/**
- *
- * @author Kasia
- */
-
 @Controller
 @RequestMapping(path = "/type")
 public class ProjectTypeController extends MainController {
