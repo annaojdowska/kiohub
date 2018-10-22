@@ -1,27 +1,40 @@
 <div id="advanced-search">
     <div class="form">
+
         <mat-form-field class="leftLabel">
             <input matInput ngModel placeholder="Promotor" #supervisorInput (ngModelChange)="formVal.onSupervisorChange($event)" (keyup.enter)="addSupervisor()" pattern="{{formVal.getSupervisorPattern()}}">
+            <mat-icon matPrefix><img class="tooltip-img" matTooltip="{{supervisorTooltip}}" src="../../assets/question.png"></mat-icon>
         </mat-form-field>
+        
+
         <mat-form-field class="leftLabel paddingLeft">
             <input matInput ngModel placeholder="Tag" #tagInput (keyup)="formVal.onKeyUpTag($event)" pattern="{{formVal.getIsLetterOrNumberPattern()}}">
+            <mat-icon matPrefix><img class="tooltip-img" matTooltip="{{tagTooltip}}" src="../../assets/question.png"></mat-icon>
         </mat-form-field>
+        
+        
         <mat-form-field class="rightLabel" id="textLeft">
-                <input matInput ngModel placeholder="Tytuł zawiera..." #titleInput (keyup.enter)="addTitle()" (ngModelChange)="formVal.onTitlePlChange($event)" pattern="{{formVal.getTitlePattern()}}">
+            <input matInput ngModel placeholder="Tytuł zawiera..." #titleInput (keyup.enter)="addTitle()" (ngModelChange)="formVal.onTitlePlChange($event)" pattern="{{formVal.getTitlePattern()}}">
+            <mat-icon matPrefix><img class="tooltip-img" matTooltip="{{titleTooltip}}" src="../../assets/question.png"></mat-icon>
         </mat-form-field>
+  
         <mat-form-field class="leftLabel">
             <mat-select [(value)]="selectedLicence" placeholder="Licencja" (selectionChange)="addLicence()" #licenceInput>
                 <mat-option *ngFor="let licence of licences" [value]="licence">{{licence.name}}</mat-option>
             </mat-select>
         </mat-form-field>
+
         <mat-form-field class="leftLabel paddingLeft">
             <mat-select [(value)]="selectedType" placeholder="Typ pracy" #projectTypeInput (selectionChange)="addType()">
                 <mat-option *ngFor="let type of project_types" [value]="type">{{type.name}}</mat-option>
             </mat-select>
         </mat-form-field>
+
         <mat-form-field class="rightLabel" id="textLeft">
             <input matInput ngModel placeholder="Opis zawiera..." #descriptionInput (keyup.enter)="addDescription()"  (ngModelChange)="formVal.onDescriptionPlChange($event)" pattern="{{formVal.getDescriptionPattern()}}">
+            <mat-icon matPrefix><img class="tooltip-img" matTooltip="{{descriptionTooltip}}" src="../../assets/question.png"></mat-icon>
         </mat-form-field>
+
         <label class="center">Data publikacji:</label>
         <mat-form-field class="leftLabel">
             <input matInput ngModel #dateInput1  [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="formVal.dateFromChanged('change', $event)"
@@ -35,13 +48,15 @@
             <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
             <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
         </mat-form-field>
+
         <label class="rightLabel" id="center">Semestry wytwarzania: &nbsp;
-            <img src='assets/calendar.png' (click)="toggleSemesters()" />
+            <img matTooltip="{{semesterTooltip}}" src='assets/calendar.png' (click)="toggleSemesters()" />
         </label>
         <div class=paddingTop id="semesterContainer">
             <app-semester-chooser *ngIf="semestersHidden != false" [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
                 (semesterRemoved)="removeAddedSemester($event)" (confirm)="toggleSemesters($event)" #semesterChooser></app-semester-chooser>
         </div>
+
         <app-error-info #errorSupervisor errorText="{{validation.errorStringSupervisor}}" errorType="ERROR"></app-error-info>
         <app-error-info #errorTag errorText="{{validation.errorStringTag}}" errorType="ERROR"></app-error-info>
         <app-error-info #errorTitle errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
