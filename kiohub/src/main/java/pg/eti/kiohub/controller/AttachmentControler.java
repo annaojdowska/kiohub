@@ -158,7 +158,7 @@ public class AttachmentControler extends MainController {
     }
 
     @GetMapping(path = "/download")
-    @PreAuthorize("@securityService.checkAttachmentVisibility(#request, #id)")
+    @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
     public ResponseEntity downloadAttachment(@RequestParam("id") long id,
                                              HttpServletResponse response,
                                              HttpServletRequest request) {
@@ -176,7 +176,7 @@ public class AttachmentControler extends MainController {
     }
 
     @GetMapping(path = "/downloadPhoto")
-    @PreAuthorize("@securityService.checkAttachmentVisibility(#request, #id)")
+    @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
     public ResponseEntity downloadPhoto(@RequestParam("id") long id,
                                         HttpServletResponse response,
                                         HttpServletRequest request) {

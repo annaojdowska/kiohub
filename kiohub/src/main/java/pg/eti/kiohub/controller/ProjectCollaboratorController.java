@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ProjectCollaboratorController extends MainController {
     
     @GetMapping(path = "/project/{id}")
-    @PostAuthorize("@securityService.checkCollaboratorsVisibilityByEmail(returnObject, #id, #request)")
+    @PostAuthorize("@visibilityService.checkCollaboratorsVisibilityByEmail(returnObject, #id, #request)")
     public ResponseEntity<Iterable<UserEmail>> getProjectCollaboratorsByProjectId(@PathVariable("id") Long id,
                                                                                   HttpServletRequest request) {
         List<Object[]> pc = collaboratorsRepository.getCollaborators(id);
@@ -58,21 +58,21 @@ public class ProjectCollaboratorController extends MainController {
     }    
     
     @GetMapping(path = "/supervisor/project/{id}")
-    @PostAuthorize("@securityService.checkUserAsCollaboratorVisibility(returnObject, #id, #request)")
+    @PostAuthorize("@visibilityService.checkUserAsCollaboratorVisibility(returnObject, #id, #request)")
     public ResponseEntity<User> getProjectSupervisorByProjectId(@PathVariable("id") Long id,
                                                                 HttpServletRequest request) {
         return new ResponseEntity<>(collaboratorsRepository.getSupervisor(id), HttpStatus.OK);
     }  
     
     @GetMapping(path = "data/project/{id}")
-    @PostAuthorize("@securityService.checkCollaboratorsVisibility(returnObject, #id, #request)")
+    @PostAuthorize("@visibilityService.checkCollaboratorsVisibility(returnObject, #id, #request)")
     public ResponseEntity<Iterable<ProjectCollaborator>> getProjectCollaboratorsDataByProjectId(@PathVariable("id") Long id,
                                                                                                 HttpServletRequest request) {
         return new ResponseEntity<>(collaboratorsRepository.getCollaboratorsData(id), HttpStatus.OK);
     }    
     
     @GetMapping(path = "data/supervisor/project/{id}")
-    @PostAuthorize("@securityService.checkProjectCollaboratorVisibility(returnObject, #id, #request)")
+    @PostAuthorize("@visibilityService.checkSingleCollaboratorVisibility(returnObject, #id, #request)")
     public ResponseEntity<ProjectCollaborator> getProjectSupervisorDataByProjectId(@PathVariable("id") Long id,
                                                                                    HttpServletRequest request) {
         return new ResponseEntity<>(collaboratorsRepository.getSupervisorData(id), HttpStatus.OK);

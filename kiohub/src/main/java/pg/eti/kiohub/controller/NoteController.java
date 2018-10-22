@@ -37,7 +37,7 @@ public class NoteController extends MainController {
 
     @GetMapping(path = "/project/{id}")
     @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
-    @PostAuthorize("@securityService.checkProjectNotesVisibility(returnObject, #projectId, #request)")
+    @PostAuthorize("@visibilityService.checkProjectNotesVisibility(returnObject, #projectId, #request)")
     public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long projectId,
                                                               HttpServletRequest request) {
             return new ResponseEntity<>(noteRepository.getNotes(projectId), HttpStatus.OK);

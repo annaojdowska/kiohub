@@ -30,14 +30,14 @@ import java.util.stream.Collectors;
 public class ProjectController extends MainController {
 
     @GetMapping(path = "/published")
-    @PostAuthorize("@securityService.checkVisibilityOfProjects(returnObject, #request)")
+    @PostAuthorize("@visibilityService.checkVisibilityOfProjects(returnObject, #request)")
     public ResponseEntity<List<Project>> getAllPublishedProjects(HttpServletRequest request){
         List<Project> publishedProjects = projectService.getAllPublishedProjects();
         return new ResponseEntity<>(publishedProjects, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    @PostAuthorize("@securityService.checkVisibilityOfProject(returnObject, #request)")
+    @PostAuthorize("@visibilityService.checkVisibilityOfSingleProject(returnObject, #request)")
     public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id,
                                                             HttpServletRequest request) {
         Optional<Project> p = projectRepository.findById(id);
@@ -148,7 +148,7 @@ public class ProjectController extends MainController {
     }
 
     @GetMapping(path = "/relatedTo/{id}")
-    @PostAuthorize("@securityService.checkVisibilityOfProjects(returnObject, #request)")
+    @PostAuthorize("@visibilityService.checkVisibilityOfProjects(returnObject, #request)")
     public ResponseEntity<List<Project>> getRelatedProjectsById(@PathVariable("id") Long id,
                                                                 HttpServletRequest request) {
         Optional<Project> p = projectRepository.findById(id);
