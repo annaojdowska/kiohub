@@ -112,12 +112,13 @@ public class ProjectCollaboratorController extends MainController {
     @PostMapping(path = "/add")
     public ResponseEntity addCollaborator (
             @RequestParam("email") String email,
+            @RequestParam("visibility") String visibility,
             @RequestParam("projectId") String projectId) {
 
         User user = userService.createNewUsersAndGetAllByEmails(Arrays.asList(email)).get(0);
         Project project = projectRepository.getOne(Long.parseLong(projectId));
         if (project != null) {
-            collaboratorsService.createAndSaveCollaborators(project, Arrays.asList(user));
+            collaboratorsService.createAndSaveCollaborator(project, user, false, Visibility.valueOf(visibility));
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
