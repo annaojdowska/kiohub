@@ -57,7 +57,13 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
         const params = new HttpParams()
         .set('projectId', projectId.toString())
         .set('email', email);
-      return this.http.post(address + '/collaborator/add', params);
+      return this.http.post(address + '/collaborator/add', params).subscribe(data => {
+        console.log('TAK' + data);
+      },
+      error => {
+        console.log('NIE' + error);
+      }
+      );
       }
 
       removeCollaborator(projectId: number, collaboratorId: number) {

@@ -34,7 +34,7 @@ public class UserService {
 
     private User createNewUserUsingEmail(String email) {
         User user = new User();
-        user.setIsSupervisor(true);
+        user.setIsSupervisor(false);
         // FIXME #2
         user = userRepository.saveAndFlush(user);
 
