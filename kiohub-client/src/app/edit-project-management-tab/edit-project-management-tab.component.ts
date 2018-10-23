@@ -98,7 +98,7 @@ export class EditProjectManagementTabComponent implements OnInit {
     this.authorsList.elements.forEach(element => {
         if (!element.id) {
           // if walidacja element.name jako e-mail studenta zakonczona powodzeniem
-          this.userService.addCollaboratorByEmail(this.editedProject.id, element.name);
+          this.userService.addCollaboratorByEmail(this.editedProject.id, element.name, element.visibility ? element.visibility : Visibility.EVERYONE);
           // endIf
         } else {
           this.updateVisibility(element.id, element.visibility);
