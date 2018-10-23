@@ -53,15 +53,16 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
         return this.http.post(address + '/collaborator/updateVisibility', params);
       }
 
-      addCollaboratorByEmail(projectId: number, email: string) {
+      addCollaboratorByEmail(projectId: number, email: string, visibility: Visibility) {
         const params = new HttpParams()
         .set('projectId', projectId.toString())
+        .set('visibility', visibility.toString())
         .set('email', email);
       return this.http.post(address + '/collaborator/add', params).subscribe(data => {
-        console.log('TAK' + data);
+        console.log('Współtwórca dodany pomyślnie');
       },
       error => {
-        console.log('NIE' + error);
+        console.log('Wystąpił błąd podczas dodawania współtwórcy');
       }
       );
       }
@@ -70,6 +71,12 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
         const params = new HttpParams()
           .set('projectId', projectId.toString())
           .set('collaboratorId', collaboratorId.toString());
-        return this.http.post(address + '/collaborator/remove', params);
+        return this.http.post(address + '/collaborator/remove', params).subscribe(data => {
+          console.log('Współtwórca usunięty pomyślnie');
+        },
+        error => {
+          console.log('Wystąpił błąd podczas usuwania współtwórcy');
+        }
+        );
       }
 }

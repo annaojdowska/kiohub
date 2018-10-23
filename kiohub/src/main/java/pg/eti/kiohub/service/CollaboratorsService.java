@@ -18,13 +18,17 @@ public class CollaboratorsService {
 
     public void createAndSaveCollaborators(Project project, List<User> users) {
         for (User user : users) {
+            createAndSaveCollaborator(project, user, Boolean.FALSE, Visibility.EVERYONE);
+        }
+    }
+    
+        public void createAndSaveCollaborator(Project project, User user, Boolean isSupervisor, Visibility userDataVisible) {
             ProjectCollaborator collaborator = new ProjectCollaborator();
             collaborator.setUserId(user.getId());
             collaborator.setProjectId(project.getId());
-            collaborator.setIsSupervisor(Boolean.FALSE);
-            collaborator.setUserDataVisible(Visibility.EVERYONE);
+            collaborator.setIsSupervisor(isSupervisor);
+            collaborator.setUserDataVisible(userDataVisible);
             projectCollaboratorRepository.saveAndFlush(collaborator);
-        }
     }
 
     public boolean isProjectCollaborator(long userId, long projectId){
