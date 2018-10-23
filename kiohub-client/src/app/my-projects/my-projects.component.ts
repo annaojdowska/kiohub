@@ -130,7 +130,7 @@ export class MyProjectsComponent implements OnInit {
       }
       this.checkButton(true, false, false);
     } else if (statusName === this.statusClosed) {
-      if (this.checkedInProgress) {
+      if (this.checkedClosed) {
         this.clearQuickFiltering();
         return;
       }
