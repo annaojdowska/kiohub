@@ -124,13 +124,32 @@ export class MyProjectsComponent implements OnInit {
 
   filterByStatus(statusName: string) {
     if (statusName === this.statusInProgress) {
+      if (this.checkedInProgress) {
+        this.clearQuickFiltering();
+        return;
+      }
       this.checkButton(true, false, false);
     } else if (statusName === this.statusClosed) {
+      if (this.checkedInProgress) {
+        this.clearQuickFiltering();
+        return;
+      }
       this.checkButton(false, true, false);
     } else {
+      if (this.checkedProblematic) {
+        this.clearQuickFiltering();
+        return;
+      }
       this.checkButton(false, false, true);
     }
    this.executeFilterByStatus(statusName);
+  }
+
+  clearQuickFiltering() {
+    this.checkButton(false, false, false);
+    this.displayedProjects = this.projects;
+    this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+    this.sortAndSetByPinned();
   }
 
   handleNoResults(value: boolean) {
