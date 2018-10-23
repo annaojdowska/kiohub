@@ -31,6 +31,7 @@ import { injectChangeDetectorRef } from '../../../node_modules/@angular/core/src
 import { PublishDialogComponent } from '../ui-elements/publish-dialog/publish-dialog.component';
 import { SearchService } from '../services/search.service';
 import { ViewUtils } from '../utils/view-utils';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-edit-project-general-tab',
