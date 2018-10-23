@@ -1,10 +1,10 @@
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
-import { FileUtils } from './file-utils';
 import { AttachmentType } from '../model/attachment-type.enum';
 import { isNullOrUndefined } from 'util';
 import { InputListComponent } from '../input-list/input-list.component';
-import { ValueUtils } from './value-utils';
+import { FileUtils } from '../utils/file-utils';
+import { ValueUtils } from '../utils/value-utils';
 
 
 export class Validation {
