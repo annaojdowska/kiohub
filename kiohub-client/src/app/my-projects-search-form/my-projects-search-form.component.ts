@@ -41,10 +41,10 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   @ViewChild('errorDate') errorDate: ErrorInfoComponent;
   @ViewChild('searchError') searchError: ErrorInfoComponent;
 
+  
   tagTooltip = 'Wpisz tag i zatwierdź, klikając "Enter".';
   titleTooltip = 'Wpisz tytuł projektu i zatwierdź, klikając "Enter".';
   semesterTooltip = 'Kliknij tu, aby wybrać semestry, w czasie których wytwarzany był projekt.';
-
   dateInputFrom: MatDatepickerInput<Date>;
   dateInputTo: MatDatepickerInput<Date>;
   supervisorInput = null;
@@ -174,14 +174,6 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     }
   }
 
-  public dateFromChanged(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.dateFrom = event.value;
-  }
-
-  public dateToChanged(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.dateTo = event.value;
-  }
-
   toggleSemesters() {
     this.semestersHidden = !this.semestersHidden;
   }
@@ -204,22 +196,4 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.chosenSemesters.push(semester);
     this.semestersList.add({ name: semester.name });
   }
-
-
-  checkValidityTitle() {
-    return this.validation.validate(this.errorTitle, this.validation.validateInputWithPattern(this.titleInput));
-  }
-
-  checkValidityDates(from: Date, to: Date) {
-    return this.validation.validate(this.errorDate, this.validation.validateDatesOrder(from, to));
-  }
-
-  checkValidityDatesNotNull(from: Date, to: Date) {
-    return this.validation.validate(this.errorDate, this.validation.validateDatesOrderNotNull(from, to));
-  }
-
-  checkValidityTag() {
-    return this.validation.validate(this.errorTag, this.validation.validateInputTag(this.tagInput));
-  }
-
 }

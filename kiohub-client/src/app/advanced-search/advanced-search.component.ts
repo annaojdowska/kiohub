@@ -6,9 +6,9 @@ import { QueryDescription } from '../model/helpers/query-description.class';
 import { SearchResult } from '../model/helpers/search-result.class';
 import { SortingService } from '../services/sorting-service';
 import { ProjectService } from '../services/project.service';
-import { ValueUtils } from '../error-info/value-utils';
 import { AdvancedSearchFormComponent } from '../advanced-search-form/advanced-search-form.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-advanced-search',

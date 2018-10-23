@@ -6,8 +6,8 @@ import { Project } from '../model/project.interface';
 import { InputListComponent } from '../input-list/input-list.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../error-info/validation-patterns';
-import { ValueUtils } from '../error-info/value-utils';
 import { LoginService } from '../services/login.service';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-add-project',

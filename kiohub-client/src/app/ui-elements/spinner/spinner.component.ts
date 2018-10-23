@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { EditProjectGeneralTabComponent } from '../../edit-project-general-tab/edit-project-general-tab.component';
 import { ErrorType } from '../../error-info/error-type.enum';
-import { ValueUtils } from '../../error-info/value-utils';
+import { ValueUtils } from 'src/app/utils/value-utils';
 
 @Component({
   selector: 'app-spinner',

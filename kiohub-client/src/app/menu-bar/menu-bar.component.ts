@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { address } from '../services/project.service';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
-import { ValueUtils } from '../error-info/value-utils';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-menu-bar',

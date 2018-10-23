@@ -2,9 +2,9 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { AttachmentService } from '../services/attachment.service';
 import { Attachment } from '../model/attachment.interface';
 import { IImage } from 'ng-simple-slideshow/src/app/modules/slideshow/IImage';
-import { ValueUtils } from '../error-info/value-utils';
 import { MatDialog } from '../../../node_modules/@angular/material';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-image-slider',

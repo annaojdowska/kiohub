@@ -9,7 +9,7 @@ import { AttachmentType } from '../model/attachment-type.enum';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
 import { UserEmail } from '../model/user-email.interface';
-import { ValueUtils } from '../error-info/value-utils';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-project-view',

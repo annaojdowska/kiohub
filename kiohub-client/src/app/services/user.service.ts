@@ -6,7 +6,7 @@ import { address } from './project.service';
 import { ProjectCollaborator } from '../model/project-collaborator';
 import { UserEmail } from '../model/user-email.interface';
 import { Visibility } from '../model/visibility.enum';
-import { ValueUtils } from '../error-info/value-utils';
+import { ValueUtils } from '../utils/value-utils';
 
 @Injectable()
 export class UserService {

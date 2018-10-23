@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UserService } from './services/user.service';
-import { ValueUtils } from './error-info/value-utils';
 import { User } from './model/user.interface';
+import { ValueUtils } from './utils/value-utils';
 
 @Component({
   selector: 'app-root',

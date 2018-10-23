@@ -4,7 +4,6 @@ import { Router } from '../../../node_modules/@angular/router';
 import { Project } from '../model/project.interface';
 import { MatTableDataSource, MatPaginator } from '../../../node_modules/@angular/material';
 import { ProjectService } from '../services/project.service';
-import { ValueUtils } from '../error-info/value-utils';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
 import { ProjectStatusService } from '../services/project-status-service';
@@ -15,6 +14,7 @@ import { FilterService } from '../services/filter.service';
 import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
 import { LoginService } from '../services/login.service';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-my-projects',
@@ -80,7 +80,6 @@ export class MyProjectsComponent implements OnInit {
           this.projects = results;
           this.displayedProjects = this.projects;
           this.sortAndSetByPinned();
-          this.handleNoResults(results.length === 0);
         });
       } else {
         this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
@@ -185,6 +184,8 @@ export class MyProjectsComponent implements OnInit {
           .sort((a, b) => this.sortingService.sortByPinned(pinneds.includes(a.id), pinneds.includes(b.id)));
           this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
           this.assignPaginatorToDataSource();
+          // Ania! jak będziesz robiła filtrowanie, i dojdziesz do miejsca w kodzie, gdzie będziesz już miała skończoną listę projektów do wyświetlenia,
+          // wywołaj tą metodę poniżej, podajac jako argument tą listę; wyświetli to stosowną informację, jeżeli lista będzie pusta
           this.handleNoResults(this.displayedProjects.length === 0);
         }});
       } else {

@@ -24,13 +24,13 @@ import { Semester } from '../model/semester.interface';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../error-info/validation-patterns';
-import { ValueUtils } from '../error-info/value-utils';
 import { ErrorType } from '../error-info/error-type.enum';
 import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
-import { FileUtils } from '../error-info/file-utils';
+import { FileUtils } from '../utils/file-utils';
 import { injectChangeDetectorRef } from '../../../node_modules/@angular/core/src/render3';
 import { PublishDialogComponent } from '../ui-elements/publish-dialog/publish-dialog.component';
 import { SearchService } from '../services/search.service';
+import { ViewUtils } from '../utils/view-utils';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -96,6 +96,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   relatedToControl: FormControl = new FormControl();
   projects: Project[] = [];
   projectAttachmentsUpdatingInProgress: boolean;
+  viewUtils = new ViewUtils();
 
   tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
                   + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
@@ -474,6 +475,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
         this.projectService.setRelatedProjects(this.editedProject.id, this.getRelatedProjects()).subscribe();
         const infoString = 'Pomyślnie zaktualizowano dane projektu. ';
         console.log(updatedProject);
+        this.viewUtils.scrollToTop();
         if (attachmentsToSaveAmount === 0) {
           this.updateCompleted(infoString, ErrorType.SUCCESS);
           this.projectAttachmentsUpdatingInProgress = false;

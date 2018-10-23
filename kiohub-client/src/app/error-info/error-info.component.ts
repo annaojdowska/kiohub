@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ErrorType } from './error-type.enum';
-import { ValueUtils } from './value-utils';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-error-info',

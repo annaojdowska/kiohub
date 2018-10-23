@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { InputListElement } from '../model/input-list-element';
 import { Visibility } from '../model/visibility.enum';
 import { utils } from '../../../node_modules/protractor';
-import { ValueUtils } from '../error-info/value-utils';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-visibility-select',
