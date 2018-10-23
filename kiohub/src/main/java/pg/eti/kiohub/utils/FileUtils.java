@@ -112,6 +112,11 @@ public class FileUtils {
     public static final String MIME_VIDEO_X_SGI_MOVIE     = "video/x-sgi-movie";
     public static final String MIME_X_CONFERENCE_X_COOLTALK   = "x-conference/x-cooltalk";
 
+    public static final String MIME_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    public static final String MIME_ZIP_COMPRESSED = "application/x-zip-compressed";
+    public static final String MIME_ODT = "application/vnd.oasis.opendocument.text";
+
+
     private static HashMap<String, String> mimeTypeMapping;
 
     static {
@@ -122,6 +127,8 @@ public class FileUtils {
                 }
             }
             {
+                put1("docx", MIME_DOCX);
+                put1("odt", MIME_ODT);
                 put1("xul", MIME_APPLICATION_VND_MOZZILLA_XUL_XML);
                 put1("json", MIME_APPLICATION_JSON);
                 put1("ice", MIME_X_CONFERENCE_X_COOLTALK);
