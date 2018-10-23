@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core';
-import { Validation } from '../error-info/validation-patterns';
+import { Validation } from '../utils/validation-patterns';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { ENTER } from '@angular/cdk/keycodes';
 import { IAdvancedSearchFormValidation } from './iadvanced-search-form';

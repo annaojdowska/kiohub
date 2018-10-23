@@ -10,6 +10,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
 import { UserEmail } from '../model/user-email.interface';
 import { ValueUtils } from '../utils/value-utils';
+import { FileDownloaderView } from '../ui-elements/download-element/file-downloader-view';
+import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
 
 @Component({
   selector: 'app-project-view',
@@ -27,13 +29,14 @@ import { ValueUtils } from '../utils/value-utils';
     ])
   ]
 })
-export class ProjectViewComponent implements OnInit {
+export class ProjectViewComponent implements OnInit, FileDownloaderView {
   @ViewChild('downloadThesis') downloadThesis: DownloadElementComponent;
   @ViewChild('downloadSourceCode') downloadSourceCode: DownloadElementComponent;
   @ViewChild('downloadUsage') downloadUsage: DownloadElementComponent;
   @ViewChild('downloadStartup') downloadStartup: DownloadElementComponent;
   @ViewChild('downloadOther') downloadOther: DownloadElementComponent;
   @ViewChild('slider') imageSlider: ImageSliderComponent;
+  @ViewChild('downloadSpinner') downloadSpinner: SpinnerComponent;
 
   valueUtils = new ValueUtils();
   supervisor: User;
@@ -97,6 +100,7 @@ export class ProjectViewComponent implements OnInit {
       });
     });
     // FIXME a co jak error?
+      this.setDownloadElements();
   }
 
   async getItem(id: number) {
@@ -168,5 +172,22 @@ export class ProjectViewComponent implements OnInit {
     } else {
       this.relatedProjectsHidden = true;
     }
+  }
+
+  setDownloadElements() {
+    this.downloadOther.setView(this);
+    this.downloadSourceCode.setView(this);
+    this.downloadStartup.setView(this);
+    this.downloadThesis.setView(this);
+    this.downloadUsage.setView(this);
+  }
+
+  onBeginDownloding(filename: string) {
+    this.downloadSpinner.setDisplay(true);
+    this.downloadSpinner.setText('Proszę czekać, rozpoczynam pobieranie pliku ' + filename + '.');
+  }
+
+  onDownloadingCompleted() {
+    this.downloadSpinner.setDisplay(false);
   }
 }

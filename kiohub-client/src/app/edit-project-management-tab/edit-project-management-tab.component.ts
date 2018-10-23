@@ -8,7 +8,7 @@ import { InputListComponent } from '../input-list/input-list.component';
 import { UserEmail } from '../model/user-email.interface';
 import { Visibility } from '../model/visibility.enum';
 import { ProjectCollaborator } from '../model/project-collaborator';
-import { Validation } from '../error-info/validation-patterns';
+import { Validation } from '../utils/validation-patterns';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { forEach } from '../../../node_modules/@angular/router/src/utils/collection';
 

@@ -1,7 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Project } from '../model/project.interface';
 import { Observable, Subject } from 'rxjs';
-import { address } from './project.service';
 
 @Injectable()
 export class ProjectDetailsService {

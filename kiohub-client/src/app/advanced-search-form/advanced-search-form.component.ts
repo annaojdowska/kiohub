@@ -9,7 +9,7 @@ import { InputListComponent } from '../input-list/input-list.component';
 import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { Validation } from '../error-info/validation-patterns';
+import { Validation } from '../utils/validation-patterns';
 import { AdvancedSearchFormValidation } from '../search/advanced-search-form-validation';
 import { IAdvancedSearchFormValidation } from '../search/iadvanced-search-form';
 import { SearchType } from '../search/search-type.enum';

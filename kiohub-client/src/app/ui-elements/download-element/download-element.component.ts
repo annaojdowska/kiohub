@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Inject, ElementRef, ViewChild, Renderer2 } fr
 import { Attachment } from '../../model/attachment.interface';
 import { AttachmentService } from '../../services/attachment.service';
 import { saveAs } from 'file-saver/FileSaver';
+import { FileDownloaderView } from './file-downloader-view';
 
 @Component({
   selector: 'app-download-element',
@@ -13,8 +14,9 @@ export class DownloadElementComponent implements OnInit {
   @Input() title: string;
   @Input() attachments: Attachment[];
   @ViewChild('container') container: ElementRef;
+  view: FileDownloaderView;
 
-  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService) {
+  constructor(@Inject(AttachmentService) private attachmentService: AttachmentService, view: FileDownloaderView) {
     this.hidden = true;
   }
 
@@ -34,8 +36,12 @@ export class DownloadElementComponent implements OnInit {
   }
 
   downloadFile(attachment: Attachment) {
+    this.view.onBeginDownloding(attachment.fileName);
     this.attachmentService.getAttachment(attachment.id).subscribe((blob: Blob) => {
+      console.log('start!');
       saveAs(blob, attachment.fileName);
+      console.log('koniec!');
+      this.view.onDownloadingCompleted();
     });
   }
 
@@ -47,4 +53,7 @@ export class DownloadElementComponent implements OnInit {
     }
   }
 
+  setView(view: FileDownloaderView) {
+    this.view = view;
+  }
 }

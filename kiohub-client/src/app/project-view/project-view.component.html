@@ -110,6 +110,8 @@
         <div [hidden]="filesHidden" class="component">
             <img src="assets/download.png" />
             <h4>Pliki do pobrania</h4>
+            <app-spinner #downloadSpinner></app-spinner>
+
             <app-download-element #downloadThesis title="Praca dyplomowa"></app-download-element>
             <app-download-element #downloadSourceCode title="Program i/lub kod programu"></app-download-element>
             <app-download-element #downloadUsage title="Instrukcja obsługi programu"></app-download-element>

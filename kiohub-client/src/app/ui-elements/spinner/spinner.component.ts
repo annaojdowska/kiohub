@@ -23,7 +23,7 @@ export class SpinnerComponent implements OnInit {
 
   constructor() {
   }
-
+  
   ngOnInit() { }
 
   beginUpload(attachmentsToSave: number, editProjectComponent: EditProjectGeneralTabComponent, infoString: string) {

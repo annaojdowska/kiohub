@@ -10,7 +10,7 @@ import { Semester } from '../model/semester.interface';
 import { MatDatepickerInputEvent, MatInput, MatDatepickerInput } from '../../../node_modules/@angular/material';
 import { InputListElement } from '../model/input-list-element';
 import { QueryDescription } from '../model/helpers/query-description.class';
-import { Validation } from '../error-info/validation-patterns';
+import { Validation } from '../utils/validation-patterns';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { IAdvancedSearchFormValidation } from '../search/iadvanced-search-form';
 import { AdvancedSearchFormValidation } from '../search/advanced-search-form-validation';
@@ -41,7 +41,7 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   @ViewChild('errorDate') errorDate: ErrorInfoComponent;
   @ViewChild('searchError') searchError: ErrorInfoComponent;
 
-  
+
   tagTooltip = 'Wpisz tag i zatwierdź, klikając "Enter".';
   titleTooltip = 'Wpisz tytuł projektu i zatwierdź, klikając "Enter".';
   semesterTooltip = 'Kliknij tu, aby wybrać semestry, w czasie których wytwarzany był projekt.';
