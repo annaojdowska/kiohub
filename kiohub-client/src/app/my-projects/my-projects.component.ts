@@ -169,7 +169,10 @@ export class MyProjectsComponent implements OnInit {
 
   getSearchResults(query: QueryDescription) {
     console.log('SUBMIT in get search results');
-    this.filterService.filterBasedOnQuery(query, this.projects);
+    this.displayedProjects = this.filterService.filterBasedOnQuery(query, this.projects);
+    this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+    this.sortAndSetByPinned();
+    this.handleNoResults(this.displayedProjects.length === 0);
   }
 
   applySorting(sortingRule: string) {
