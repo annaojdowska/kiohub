@@ -233,7 +233,7 @@
                 <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź
                     zmiany</button>
                 <div id="divider"></div>
-                <button (click)="openDialog()" type="button" mat-stroked-button class="submit-button">Publikuj na stronie</button>
+                <button (click)="openDialog()" type="button" *ngIf="isLoggedAndSupervisor"  mat-stroked-button class="submit-button">Publikuj na stronie</button>
             </div>
         </div>
     </form>
