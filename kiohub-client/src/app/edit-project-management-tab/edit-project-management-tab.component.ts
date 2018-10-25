@@ -121,7 +121,7 @@ export class EditProjectManagementTabComponent implements OnInit {
         const collaboratorsIds = collaborators.map(c => c.id);
         const authorsListIds = this.authorsList.elements.filter(e => e.id).map(e => e.id);
         collaboratorsIds.forEach(cId => {
-          if (!authorsListIds.includes(cId)) {
+          if (!authorsListIds.includes(cId) && this.loggedUser.id !== cId) {
             toRemoveCollaboratorsIds.push(cId);
             toUpdateCounter++;
           }
