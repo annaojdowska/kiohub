@@ -616,6 +616,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
         window.location.reload();
       }
     });
+  }
 
+  isUserSupervisor(): boolean {
+    return this.isLoggedUserSupervisor;
   }
 }

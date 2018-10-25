@@ -24,7 +24,7 @@
   </div>
 </form>
 
-<div id="border">
+<div id="border" *ngIf="isUserSupervisor()">
   <h3>Usuń projekt</h3>
   <h5>Bądź pewien, że chcesz usunąć ten projekt, ponieważ po jego usunięciu nie możesz już do niego powrócić. Wszystkie dane
     z nim związane (metadane projektu oraz załączniki) zostaną usunięte.</h5>
