@@ -33,7 +33,6 @@ import { ViewUtils } from '../utils/view-utils';
 import { ValueUtils } from '../utils/value-utils';
 import { SpinnerUpdateProjectComponent } from '../ui-elements/spinner/spinner-update-project/spinner-update-project.component';
 import { UserService } from '../services/user.service';
-import { ICompletable } from '../ui-elements/spinner/icompletable';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -41,7 +40,7 @@ import { ICompletable } from '../ui-elements/spinner/icompletable';
   styleUrls: ['./edit-project-general-tab.component.css']
 })
 
-export class EditProjectGeneralTabComponent implements OnInit, ICompletable {
+export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('thesisList') thesisList: InputListComponent;
   @ViewChild('programsList') programsList: InputListComponent;
   @ViewChild('imagesList') imagesList: InputListComponent;
