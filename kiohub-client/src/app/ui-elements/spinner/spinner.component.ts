@@ -12,10 +12,10 @@ export class SpinnerComponent implements OnInit {
   protected display = 'none';
 
   constructor() {
-    console.log('rodzic!');
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   setText(text: string) {
     this.text = text;
