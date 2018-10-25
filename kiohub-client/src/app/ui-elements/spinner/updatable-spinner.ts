@@ -1,4 +1,5 @@
 import { SpinnerComponent } from './spinner.component';
+import { ICommandName } from 'selenium-webdriver';
 
 export abstract class UpdatableSpinner extends SpinnerComponent {
     // list of successfully uploaded elements' names
@@ -7,34 +8,43 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
     failedList: string[] = [];
     // updatable info string to display in a view
     infoString = '';
-    // view, on which element is being updated
-    viewComponent;
 
     // how many elements to upload
     elementsToSave: number;
     // how many elements had been already uploaded
     savedElements: number;
 
+    // ex. "trwa dodawanie załączników" / "rozpoczęto pobieranie plików"
     currentlyBeingSavedText: string;
+    // ex. "zapisano następujące załączniki:" / "pobrano pliki:"
     savedElementsText: string;
+    // ex. "nie udało się zapisać tych załączników: " / "wystąpił problem z plikami:"
     failedElementsText: string;
-
-    
 
     // actions taken when update has been completed
     protected abstract onUpdateCompleted();
     // initialize inherited elements
     protected abstract setInheritedElements();
+    // set view, on which element is being updated
+    protected abstract setViewComponent(view);
 
-    beginUpload(attachmentsToSave: number, view, infoString: string) {
+    beginUpload(view, attachmentsToSave: number, infoString: string) {
+        this.setViewComponent(view);
         this.savedElements = 0;
         this.elementsToSave = attachmentsToSave;
-        this.viewComponent = view;
         this.succesList = [];
         this.failedList = [];
         this.infoString = infoString;
         this.setDisplay(true);
         this.updateInfoText();
+    }
+
+    resetSpinner() {
+        this.savedElements = null;
+        this.elementsToSave = null;
+        this.succesList = [];
+        this.failedList = [];
+        this.infoString = null;
     }
 
     addSuccess(successedElementName: string) {
@@ -50,7 +60,7 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
     }
 
     updateSpinner() {
-        if (this.elementsToSave === this.savedElements) {
+        if (this.isUpdateCompleted()) {
             this.updateInfoText();
             this.onUpdateCompleted();
         } else {
@@ -71,4 +81,7 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
         }
     }
 
+    isUpdateCompleted() {
+        return this.elementsToSave === this.savedElements;
+    }
 }

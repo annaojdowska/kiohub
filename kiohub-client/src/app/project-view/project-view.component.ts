@@ -11,7 +11,7 @@ import { ImageSliderComponent } from '../image-slider/image-slider.component';
 import { UserEmail } from '../model/user-email.interface';
 import { ValueUtils } from '../utils/value-utils';
 import { FileDownloaderView } from '../ui-elements/download-element/file-downloader-view';
-import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
+import { SpinnerDownloadAttachmentComponent } from '../ui-elements/spinner/spinner-download-attachment/spinner-download-attachment.component';
 
 @Component({
   selector: 'app-project-view',
@@ -36,7 +36,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   @ViewChild('downloadStartup') downloadStartup: DownloadElementComponent;
   @ViewChild('downloadOther') downloadOther: DownloadElementComponent;
   @ViewChild('slider') imageSlider: ImageSliderComponent;
-  @ViewChild('downloadSpinner') downloadSpinner: SpinnerComponent;
+  @ViewChild('downloadSpinner') downloadSpinner: SpinnerDownloadAttachmentComponent;
 
   valueUtils = new ValueUtils();
   supervisor: User;
@@ -175,16 +175,15 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   }
 
   setDownloadElements() {
-    this.downloadOther.setView(this);
-    this.downloadSourceCode.setView(this);
-    this.downloadStartup.setView(this);
-    this.downloadThesis.setView(this);
-    this.downloadUsage.setView(this);
+    this.downloadOther.setView(this, this.downloadSpinner);
+    this.downloadSourceCode.setView(this, this.downloadSpinner);
+    this.downloadStartup.setView(this, this.downloadSpinner);
+    this.downloadThesis.setView(this, this.downloadSpinner);
+    this.downloadUsage.setView(this, this.downloadSpinner);
   }
 
   onBeginDownloding(filename: string) {
-    this.downloadSpinner.setDisplay(true);
-    this.downloadSpinner.setText('Proszę czekać, rozpoczynam pobieranie pliku ' + filename + '.');
+    this.downloadSpinner.begin(this);
   }
 
   onDownloadingCompleted() {

@@ -482,24 +482,24 @@ export class EditProjectGeneralTabComponent implements OnInit {
         console.log(updatedProject);
         this.viewUtils.scrollToTop();
         if (attachmentsToSaveAmount === 0) {
-          this.updateCompleted(infoString, ErrorType.SUCCESS);
+          this.onCompleted(infoString, ErrorType.SUCCESS);
           this.projectAttachmentsUpdatingInProgress = false;
         } else {
           this.projectAttachmentsUpdatingInProgress = true;
           console.log(this.uploadInfoSpinner);
           console.log(this.uploadInfoSpinner instanceof SpinnerUpdateProjectComponent);
-          this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
+          this.uploadInfoSpinner.begin(this, attachmentsToSaveAmount, infoString);
           this.uploadAllFiles();
         }
       }, error => {
         const infoString = 'Wystąpił błąd zaktualizowania danych projektu. ';
         if (attachmentsToSaveAmount === 0) {
           this.projectAttachmentsUpdatingInProgress = false;
-          this.updateCompleted(infoString, ErrorType.ERROR);
+          this.onCompleted(infoString, ErrorType.ERROR);
         } else {
           this.projectAttachmentsUpdatingInProgress = true;
           console.log(this.uploadInfoSpinner);
-          this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
+          this.uploadInfoSpinner.begin(this, attachmentsToSaveAmount, infoString);
           this.uploadAllFiles();
         }
       });
@@ -541,7 +541,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.uploadFiles(this.imagesList, AttachmentType.PHOTO);
   }
 
-  updateCompleted(text: string, errorType: ErrorType) {
+  onCompleted(text: string, errorType: ErrorType) {
     // this.updateResult.setComponent(true, errorType, text);
     this.uploadInfoSpinner.setDisplay(false);
 
@@ -608,10 +608,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
       if (result === true) {
         this.projectService.publishProject(this.editedProject.id).subscribe(data => {
           infoString = 'Pomyślnie opublikowano projekt na stronie. Status projektu: "Zakończony".';
-          this.updateCompleted(infoString, ErrorType.SUCCESS);
+          this.onCompleted(infoString, ErrorType.SUCCESS);
         }, error => {
           infoString = 'Nie udało się opublikować projektu na stronie. ';
-          this.updateCompleted(infoString, ErrorType.ERROR);
+          this.onCompleted(infoString, ErrorType.ERROR);
         });
         window.location.reload();
       }

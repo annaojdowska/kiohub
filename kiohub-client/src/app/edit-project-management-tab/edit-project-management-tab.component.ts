@@ -123,7 +123,7 @@ export class EditProjectManagementTabComponent implements OnInit {
         const collaboratorsIds = collaborators.map(c => c.id);
         const authorsListIds = this.authorsList.elements.filter(e => e.id).map(e => e.id);
         collaboratorsIds.forEach(cId => {
-          if (!authorsListIds.includes(cId)) {
+          if (!authorsListIds.includes(cId) && this.loggedUser.id !== cId) {
             toRemoveCollaboratorsIds.push(cId);
             toUpdateCounter++;
           }
@@ -141,7 +141,6 @@ export class EditProjectManagementTabComponent implements OnInit {
           toVisibilityUpdateElements.push(element);
           toUpdateCounter++;
       });
-      });
       if (this.supervisor) {
         toVisibilityUpdateElements.push({
           name: this.supervisor.firstName,
@@ -152,7 +151,8 @@ export class EditProjectManagementTabComponent implements OnInit {
 
       /* Send update */
       toAddCollaboratorsElements.forEach(element => {
-        this.userService.addCollaboratorByEmail(this.editedProject.id, element.name, element.visibility ? element.visibility : Visibility.EVERYONE)
+        this.userService.addCollaboratorByEmail(this.editedProject.id, element.name, element.visibility
+          ? element.visibility : Visibility.EVERYONE)
         .subscribe(x => {
           updatedSuccessCounter++;
           this.emailInvitationService.send(this.editedProject.title, [element.name])
@@ -168,7 +168,8 @@ export class EditProjectManagementTabComponent implements OnInit {
         this.userService.updateVisibility(this.editedProject.id, element.id, element.visibility)
         .subscribe(x => updatedSuccessCounter++, y => updatedErrorCounter++);
       });
-    }
+    });
+  }
 
   isUserSupervisor(): boolean {
     return this.isLoggedAndSupervisor;
