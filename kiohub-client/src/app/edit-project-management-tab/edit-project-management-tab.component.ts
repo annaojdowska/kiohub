@@ -30,6 +30,8 @@ export class EditProjectManagementTabComponent implements OnInit {
   loggedUser: User;
   tooltipVisibility = 'Zmień widoczność elementu.';
 
+  STUDENT_EMAIL_PATTERN = 'student.edu';
+
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('myselfList') myselfList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
@@ -54,10 +56,10 @@ export class EditProjectManagementTabComponent implements OnInit {
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
       this.userService.getCollaboratorsByProjectId(projectId).subscribe(c => {
-        this.collaborators = c;
+        this.collaborators = c.filter(coll => coll.email.includes(this.STUDENT_EMAIL_PATTERN));
         const projectCollaborators: ProjectCollaborator[] = [];
         this.userService.getCollaboratorsDataByProjectId(projectId).subscribe(pc => {
-          c.forEach(coll => {
+          this.collaborators.forEach(coll => {
             console.log('ProjeCollab ' + pc.length + ' ' + pc[0].userDataVisible);
             console.log(coll.id);
             const pcTmp = pc.find(p => p.userId === coll.id);
