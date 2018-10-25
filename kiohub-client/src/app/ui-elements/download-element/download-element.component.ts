@@ -3,6 +3,8 @@ import { Attachment } from '../../model/attachment.interface';
 import { AttachmentService } from '../../services/attachment.service';
 import { saveAs } from 'file-saver/FileSaver';
 import { FileDownloaderView } from './file-downloader-view';
+import { ProjectViewComponent } from 'src/app/project-view/project-view.component';
+import { UpdatableSpinner } from '../spinner/updatable-spinner';
 
 @Component({
   selector: 'app-download-element',
@@ -14,7 +16,8 @@ export class DownloadElementComponent implements OnInit {
   @Input() title: string;
   @Input() attachments: Attachment[];
   @ViewChild('container') container: ElementRef;
-  view: FileDownloaderView;
+  view: ProjectViewComponent;
+  spinner: UpdatableSpinner;
 
   constructor(@Inject(AttachmentService) private attachmentService: AttachmentService, view: FileDownloaderView) {
     this.hidden = true;
@@ -38,10 +41,10 @@ export class DownloadElementComponent implements OnInit {
   downloadFile(attachment: Attachment) {
     this.view.onBeginDownloding(attachment.fileName);
     this.attachmentService.getAttachment(attachment.id).subscribe((blob: Blob) => {
-      console.log('start!');
       saveAs(blob, attachment.fileName);
-      console.log('koniec!');
-      this.view.onDownloadingCompleted();
+      this.spinner.addSuccess(attachment.fileName);
+    }, error => {
+      this.spinner.addFail(attachment.fileName);
     });
   }
 
@@ -53,7 +56,8 @@ export class DownloadElementComponent implements OnInit {
     }
   }
 
-  setView(view: FileDownloaderView) {
+  setView(view: ProjectViewComponent, spinner: UpdatableSpinner) {
     this.view = view;
+    this.spinner = spinner;
   }
 }

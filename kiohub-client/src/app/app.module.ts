@@ -63,6 +63,7 @@ import { KiohubHttpInterceptor } from './services/login.service';
 import { SearchResultSingleProjectOptionsComponent } from './search-result-single-project-options/search-result-single-project-options.component';
 import { FilterService } from './services/filter.service';
 import { SpinnerUpdateProjectComponent } from './ui-elements/spinner/spinner-update-project/spinner-update-project.component';
+import { SpinnerDownloadAttachmentComponent } from './ui-elements/spinner/spinner-download-attachment/spinner-download-attachment.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { SpinnerUpdateProjectComponent } from './ui-elements/spinner/spinner-upd
     MyProjectsSearchFormComponent,
     PublishDialogComponent,
     SearchResultSingleProjectOptionsComponent,
-    SpinnerUpdateProjectComponent
+    SpinnerUpdateProjectComponent,
+    SpinnerDownloadAttachmentComponent
   ],
   imports: [
     BrowserModule,

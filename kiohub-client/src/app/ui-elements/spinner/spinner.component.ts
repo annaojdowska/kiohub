@@ -28,5 +28,4 @@ export class SpinnerComponent implements OnInit {
       this.display = 'none';
     }
   }
-
 }
