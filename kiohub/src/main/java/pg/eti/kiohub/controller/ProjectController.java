@@ -74,6 +74,9 @@ public class ProjectController extends MainController {
             List<User> users = userService.createNewUsersAndGetAllByEmails(emails);
             collaboratorsService.createAndSaveCollaborators(project, users);
 
+            User supervisor = loginService.getLoggedUser(request);
+            collaboratorsService.createAndSaveCollaborator(project, supervisor, Boolean.TRUE, Visibility.EVERYONE);
+            
             return new ResponseEntity<>(project, HttpStatus.CREATED);
         } catch(Exception e) {
             e.printStackTrace();
