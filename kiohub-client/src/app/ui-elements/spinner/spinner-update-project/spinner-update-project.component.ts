@@ -10,7 +10,7 @@ import { SpinnerComponent } from '../spinner.component';
     styleUrls: ['../spinner.component.css']
   })
 export class SpinnerUpdateProjectComponent extends SpinnerComponent implements IUpdatableSpinner {
-    private editProjectComponent: EditProjectGeneralTabComponent;
+    viewComponent: EditProjectGeneralTabComponent;
     succesList: string[] = [];
     failedList: string[] = [];
     elementsToSave: number;
@@ -19,15 +19,12 @@ export class SpinnerUpdateProjectComponent extends SpinnerComponent implements I
 
     constructor() {
         super();
-        console.log('dziecko!');
     }
 
-
     beginUpload(attachmentsToSave: number, editProjectComponent: EditProjectGeneralTabComponent, infoString: string) {
-        console.log('begin!');
         this.savedElements = 0;
         this.elementsToSave = attachmentsToSave;
-        this.editProjectComponent = editProjectComponent;
+        this.viewComponent = editProjectComponent;
         this.succesList = [];
         this.failedList = [];
         this.infoString = infoString;
@@ -58,7 +55,7 @@ export class SpinnerUpdateProjectComponent extends SpinnerComponent implements I
 
     onUpdateCompeted() {
         const data = this.getDataToView();
-        this.editProjectComponent.updateCompleted(data.text, data.type);
+        this.viewComponent.updateCompleted(data.text, data.type);
     }
 
     private getDataToView() {

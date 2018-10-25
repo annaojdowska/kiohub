@@ -1,4 +1,6 @@
-export interface IUpdatableSpinner {
+import { SpinnerComponent } from './spinner.component';
+
+export abstract class UpdatableSpinner extends SpinnerComponent {
     // list of successfully uploaded elements' names
     succesList: string[];
     // list of badly uploaded elements' names
@@ -14,13 +16,13 @@ export interface IUpdatableSpinner {
     savedElements: number;
 
     // actions taken when upload begins
-    beginUpload(elementsToSave: number, viewComponent, infoString: string);
+    abstract beginUpload(elementsToSave: number, viewComponent, infoString: string);
     // actions taken when sucessfully saved element
-    addSuccess(elementName: string);
+    abstract addSuccess(elementName: string);
     // actions taken when badly saved element
-    addFail(elementName: string);
+    abstract addFail(elementName: string);
     // actions taken when file has been saved (successfully or not)
-    updateSpinner();
+    abstract updateSpinner();
     // actions taken when update has been completed
-    onUpdateCompeted();
+    abstract onUpdateCompeted();
 }
