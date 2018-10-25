@@ -186,6 +186,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     validationOk = this.checkValidityDescriptionEn() && validationOk;
     validationOk = this.checkValidityStatus() && validationOk;
     validationOk = this.checkValidityType() && validationOk;
+    this.scrollToTopIfValidationError(validationOk);
     // validationOk = this.validation.validateElementAndHandleError(this.semesterChooserError, this.validateSemesterChooser()) && validationOk;
     // no tag validation - every successfully added tag had been already validated
 
@@ -210,7 +211,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   checkValidityStatus() {
-    return this.validation.validate(this.projectStatusError, this.validation.validateProjectStatus(this.projectStatus));
+    return this.scrollToTopIfValidationError(this.validation.validate(this.projectStatusError, this.validation.validateProjectStatus(this.projectStatus)));
   }
 
   checkValidityType() {
@@ -223,6 +224,16 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   checkValidityAttachment(attachmentType: AttachmentType, errorComponent: ErrorInfoComponent, event) {
     return this.validation.validate(errorComponent, this.validation.validateAttachment(attachmentType, event));
+  }
+
+  /**
+   * For: status, title, description, titleEn, descriptionEn, type
+   */
+  scrollToTopIfValidationError(validationOk) {
+    if (!validationOk) {
+      this.viewUtils.scrollToTop();
+    }
+    return validationOk;
   }
 
   getParametersFromRouter() {
