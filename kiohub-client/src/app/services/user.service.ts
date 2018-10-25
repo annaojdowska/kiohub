@@ -11,7 +11,7 @@ import { ValueUtils } from '../utils/value-utils';
 @Injectable()
 export class UserService {
 
-private currentUser: User; // only temporarily, later will have interface User
+private currentUser: User;
 constructor(@Inject(HttpClient) private http: HttpClient) { }
 
     getCurrentUser(): Observable<User> {
