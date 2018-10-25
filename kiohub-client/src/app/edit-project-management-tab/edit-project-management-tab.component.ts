@@ -25,9 +25,11 @@ export class EditProjectManagementTabComponent implements OnInit {
   collaboratorsVisibility: Visibility[] = [];
   validation: Validation = new Validation();
   isLoggedAndSupervisor = false;
+  loggedUser: User;
   tooltipVisibility = 'Zmień widoczność elementu.';
 
   @ViewChild('authorsList') authorsList: InputListComponent;
+  @ViewChild('myselfList') myselfList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
   @ViewChild('emailError') emailError: ErrorInfoComponent;
   getProjectIdFromRouter() {
@@ -44,6 +46,7 @@ export class EditProjectManagementTabComponent implements OnInit {
 
 
   ngOnInit() {
+    this.userService.getCurrentUser().subscribe(user => this.loggedUser = user);
     const projectId = this.getProjectIdFromRouter();
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
@@ -55,10 +58,17 @@ export class EditProjectManagementTabComponent implements OnInit {
             console.log('ProjeCollab ' + pc.length + ' ' + pc[0].userDataVisible);
             console.log(coll.id);
             const pcTmp = pc.find(p => p.userId === coll.id);
+            if (this.isMyself(pcTmp.userId)) {
+              this.myselfList.add({
+                id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email + ')',
+                visibility: (pcTmp && pcTmp.userDataVisible) ? pcTmp.userDataVisible : Visibility.LOGGED_USERS
+              });
+            } else {
             this.authorsList.add({
               id: coll.id, name: coll.user.firstName + ' ' + coll.user.lastName + ' (' + coll.email + ')',
               visibility: (pcTmp && pcTmp.userDataVisible) ? pcTmp.userDataVisible : Visibility.LOGGED_USERS
             });
+          }
           });
         });
       });
@@ -105,9 +115,15 @@ export class EditProjectManagementTabComponent implements OnInit {
           this.updateVisibility(element.id, element.visibility);
         }
       });
+      this.myselfList.elements.forEach(element => {
+          this.updateVisibility(element.id, element.visibility);
+      });
       this.userService.getCollaboratorsByProjectId(this.editedProject.id).subscribe(collaborators => {
         const collaboratorsIds = collaborators.map(c => c.id);
         const authorsListIds = this.authorsList.elements.filter(e => e.id).map(e => e.id);
+        if (this.myselfList.elements.length === 1) {
+          authorsListIds.push(this.myselfList.elements[0].id);
+        }
         const collaboratorsIdsToRemove: number[] = [];
         collaboratorsIds.forEach(cId => {
           if (!authorsListIds.includes(cId)) {
@@ -140,5 +156,9 @@ export class EditProjectManagementTabComponent implements OnInit {
 
   isUserSupervisor(): boolean {
     return this.isLoggedAndSupervisor;
+  }
+
+  isMyself(userId: number): boolean {
+    return this.loggedUser.id === userId;
   }
 }

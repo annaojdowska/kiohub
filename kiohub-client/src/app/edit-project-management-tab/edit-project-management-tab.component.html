@@ -4,19 +4,20 @@
   <mat-form-field class="wrapper-width">
     <input disabled matInput name="supervisor" value="{{supervisor?.firstName}} {{supervisor?.lastName}}">
   </mat-form-field>
-  <app-visibility-select matTooltip="{{tooltipVisibility}}" [allowPrivate]="false" [selected]="supervisorVisibility" (selectionChange)="selectionSuperUserVisibilityChange($event)" class="chip-image"></app-visibility-select>
+  <app-visibility-select *ngIf="isUserSupervisor()"  matTooltip="{{tooltipVisibility}}" [allowPrivate]="false" [selected]="supervisorVisibility" (selectionChange)="selectionSuperUserVisibilityChange($event)" class="chip-image"></app-visibility-select>
   <br/>
   <form #authors="ngForm" (ngSubmit)="addAuthor()">
-    <label class="wrapper-left">Autorzy pracy: <img matTooltip="Jeżeli chcesz dodać nowego współtwórcę projektu, wpisz jego adres e-mail i zatwierdź, klikając 'Dodaj'." src="../../assets/question.png"/></label> 
-    <mat-form-field class="wrapper-width">
+    <label class="wrapper-left">Autorzy pracy: <img *ngIf="isUserSupervisor()" matTooltip="Jeżeli chcesz dodać nowego współtwórcę projektu, wpisz jego adres e-mail i zatwierdź, klikając 'Dodaj'." src="../../assets/question.png"/></label> 
+    <mat-form-field class="wrapper-width" *ngIf="isUserSupervisor()">
       <input #authorInput name="author" ngModel matInput> 
     </mat-form-field> 
-    <button type="submit" mat-stroked-button class="submit-button">Dodaj</button>
+    <button type="submit" mat-stroked-button class="submit-button" *ngIf="isUserSupervisor()">Dodaj</button>
     <br/>
   </form>
   <app-error-info #emailError errorText="{{validation.errorStringEmail}}" errorType="ERROR"></app-error-info>
   <div class="list">
-    <app-input-list #authorsList [visibilityChangeable]="true" orientation="vertical" (changeElements)="recieveCollaborators($event)" removable="true" hideInput="true"></app-input-list>
+    <app-input-list #authorsList [visibilityChangeable]="false" orientation="vertical" (changeElements)="recieveCollaborators($event)" removable="isUserSupervisor()" hideInput="true"></app-input-list>
+    <app-input-list #myselfList [visibilityChangeable]="true" orientation="vertical" (changeElements)="recieveCollaborators($event)" removable="isUserSupervisor()" hideInput="true"></app-input-list>
   </div>
   <div id="button-container">
     <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź
