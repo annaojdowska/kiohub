@@ -1,5 +1,4 @@
 import { SpinnerComponent } from './spinner.component';
-import { ICommandName } from 'selenium-webdriver';
 
 export abstract class UpdatableSpinner extends SpinnerComponent {
     // list of successfully uploaded elements' names

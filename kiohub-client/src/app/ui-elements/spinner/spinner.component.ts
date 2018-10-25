@@ -17,6 +17,11 @@ export class SpinnerComponent implements OnInit {
   ngOnInit() {
   }
 
+  showSpinner(text: string) {
+    this.setText(text);
+    this.setDisplay(true);
+  }
+
   setText(text: string) {
     this.text = text;
   }

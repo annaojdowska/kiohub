@@ -8,6 +8,8 @@ import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { Validation } from '../utils/validation-patterns';
 import { LoginService } from '../services/login.service';
 import { ValueUtils } from '../utils/value-utils';
+import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
+import { ErrorType } from '../error-info/error-type.enum';
 
 @Component({
   selector: 'app-add-project',
@@ -28,6 +30,8 @@ export class AddProjectComponent implements OnInit {
   @ViewChild('titlePlError') titlePlError: ErrorInfoComponent;
   @ViewChild('emailError') emailError: ErrorInfoComponent;
   @ViewChild('emailsError') emailsError: ErrorInfoComponent;
+  @ViewChild('errorInfo') errorInfo: ErrorInfoComponent;
+  @ViewChild('spinner') spinner: SpinnerComponent;
 
   constructor(
     @Inject(Router) private router: Router,
@@ -94,13 +98,15 @@ export class AddProjectComponent implements OnInit {
       console.log('Dodaję projekt.');
       const httpStatus2 = this.projectService.addProject(title, this.authorsList.elements.map(e => e.name))
         .subscribe((data: Project) => {
+          this.errorInfo.setDisplay(false);
+          this.spinner.showSpinner('Proszę czekać. Trwa dodawanie projektu oraz wysyłanie zaproszeń do studentów.');
           this.project = data;
           console.log(this.project);
           this.sendInvitationsAndRedirect(title, this.authorsList.elements.map(e => e.name));
           this.emailError.setDisplay(false);
         },
         error => {
-          console.log(error);
+          this.errorInfo.setDisplay(true);
         });
       // } else {
       //   console.log('ERROR: Istnieje już projekt o takim projekcie.');

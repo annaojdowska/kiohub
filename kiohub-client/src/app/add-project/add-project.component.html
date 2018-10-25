@@ -62,11 +62,12 @@
                     </table>
                 </form>
             </form>
-            <app-error-info #errorInfo id="errorInfo"></app-error-info>
+            <app-error-info #errorInfo id="errorInfo" errorType="ErrorType.ERROR" errorText="Wystąpił problem z utworzeniem projektu."></app-error-info>
             <div id="button-container">
                 <button type="button" (click)="actionAddProject();" mat-stroked-button class="submit-button">Utwórz
                     projekt i przejdź do edycji</button>
             </div>
+            <app-spinner #spinner></app-spinner>
         </div>
     </div>
 </div>
