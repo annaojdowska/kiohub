@@ -67,7 +67,9 @@ public class LoginService {
             if (!userEmail.isStudentMail()) {
                 user.setIsSupervisor(true);
             }
-            userEmailRepository.save(userEmail);
+            if (userEmail.isPGEduMail()) {
+                userEmailRepository.save(userEmail);
+            }
         }
         userRepository.save(user);
         return user;

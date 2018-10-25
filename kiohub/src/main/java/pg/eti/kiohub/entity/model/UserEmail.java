@@ -15,6 +15,8 @@ public class UserEmail {
     
     public static final String STUDENT_EMAIL = "@student";
     
+    public static final String PG_EDU_EMAIL = "pg.edu.pl";
+    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +36,13 @@ public class UserEmail {
     
     public Boolean isStudentMail() {
         if (email.contains(STUDENT_EMAIL)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public Boolean isPGEduMail() {
+        if (email.contains(PG_EDU_EMAIL)) {
             return true;
         }
         return false;
