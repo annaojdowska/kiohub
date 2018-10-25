@@ -3,7 +3,7 @@
     <app-error-info #sendingInvitationsError errorText="{{validation.errorStringSendingInvitations}}" errorType="WARNING"></app-error-info>
     <app-error-info #updateResult></app-error-info>
     <app-error-info #publishResult></app-error-info>
-    <app-spinner #uploadInfoSpinner></app-spinner>
+    <app-spinner-update-project #uploadInfoSpinner></app-spinner-update-project>
     <div>
         <mat-form-field class="wrapper-right">
             <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*"
