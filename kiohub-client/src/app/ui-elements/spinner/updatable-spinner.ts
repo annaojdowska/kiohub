@@ -2,11 +2,11 @@ import { SpinnerComponent } from './spinner.component';
 
 export abstract class UpdatableSpinner extends SpinnerComponent {
     // list of successfully uploaded elements' names
-    succesList: string[];
+    succesList: string[] = [];
     // list of badly uploaded elements' names
-    failedList: string[];
+    failedList: string[] = [];
     // updatable info string to display in a view
-    infoString: string;
+    infoString = '';
     // view, on which element is being updated
     viewComponent;
 
@@ -15,14 +15,60 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
     // how many elements had been already uploaded
     savedElements: number;
 
-    // actions taken when upload begins
-    abstract beginUpload(elementsToSave: number, viewComponent, infoString: string);
-    // actions taken when sucessfully saved element
-    abstract addSuccess(elementName: string);
-    // actions taken when badly saved element
-    abstract addFail(elementName: string);
-    // actions taken when file has been saved (successfully or not)
-    abstract updateSpinner();
+    currentlyBeingSavedText: string;
+    savedElementsText: string;
+    failedElementsText: string;
+
+    
+
     // actions taken when update has been completed
-    abstract onUpdateCompeted();
+    protected abstract onUpdateCompleted();
+    // initialize inherited elements
+    protected abstract setInheritedElements();
+
+    beginUpload(attachmentsToSave: number, view, infoString: string) {
+        this.savedElements = 0;
+        this.elementsToSave = attachmentsToSave;
+        this.viewComponent = view;
+        this.succesList = [];
+        this.failedList = [];
+        this.infoString = infoString;
+        this.setDisplay(true);
+        this.updateInfoText();
+    }
+
+    addSuccess(successedElementName: string) {
+        this.succesList.push(successedElementName);
+        this.savedElements++;
+        this.updateSpinner();
+    }
+
+    addFail(failedElementName: string) {
+        this.failedList.push(failedElementName);
+        this.savedElements++;
+        this.updateSpinner();
+    }
+
+    updateSpinner() {
+        if (this.elementsToSave === this.savedElements) {
+            this.updateInfoText();
+            this.onUpdateCompleted();
+        } else {
+            this.updateInfoText();
+        }
+    }
+
+    protected updateInfoText() {
+        // ex. trwa dodawanie załączników (zapisano 1 z 3)
+        this.text = this.infoString + this.currentlyBeingSavedText + ' (zapisano ' + this.savedElements + ' z ' + this.elementsToSave + '). ';
+        if (this.succesList.length > 0) {
+            // ex. zapisano załączniki: [lista]
+            this.text += '\n' + this.savedElementsText + ' ' + this.valueUtils.formatStringArrayToView(this.succesList) + '. ';
+        }
+        if (this.failedList.length > 0) {
+            // ex. wystąpiły problemy z zapisaniem załaczników: [lista]
+            this.text += '\n' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
+        }
+    }
+
 }
