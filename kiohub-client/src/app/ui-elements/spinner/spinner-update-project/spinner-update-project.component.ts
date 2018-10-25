@@ -1,59 +1,32 @@
 import { EditProjectGeneralTabComponent } from 'src/app/edit-project-general-tab/edit-project-general-tab.component';
 import { ErrorType } from 'src/app/error-info/error-type.enum';
 import { Component } from '@angular/core';
-import { IUpdatableSpinner } from '../iupdatable-spinner';
 import { SpinnerComponent } from '../spinner.component';
+import { UpdatableSpinner } from '../updatable-spinner';
 
 @Component({
     selector: 'app-spinner-update-project',
     templateUrl: '../spinner.component.html',
     styleUrls: ['../spinner.component.css']
   })
-export class SpinnerUpdateProjectComponent extends SpinnerComponent implements IUpdatableSpinner {
-    viewComponent: EditProjectGeneralTabComponent;
-    succesList: string[] = [];
-    failedList: string[] = [];
-    elementsToSave: number;
-    savedElements: number;
-    infoString = '';
+export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
 
     constructor() {
         super();
     }
 
-    beginUpload(attachmentsToSave: number, editProjectComponent: EditProjectGeneralTabComponent, infoString: string) {
-        this.savedElements = 0;
-        this.elementsToSave = attachmentsToSave;
-        this.viewComponent = editProjectComponent;
-        this.succesList = [];
-        this.failedList = [];
-        this.infoString = infoString;
-        this.setDisplay(true);
-        this.setAttachmentUploadInfoText();
+    ngOnInit() {
+      super.ngOnInit();
+      this.setInheritedElements();
     }
 
-    addSuccess(successedFileName: string) {
-        this.succesList.push(successedFileName);
-        this.savedElements++;
-        this.updateSpinner();
+    protected setInheritedElements() {
+      this.failedElementsText = 'Wystąpiły problemy z dodaniem załączników:';
+      this.currentlyBeingSavedText = 'Trwa dodawanie załączników';
+      this.savedElementsText = 'Zapisane załączniki: ';
     }
 
-    addFail(failedFileName: string) {
-        this.failedList.push(failedFileName);
-        this.savedElements++;
-        this.updateSpinner();
-    }
-
-    updateSpinner() {
-        if (this.elementsToSave === this.savedElements) {
-            this.setAttachmentUploadInfoText();
-            this.onUpdateCompeted();
-        } else {
-            this.setAttachmentUploadInfoText();
-        }
-    }
-
-    onUpdateCompeted() {
+    onUpdateCompleted() {
         const data = this.getDataToView();
         this.viewComponent.updateCompleted(data.text, data.type);
     }
@@ -77,15 +50,5 @@ export class SpinnerUpdateProjectComponent extends SpinnerComponent implements I
             text = this.infoString + 'A załączniki? Zapisano ' + (this.elementsToSave - errorAmount) + ' załączników.';
         }
         return { type: errorType, text: text };
-    }
-
-    private setAttachmentUploadInfoText() {
-        this.text = this.infoString + 'Trwa dodawanie załączników (zapisano ' + this.savedElements + ' z ' + this.elementsToSave + '). ';
-        if (this.succesList.length > 0) {
-            this.text += '\nZapisane załączniki: ' + this.valueUtils.formatStringArrayToView(this.succesList) + '. ';
-        }
-        if (this.failedList.length > 0) {
-            this.text += '\nWystąpiły problemy z dodaniem załączników:' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
-        }
     }
 }
