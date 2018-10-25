@@ -31,6 +31,8 @@ import { PublishDialogComponent } from '../ui-elements/publish-dialog/publish-di
 import { SearchService } from '../services/search.service';
 import { ViewUtils } from '../utils/view-utils';
 import { ValueUtils } from '../utils/value-utils';
+import { SpinnerUpdateProjectComponent } from '../ui-elements/spinner/spinner-update-project/spinner-update-project.component';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -57,7 +59,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('licence') licence: any;
   @ViewChild('semestersList') semestersList: InputListComponent;
   @ViewChild('semesterChooser') semesterChooser: SemesterChooserComponent;
-  @ViewChild('uploadInfoSpinner') uploadInfoSpinner: SpinnerComponent;
+  @ViewChild('uploadInfoSpinner') uploadInfoSpinner: SpinnerUpdateProjectComponent;
   // errors
   @ViewChild('titlePlError') titlePlError: ErrorInfoComponent;
   @ViewChild('titleEnError') titleEnError: ErrorInfoComponent;
@@ -97,6 +99,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   projects: Project[] = [];
   projectAttachmentsUpdatingInProgress: boolean;
   viewUtils = new ViewUtils();
+  isLoggedUserSupervisor = false;
 
   tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
                   + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
@@ -127,7 +130,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(AttachmentService) private attachmentService: AttachmentService,
     @Inject(TagService) private tagService: TagService,
     @Inject(MatDialog) private dialog: MatDialog,
-    @Inject(SearchService) private searchService: SearchService) {
+    @Inject(SearchService) private searchService: SearchService,
+    @Inject(UserService) private userService: UserService) {
   }
 
   @HostListener('window:beforeunload', [ '$event' ])
@@ -328,6 +332,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       result.forEach(pr => {
         this.relatedToList.add({ id: pr.id, name: pr.title });
     }));
+    this.userService.isLoggedAndSupervisor().subscribe(result => this.isLoggedUserSupervisor = result);
   }
 
   filter(phrase: string): Tag[] {
@@ -481,6 +486,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
           this.projectAttachmentsUpdatingInProgress = false;
         } else {
           this.projectAttachmentsUpdatingInProgress = true;
+          console.log(this.uploadInfoSpinner);
+          console.log(this.uploadInfoSpinner instanceof SpinnerUpdateProjectComponent);
           this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
           this.uploadAllFiles();
         }
@@ -491,6 +498,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
           this.updateCompleted(infoString, ErrorType.ERROR);
         } else {
           this.projectAttachmentsUpdatingInProgress = true;
+          console.log(this.uploadInfoSpinner);
           this.uploadInfoSpinner.beginUpload(attachmentsToSaveAmount, this, infoString);
           this.uploadAllFiles();
         }
@@ -608,6 +616,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
         window.location.reload();
       }
     });
+  }
 
+  isUserSupervisor(): boolean {
+    return this.isLoggedUserSupervisor;
   }
 }

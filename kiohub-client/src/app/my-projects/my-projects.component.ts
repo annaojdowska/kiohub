@@ -40,6 +40,7 @@ export class MyProjectsComponent implements OnInit {
   showNoResultsLabel: boolean;
   projects: Project[];
   displayedProjects: Project[];
+  filteredProjects: Project[];
   dataSource: MatTableDataSource<Project>;
   displayedColumns: string[] = ['results'];
   paginator: MatPaginator;
@@ -79,6 +80,7 @@ export class MyProjectsComponent implements OnInit {
         .subscribe(results => {
           this.projects = results;
           this.displayedProjects = this.projects;
+          this.filteredProjects = this.projects;
           this.sortAndSetByPinned();
         });
       } else {
@@ -93,6 +95,7 @@ export class MyProjectsComponent implements OnInit {
       // .subscribe(results => {
       //   this.projects = results;
       //   this.displayedProjects = this.projects;
+      //   this.filteredProjects = this.projects;
       //   this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
       // });
   }
@@ -147,7 +150,7 @@ export class MyProjectsComponent implements OnInit {
 
   clearQuickFiltering() {
     this.checkButton(false, false, false);
-    this.displayedProjects = this.projects;
+    this.displayedProjects = this.filteredProjects;
     this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
     this.sortAndSetByPinned();
   }
@@ -162,14 +165,18 @@ export class MyProjectsComponent implements OnInit {
   }
 
   executeFilterByStatus(status: string) {
-    this.displayedProjects = this.projects.filter(project => project.projectStatus.name === status);
+    this.displayedProjects = this.filteredProjects.filter(project => project.projectStatus.name === status);
     this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
     this.sortAndSetByPinned();
   }
 
   getSearchResults(query: QueryDescription) {
     console.log('SUBMIT in get search results');
-    this.filterService.filterBasedOnQuery(query, this.projects);
+    this.filteredProjects = this.filterService.filterBasedOnQuery(query, this.projects);
+    this.displayedProjects = this.filteredProjects;
+    this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+    this.sortAndSetByPinned();
+    this.handleNoResults(this.displayedProjects.length === 0);
   }
 
   applySorting(sortingRule: string) {
@@ -203,8 +210,6 @@ export class MyProjectsComponent implements OnInit {
           .sort((a, b) => this.sortingService.sortByPinned(pinneds.includes(a.id), pinneds.includes(b.id)));
           this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
           this.assignPaginatorToDataSource();
-          // Ania! jak będziesz robiła filtrowanie, i dojdziesz do miejsca w kodzie, gdzie będziesz już miała skończoną listę projektów do wyświetlenia,
-          // wywołaj tą metodę poniżej, podajac jako argument tą listę; wyświetli to stosowną informację, jeżeli lista będzie pusta
           this.handleNoResults(this.displayedProjects.length === 0);
         }});
       } else {
@@ -215,5 +220,12 @@ export class MyProjectsComponent implements OnInit {
     }, error => {
       this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
    });
+  }
+
+  removeFilters() {
+    this.filteredProjects = this.projects;
+    this.displayedProjects = this.projects;
+    this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+    this.sortAndSetByPinned();
   }
 }

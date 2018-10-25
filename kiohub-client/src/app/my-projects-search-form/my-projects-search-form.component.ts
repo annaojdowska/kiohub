@@ -23,6 +23,7 @@ import { SearchType } from '../search/search-type.enum';
 })
 export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFormValidation {
   @Output() filtersSubmitted = new EventEmitter<QueryDescription>();
+  @Output() removeFilters = new EventEmitter();
   @ViewChild('titleInput') titleInput: any;
   @ViewChild('tagInput') tagInput: any;
   @ViewChild('dateInput1', { read: MatInput }) dateInput1: MatInput;
@@ -129,6 +130,8 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.errorDate.setDisplay(false);
     this.errorTag.setDisplay(false);
     this.errorTitle.setDisplay(false);
+
+    this.removeFilters.emit();
   }
 
   canExecuteClearFilters(): boolean {
@@ -156,6 +159,7 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     // co znaczy -1? warto to wrzucić jako stałe pole klasy
     // AO: to znaczy, ze nie ma takiego elementu w liście. Wtedy zwraca indeks -1.
     if (index === -1) {
+      this.licencesList.elements = [];
       this.licencesList.add({ name: this.selectedLicence.name });
     }
   }
@@ -163,6 +167,7 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   addType() {
     const index = this.typesList.elements.findIndex(type => type.name === this.selectedType.name);
     if (index === -1) {
+      this.typesList.elements = [];
       this.typesList.add({ name: this.selectedType.name });
     }
   }
@@ -170,6 +175,7 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   addStatus() {
     const index = this.statusesList.elements.findIndex(type => type.name === this.selectedStatus.name);
     if (index === -1) {
+      this.statusesList.elements = [];
       this.statusesList.add({ name: this.selectedStatus.name });
     }
   }

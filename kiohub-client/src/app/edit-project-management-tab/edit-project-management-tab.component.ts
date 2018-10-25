@@ -26,7 +26,7 @@ export class EditProjectManagementTabComponent implements OnInit {
   supervisorVisibility: Visibility;
   collaboratorsVisibility: Visibility[] = [];
   validation: Validation = new Validation();
-
+  isLoggedAndSupervisor = false;
   tooltipVisibility = 'Zmień widoczność elementu.';
 
   @ViewChild('authorsList') authorsList: InputListComponent;
@@ -74,6 +74,7 @@ export class EditProjectManagementTabComponent implements OnInit {
         }
       });
     });
+    this.userService.isLoggedAndSupervisor().subscribe(result => this.isLoggedAndSupervisor = result);
   }
 
   checkValidityStudentEmail() {
@@ -151,12 +152,9 @@ export class EditProjectManagementTabComponent implements OnInit {
         this.userService.updateVisibility(this.editedProject.id, element.id, element.visibility)
         .subscribe(x => updatedSuccessCounter++, y => updatedErrorCounter++);
       });
+    }
 
-      while (updatedErrorCounter + updatedSuccessCounter < toUpdateCounter) {
-        console.log('-------------------------------------------------------------');
-        console.log('toUpdateCounter:' + toUpdateCounter);
-        console.log('updatedSuccessCounter: ' + updatedSuccessCounter);
-        console.log('updatedErrorCounter: ' + updatedErrorCounter);
-      }
+    isUserSupervisor(): boolean {
+      return this.isLoggedAndSupervisor;
     }
 }

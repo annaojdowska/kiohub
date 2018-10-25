@@ -23,6 +23,10 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
         return this.http.get<boolean>(address + '/login/isLogged', {responseType: 'json'});
     }
 
+    isLoggedAndSupervisor(): Observable<boolean> {
+      return this.http.get<boolean>(address + '/login/isSupervisor', {responseType: 'json'});
+    }
+
     getCollaboratorsByProjectId(id: number): Observable<UserEmail[]> {
         return this.http.get<UserEmail[]>(address + '/collaborator/project/' + id, {responseType: 'json'});
      }

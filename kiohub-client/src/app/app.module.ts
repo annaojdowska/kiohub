@@ -62,6 +62,7 @@ import { PublishDialogComponent } from './ui-elements/publish-dialog/publish-dia
 import { KiohubHttpInterceptor } from './services/login.service';
 import { SearchResultSingleProjectOptionsComponent } from './search-result-single-project-options/search-result-single-project-options.component';
 import { FilterService } from './services/filter.service';
+import { SpinnerUpdateProjectComponent } from './ui-elements/spinner/spinner-update-project/spinner-update-project.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { FilterService } from './services/filter.service';
     MyProjectsComponent,
     MyProjectsSearchFormComponent,
     PublishDialogComponent,
-    SearchResultSingleProjectOptionsComponent
+    SearchResultSingleProjectOptionsComponent,
+    SpinnerUpdateProjectComponent
   ],
   imports: [
     BrowserModule,
