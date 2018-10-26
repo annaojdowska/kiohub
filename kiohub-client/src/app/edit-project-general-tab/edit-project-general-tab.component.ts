@@ -119,7 +119,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   // ******** COMPONENT STATE ********
   hardlySavedNote = false;
   hardlyUpdatedProject = false;
-  hardlySendEmails = false;
+  // hardlySendEmails = false;
 
   constructor(
     @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
@@ -240,9 +240,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     let id: number;
     this.route.params.subscribe(routeParams => {
       id = routeParams.id;
-      this.setInvitationError(routeParams.invitationsOk);
-      this.hardlySendEmails = true;
+      // this.setInvitationError(routeParams.invitationsOk);
+      // this.hardlySendEmails = true;
     });
+    this.setInvitationErrorIfOccured();
     return id;
   }
 
@@ -257,8 +258,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     }
   }
 
-  setInvitationError(invitationsOk: boolean) {
-    let showError: boolean;
+  setInvitationErrorIfOccured() {
+    let invitationsOk = this.valueUtils.getBooleanAndRemoveFromSession(this.valueUtils.invitationsOk);
+    console.log('poprawnie wysłano zaproszenia?' + invitationsOk);
+    let showError;
     // dont change line below, invitationsOk returns sth different than (invitationsOk === true)
     if (this.valueUtils.isNullOrUndefined(invitationsOk) || invitationsOk === true) {
       showError = false;

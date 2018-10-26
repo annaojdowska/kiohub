@@ -8,6 +8,8 @@ export class ValueUtils {
     publishProjectBoolean = 'publishProject';
     publishProjectText = 'publishProjectText';
     publishProjectStatus = 'publishProjectStatus';
+    // invitations
+    invitationsOk = 'invitationsOk';
     /**
      * For strings
      */
@@ -19,30 +21,30 @@ export class ValueUtils {
         }
     }
 
-     /**
-     * For any type
-     */
+    /**
+    * For any type
+    */
     isNullOrUndefined(value) {
         return value === undefined || value === null;
     }
 
-     /**
-     * Check if string length is shortert than value
-     */
+    /**
+    * Check if string length is shortert than value
+    */
     validateMaxSize(stringValue, maxSize) {
         return stringValue.length < maxSize;
     }
 
-     /**
-     * Return elements that doesn't have set id
-     */
+    /**
+    * Return elements that doesn't have set id
+    */
     findElementsToSaveInArray(array) {
         return array.elements.filter(e => (!e.id));
     }
 
-     /**
-     * New line + elements separated by ','
-     */
+    /**
+    * New line + elements separated by ','
+    */
     formatStringArrayToView(array: string[]) {
         let text = '\n';
         let i = 0;
@@ -71,48 +73,56 @@ export class ValueUtils {
         sessionStorage.setItem(key, value);
     }
 
-     /**
-     * Get from session storage
-     */
+    /**
+    * Get from session storage
+    */
     getAndRemoveFromSession(key: string) {
         return this.getAndRemoveDataFromSessionStorage(key);
     }
 
-     /**
-     * Get boolean from session storage
-     */
-    getBooleanAndRemoveFromSession(key: string) {
+    /**
+    * Get boolean from session storage
+    */
+    getBooleanAndRemoveFromSession(key: string): boolean {
+        // console.log('------1-' + key);
         const value = this.getAndRemoveDataFromSessionStorage(key);
         if (this.isNullOrUndefined(value)) {
+            // console.log('------3-false, null!');
             return false;
         }
         const booleanValue = this.getBooleanFromString(value);
         if (typeof (booleanValue) === typeof (true)) {
+            // console.log('------5-to boolean!');
             if (booleanValue) {
+                // console.log('-----6--boolean: true');
                 return true;
             } else {
+                // console.log('-----6--boolean: false');
                 return false;
             }
         } else {
+            // console.log('------5-nie boolean!');
             return false;
         }
     }
 
-     /**
-     * Ex. change "true" to true
-     */
-    getBooleanFromString(value: string) {
-        if (value === 'true' || value === '\"true\"' || value) {
+    /**
+    * Ex. change "true" to true
+    */
+    getBooleanFromString(value: string): boolean {
+        if (value === 'true' || value === '\"true\"') {
+            // console.log('------4-true!');
             return true;
         } else {
+            // console.log('------4-false!');
             return false;
         }
     }
 
-    private getAndRemoveDataFromSessionStorage(key: string) {
+    private getAndRemoveDataFromSessionStorage(key: string): string {
         const value = sessionStorage.getItem(key);
         sessionStorage.removeItem(key);
-        console.log(value);
+        // console.log('------2-value: ' + value);
         return value;
     }
 

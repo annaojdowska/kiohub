@@ -10,7 +10,7 @@ import { MyProjectsComponent } from './my-projects/my-projects.component';
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
   { path: 'add-project', component: AddProjectComponent },
-  { path: 'edit-project/:id', component: EditProjectTabComponent, data : {invitationsOk : false} },
+  { path: 'edit-project/:id', component: EditProjectTabComponent },
   { path: 'projects-base', component: AdvancedSearchComponent },
   { path: 'details/:id', component: ProjectViewComponent },
   { path: 'my-projects', component: MyProjectsComponent },

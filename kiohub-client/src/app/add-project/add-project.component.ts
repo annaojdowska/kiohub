@@ -121,10 +121,14 @@ export class AddProjectComponent implements OnInit {
     this.emailInvitationService.send(title, collaborators)
       .subscribe(
         (response: any) => {
-          this.router.navigate(['/edit-project', this.project.id, { invitationsOk: this.SENDING_INVITATIONS_OK }]);
+          this.valueUtils.saveToSession(this.valueUtils.invitationsOk, true);
+          console.log('udało się wysłać zaproszenia');
+          this.router.navigate(['/edit-project', this.project.id]);
         },
         error => {
-          this.router.navigate(['/edit-project', this.project.id, { invitationsOk: !this.SENDING_INVITATIONS_OK }]);
+          this.valueUtils.saveToSession(this.valueUtils.invitationsOk, false);
+          console.log('nie udało się wysłać zaproszeń :(');
+          this.router.navigate(['/edit-project', this.project.id]);
         }
       );
   }
