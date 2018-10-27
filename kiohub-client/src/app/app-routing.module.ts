@@ -6,14 +6,17 @@ import { EditProjectTabComponent } from './edit-project-tab/edit-project-tab.com
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 import { ProjectViewComponent } from './project-view/project-view.component';
 import { MyProjectsComponent } from './my-projects/my-projects.component';
+import { SupervisorGuard } from './guards/supervisor.guard';
+import { LoggedGuard } from './guards/logged.guard';
+import { CollaboratorGuard } from './guards/collaborator.guard';
 
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
-  { path: 'add-project', component: AddProjectComponent },
-  { path: 'edit-project/:id', component: EditProjectTabComponent },
+  { path: 'add-project', component: AddProjectComponent, canActivate: [SupervisorGuard] },
+  { path: 'edit-project/:id', component: EditProjectTabComponent, canActivate: [CollaboratorGuard] },
   { path: 'projects-base', component: AdvancedSearchComponent },
   { path: 'details/:id', component: ProjectViewComponent },
-  { path: 'my-projects', component: MyProjectsComponent },
+  { path: 'my-projects', component: MyProjectsComponent, canActivate: [LoggedGuard] },
   { path: '**', component: UnloggedSearchComponent }
 ];
 
