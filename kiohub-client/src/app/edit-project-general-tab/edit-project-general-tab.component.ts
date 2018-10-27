@@ -259,6 +259,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
     const invitationsOk = this.valueUtils.getBooleanAndRemoveFromSession(this.valueUtils.invitationsOk);
     let showError;
     // dont change line below, invitationsOk returns sth different than (invitationsOk === true)
+    console.log(invitationsOk);
+    console.log(this.valueUtils.isNullOrUndefined(invitationsOk));
     if (this.valueUtils.isNullOrUndefined(invitationsOk) || invitationsOk === true) {
       showError = false;
     } else {

@@ -88,7 +88,7 @@ export class ValueUtils {
         const value = this.getAndRemoveDataFromSessionStorage(key);
         if (this.isNullOrUndefined(value)) {
             // console.log('------3-false, null!');
-            return false;
+            return null;
         }
         const booleanValue = this.getBooleanFromString(value);
         if (typeof (booleanValue) === typeof (true)) {

@@ -1,6 +1,7 @@
 <p id="h2">Notatki</p>
 
 <img id="addImg" (click)="toggleNoteInput()" src="../../assets/add.png"/> <label id="addNoteLabel" (click)="toggleNoteInput()">Dodaj nową notatkę</label>
+<app-spinner #spinner></app-spinner>
 
 <!-- Formularz dodania notatki -->
 <div *ngIf="noteInputShows != false" class="addNoteDiv">
@@ -35,7 +36,7 @@
     (selectionChange)="selectionChange($event)"></app-visibility-select>
 
     <div class="button-container">
-    <button type="button" mat-stroked-button class="submit-button" (click)="editExistingNote()">Edytuj</button>
+    <button type="button" mat-stroked-button class="submit-button" (click)="updateNote()">Edytuj</button>
     <div id="divider"></div>
     <button type="button" mat-stroked-button class="submit-button" (click)="closeEditNoteInput()">Zamknij</button>
     </div>

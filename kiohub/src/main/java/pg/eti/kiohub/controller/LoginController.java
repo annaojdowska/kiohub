@@ -53,7 +53,8 @@ public class LoginController extends MainController {
     @PreAuthorize("@securityService.isLogged(#request)")
     public ResponseEntity<User> getLogged(HttpServletRequest request) throws Exception {
        User user = loginService.getLoggedUser(request);
-       return new ResponseEntity<>(user, HttpStatus.OK);
+//       return new ResponseEntity<>(userRepository.getOne(437l), HttpStatus.OK); - testy
+       return new ResponseEntity<>(user, HttpStatus.OK); // THIS
     }
 
     @RequestMapping(path = "/login/logout")

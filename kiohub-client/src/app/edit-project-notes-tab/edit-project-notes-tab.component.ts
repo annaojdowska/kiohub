@@ -5,6 +5,8 @@ import { NoteService } from '../services/note.service';
 import { UserService } from '../services/user.service';
 import { User } from '../model/user.interface';
 import { Visibility } from '../model/visibility.enum';
+import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
+import { ViewUtils } from '../utils/view-utils';
 
 @Component({
   selector: 'app-edit-project-notes-tab',
@@ -21,6 +23,7 @@ export class EditProjectNotesTabComponent implements OnInit {
   inputEditId: number;
   visibilitySelected: string;
   currentUser: User;
+  viewUtils = new ViewUtils();
 
   MAX_LENGTH = 500; // value from database
 
@@ -33,6 +36,7 @@ export class EditProjectNotesTabComponent implements OnInit {
   @ViewChild('noteVisibility') noteVisibility: any;
   @ViewChild('newNoteContent') newNoteContent: any;
   @ViewChild('editNoteContent') editNoteContent: any;
+  @ViewChild('spinner') spinner: SpinnerComponent;
   @Input() visibilityChangeable = true;
 
   getProjectIdFromRouter() {
@@ -55,8 +59,8 @@ export class EditProjectNotesTabComponent implements OnInit {
   }
 
   private downloadNotes() {
+    this.viewUtils.scrollToTop();
     this.notes = [];
-    this.newNoteContent.value.nativeElement.value = '';
     this.noteService.getNotesByProjectId(this.projectId)
       .subscribe(result => result.forEach(note => {
         this.notes.push(note);
@@ -65,19 +69,21 @@ export class EditProjectNotesTabComponent implements OnInit {
     this.noteInputShows = false;
     this.noteEditInputShows = false;
     this.noteVisibility = 'COLLABORATORS';
+    this.spinner.setDisplay(false);
   }
 
   addNote() {
+    this.spinner.showSpinner('Trwa dodawanie notatki.');
     const newNoteContent = this.newNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
-    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId) // 437 - testy
+    this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
+    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId) // testy
       .subscribe(result => {
         this.downloadNotes();
       });
   }
 
   editNote(noteId: number) {
-    window.scrollTo(0, 0);
     let editingNote: Note;
     editingNote = this.notes.find(note => note.id === noteId);
     this.inputEditNote = editingNote.content;
@@ -86,13 +92,15 @@ export class EditProjectNotesTabComponent implements OnInit {
   }
 
   deleteNote(noteId: number) {
+    this.spinner.showSpinner('Trwa usuwanie notatki.');
     this.noteService.deleteNote(this.projectId, noteId)
       .subscribe(result => {
         this.downloadNotes();
       });
   }
 
-  editExistingNote() {
+  updateNote() {
+    this.spinner.showSpinner('Trwa aktualizowanie notatki');
     const editNoteContent = this.editNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
     this.noteService
@@ -101,8 +109,6 @@ export class EditProjectNotesTabComponent implements OnInit {
         this.downloadNotes();
         this.noteEditInputShows = false;
       });
-
-    // window.location.reload();
   }
 
   toggleNoteInput() {
