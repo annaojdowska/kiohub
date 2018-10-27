@@ -21,7 +21,8 @@ export class Validation {
     readonly MAX_FILENAME_LENGTH = 255;
     readonly MAX_FILE_SIZE = 2000000000; // in bytes
 
-    readonly WRONG_EXTENSION = 'Niepoprawny typ pliku lub plik jest zbyt duży (maksymalny rozmiar to ' + this.MAX_FILE_SIZE + '). Podaj plik z jednym z poniższych rozszerzeń: ';
+    readonly WRONG_EXTENSION = 'Niepoprawny typ pliku lub plik jest zbyt duży (maksymalny rozmiar to ' + this.getMaxFileSizeInMegaBytes() + '). '
+                            + 'Podaj plik z jednym z poniższych rozszerzeń: ';
 
     readonly errorStringSupervisor = 'Podane dane promotora muszą być krótsze niż ' + this.MAX_SIZE_SUPERVISOR + ' znaków.';
     readonly errorStringTag = 'Tag nie może zawierać znaków innych niż litery i cyfry. Maksymalna długość to ' + this.MAX_SIZE_TAG + ' znaków.';
@@ -36,12 +37,12 @@ export class Validation {
     readonly errorStringDatesOrder = 'Data publikacji "od" powinna być starsza od daty "do".';
     readonly errorStringSendingInvitations = 'Wysłanie zaproszeń do studentów nie powiodło się.';
     // attachment
-    readonly errorStringThesis = this.WRONG_EXTENSION + this.fileUtils.getThesisExtensions() + ' .';
-    readonly errorStringSourceCode = this.WRONG_EXTENSION + this.fileUtils.getSourceCodeExtensions() + ' .';
-    readonly errorStringImage = this.WRONG_EXTENSION + this.fileUtils.getImageExtensions() + ' .';
-    readonly errorStringManual = this.WRONG_EXTENSION + this.fileUtils.getManualExtensions() + ' .';
-    readonly errorStringManualStartup = this.WRONG_EXTENSION + this.fileUtils.getManualStartupExtensions() + ' .';
-    readonly errorStringOther = this.WRONG_EXTENSION + this.fileUtils.getOtherFileExtensions() + ' .';
+    readonly errorStringThesis = this.WRONG_EXTENSION + this.fileUtils.getThesisExtensions() + '.';
+    readonly errorStringSourceCode = this.WRONG_EXTENSION + this.fileUtils.getSourceCodeExtensions() + '.';
+    readonly errorStringImage = this.WRONG_EXTENSION + this.fileUtils.getImageExtensions() + '.';
+    readonly errorStringManual = this.WRONG_EXTENSION + this.fileUtils.getManualExtensions() + '.';
+    readonly errorStringManualStartup = this.WRONG_EXTENSION + this.fileUtils.getManualStartupExtensions() + '.';
+    readonly errorStringOther = this.WRONG_EXTENSION + this.fileUtils.getOtherFileExtensions() + '.';
 
     // ******** ATTACHMENT VALIDATION ********
     validateAttachment(attachmentType: AttachmentType, event) {

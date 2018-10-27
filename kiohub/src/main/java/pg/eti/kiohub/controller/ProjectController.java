@@ -66,7 +66,6 @@ public class ProjectController extends MainController {
         try {
             Project project = new Project();
             project.setTitle(titlePl);
-            project.setPublicationDate(new Date());
             project.setPublished(Boolean.FALSE);
             project = projectRepository.saveAndFlush(project);
 
@@ -142,6 +141,7 @@ public class ProjectController extends MainController {
         if (projectToPublish.isPresent()) {
             Project project = projectToPublish.get();
             project.setPublished(true);
+            project.setPublicationDate(new Date());
             project.setProjectStatus(this.projectStatusRepository.findProjectStatusByName("Zakończony"));
             this.projectRepository.save(project);
             return new ResponseEntity<>(HttpStatus.OK);
