@@ -64,6 +64,9 @@ import { SearchResultSingleProjectOptionsComponent } from './search-result-singl
 import { FilterService } from './services/filter.service';
 import { SpinnerUpdateProjectComponent } from './ui-elements/spinner/spinner-update-project/spinner-update-project.component';
 import { SpinnerDownloadAttachmentComponent } from './ui-elements/spinner/spinner-download-attachment/spinner-download-attachment.component';
+import { LoggedGuard } from './guards/logged.guard';
+import { SupervisorGuard } from './guards/supervisor.guard';
+import { CollaboratorGuard } from './guards/collaborator.guard';
 
 @NgModule({
   declarations: [
@@ -144,6 +147,9 @@ import { SpinnerDownloadAttachmentComponent } from './ui-elements/spinner/spinne
     NoteService,
     MatDialog,
     FilterService,
+    CollaboratorGuard,
+    LoggedGuard,
+    SupervisorGuard,
     SortingService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,

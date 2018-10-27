@@ -1,58 +1,63 @@
 <p id="h2">Notatki</p>
 
-<img id="addImg" (click)="toggleNoteInput()" src="../../assets/add.png"/> <label id="addNoteLabel" (click)="toggleNoteInput()">Dodaj nową notatkę</label>
+<img id="addImg" (click)="toggleNoteInput()" src="../../assets/add.png" /> <label id="addNoteLabel" (click)="toggleNoteInput()">Dodaj
+  nową notatkę</label>
 <app-spinner #spinner></app-spinner>
 
 <!-- Formularz dodania notatki -->
 <div *ngIf="noteInputShows != false" class="addNoteDiv">
   <label class="stay-up">Treść notatki: </label>
   <mat-form-field class="wrapper-width">
-      <textarea matInput [(ngModel)]="inputNewNote" #newNoteContent class="wrapper-height" name="newNoteContent" maxlength="{{MAX_LENGTH}}"></textarea>
-      <mat-hint class="maxlength" align="end">{{newNoteContent.value.length}} / {{MAX_LENGTH}}</mat-hint>
+    <textarea matInput [(ngModel)]="inputNewNote" #newNoteContent class="wrapper-height" name="newNoteContent"
+      maxlength="{{MAX_LENGTH}}"></textarea>
+    <mat-hint class="maxlength" align="end">{{newNoteContent.value.length}} / {{MAX_LENGTH}}</mat-hint>
   </mat-form-field>
-  <br/><br/>  
+  <br /><br />
 
   <label>Widoczność notatki: </label>
   <app-visibility-select matTooltip="{{tooltipVisibility}}" *ngIf='visibilityChangeable' [selected]="noteVisibility"
-  [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true" 
-  (selectionChange)="selectionChange($event)"></app-visibility-select>
+    [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true"
+    (selectionChange)="selectionChange($event)"></app-visibility-select>
   <div class="button-container">
 
-  <button type="button" mat-stroked-button class="submit-button" (click)="addNote()">Dodaj</button>
+    <button type="button" mat-stroked-button class="submit-button" (click)="addNote()">Dodaj</button>
   </div>
 </div>
 
 <!-- Formularz edycji notatki -->
 <div *ngIf="noteEditInputShows != false" class="addNoteDiv">
-    <label class="stay-up">Treść notatki: </label>
-    <mat-form-field class="wrapper-width">
-        <textarea matInput #editNoteContent [(ngModel)]="inputEditNote" class="wrapper-height" name="editNoteContent" maxlength="{{MAX_LENGTH}}"></textarea>
-        <mat-hint class="maxlength" align="end">{{editNoteContent.value.length}} / {{MAX_LENGTH}}</mat-hint>
-    </mat-form-field>
-    <br/><br/> 
-    <label>Widoczność notatki: </label>
-    <app-visibility-select matTooltip="{{tooltipVisibility}}" *ngIf='visibilityChangeable' [selected]="noteVisibility"
-    [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true" 
+  <label class="stay-up">Treść notatki: </label>
+  <mat-form-field class="wrapper-width">
+    <textarea matInput #editNoteContent [(ngModel)]="inputEditNote" class="wrapper-height" name="editNoteContent"
+      maxlength="{{MAX_LENGTH}}"></textarea>
+    <mat-hint class="maxlength" align="end">{{editNoteContent.value.length}} / {{MAX_LENGTH}}</mat-hint>
+  </mat-form-field>
+  <br /><br />
+  <label>Widoczność notatki: </label>
+  <app-visibility-select matTooltip="{{tooltipVisibility}}" *ngIf='visibilityChangeable' [selected]="noteVisibility"
+    [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true"
     (selectionChange)="selectionChange($event)"></app-visibility-select>
 
-    <div class="button-container">
+  <div class="button-container">
     <button type="button" mat-stroked-button class="submit-button" (click)="updateNote()">Edytuj</button>
     <div id="divider"></div>
     <button type="button" mat-stroked-button class="submit-button" (click)="closeEditNoteInput()">Zamknij</button>
-    </div>
   </div>
+</div>
 
 <ul>
   <li *ngFor="let note of notes; let i = index" [attr.data-index]="i">
-      <a>
-          <img matTooltip="{{tooltipDelete}}" class="align-right" src="../../assets/delete-button-smaller.png" (click)="deleteNote(note?.id)"/> 
-          <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
-          <img matTooltip="{{tooltipEdit}}" class="align-right" src="../../assets/edit-smaller.png" (click)="editNote(note?.id)" (click)="showEditNoteInput()"/>
-          <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
-          <img [matTooltip]="note?.isPrivate ? 'Ta notatka jest widoczna tylko dla Ciebie.' : 'Ta notatka jest widoczna dla wszystkich współtwórców projektu.'" 
-          class="align-right" id="no-pointer" [src]="note?.isPrivate ? '../../assets/PRIVATE.png' : '../../assets/COLLABORATORS.png'" />
-        <h2>~ {{mapNotesUsers.get(note)?.firstName}} {{mapNotesUsers.get(note)?.lastName}}, {{note?.publicationDate | date : "dd.MM.y r."}}</h2>
-        <p>{{note?.content}}</p>
-      </a> 
+    <a>
+      <img matTooltip="{{tooltipDelete}}" class="align-right" src="../../assets/delete-button-smaller.png" (click)="deleteNote(note?.id)" />
+      <img class="align-right" id="no-pointer" src="../../assets/pipeline.png" />
+      <img matTooltip="{{tooltipEdit}}" class="align-right" src="../../assets/edit-smaller.png" (click)="editNote(note?.id)"
+        (click)="showEditNoteInput()" />
+      <img class="align-right" id="no-pointer" src="../../assets/pipeline.png" />
+      <img [matTooltip]="note?.isPrivate ? 'Ta notatka jest widoczna tylko dla Ciebie.' : 'Ta notatka jest widoczna dla wszystkich współtwórców projektu.'"
+        class="align-right" id="no-pointer" [src]="note?.isPrivate ? '../../assets/PRIVATE.png' : '../../assets/COLLABORATORS.png'" />
+      <h2>~ {{mapNotesUsers.get(note)?.firstName}} {{mapNotesUsers.get(note)?.lastName}}</h2>
+      <h2>{{note?.publicationDate | date : "dd.MM.y r."}}</h2>
+      <p>{{note?.content}}</p>
+    </a>
   </li>
 </ul>
