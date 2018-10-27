@@ -15,7 +15,8 @@ import { ViewUtils } from '../utils/view-utils';
 })
 export class EditProjectNotesTabComponent implements OnInit {
   notes: Note[] = [];
-  notesOwners: User[] = [];
+  // notesOwners: User[] = [];
+  mapNotesUsers: Map<Note, User> = new Map<Note, User>();
   projectId: number;
   noteInputShows: boolean;
   noteEditInputShows: boolean;
@@ -61,11 +62,19 @@ export class EditProjectNotesTabComponent implements OnInit {
   private downloadNotes() {
     this.viewUtils.scrollToTop();
     this.notes = [];
+    this.mapNotesUsers.clear();
     this.noteService.getNotesByProjectId(this.projectId)
-      .subscribe(result => result.forEach(note => {
-        this.notes.push(note);
-        this.userService.getUserById(note.ownerId, this.projectId).subscribe(owner => this.notesOwners.push(owner));
-      }));
+      .subscribe(allNotes => allNotes
+        .forEach(note => {
+          this.notes.push(note);
+          this.userService.getUserById(note.ownerId, this.projectId)
+            .subscribe(owner => {
+              this.mapNotesUsers.set(note, owner);
+            }
+            );
+          console.log('Notatka');
+          console.log(note);
+        }));
     this.noteInputShows = false;
     this.noteEditInputShows = false;
     this.noteVisibility = 'COLLABORATORS';
@@ -77,12 +86,11 @@ export class EditProjectNotesTabComponent implements OnInit {
     const newNoteContent = this.newNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
     this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
-    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId) // testy
+    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId) // testy 437
       .subscribe(result => {
         this.downloadNotes();
       });
   }
-
   editNote(noteId: number) {
     let editingNote: Note;
     editingNote = this.notes.find(note => note.id === noteId);
