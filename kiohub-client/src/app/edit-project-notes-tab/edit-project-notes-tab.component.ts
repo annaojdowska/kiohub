@@ -56,7 +56,7 @@ export class EditProjectNotesTabComponent implements OnInit {
 
   private downloadNotes() {
     this.notes = [];
-    this.newNoteContent.value = 
+    this.newNoteContent.value.nativeElement.value = '';
     this.noteService.getNotesByProjectId(this.projectId)
       .subscribe(result => result.forEach(note => {
         this.notes.push(note);
