@@ -108,7 +108,6 @@ public class ProjectCollaboratorController extends MainController {
         return new ResponseEntity<>(collaboratorsRepository.getListOfCollaboratorsProjects(id), HttpStatus.OK);
     }
     
-    @CrossOrigin
     @PostMapping(path = "/add")
     public ResponseEntity addCollaborator (
             @RequestParam("email") String email,
@@ -124,7 +123,6 @@ public class ProjectCollaboratorController extends MainController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     
-    @CrossOrigin
     @PostMapping(path = "/remove")
     public ResponseEntity removeCollaborator (
             @RequestParam("collaboratorId") String collaboratorId,
@@ -138,4 +136,22 @@ public class ProjectCollaboratorController extends MainController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+        
+    @GetMapping(path = "loggedis/{projectid}")
+    public ResponseEntity<Boolean> loggedIsCollaborator(@PathVariable("projectid") Long projectid, HttpServletRequest request) {
+        User user = loginService.getLoggedUser(request);
+        if (user != null) {
+            ProjectCollaborator collaborator = null;
+            try {
+                collaborator = collaboratorsRepository.getCollaborator(projectid, user.getId());
+                if (collaborator != null) {
+                    return new ResponseEntity<>(true, HttpStatus.OK);
+                }
+            }
+            catch (Exception e) {
+                return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<>(false, HttpStatus.OK);
+    }  
 }
