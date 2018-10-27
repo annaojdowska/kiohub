@@ -38,8 +38,12 @@ export class ValueUtils {
     /**
     * Return elements that doesn't have set id
     */
-    findElementsToSaveInArray(array) {
+    findElementsWithId(array) {
         return array.elements.filter(e => (!e.id));
+    }
+
+    findElementsWithoutId(array) {
+        return array.elements.filter(e => (e.id));
     }
 
     /**

@@ -102,17 +102,17 @@ export class EditProjectGeneralTabComponent implements OnInit {
   isLoggedUserSupervisor = false;
 
   tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
-                  + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
   tooltipSourceCodes = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getSourceCodeExtensions()
-                      + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
   tooltipPhotos = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getImageExtensions()
-                  + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
   tooltipManualUsages = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getManualExtensions()
-                    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
   tooltipManualUsageStartups = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getManualStartupExtensions()
-                              + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
   tooltipOtherFiles = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getOtherFileExtensions()
-                    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
+    + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
   tooltipSemesters = 'Wybór semestrów, w czasie których wytwarzana była praca.';
   tooltipRelatedTo = 'Wyszukaj projekty, z którymi Twój projekt jest powiązany.';
 
@@ -133,10 +133,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
     @Inject(UserService) private userService: UserService) {
   }
 
-  @HostListener('window:beforeunload', [ '$event' ])
+  @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHander(event) {
     if (this.projectAttachmentsUpdatingInProgress) {
-          event.returnValue = 'Are you sure?';
+      event.returnValue = 'Are you sure?';
     }
   }
 
@@ -247,7 +247,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
   getDataFromLocalStorage() {
     // display info about project update
     this.hardlyUpdatedProject = this.valueUtils.getBooleanAndRemoveFromSession(this.valueUtils.updatedProjectBoolean);
-    console.log(this.hardlyUpdatedProject);
     if (this.hardlyUpdatedProject) {
       const updatedProjectText = this.valueUtils.getAndRemoveFromSession(this.valueUtils.updatedProjectText);
       const updatedProjectStatus = this.valueUtils.getAndRemoveFromSession(this.valueUtils.updatedProjectStatus);
@@ -259,8 +258,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
     const invitationsOk = this.valueUtils.getBooleanAndRemoveFromSession(this.valueUtils.invitationsOk);
     let showError;
     // dont change line below, invitationsOk returns sth different than (invitationsOk === true)
-    console.log(invitationsOk);
-    console.log(this.valueUtils.isNullOrUndefined(invitationsOk));
     if (this.valueUtils.isNullOrUndefined(invitationsOk) || invitationsOk === true) {
       showError = false;
     } else {
@@ -280,7 +277,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
-      console.log(this.editedProject);
       result.tags.forEach(tag => {
         this.tagsList.add({ id: tag.id, name: tag.name });
       });
@@ -343,7 +339,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.projectService.getRelatedProjects(projectId).subscribe(result =>
       result.forEach(pr => {
         this.relatedToList.add({ id: pr.id, name: pr.title });
-    }));
+      }));
     this.userService.isLoggedAndSupervisor().subscribe(result => this.isLoggedUserSupervisor = result);
   }
 
@@ -485,37 +481,27 @@ export class EditProjectGeneralTabComponent implements OnInit {
       };
 
       const attachmentsToSaveAmount = this.getAttachmentsToSaveAmount();
+      const metadataToSend = this.getMetadataToSaveAmount();
 
-      console.log(updatedProject);
       this.updateResult.setDisplay(false);
-      this.projectService.updateProject(updatedProject).subscribe(data => {
-        this.projectService.setRelatedProjects(this.editedProject.id, this.getRelatedProjects()).subscribe();
-        const infoString = 'Pomyślnie zaktualizowano dane projektu. ';
-        console.log(updatedProject);
-        this.viewUtils.scrollToTop();
-        if (attachmentsToSaveAmount === 0) {
-          this.onCompleted(infoString, ErrorType.SUCCESS);
-          this.projectAttachmentsUpdatingInProgress = false;
-        } else {
-          this.projectAttachmentsUpdatingInProgress = true;
-          console.log(this.uploadInfoSpinner);
-          console.log(this.uploadInfoSpinner instanceof SpinnerUpdateProjectComponent);
-          this.uploadInfoSpinner.begin(this, attachmentsToSaveAmount, infoString);
-          this.uploadAllFiles();
-        }
-      }, error => {
-        const infoString = 'Wystąpił błąd zaktualizowania danych projektu. ';
-        if (attachmentsToSaveAmount === 0) {
-          this.projectAttachmentsUpdatingInProgress = false;
-          this.onCompleted(infoString, ErrorType.ERROR);
-        } else {
-          this.projectAttachmentsUpdatingInProgress = true;
-          console.log(this.uploadInfoSpinner);
-          this.uploadInfoSpinner.begin(this, attachmentsToSaveAmount, infoString);
-          this.uploadAllFiles();
-        }
-      });
+      this.viewUtils.scrollToTop();
+      this.projectService.updateProject(updatedProject)
+        .subscribe(data => {
+          const infoString = 'Pomyślnie zaktualizowano dane projektu. ';
+          this.updateAttachments(attachmentsToSaveAmount, metadataToSend, infoString);
+        }, error => {
+          const infoString = 'Wystąpił błąd zaktualizowania danych projektu. ';
+          this.updateAttachments(attachmentsToSaveAmount, metadataToSend, infoString);
+        });
     }
+  }
+
+  private updateAttachments(attachmentsToSaveAmount: number, metadataToSend: number, infoString: string) {
+    this.projectService.setRelatedProjects(this.editedProject.id, this.getRelatedProjects())
+      .subscribe();
+    this.projectAttachmentsUpdatingInProgress = true;
+    this.uploadInfoSpinner.begin(this, attachmentsToSaveAmount, metadataToSend, infoString);
+    this.uploadAllFiles();
   }
 
   private getRelatedProjects(): Project[] {
@@ -545,12 +531,12 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   private uploadAllFiles() {
-      this.uploadFiles(this.thesisList, AttachmentType.THESIS);
-      this.uploadFiles(this.programsList, AttachmentType.SOURCE_CODE);
-      this.uploadFiles(this.othersList, AttachmentType.OTHER);
-      this.uploadFiles(this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
-      this.uploadFiles(this.instructionsList, AttachmentType.MANUAL_USAGE);
-      this.uploadFiles(this.imagesList, AttachmentType.PHOTO);
+    this.uploadFiles(this.thesisList, AttachmentType.THESIS);
+    this.uploadFiles(this.programsList, AttachmentType.SOURCE_CODE);
+    this.uploadFiles(this.othersList, AttachmentType.OTHER);
+    this.uploadFiles(this.instructionsStartList, AttachmentType.MANUAL_STARTUP);
+    this.uploadFiles(this.instructionsList, AttachmentType.MANUAL_USAGE);
+    this.uploadFiles(this.imagesList, AttachmentType.PHOTO);
   }
 
   onCompleted(text: string, errorType: ErrorType) {
@@ -581,21 +567,32 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   private getAttachmentsToSaveAmount() {
-    return this.valueUtils.findElementsToSaveInArray(this.imagesList).length
-      + this.valueUtils.findElementsToSaveInArray(this.instructionsList).length
-      + this.valueUtils.findElementsToSaveInArray(this.instructionsStartList).length
-      + this.valueUtils.findElementsToSaveInArray(this.othersList).length
-      + this.valueUtils.findElementsToSaveInArray(this.programsList).length
-      + this.valueUtils.findElementsToSaveInArray(this.thesisList).length;
+    return this.valueUtils.findElementsWithId(this.imagesList).length
+      + this.valueUtils.findElementsWithId(this.instructionsList).length
+      + this.valueUtils.findElementsWithId(this.instructionsStartList).length
+      + this.valueUtils.findElementsWithId(this.othersList).length
+      + this.valueUtils.findElementsWithId(this.programsList).length
+      + this.valueUtils.findElementsWithId(this.thesisList).length;
+  }
+
+  private getMetadataToSaveAmount() {
+    return this.valueUtils.findElementsWithoutId(this.imagesList).length
+      + this.valueUtils.findElementsWithoutId(this.instructionsList).length
+      + this.valueUtils.findElementsWithoutId(this.instructionsStartList).length
+      + this.valueUtils.findElementsWithoutId(this.othersList).length
+      + this.valueUtils.findElementsWithoutId(this.programsList).length
+      + this.valueUtils.findElementsWithoutId(this.thesisList).length;
   }
 
   private updateMetadata(th: InputListElement) {
     this.attachmentService.updateMetadata(this.editedProject.id, th.id, th.visibility ? th.visibility : Visibility.EVERYONE, th.selected ? th.selected : false)
       .subscribe(data => {
         console.log('Pomyślnie zaktualizowano załącznik ' + th.name + '. ');
+        this.uploadInfoSpinner.addMetadata();
       },
         error => {
           console.log('Wystąpił błąd aktualizacji załącznika ' + th.name + '. ' + error);
+          this.uploadInfoSpinner.addMetadata();
         });
   }
 

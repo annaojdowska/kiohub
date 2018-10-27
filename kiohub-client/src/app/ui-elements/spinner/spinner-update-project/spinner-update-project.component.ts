@@ -10,6 +10,9 @@ import { EditProjectGeneralTabComponent } from 'src/app/edit-project-general-tab
 })
 export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
   viewComponent: EditProjectGeneralTabComponent;
+  metatadaToSave: number;
+  savedMetadata: number;
+  sendingOnlyMetadata: boolean;
 
   constructor() {
     super();
@@ -28,36 +31,71 @@ export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
   }
 
   protected onUpdateCompleted() {
-    const data = this.getDataToView();
-    this.viewComponent.onCompleted(data.text, data.type);
+    const updateResult = this.getUpdateResult();
+    this.viewComponent.onCompleted(updateResult.text, updateResult.type);
   }
 
-  begin(view: any, attachmentsToSave: number, infoString: string) {
+  begin(view: any, attachmentsToSave: number, metatadaToSave, infoString: string) {
+    if (attachmentsToSave === 0) {
+      this.sendingOnlyMetadata = true;
+    } else {
+      this.sendingOnlyMetadata = false;
+    }
     super.beginUpload(view, attachmentsToSave, infoString);
+    this.metatadaToSave = metatadaToSave;
+    this.savedMetadata = 0;
   }
 
   protected setViewComponent(view) {
     this.viewComponent = view;
   }
 
-  private getDataToView() {
+  addMetadata() {
+    this.savedMetadata++;
+    this.updateSpinner();
+  }
+
+  private getUpdateResult() {
     const errorAmount = this.failedList.length;
     let text: string;
     let errorType: ErrorType;
 
-    if (errorAmount > 0) {
-      if (errorAmount === this.elementsToSave) {
-        errorType = ErrorType.ERROR;
-        text = this.infoString + 'A załączniki? Nie udało się zapisać żadnego z załączników. ';
-      } else {
-        errorType = ErrorType.WARNING;
-        text = this.infoString + 'A załączniki? Zapisano ' + (this.elementsToSave - errorAmount) +
-          ' załączników. Nie udało się zapisać następujących załączników: ' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
-      }
-    } else {
+    if (this.sendingOnlyMetadata) {
       errorType = ErrorType.SUCCESS;
-      text = this.infoString + 'A załączniki? Zapisano ' + (this.elementsToSave - errorAmount) + ' załączników.';
+      text = this.infoString;
+    } else {
+      if (errorAmount > 0) {
+        if (errorAmount === this.elementsToSave) {
+          errorType = ErrorType.ERROR;
+          text = this.infoString + 'A załączniki? Nie udało się zapisać żadnego z załączników. ';
+        } else {
+          errorType = ErrorType.WARNING;
+          text = this.infoString + 'A załączniki? Zapisano ' + (this.elementsToSave - errorAmount) +
+            ' załączników. Nie udało się zapisać następujących załączników: ' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
+        }
+      } else {
+        errorType = ErrorType.SUCCESS;
+        text = this.infoString + 'A załączniki? Zapisano ' + (this.elementsToSave - errorAmount) + ' załączników.';
+      }
     }
     return { type: errorType, text: text };
+  }
+
+  /**
+   * Overriden; update is completed when all attachments and all metadata had been saved
+   */
+  protected isUpdateCompleted() {
+    return (this.elementsToSave === this.savedElements) && (this.metatadaToSave === this.savedMetadata);
+  }
+
+  /**
+   * Overriden; different message if sending only metadata
+   */
+  protected updateInfoText() {
+    if (this.sendingOnlyMetadata) {
+      this.text = 'Trwa zapisywanie danych dotyczących załączników.';
+    } else {
+      super.updateInfoText();
+    }
   }
 }

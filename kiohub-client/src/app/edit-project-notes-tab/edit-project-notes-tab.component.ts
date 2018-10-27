@@ -15,7 +15,6 @@ import { ViewUtils } from '../utils/view-utils';
 })
 export class EditProjectNotesTabComponent implements OnInit {
   notes: Note[] = [];
-  // notesOwners: User[] = [];
   mapNotesUsers: Map<Note, User> = new Map<Note, User>();
   projectId: number;
   noteInputShows: boolean;
@@ -92,6 +91,7 @@ export class EditProjectNotesTabComponent implements OnInit {
       });
   }
   editNote(noteId: number) {
+    this.viewUtils.scrollToTop();
     let editingNote: Note;
     editingNote = this.notes.find(note => note.id === noteId);
     this.inputEditNote = editingNote.content;

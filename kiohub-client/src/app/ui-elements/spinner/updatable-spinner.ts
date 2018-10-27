@@ -80,7 +80,7 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
         }
     }
 
-    isUpdateCompleted() {
+    protected isUpdateCompleted() {
         return this.elementsToSave === this.savedElements;
     }
 }
