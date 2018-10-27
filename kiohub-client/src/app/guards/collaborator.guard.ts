@@ -16,17 +16,18 @@ export class CollaboratorGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-     console.log(next.url);
-     console.log(state.url);
-  //   return this.userService.loggedIsCollaborator().pipe(map(isLoggedAndSupervisor => {
-  //     if (isLoggedAndSupervisor) {
-  //       return true;
-  //     } else {
-  //       this.router.navigate(['/home']);
-  //       return false;
-  //     }
-  //   }
-  // ));
-  return true;
+    const editedProjectId: number = Number.parseInt(next.url[1].toString());
+    if (editedProjectId && !Number.isNaN(editedProjectId)) {
+      return this.userService.loggedIsCollaborator(editedProjectId).pipe(map(loggedIsCollaborator => {
+        if (loggedIsCollaborator) {
+          return true;
+        } else {
+          this.router.navigate(['/home']);
+          return false;
+        }
+      }));
+    } else {
+      return false;
+    }
   }
 }
