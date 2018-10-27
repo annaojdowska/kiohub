@@ -18,6 +18,6 @@ import pg.eti.kiohub.entity.model.Note;
  */
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Long> {
-    @Query("SELECT n FROM Note n WHERE n.project.id = :id")
-    List<Note> getNotes(@Param("id") Long id);
+    @Query("SELECT n FROM Note n WHERE n.project.id = :projectId")
+    List<Note> getNotesByProjectId(@Param("projectId") Long projectId);
 }

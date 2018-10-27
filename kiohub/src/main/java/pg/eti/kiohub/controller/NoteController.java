@@ -7,10 +7,7 @@ package pg.eti.kiohub.controller;
 
 import java.util.*;
 
-import org.jasig.cas.client.authentication.AttributePrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,13 +17,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pg.eti.kiohub.entity.model.Note;
 import pg.eti.kiohub.entity.model.Project;
-import pg.eti.kiohub.entity.model.User;
-import pg.eti.kiohub.security.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,7 +34,7 @@ public class NoteController extends MainController {
     @PostAuthorize("@visibilityService.checkProjectNotesVisibility(returnObject, #projectId, #request)")
     public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long projectId,
                                                               HttpServletRequest request) {
-            return new ResponseEntity<>(noteRepository.getNotes(projectId), HttpStatus.OK);
+            return new ResponseEntity<>(noteRepository.getNotesByProjectId(projectId), HttpStatus.OK);
     }
 
     @PostMapping(path = "/add")
@@ -51,10 +45,9 @@ public class NoteController extends MainController {
             @RequestParam("ownerId") String ownerId,
             @RequestParam("projectId") String projectId,
             HttpServletRequest request) {
-        System.out.println("Jestem tutaj");
         Project project = projectRepository.findById(Long.parseLong(projectId)).get();
         Note noteToAdd = new Note(Long.parseLong(ownerId), project, content, new Date(), Integer.parseInt(isPrivate) == 1 ? true : false);
-        noteRepository.saveAndFlush(noteToAdd);
+        noteToAdd = noteRepository.saveAndFlush(noteToAdd);
 
         return new ResponseEntity<>(noteToAdd, HttpStatus.OK);
     }

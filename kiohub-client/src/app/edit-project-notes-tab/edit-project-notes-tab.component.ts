@@ -44,17 +44,24 @@ export class EditProjectNotesTabComponent implements OnInit {
   }
 
   constructor(@Inject(ActivatedRoute) private route: ActivatedRoute,
-              @Inject(NoteService) private noteService: NoteService,
-              @Inject(UserService) private userService: UserService,
-              @Inject(Router) private router: Router) { }
+    @Inject(NoteService) private noteService: NoteService,
+    @Inject(UserService) private userService: UserService,
+    @Inject(Router) private router: Router) { }
 
   ngOnInit() {
     this.projectId = this.getProjectIdFromRouter();
-    this.noteService.getNotesByProjectId(this.projectId).subscribe(result => result.forEach(note => {
-      this.notes.push(note);
-      this.userService.getUserById(note.ownerId, this.projectId).subscribe(owner => this.notesOwners.push(owner));
-    }));
+    this.downloadNotes();
     this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
+  }
+
+  private downloadNotes() {
+    this.notes = [];
+    this.newNoteContent.value = 
+    this.noteService.getNotesByProjectId(this.projectId)
+      .subscribe(result => result.forEach(note => {
+        this.notes.push(note);
+        this.userService.getUserById(note.ownerId, this.projectId).subscribe(owner => this.notesOwners.push(owner));
+      }));
     this.noteInputShows = false;
     this.noteEditInputShows = false;
     this.noteVisibility = 'COLLABORATORS';
@@ -63,8 +70,10 @@ export class EditProjectNotesTabComponent implements OnInit {
   addNote() {
     const newNoteContent = this.newNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
-    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId).subscribe(result => console.log(result));
-    window.location.reload();
+    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId) // 437 - testy
+      .subscribe(result => {
+        this.downloadNotes();
+      });
   }
 
   editNote(noteId: number) {
@@ -77,17 +86,23 @@ export class EditProjectNotesTabComponent implements OnInit {
   }
 
   deleteNote(noteId: number) {
-    this.noteService.deleteNote(this.projectId, noteId).subscribe(result => console.log(result));
-    window.location.reload();
+    this.noteService.deleteNote(this.projectId, noteId)
+      .subscribe(result => {
+        this.downloadNotes();
+      });
   }
 
   editExistingNote() {
     const editNoteContent = this.editNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
-    this.noteService.editNote(this.inputEditId, editNoteContent, visibility, this.projectId).subscribe(result => console.log(result));
+    this.noteService
+      .editNote(this.inputEditId, editNoteContent, visibility, this.projectId)
+      .subscribe(result => {
+        this.downloadNotes();
+        this.noteEditInputShows = false;
+      });
 
-    window.location.reload();
-    this.noteEditInputShows = false;
+    // window.location.reload();
   }
 
   toggleNoteInput() {
