@@ -34,7 +34,7 @@ public interface ProjectCollaboratorRepository extends JpaRepository<ProjectColl
             "WHERE pc.is_supervisor = false AND  pc.project_id = :id", nativeQuery = true)
     List<Object[]> getCollaborators(@Param("id") Long id);
     
-    @Query("SELECT pc FROM ProjectCollaborator pc WHERE pc.projectId = :pid AND pc.userId = :uid AND pc.isSupervisor = false")
+    @Query("SELECT pc FROM ProjectCollaborator pc WHERE pc.projectId = :pid AND pc.userId = :uid")
     ProjectCollaborator getCollaborator(@Param("pid") Long pid, @Param("uid") Long uid);
     
     @Query("SELECT pc FROM ProjectCollaborator pc WHERE pc.projectId = :id AND pc.isSupervisor = false")
