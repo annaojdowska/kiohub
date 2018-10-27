@@ -51,7 +51,8 @@
           <img class="align-right" id="no-pointer" src="../../assets/pipeline.png"/>
           <img [matTooltip]="note?.isPrivate ? 'Ta notatka jest widoczna tylko dla Ciebie.' : 'Ta notatka jest widoczna dla wszystkich współtwórców projektu.'" 
           class="align-right" id="no-pointer" [src]="note?.isPrivate ? '../../assets/PRIVATE.png' : '../../assets/COLLABORATORS.png'" />
-        <h2>~ {{notesOwners[i]?.firstName}} {{notesOwners[i]?.lastName}}, {{note?.publicationDate | date : "dd.MM.y r."}}</h2>
+        <h2>~ {{notesOwners[i]?.firstName}} {{notesOwners[i]?.lastName}}</h2> 
+        <h2>{{note?.publicationDate | date : "dd.MM.y r."}}</h2>
         <p>{{note?.content}}</p>
       </a> 
   </li>
