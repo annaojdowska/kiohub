@@ -32,6 +32,7 @@ export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
 
   protected onUpdateCompleted() {
     const updateResult = this.getUpdateResult();
+    console.log('Zakończono update projektu.');
     this.viewComponent.onCompleted(updateResult.text, updateResult.type);
   }
 
@@ -53,6 +54,7 @@ export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
   addMetadata() {
     this.savedMetadata++;
     this.updateSpinner();
+    console.log('Zapisano metadata: ' + this.savedMetadata + ' / ' + this.metatadaToSave);
   }
 
   private getUpdateResult() {
@@ -67,15 +69,15 @@ export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
       if (errorAmount > 0) {
         if (errorAmount === this.elementsToSave) {
           errorType = ErrorType.ERROR;
-          text = this.infoString + 'A załączniki? Nie udało się zapisać żadnego z załączników. ';
+          text = this.infoString + 'Nie udało się zapisać żadnego z załączników. ';
         } else {
           errorType = ErrorType.WARNING;
-          text = this.infoString + 'A załączniki? Zapisano ' + (this.elementsToSave - errorAmount) +
+          text = this.infoString + 'Zapisano ' + (this.elementsToSave - errorAmount) +
             ' załączników. Nie udało się zapisać następujących załączników: ' + this.valueUtils.formatStringArrayToView(this.failedList) + '. ';
         }
       } else {
         errorType = ErrorType.SUCCESS;
-        text = this.infoString + 'A załączniki? Zapisano ' + (this.elementsToSave - errorAmount) + ' załączników.';
+        text = this.infoString + 'Zapisano ' + (this.elementsToSave - errorAmount) + ' załączników.';
       }
     }
     return { type: errorType, text: text };
