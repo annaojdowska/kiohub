@@ -71,4 +71,8 @@ constructor(@Inject(HttpClient) private http: HttpClient) { }
           .set('collaboratorId', collaboratorId.toString());
         return this.http.post(address + '/collaborator/remove', params);
       }
+
+      loggedIsCollaborator(projectId: number): Observable<Boolean> {
+        return this.http.get<Boolean>(address + '/collaborator/loggedis/' + projectId, {responseType: 'json'});
+      }
 }

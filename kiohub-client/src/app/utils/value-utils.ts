@@ -129,8 +129,4 @@ export class ValueUtils {
         // console.log('------2-value: ' + value);
         return value;
     }
-
-    onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-    }
 }

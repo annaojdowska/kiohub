@@ -57,7 +57,7 @@ public class AttachmentControler extends MainController {
     private ApplicationContext appContext;
 
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+    //@PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
             @RequestParam("Type") String type,
@@ -100,7 +100,7 @@ public class AttachmentControler extends MainController {
             ) {
 
                 preparedStatement.setLong(1, attachment.getId());
-                preparedStatement.setBinaryStream(2, multipartFile.getInputStream());
+                preparedStatement.setBlob(2, multipartFile.getInputStream(), attachment.getFileSize());
                 int affectedRows = preparedStatement.executeUpdate();
                 if (affectedRows == 0) {
                     log.info("ERROR: affectedRows = 0");
@@ -111,14 +111,17 @@ public class AttachmentControler extends MainController {
             }
         } catch (SQLException ex) {
             attachmentService.rollbackSaveAttachment(attachment);
+            log.info("SQLEXCEPTION: " + ex.getMessage());
             return ExceptionHandlingUtils.handleException(ex);
         }
         catch (OutOfMemoryError ex) {
             attachmentService.rollbackSaveAttachment(attachment);
+            log.info("OutOfMemoryError: " + ex.getMessage());
             return ExceptionHandlingUtils.handleException(ex);
         }
         catch (Exception ex) {
             attachmentService.rollbackSaveAttachment(attachment);
+            log.info("OutOfMemoryError: " + ex.getMessage());
             return ExceptionHandlingUtils.handleException(ex);
         }
 

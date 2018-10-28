@@ -13,6 +13,7 @@ import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { forEach } from '../../../node_modules/@angular/router/src/utils/collection';
 import { EmailInvitationService } from '../email-invitation-service/email-invitation.service';
 import { InputListElement } from '../model/input-list-element';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-edit-project-management-tab',
@@ -30,8 +31,9 @@ export class EditProjectManagementTabComponent implements OnInit {
   loggedUser: User;
   tooltipVisibility = 'Zmień widoczność elementu.';
 
-  STUDENT_EMAIL_PATTERN = 'student.edu';
+  STUDENT_EMAIL_PATTERN = 'student.pg.edu.pl';
 
+  valueUtils = new ValueUtils();
   @ViewChild('authorsList') authorsList: InputListComponent;
   @ViewChild('myselfList') myselfList: InputListComponent;
   @ViewChild('authorInput') authorInput: any;
@@ -123,7 +125,7 @@ export class EditProjectManagementTabComponent implements OnInit {
         const collaboratorsIds = collaborators.map(c => c.id);
         const authorsListIds = this.authorsList.elements.filter(e => e.id).map(e => e.id);
         collaboratorsIds.forEach(cId => {
-          if (!authorsListIds.includes(cId) && this.loggedUser.id !== cId) {
+          if (!authorsListIds.includes(cId)) {
             toRemoveCollaboratorsIds.push(cId);
             toUpdateCounter++;
           }
@@ -141,6 +143,7 @@ export class EditProjectManagementTabComponent implements OnInit {
           toVisibilityUpdateElements.push(element);
           toUpdateCounter++;
       });
+      });
       if (this.supervisor) {
         toVisibilityUpdateElements.push({
           name: this.supervisor.firstName,
@@ -151,8 +154,7 @@ export class EditProjectManagementTabComponent implements OnInit {
 
       /* Send update */
       toAddCollaboratorsElements.forEach(element => {
-        this.userService.addCollaboratorByEmail(this.editedProject.id, element.name, element.visibility
-          ? element.visibility : Visibility.EVERYONE)
+        this.userService.addCollaboratorByEmail(this.editedProject.id, element.name, element.visibility ? element.visibility : Visibility.EVERYONE)
         .subscribe(x => {
           updatedSuccessCounter++;
           this.emailInvitationService.send(this.editedProject.title, [element.name])
@@ -168,8 +170,7 @@ export class EditProjectManagementTabComponent implements OnInit {
         this.userService.updateVisibility(this.editedProject.id, element.id, element.visibility)
         .subscribe(x => updatedSuccessCounter++, y => updatedErrorCounter++);
       });
-    });
-  }
+    }
 
   isUserSupervisor(): boolean {
     return this.isLoggedAndSupervisor;

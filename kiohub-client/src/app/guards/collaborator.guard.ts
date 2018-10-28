@@ -1,14 +1,33 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Injectable, Inject } from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { UserService } from '../services/user.service';
+import { map } from '../../../node_modules/rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollaboratorGuard implements CanActivate {
+  constructor(
+    @Inject(Router) private router: Router,
+    @Inject(UserService) private userService: UserService,
+  ) {}
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return true;
+    const editedProjectId: number = Number.parseInt(next.url[1].toString());
+    if (editedProjectId && !Number.isNaN(editedProjectId)) {
+      return this.userService.loggedIsCollaborator(editedProjectId).pipe(map(loggedIsCollaborator => {
+        if (loggedIsCollaborator) {
+          return true;
+        } else {
+          this.router.navigate(['/home']);
+          return false;
+        }
+      }));
+    } else {
+      return false;
+    }
   }
 }
