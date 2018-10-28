@@ -125,90 +125,93 @@ export class EditProjectManagementTabComponent implements OnInit {
     const toVisibilityUpdateElements: InputListElement[] = [];
     const toRemoveCollaboratorsIds: number[] = [];
 
-    this.userService.getCollaboratorsByProjectId(this.editedProject.id).subscribe(collaborators => {
-      const collaboratorsIds = collaborators.map(c => c.id);
-      const authorsListIds = this.authorsList.elements.filter(e => e.id).map(e => e.id);
-      collaboratorsIds.forEach(cId => {
-        if (!authorsListIds.includes(cId)) {
-          toRemoveCollaboratorsIds.push(cId);
-          toUpdateCounter++;
-        }
-      });
-      this.authorsList.elements.forEach(element => {
-        if (!element.id) {
-          toAddCollaboratorsElements.push(element);
-          toUpdateCounter += 2; // Add Collaborator and send email
-        } else {
+    this.userService.getCollaboratorsByProjectId(this.editedProject.id)
+      .subscribe(collaborators => {
+        const collaboratorsIds = collaborators.map(c => c.id);
+        const authorsListIds = this.authorsList.elements.filter(e => e.id).map(e => e.id);
+        collaboratorsIds.forEach(cId => {
+          if (!authorsListIds.includes(cId)) {
+            toRemoveCollaboratorsIds.push(cId);
+            toUpdateCounter++;
+          }
+        });
+        this.authorsList.elements.forEach(element => {
+          if (!element.id) {
+            toAddCollaboratorsElements.push(element);
+            toUpdateCounter += 2; // Add Collaborator and send email
+          } else {
+            toVisibilityUpdateElements.push(element);
+            toUpdateCounter++;
+          }
+        });
+        this.myselfList.elements.forEach(element => {
           toVisibilityUpdateElements.push(element);
           toUpdateCounter++;
+        });
+        if (this.supervisor) {
+          toVisibilityUpdateElements.push({
+            name: this.supervisor.firstName,
+            id: this.supervisor.id,
+            visibility: this.supervisorVisibility
+          });
+          toUpdateCounter++;
         }
-      });
-      this.myselfList.elements.forEach(element => {
-        toVisibilityUpdateElements.push(element);
-        toUpdateCounter++;
-      });
-    });
-    if (this.supervisor) {
-      toVisibilityUpdateElements.push({
-        name: this.supervisor.firstName,
-        id: this.supervisor.id,
-        visibility: this.supervisorVisibility
-      });
-      toUpdateCounter++;
-    }
 
-    this.spinner.beginUpload(this, toUpdateCounter, '');
+        console.log('elementów do zapisu: ' + toUpdateCounter);
+        this.spinner.beginUpload(this, toUpdateCounter, '');
 
-    /* Send update */
-    toAddCollaboratorsElements.forEach(element => {
-      this.userService.addCollaboratorByEmail(this.editedProject.id, element.name, element.visibility ? element.visibility : Visibility.EVERYONE)
-        .subscribe(x => {
-          this.spinner.addNewCollaboratorSuccess(element.name);
-          updatedSuccessCounter++;
-          this.emailInvitationService.send(this.editedProject.title, [element.name])
-            .subscribe(sent => {
+        /* Send update */
+        toAddCollaboratorsElements.forEach(element => {
+          this.userService.addCollaboratorByEmail(this.editedProject.id, element.name, element.visibility ? element.visibility : Visibility.EVERYONE)
+            .subscribe(x => {
+              this.spinner.addNewCollaboratorSuccess(element.name);
               updatedSuccessCounter++;
-              this.spinner.addNewEmailSuccess(element.name);
-              // dodani współpracownicy + mail
-              // TODO dodano
-            }, notSent => {
+              this.emailInvitationService.send(this.editedProject.title, [element.name])
+                .subscribe(sent => {
+                  updatedSuccessCounter++;
+                  this.spinner.addNewEmailSuccess(element.name);
+                  // dodani współpracownicy + mail
+                  // TODO dodano
+                }, notSent => {
+                  updatedErrorCounter++;
+                  this.spinner.addNewEmailFail(element.name);
+                  // TODO nie dodano
+                });
+            }, y => {
               updatedErrorCounter++;
-              this.spinner.addNewEmailFail(element.name);
+              this.spinner.addNewCollaboratorFail(element.name);
+            });
+        });
+        toRemoveCollaboratorsIds.forEach(id => {
+          this.userService.removeCollaborator(this.editedProject.id, id)
+            .subscribe(x => {
+              updatedSuccessCounter++;
+              this.spinner.removeCollaboratorSuccess(id.toString()); // ??
+              // usunięci współpracownicy
+              // TODO DODANO
+            }, y => {
+              updatedErrorCounter++;
+              this.spinner.removeCollaboratorFail(id.toString()); // ??
               // TODO nie dodano
             });
-        }, y => {
-          updatedErrorCounter++;
-          this.spinner.addNewCollaboratorFail(element.name);
         });
-    });
-    toRemoveCollaboratorsIds.forEach(id => {
-      this.userService.removeCollaborator(this.editedProject.id, id)
-        .subscribe(x => {
-          updatedSuccessCounter++;
-          this.spinner.removeCollaboratorSuccess(id.toString()); // ??
-          // usunięci współpracownicy
-          // TODO DODANO
-        }, y => {
-          updatedErrorCounter++;
-          this.spinner.removeCollaboratorFail(id.toString()); // ??
-          // TODO nie dodano
+        toVisibilityUpdateElements.forEach(element => {
+          this.userService.updateVisibility(this.editedProject.id, element.id, element.visibility)
+            .subscribe(x => {
+              updatedSuccessCounter++;
+              this.spinner.addVisibilitySuccess(element.name);
+              // widoczność
+              // TODO dodano
+            }, y => {
+              this.spinner.addVisibilityFail(element.name);
+              updatedErrorCounter++;
+              // TODO nie dodano
+            });
         });
-    });
-    toVisibilityUpdateElements.forEach(element => {
-      this.userService.updateVisibility(this.editedProject.id, element.id, element.visibility)
-        .subscribe(x => {
-          updatedSuccessCounter++;
-          this.spinner.addVisibilitySuccess(element.name);
-          // widoczność
-          // TODO dodano
-        }, y => {
-          this.spinner.addVisibilityFail(element.name);
-          updatedErrorCounter++;
-          // TODO nie dodano
-        });
-    });
-
-  }
+      }, error => {
+        // TODO obsłużyć błąd i wyświetlić!
+      });
+    }
 
   onUpdateCompleted(updateResult: string) {
     // TODO zapisać zmiany do sesji

@@ -107,21 +107,16 @@ public class AttachmentControler extends MainController {
                     return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
                 }
                 log.info("EVERYTHING OK! SAVED " + affectedRows + " ROWS!");
-
             }
-        } catch (SQLException ex) {
-            attachmentService.rollbackSaveAttachment(attachment);
-            log.info("SQLEXCEPTION: " + ex.getMessage());
-            return ExceptionHandlingUtils.handleException(ex);
         }
-        catch (OutOfMemoryError ex) {
+        catch (Error ex) {
             attachmentService.rollbackSaveAttachment(attachment);
-            log.info("OutOfMemoryError: " + ex.getMessage());
+            log.info("Error: " + ex.getMessage());
             return ExceptionHandlingUtils.handleException(ex);
         }
         catch (Exception ex) {
             attachmentService.rollbackSaveAttachment(attachment);
-            log.info("OutOfMemoryError: " + ex.getMessage());
+            log.info("Exception: " + ex.getMessage());
             return ExceptionHandlingUtils.handleException(ex);
         }
 
