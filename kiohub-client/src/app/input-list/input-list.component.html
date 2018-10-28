@@ -13,7 +13,7 @@
           <div class='chip-text' (click)="select(fruit)"> 
               {{fruit.name}}
           </div>
-          <img matTooltip='{{tooltipDelete}}' src="assets/delete-button-smaller.png" matChipRemove *ngIf="removable == 'true'" class="chip-remove chip-image"/>
+          <img matTooltip='{{tooltipDelete}}' src="assets/delete-button-smaller.png" matChipRemove *ngIf="removable" class="chip-remove chip-image"/>
           <app-visibility-select matTooltip='{{tooltipVisibility}}' *ngIf='visibilityChangeable' [selected]="fruit.visibility" [allowPrivate]="false" (selectionChange)="selectionChange(fruit, $event)" class="chip-image chip-visibility"></app-visibility-select>
         </mat-chip>
       </div>
