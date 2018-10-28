@@ -85,11 +85,11 @@ public class AttachmentControler extends MainController {
         try {
             attachment = attachmentRepository.saveAndFlush(attachment);
         } catch (Exception ex) {
+            attachmentService.rollbackSaveAttachment(attachment);
             return ExceptionHandlingUtils.handleException(ex);
         }
 
         try {
-
             log.info("SAVED ATTACHMENT WITH ID " + attachment.getId() + ", FILE SIZE = " + attachment.getFileSize());
             DataSource ds = (DataSource) appContext.getBean("dataSource");
             String insertQuery = "INSERT INTO `attachments_files` (attachments_id, file) VALUES (?, ?)";

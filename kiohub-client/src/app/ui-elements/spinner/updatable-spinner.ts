@@ -28,6 +28,7 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
     protected abstract setViewComponent(view);
 
     beginUpload(view, attachmentsToSave: number, infoString: string) {
+        console.log('zapisze ' + attachmentsToSave + ' elementów.');
         this.setViewComponent(view);
         this.savedElements = 0;
         this.elementsToSave = attachmentsToSave;
@@ -68,10 +69,6 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
     }
 
     protected updateInfoText() {
-        console.log(this.infoString);
-        console.log(this.failedElementsText);
-        console.log(this.currentlyBeingSavedText);
-        console.log(this.savedElementsText);
         // ex. trwa dodawanie załączników (zapisano 1 z 3)
         this.text = this.infoString + this.currentlyBeingSavedText + ' (zapisano ' + this.savedElements + ' z ' + this.elementsToSave + '). ';
         if (this.succesList.length > 0) {
