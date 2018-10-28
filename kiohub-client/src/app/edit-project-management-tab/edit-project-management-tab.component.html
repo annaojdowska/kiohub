@@ -23,6 +23,7 @@
     <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź
       zmiany</button>
   </div>
+  <app-spinner-update-management #spinner></app-spinner-update-management>
 </form>
 
 <div id="border" *ngIf="isUserSupervisor()">

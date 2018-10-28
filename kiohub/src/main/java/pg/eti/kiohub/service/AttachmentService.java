@@ -20,6 +20,8 @@ import java.util.Optional;
 public class AttachmentService {
     @Autowired
     AttachmentRepository attachmentRepository;
+    @Autowired
+    AttachmentRepository attachmentFileRepository;
 
     public void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt,
                                           Optional<AttachmentFile> attachmentFileOpt,
@@ -44,6 +46,7 @@ public class AttachmentService {
         if (attachment != null) {
             if (attachment.getId() != null) {
                 attachmentRepository.deleteById(attachment.getId());
+                attachmentFileRepository.deleteById(attachment.getId());
             }
         }
     }

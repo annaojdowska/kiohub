@@ -482,6 +482,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       const attachmentsToSaveAmount = this.getAttachmentsToSaveAmount();
       const metadataToSend = this.getMetadataToSaveAmount();
+      console.log('metadane do zapisu: ' + metadataToSend);
 
       this.updateResult.setDisplay(false);
       this.viewUtils.scrollToTop();
@@ -540,13 +541,12 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   onCompleted(text: string, errorType: ErrorType) {
-    // this.updateResult.setComponent(true, errorType, text);
     this.uploadInfoSpinner.setDisplay(false);
-
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectBoolean, true);
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectText, text);
     this.valueUtils.saveToSession(this.valueUtils.updatedProjectStatus, errorType);
     this.projectAttachmentsUpdatingInProgress = false;
+
     window.location.reload();
   }
 

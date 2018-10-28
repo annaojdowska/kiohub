@@ -80,6 +80,7 @@ export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
         text = this.infoString + 'Zapisano ' + (this.elementsToSave - errorAmount) + ' załączników.';
       }
     }
+    console.log(this.text);
     return { type: errorType, text: text };
   }
 

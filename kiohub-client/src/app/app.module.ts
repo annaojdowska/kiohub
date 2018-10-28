@@ -67,6 +67,7 @@ import { SpinnerDownloadAttachmentComponent } from './ui-elements/spinner/spinne
 import { LoggedGuard } from './guards/logged.guard';
 import { SupervisorGuard } from './guards/supervisor.guard';
 import { CollaboratorGuard } from './guards/collaborator.guard';
+import { ProjectManagementSpinnerComponent } from './ui-elements/spinner/project-management-spinner/project-management-spinner.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { CollaboratorGuard } from './guards/collaborator.guard';
     PublishDialogComponent,
     SearchResultSingleProjectOptionsComponent,
     SpinnerUpdateProjectComponent,
-    SpinnerDownloadAttachmentComponent
+    SpinnerDownloadAttachmentComponent,
+    ProjectManagementSpinnerComponent
   ],
   imports: [
     BrowserModule,

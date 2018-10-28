@@ -35,7 +35,7 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
         this.failedList = [];
         this.infoString = infoString;
         this.setDisplay(true);
-        this.updateInfoText();
+        this.updateSpinner();
     }
 
     resetSpinner() {
@@ -43,7 +43,7 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
         this.elementsToSave = null;
         this.succesList = [];
         this.failedList = [];
-        this.infoString = null;
+        this.infoString = '';
     }
 
     addSuccess(successedElementName: string) {
@@ -68,6 +68,10 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
     }
 
     protected updateInfoText() {
+        console.log(this.infoString);
+        console.log(this.failedElementsText);
+        console.log(this.currentlyBeingSavedText);
+        console.log(this.savedElementsText);
         // ex. trwa dodawanie załączników (zapisano 1 z 3)
         this.text = this.infoString + this.currentlyBeingSavedText + ' (zapisano ' + this.savedElements + ' z ' + this.elementsToSave + '). ';
         if (this.succesList.length > 0) {

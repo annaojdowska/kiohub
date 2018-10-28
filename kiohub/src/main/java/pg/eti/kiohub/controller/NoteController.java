@@ -77,7 +77,7 @@ public class NoteController extends MainController {
         try {
             Note noteToUpdate = noteRepository.findById(id).get();
             noteToUpdate.setContent(content);
-            noteToUpdate.setIsPrivate(Integer.parseInt(isPrivate) == 1 ? true : false);
+            noteToUpdate.setIsPrivate(Integer.parseInt(isPrivate) == 1);
             super.noteRepository.saveAndFlush(noteToUpdate);
          } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);

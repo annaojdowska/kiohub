@@ -53,9 +53,8 @@ export class KiohubHttpInterceptor implements HttpInterceptor {
     // const customReq = request.clone({
     //   headers: request.headers.set('app-language', 'it')
     // });
-    // console.log('IDZIE KURWA REQUEST!');
-    console.log(request);
-    console.log(request.body);
+    // console.log(request);
+    // console.log(request.body);
 
     return next.handle(request);
   }
