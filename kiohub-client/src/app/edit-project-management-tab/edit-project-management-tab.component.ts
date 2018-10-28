@@ -217,7 +217,7 @@ export class EditProjectManagementTabComponent implements OnInit {
     // TODO zapisać zmiany do sesji
     // odświeżyć
     console.log('zakończono update! ' + updateResult);
-
+    window.location.reload();
   }
 
   isUserSupervisor(): boolean {
