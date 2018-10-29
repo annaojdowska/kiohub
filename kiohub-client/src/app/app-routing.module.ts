@@ -9,13 +9,14 @@ import { MyProjectsComponent } from './my-projects/my-projects.component';
 import { SupervisorGuard } from './guards/supervisor.guard';
 import { LoggedGuard } from './guards/logged.guard';
 import { CollaboratorGuard } from './guards/collaborator.guard';
+import { PublishedGuard } from './guards/published.guard';
 
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
   { path: 'add-project', component: AddProjectComponent, canActivate: [SupervisorGuard] },
   { path: 'edit-project/:id', component: EditProjectTabComponent, canActivate: [CollaboratorGuard] },
   { path: 'projects-base', component: AdvancedSearchComponent },
-  { path: 'details/:id', component: ProjectViewComponent },
+  { path: 'details/:id', component: ProjectViewComponent, canActivate: [PublishedGuard] },
   { path: 'my-projects', component: MyProjectsComponent, canActivate: [LoggedGuard] },
   { path: '**', component: UnloggedSearchComponent }
 ];

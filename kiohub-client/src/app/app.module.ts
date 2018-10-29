@@ -68,6 +68,7 @@ import { LoggedGuard } from './guards/logged.guard';
 import { SupervisorGuard } from './guards/supervisor.guard';
 import { CollaboratorGuard } from './guards/collaborator.guard';
 import { ProjectManagementSpinnerComponent } from './ui-elements/spinner/project-management-spinner/project-management-spinner.component';
+import { PublishedGuard } from './guards/published.guard';
 
 @NgModule({
   declarations: [
@@ -152,6 +153,7 @@ import { ProjectManagementSpinnerComponent } from './ui-elements/spinner/project
     CollaboratorGuard,
     LoggedGuard,
     SupervisorGuard,
+    PublishedGuard,
     SortingService,
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
