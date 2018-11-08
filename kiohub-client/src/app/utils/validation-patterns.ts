@@ -168,7 +168,7 @@ export class Validation {
     }
 
     validateStudentPGEmail(emailInput) {
-        return emailInput.nativeElement.value.toString().includes('@student.pg.edu.pl') && emailInput.nativeElement.value.toString().startsWith('s');
+        return emailInput.nativeElement.value.toString().match(/[s]\d{4,8}@student\.pg\.edu\.pl/);
     }
 
     validateListOfStudentsEmails(list: InputListComponent) {
