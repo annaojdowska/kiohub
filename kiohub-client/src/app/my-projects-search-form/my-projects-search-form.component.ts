@@ -202,4 +202,12 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.chosenSemesters.push(semester);
     this.semestersList.add({ name: semester.name });
   }
+
+  clearDatePicker1() {
+    this.dateInput1.value = '';
+  }
+
+  clearDatePicker2() {
+    this.dateInput2.value = '';
+  }
 }

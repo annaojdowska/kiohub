@@ -93,3 +93,8 @@ tr :first-child {
 img {
     cursor: pointer;
 }
+
+.date-picker-img {
+    height: 10px;
+    width: 10px;
+}

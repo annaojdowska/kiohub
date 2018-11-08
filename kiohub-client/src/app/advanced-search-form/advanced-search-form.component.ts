@@ -206,4 +206,11 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
     }
   }
 
+  clearDatePicker1() {
+    this.dateInput1.value = '';
+  }
+
+  clearDatePicker2() {
+    this.dateInput2.value = '';
+  }
 }

@@ -6,12 +6,10 @@
             <mat-icon matPrefix><img class="tooltip-img" matTooltip="{{supervisorTooltip}}" src="../../assets/question.png"></mat-icon>
         </mat-form-field>
         
-
         <mat-form-field class="leftLabel paddingLeft">
             <input matInput ngModel placeholder="Tag" #tagInput (keyup)="formVal.onKeyUpTag($event)" pattern="{{formVal.getIsLetterOrNumberPattern()}}">
             <mat-icon matPrefix><img class="tooltip-img" matTooltip="{{tagTooltip}}" src="../../assets/question.png"></mat-icon>
-        </mat-form-field>
-        
+        </mat-form-field>        
         
         <mat-form-field class="rightLabel" id="textLeft">
             <input matInput ngModel placeholder="Tytuł zawiera..." #titleInput (keyup.enter)="addTitle()" (ngModelChange)="formVal.onTitlePlChange($event)" pattern="{{formVal.getTitlePattern()}}">
@@ -41,12 +39,14 @@
                 disabled>
             <mat-datepicker-toggle matSuffix [for]="datePicker1"></mat-datepicker-toggle>
             <mat-datepicker #datePicker1 disabled="false"></mat-datepicker>
+            <mat-icon matSuffix><img *ngIf='dateInput1.value' (click)="clearDatePicker1()" class="date-picker-img" src="../../assets/clear.png"></mat-icon>
         </mat-form-field>
         <mat-form-field class="leftLabel paddingLeft">
             <input matInput ngModel #dateInput2 [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="formVal.dateToChanged('change', $event)"
                 disabled>
             <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
             <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
+            <mat-icon matSuffix><img *ngIf='dateInput2.value' (click)="clearDatePicker2()" class="date-picker-img" src="../../assets/clear.png"></mat-icon>
         </mat-form-field>
 
         <label class="rightLabel" id="center">Semestry wytwarzania: &nbsp;
