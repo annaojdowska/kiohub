@@ -7,7 +7,7 @@
   <app-visibility-select *ngIf="isUserSupervisor()"  matTooltip="{{tooltipVisibility}}" [allowPrivate]="false" [selected]="supervisorVisibility" (selectionChange)="selectionSuperUserVisibilityChange($event)" class="chip-image"></app-visibility-select>
   <br/>
   <form #authors="ngForm" (ngSubmit)="addAuthor()">
-    <label class="wrapper-left">Autorzy pracy: <img *ngIf="isUserSupervisor()" matTooltip="Jeżeli chcesz dodać nowego współtwórcę projektu, wpisz jego adres e-mail i zatwierdź, klikając 'Dodaj'." src="../../assets/question.png"/></label> 
+    <label class="wrapper-left">Autorzy pracy: <img *ngIf="isUserSupervisor()" matTooltip="Jeżeli chcesz dodać nowego współtwórcę projektu, wpisz jego adres e-mail i zatwierdź, klikając 'Dodaj'. Akceptowanymi identyfikatorami są: s<nr_albumu>@student.pg.edu.pl." src="../../assets/question.png"/></label> 
     <mat-form-field class="wrapper-width" *ngIf="isUserSupervisor()">
       <input #authorInput name="author" ngModel matInput> 
     </mat-form-field> 

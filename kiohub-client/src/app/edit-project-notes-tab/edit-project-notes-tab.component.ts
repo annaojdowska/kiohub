@@ -19,6 +19,7 @@ export class EditProjectNotesTabComponent implements OnInit {
   projectId: number;
   noteInputShows: boolean;
   noteEditInputShows: boolean;
+  showVisibility: boolean;
   inputEditNote: string;
   inputEditId: number;
   visibilitySelected: string;
@@ -56,6 +57,7 @@ export class EditProjectNotesTabComponent implements OnInit {
     this.projectId = this.getProjectIdFromRouter();
     this.downloadNotes();
     this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
+    this.showVisibility = false;
   }
 
   private downloadNotes() {
@@ -90,10 +92,16 @@ export class EditProjectNotesTabComponent implements OnInit {
         this.downloadNotes();
       });
   }
+
   editNote(noteId: number) {
     this.viewUtils.scrollToTop();
     let editingNote: Note;
     editingNote = this.notes.find(note => note.id === noteId);
+    if (this.currentUser.id === editingNote.ownerId) {
+      this.showVisibility = true;
+    } else {
+      this.showVisibility = false;
+    }
     this.inputEditNote = editingNote.content;
     this.inputEditId = noteId;
     this.noteVisibility = editingNote.isPrivate ? 'PRIVATE' : 'COLLABORATORS';

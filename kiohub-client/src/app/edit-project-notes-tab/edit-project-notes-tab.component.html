@@ -13,13 +13,11 @@
     <mat-hint class="maxlength" align="end">{{newNoteContent.value.length}} / {{MAX_LENGTH}}</mat-hint>
   </mat-form-field>
   <br /><br />
-
   <label>Widoczność notatki: </label>
   <app-visibility-select matTooltip="{{tooltipVisibility}}" *ngIf='visibilityChangeable' [selected]="noteVisibility"
     [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true"
     (selectionChange)="selectionChange($event)"></app-visibility-select>
   <div class="button-container">
-
     <button type="button" mat-stroked-button class="submit-button" (click)="addNote()">Dodaj</button>
   </div>
 </div>
@@ -33,12 +31,13 @@
     <mat-hint class="maxlength" align="end">{{editNoteContent.value.length}} / {{MAX_LENGTH}}</mat-hint>
   </mat-form-field>
   <br /><br />
-  <label>Widoczność notatki: </label>
-  <app-visibility-select matTooltip="{{tooltipVisibility}}" *ngIf='visibilityChangeable' [selected]="noteVisibility"
-    [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true"
-    (selectionChange)="selectionChange($event)"></app-visibility-select>
-
-    <div class="button-container">
+  <div *ngIf='showVisibility'>
+    <label>Widoczność notatki: </label>
+    <app-visibility-select matTooltip="{{tooltipVisibility}}" *ngIf='visibilityChangeable' [selected]="noteVisibility"
+      [allowPrivate]="true" [allowEveryone]="false" [allowLoggedUsers]="false" [allowCollaborators]="true"
+      (selectionChange)="selectionChange($event)"></app-visibility-select>
+  </div>
+  <div class="button-container">
     <button type="button" mat-stroked-button class="submit-button" (click)="updateNote()">Zapisz</button>
     <div id="divider"></div>
     <button type="button" mat-stroked-button class="submit-button" (click)="closeEditNoteInput()">Zamknij</button>
