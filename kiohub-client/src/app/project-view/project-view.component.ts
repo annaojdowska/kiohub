@@ -54,6 +54,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   relatedProjectsHidden;
   publicationDateHidden;
   projectTypeHidden;
+  detailsHidden;
 
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -69,6 +70,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       this.relatedProjectsHidden = true;
       this.publicationDateHidden = true;
       this.projectTypeHidden = true;
+      this.detailsHidden = true;
   }
 
   ngOnInit(): void {
@@ -154,30 +156,36 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
     } else {
       this.filesHidden = true;
     }
-    if (project.tags.length > 0) {
-      this.tagsHidden = false;
+    if (project.tags.length > 0 || project.semesters.length > 0 || project.licence.name !== 'Brak'
+      || project.publicationDate.toString().length > 0 || project.projectType.name.length > 0) {
+      this.detailsHidden = false;
+      if (project.tags.length > 0) {
+        this.tagsHidden = false;
+      } else {
+        this.tagsHidden = true;
+      }
+      if (project.semesters.length > 0) {
+        this.semestersHidden = false;
+      } else {
+        this.semestersHidden = true;
+      }
+      if (project.licence.name !== 'Brak') {
+        this.licenceHidden = false;
+      } else {
+        this.licenceHidden = true;
+      }
+      if (project.publicationDate.toString().length > 0) {
+        this.publicationDateHidden = false;
+      } else {
+        this.publicationDateHidden = true;
+      }
+      if (project.projectType.name.length > 0) {
+        this.projectTypeHidden = false;
+      } else {
+        this.projectTypeHidden = true;
+      }
     } else {
-      this.tagsHidden = true;
-    }
-    if (project.semesters.length > 0) {
-      this.semestersHidden = false;
-    } else {
-      this.semestersHidden = true;
-    }
-    if (project.licence.name !== 'Brak') {
-      this.licenceHidden = false;
-    } else {
-      this.licenceHidden = true;
-    }
-    if (project.publicationDate.toString().length > 0) {
-      this.publicationDateHidden = false;
-    } else {
-      this.publicationDateHidden = true;
-    }
-    if (project.projectType.name.length > 0) {
-      this.projectTypeHidden = false;
-    } else {
-      this.projectTypeHidden = true;
+      this.detailsHidden = true;
     }
   }
 
