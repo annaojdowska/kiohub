@@ -121,7 +121,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       this.manageSupervisorVisibility(result);
     });
     this.projectService.getRelatedProjects(projectId).subscribe(result => {
-      const filteredRelatedProjects = result.filter(project => project.published === false);
+      const filteredRelatedProjects = result.filter(project => project.published === true);
       this.relatedProjects = filteredRelatedProjects;
       this.manageRelatedProjectsVisibility(filteredRelatedProjects);
     });
