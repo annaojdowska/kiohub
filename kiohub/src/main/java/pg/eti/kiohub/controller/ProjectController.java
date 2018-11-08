@@ -135,7 +135,7 @@ public class ProjectController extends MainController {
     }
 
     @PostMapping(path = "/publish/{id}")
-    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
+    // @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest http){
         Optional<Project> projectToPublish = this.projectRepository.findById(id);
         if (projectToPublish.isPresent()) {
