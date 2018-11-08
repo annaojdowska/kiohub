@@ -43,7 +43,7 @@
             </table>
         </div>
 
-        <div [hidden]="detailsHidden" class="wrapper_width_element component">
+        <div [hidden]="detailsHidden" class="{{detailsHidden ? 'component' : 'wrapper_width_element component'}}">
             <img src="assets/information.png" />
             <h4>Informacje szczegółowe</h4>
             <table>
