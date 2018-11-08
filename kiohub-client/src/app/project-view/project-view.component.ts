@@ -52,6 +52,8 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   tagsHidden;
   licenceHidden;
   relatedProjectsHidden;
+  publicationDateHidden;
+  projectTypeHidden;
 
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -65,6 +67,8 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       this.semestersHidden = true;
       this.licenceHidden = true;
       this.relatedProjectsHidden = true;
+      this.publicationDateHidden = true;
+      this.projectTypeHidden = true;
   }
 
   ngOnInit(): void {
@@ -117,13 +121,14 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       this.manageSupervisorVisibility(result);
     });
     this.projectService.getRelatedProjects(projectId).subscribe(result => {
-      this.relatedProjects = result;
-      this.manageRelatedProjectsVisibility(result);
+      const filteredRelatedProjects = result.filter(project => project.published === false);
+      this.relatedProjects = filteredRelatedProjects;
+      this.manageRelatedProjectsVisibility(filteredRelatedProjects);
     });
   }
 
   manageAuthorsVisibility(result) {
-    if (result.length > 0) {
+    if (result.filter(p => p.user.firstName !== '' && p.user.lastName !== '').length > 0) {
       this.authorsHidden = false;
     } else {
       this.authorsHidden = true;
@@ -163,6 +168,16 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       this.licenceHidden = false;
     } else {
       this.licenceHidden = true;
+    }
+    if (project.publicationDate.toString().length > 0) {
+      this.publicationDateHidden = false;
+    } else {
+      this.publicationDateHidden = true;
+    }
+    if (project.projectType.name.length > 0) {
+      this.projectTypeHidden = false;
+    } else {
+      this.projectTypeHidden = true;
     }
   }
 
