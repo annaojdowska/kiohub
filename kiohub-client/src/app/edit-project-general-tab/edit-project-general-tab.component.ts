@@ -616,7 +616,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.projectService.publishProject(this.editedProject.id).subscribe(data => {
-          infoString = 'Pomyślnie opublikowano projekt na stronie. Status projektu: "Zakończony".';
+          infoString = 'Pomyślnie opublikowano projekt na stronie. Zmieniono status projektu na "Zakończony".';
           this.onCompleted(infoString, ErrorType.SUCCESS);
         }, error => {
           infoString = 'Nie udało się opublikować projektu na stronie. ';

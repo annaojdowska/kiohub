@@ -15,6 +15,8 @@ import { EmailInvitationService } from '../email-invitation-service/email-invita
 import { InputListElement } from '../model/input-list-element';
 import { ValueUtils } from '../utils/value-utils';
 import { ProjectManagementSpinnerComponent } from '../ui-elements/spinner/project-management-spinner/project-management-spinner.component';
+import { MatDialogConfig, MatDialog } from '../../../node_modules/@angular/material';
+import { DeleteDialogComponent } from '../ui-elements/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-edit-project-management-tab',
@@ -53,7 +55,8 @@ export class EditProjectManagementTabComponent implements OnInit {
     @Inject(ProjectService) private projectService: ProjectService,
     @Inject(UserService) private userService: UserService,
     @Inject(EmailInvitationService) private emailInvitationService: EmailInvitationService,
-    @Inject(Router) private router: Router) { }
+    @Inject(Router) private router: Router,
+    @Inject(MatDialog) private dialog: MatDialog) { }
 
 
   ngOnInit() {
@@ -108,9 +111,19 @@ export class EditProjectManagementTabComponent implements OnInit {
   }
 
   deleteProject() {
-    this.projectService.deleteProject(this.editedProject.id).subscribe(result => console.log(result));
-    // if success
-    this.router.navigate(['home']);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.projectService.deleteProject(this.editedProject.id).subscribe(data => {
+          this.router.navigate(['home']);
+        });
+        window.location.reload();
+      }
+    });
   }
   selectionSuperUserVisibilityChange(value: Visibility) {
     this.supervisorVisibility = value;

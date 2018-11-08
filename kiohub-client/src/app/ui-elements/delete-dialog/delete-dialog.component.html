@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Usunięcie projektu</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Czy chcesz bezpowrotnie usunąć ten projekt?</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Anuluj</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Usuń</button>
+</mat-dialog-actions>

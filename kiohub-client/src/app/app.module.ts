@@ -69,6 +69,7 @@ import { SupervisorGuard } from './guards/supervisor.guard';
 import { CollaboratorGuard } from './guards/collaborator.guard';
 import { ProjectManagementSpinnerComponent } from './ui-elements/spinner/project-management-spinner/project-management-spinner.component';
 import { PublishedGuard } from './guards/published.guard';
+import { DeleteDialogComponent } from './ui-elements/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { PublishedGuard } from './guards/published.guard';
     SearchResultSingleProjectOptionsComponent,
     SpinnerUpdateProjectComponent,
     SpinnerDownloadAttachmentComponent,
-    ProjectManagementSpinnerComponent
+    ProjectManagementSpinnerComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -167,7 +169,8 @@ import { PublishedGuard } from './guards/published.guard';
   ],
   entryComponents: [
     ImageDialogComponent,
-    PublishDialogComponent
+    PublishDialogComponent,
+    DeleteDialogComponent
   ],
   bootstrap: [AppComponent]
 })
