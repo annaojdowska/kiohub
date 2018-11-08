@@ -146,7 +146,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   }
 
   manageVisibility(project: Project) {
-    if (project.descriptionEng.length > 0) {
+    if (project.descriptionEng) {
       this.descriptionHidden = false;
     } else {
       this.descriptionHidden = true;
@@ -156,9 +156,9 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
     } else {
       this.filesHidden = true;
     }
-    if (project.tags.length > 0 || project.semesters.length > 0 || project.licence.name !== 'Brak'
-      || project.publicationDate.toString().length > 0 || project.projectType.name.length > 0) {
-      this.detailsHidden = false;
+    if (project.tags.length > 0 || project.semesters.length > 0 || project.licence && project.licence.name !== 'Brak'
+      || project.publicationDate || project.projectType) {
+        this.detailsHidden = false;
       if (project.tags.length > 0) {
         this.tagsHidden = false;
       } else {
@@ -169,17 +169,17 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       } else {
         this.semestersHidden = true;
       }
-      if (project.licence.name !== 'Brak') {
+      if (project.licence && project.licence.name !== 'Brak') {
         this.licenceHidden = false;
       } else {
         this.licenceHidden = true;
       }
-      if (project.publicationDate.toString().length > 0) {
+      if (project.publicationDate) {
         this.publicationDateHidden = false;
       } else {
         this.publicationDateHidden = true;
       }
-      if (project.projectType.name.length > 0) {
+      if (project.projectType) {
         this.projectTypeHidden = false;
       } else {
         this.projectTypeHidden = true;
