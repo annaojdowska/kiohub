@@ -120,7 +120,7 @@ export class EditProjectNotesTabComponent implements OnInit {
     const editNoteContent = this.editNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
     this.noteService
-      .editNote(this.inputEditId, editNoteContent, visibility, this.projectId)
+      .editNote(this.inputEditId, editNoteContent, visibility)
       .subscribe(result => {
         this.downloadNotes();
         this.noteEditInputShows = false;

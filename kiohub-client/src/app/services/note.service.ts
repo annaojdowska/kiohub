@@ -33,11 +33,10 @@ export class NoteService {
         return this.http.delete(address + '/note/delete/' +  id);
     }
 
-    editNote(id: number, content: string, isPrivate: number, projectId: number) {
+    editNote(id: number, content: string, isPrivate: number) {
         const params = new HttpParams()
             .set('content', content)
-            .set('isPrivate', isPrivate.toString())
-            .set('projectId', projectId.toString());
+            .set('isPrivate', isPrivate.toString());
         return this.http.post<string>(address + '/note/update/' + id, params);
     }
 }

@@ -66,12 +66,11 @@ public class NoteController extends MainController {
     }
 
     @PostMapping(path = "/update/{id}")
-    @PreAuthorize("@securityService.hasPermissionToNote(#request, #projectId)")
+    @PreAuthorize("@securityService.hasPermissionToNote(#request, #id)")
     public ResponseEntity update(
             @PathVariable("id") Long id,
             @RequestParam("content") String content,
             @RequestParam("isPrivate") String isPrivate,
-            @RequestParam("projectId") Long projectId,
             HttpServletRequest request){
         try {
             Note noteToUpdate = noteRepository.findById(id).get();
