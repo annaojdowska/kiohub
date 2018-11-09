@@ -29,8 +29,8 @@ export class NoteService {
         return this.http.post<string>(address + '/note/add', params);
     }
 
-    deleteNote(projectId: number, id: number) {
-        return this.http.delete(address + '/note/delete/' +  id, {params: {'projectId' : projectId.toString()}});
+    deleteNote(id: number) {
+        return this.http.delete(address + '/note/delete/' +  id);
     }
 
     editNote(id: number, content: string, isPrivate: number, projectId: number) {
