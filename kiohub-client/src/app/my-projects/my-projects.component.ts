@@ -67,9 +67,8 @@ export class MyProjectsComponent implements OnInit {
               @Inject(FilterService) private filterService: FilterService) { }
 
   ngOnInit() {
-    this.sortingRules = [this.sortingService.alphabetical,
-      this.sortingService.by_publication_date_descending,
-      this.sortingService.by_publication_date_ascending];
+    this.sortingRules = [this.sortingService.alphabeticallyAZ,
+      this.sortingService.alphabeticallyZA];
     this.checkedClosed = false;
     this.checkedInProgress = false;
     this.checkedProblematic = false;
@@ -183,15 +182,12 @@ export class MyProjectsComponent implements OnInit {
   }
 
   applySorting(sortingRule: string) {
-    if (sortingRule === this.sortingService.alphabetical) {
+    if (sortingRule === this.sortingService.alphabeticallyAZ) {
       this.displayedProjects = this.displayedProjects
-        .sort((a, b) => this.sortingService.sortAlphabetically(a.title, b.title));
-    } else if (sortingRule === this.sortingService.by_publication_date_descending) {
+        .sort((a, b) => this.sortingService.sortAlphabeticallyAZ(a.title, b.title));
+    } else if (sortingRule === this.sortingService.alphabeticallyZA) {
       this.displayedProjects = this.displayedProjects
-        .sort((a, b) => this.sortingService.sortByDateDescending(a.publicationDate, b.publicationDate));
-    } else if (sortingRule === this.sortingService.by_publication_date_ascending) {
-      this.displayedProjects = this.displayedProjects
-      .sort((a, b) => this.sortingService.sortByDateAscending(a.publicationDate, b.publicationDate));
+        .sort((a, b) => this.sortingService.sortAlphabeticallyZA(a.title, b.title));
     }
     this.sortAndSetByPinned();
   }

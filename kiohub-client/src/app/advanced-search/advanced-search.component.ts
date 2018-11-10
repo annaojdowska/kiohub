@@ -43,9 +43,10 @@ export class AdvancedSearchComponent implements OnInit {
     @Inject(SortingService) private sortingService: SortingService) {
     this.showNoResultsLabel = false;
     this.searchResults = [];
-    this.sortingRules = [sortingService.alphabetical,
-    sortingService.by_publication_date_descending,
-    sortingService.by_publication_date_ascending];
+    this.sortingRules = [sortingService.alphabeticallyAZ,
+      sortingService.alphabeticallyZA,
+      sortingService.by_publication_date_descending,
+      sortingService.by_publication_date_ascending];
   }
 
   ngOnInit() {
@@ -66,8 +67,10 @@ export class AdvancedSearchComponent implements OnInit {
       this.searchResults = results;
       this.applySorting(this.sortingService.by_relevancy);
       this.handleNoResults(this.searchResults.length === 0);
-      this.sortingRules = [this.sortingService.alphabetical, this.sortingService.by_publication_date_descending,
-      this.sortingService.by_publication_date_ascending, this.sortingService.by_relevancy];
+      this.sortingRules = [this.sortingService.alphabeticallyAZ, this.sortingService.alphabeticallyZA,
+        this.sortingService.by_publication_date_descending,
+        this.sortingService.by_publication_date_ascending,
+        this.sortingService.by_relevancy];
     });
   }
 
@@ -89,9 +92,12 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
   applySorting(sortingRule: string) {
-    if (sortingRule === this.sortingService.alphabetical) {
+    if (sortingRule === this.sortingService.alphabeticallyAZ) {
       this.searchResults = this.searchResults
-        .sort((a, b) => this.sortingService.sortAlphabetically(a.project.title, b.project.title));
+        .sort((a, b) => this.sortingService.sortAlphabeticallyAZ(a.project.title, b.project.title));
+    } else if (sortingRule === this.sortingService.alphabeticallyZA) {
+      this.searchResults = this.searchResults
+        .sort((a, b) => this.sortingService.sortAlphabeticallyZA(a.project.title, b.project.title));
     } else if (sortingRule === this.sortingService.by_publication_date_descending) {
       this.searchResults = this.searchResults
         .sort((a, b) => this.sortingService.sortByDateDescending(a.project.publicationDate, b.project.publicationDate));

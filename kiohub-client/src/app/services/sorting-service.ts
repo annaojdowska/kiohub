@@ -3,19 +3,29 @@ import { Project } from '../model/project.interface';
 
 @Injectable()
 export class SortingService {
-  alphabetical = 'Alfabetycznie';
+  alphabeticallyAZ = 'Alfabetycznie od A do Z';
+  alphabeticallyZA = 'Alfabetycznie od Z do A';
   by_publication_date_descending = 'Od najnowszych';
   by_publication_date_ascending = 'Od najstarszych';
   by_relevancy = 'Najtrafniejsze';
   constructor() { }
 
-  sortAlphabetically(a: string, b: string): number {
+  sortAlphabeticallyAZ(a: string, b: string): number {
     if (a > b) {
       return 1;
     } else if (a === b) {
       return 0;
     }
     return -1;
+  }
+
+  sortAlphabeticallyZA(a: string, b: string): number {
+    if (a > b) {
+      return -1;
+    } else if (a === b) {
+      return 0;
+    }
+    return 1;
   }
 
   sortByDateDescending(a: Date, b: Date): number {
