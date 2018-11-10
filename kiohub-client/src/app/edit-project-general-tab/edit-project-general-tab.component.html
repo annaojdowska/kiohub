@@ -5,13 +5,14 @@
     <app-error-info #publishResult></app-error-info>
     <app-spinner-update-project #uploadInfoSpinner></app-spinner-update-project>
     <div>
-        <mat-form-field class="wrapper-right">
-            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" [disabled]="!isUserSupervisor() | async" 
+        <mat-form-field class="wrapper-right" *ngIf="isUserSupervisor()">
+            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" 
                 placeholder="Status projektu*"
                 (selectionChange)="onProjectStatusChange($event)">
                 <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
             </mat-select>
         </mat-form-field>
+        <label *ngIf="!isUserSupervisor()">Status projektu: {{editedProject?.projectStatus?.name}}</label>
         <app-error-info #projectStatusError errorText="{{validation.errorStringStatus}}" errorType="ERROR"></app-error-info>
     </div>
     <form>
