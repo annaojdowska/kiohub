@@ -16,7 +16,7 @@
             </div>
         </div>
         </div>
-        <div id="wrapper-padding-top" class="wrapper_width_element component">
+        <div [hidden]="authorsLabelHidden" class="{{authorsLabelHidden ? 'component' : 'wrapper_width_element component'}}" id="{{authorsLabelHidden ? '' : 'wrapper-padding-top'}}" >
             <img src="assets/authors.png" />
             <h4>Autorzy</h4>
             <table>
@@ -43,7 +43,7 @@
             </table>
         </div>
 
-        <div [hidden]="detailsHidden" class="{{detailsHidden ? 'component' : 'wrapper_width_element component'}}">
+        <div [hidden]="detailsHidden" class="{{detailsHidden ? 'component' : 'wrapper_width_element component'}}" id="{{authorsLabelHidden ? 'wrapper-padding-top' : ''}}">
             <img src="assets/information.png" />
             <h4>Informacje szczegółowe</h4>
             <table>
