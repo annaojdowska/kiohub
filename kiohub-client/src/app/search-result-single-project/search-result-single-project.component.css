@@ -6,6 +6,7 @@
 
 #info {
     display: grid;
+    margin-right:45px;
 }
 #project_result_container {
     display: block;
