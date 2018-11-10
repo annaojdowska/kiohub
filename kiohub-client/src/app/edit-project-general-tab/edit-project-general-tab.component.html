@@ -6,7 +6,7 @@
     <app-spinner-update-project #uploadInfoSpinner></app-spinner-update-project>
     <div>
         <mat-form-field class="wrapper-right">
-            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" [disabled]="isUserSupervisor()" 
+            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" [disabled]="!isUserSupervisor() | async" 
                 placeholder="Status projektu*"
                 (selectionChange)="onProjectStatusChange($event)">
                 <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>

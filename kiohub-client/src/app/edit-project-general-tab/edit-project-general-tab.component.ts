@@ -283,6 +283,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       result.semesters.forEach(semester => {
         this.semesterChooser.chooseSemester(semester);
       });
+      this.semestersHidden = result.semesters.length > 0;
       result.attachments.forEach(at => {
         switch (at.type) {
           case AttachmentType.THESIS: {
@@ -312,7 +313,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
         }
       });
     });
-    this.semestersHidden = this.editedProject.semesters.length > 0;
+    this.semestersHidden = true;
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
