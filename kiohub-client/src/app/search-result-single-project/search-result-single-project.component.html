@@ -1,6 +1,7 @@
-<div id="project_result_container"  (click)="navigateToDetails()">
+<div id="project_result_container">
     <app-search-result-single-project-options #options *ngIf="allowPin || allowEdit" [allowPin]="allowPin" [allowEdit]="allowEdit" class="options" [projectId]="project.id"></app-search-result-single-project-options>
-  <img class="project_image" *ngIf="!showDefault; else noImageFound" [src]="mainPhoto">
+  <div id="inner_content" (click)="navigateToDetails()">
+    <img class="project_image" *ngIf="!showDefault; else noImageFound" [src]="mainPhoto">
   <ng-template #noImageFound>
       <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
   </ng-template>
@@ -13,4 +14,5 @@
     <p >{{descriptionToDisplay}}</p>
     <app-input-list [removable]="false" hideInput="true" #tagsList></app-input-list>
   </div>
+</div>
 </div>

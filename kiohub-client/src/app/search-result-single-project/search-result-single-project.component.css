@@ -22,6 +22,11 @@
     cursor: pointer;
 }
 
+#inner_content {
+    min-height: 25vh;    
+    min-width: 58vw;
+}
+
 p {
     padding-right: 1vw;
     text-align: justify;
