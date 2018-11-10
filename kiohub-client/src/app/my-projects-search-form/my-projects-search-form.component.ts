@@ -81,6 +81,8 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   }
 
   submit() {
+    this.addTag();
+    this.addTitle();
     if (this.formVal.validateAllElements()) {
       const query = new QueryDescription();
       this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));

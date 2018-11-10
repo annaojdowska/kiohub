@@ -102,6 +102,10 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   }
 
   submit() {
+    this.addTag();
+    this.addSupervisor();
+    this.addTitle();
+    this.addDescription();
     if (this.formVal.validateAllElements()) {
       const query = new QueryDescription();
       this.supervisorsList.elements.map(element => element.name).forEach(name => query.supervisors.push(name));
