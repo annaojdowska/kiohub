@@ -167,7 +167,8 @@ export class MyProjectsComponent implements OnInit {
   }
 
   executeFilterByStatus(status: string) {
-    this.displayedProjects = this.filteredProjects.filter(project => project.projectStatus.name === status);
+    this.displayedProjects = this.filteredProjects
+      .filter(project => project.projectStatus && project.projectStatus.name === status);
     this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
     this.sortAndSetByPinned();
   }
