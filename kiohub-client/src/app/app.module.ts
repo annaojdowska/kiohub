@@ -70,6 +70,7 @@ import { CollaboratorGuard } from './guards/collaborator.guard';
 import { ProjectManagementSpinnerComponent } from './ui-elements/spinner/project-management-spinner/project-management-spinner.component';
 import { PublishedGuard } from './guards/published.guard';
 import { DeleteDialogComponent } from './ui-elements/delete-dialog/delete-dialog.component';
+import { RulesComponent } from './rules/rules.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,8 @@ import { DeleteDialogComponent } from './ui-elements/delete-dialog/delete-dialog
     SpinnerUpdateProjectComponent,
     SpinnerDownloadAttachmentComponent,
     ProjectManagementSpinnerComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    RulesComponent
   ],
   imports: [
     BrowserModule,

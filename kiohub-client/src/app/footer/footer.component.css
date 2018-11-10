@@ -24,7 +24,7 @@
     width: 100%;
 }
 
-#text-copyright-kio {
+.text-url {
     color: var(--color-blue);
     display: inline-block;
     font-weight: bold;
@@ -33,4 +33,8 @@
 #logo_pg {
     height: 25px;
     margin-right: 20px;
+}
+
+#rules {
+    text-align: center;
 }
