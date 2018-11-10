@@ -152,9 +152,6 @@ export class EditProjectManagementTabComponent implements OnInit {
           if (!element.id) {
             toAddCollaboratorsElements.push(element);
             toUpdateCounter += 2; // Add Collaborator and send email
-          } else {
-            toVisibilityUpdateElements.push(element);
-            toUpdateCounter++;
           }
         });
         this.myselfList.elements.forEach(element => {
