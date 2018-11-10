@@ -55,6 +55,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   publicationDateHidden;
   projectTypeHidden;
   detailsHidden;
+  authorsLabelHidden;
 
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -71,6 +72,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       this.publicationDateHidden = true;
       this.projectTypeHidden = true;
       this.detailsHidden = true;
+      this.authorsLabelHidden = true;
   }
 
   ngOnInit(): void {
@@ -106,7 +108,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       });
     });
     // FIXME a co jak error?
-      this.setDownloadElements();
+    this.setDownloadElements();
   }
 
   async getItem(id: number) {
@@ -118,10 +120,6 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       this.collaborators = result;
       this.manageAuthorsVisibility(result);
     });
-    this.userService.getSupervisorByProjectId(projectId).subscribe(result => {
-      this.supervisor = result;
-      this.manageSupervisorVisibility(result);
-    });
     this.projectService.getRelatedProjects(projectId).subscribe(result => {
       const filteredRelatedProjects = result.filter(project => project.published === true);
       this.relatedProjects = filteredRelatedProjects;
@@ -130,11 +128,19 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   }
 
   manageAuthorsVisibility(result) {
-    if (result.filter(p => p.user.firstName !== '' && p.user.lastName !== '').length > 0) {
-      this.authorsHidden = false;
-    } else {
-      this.authorsHidden = true;
-    }
+    this.userService.getSupervisorByProjectId(this.id).subscribe(sup => {
+      this.supervisor = sup;
+      if (result.filter(p => p.user.firstName !== '' && p.user.lastName !== '').length > 0) {
+        this.authorsHidden = false;
+        this.authorsLabelHidden = false;
+      } else {
+        this.authorsHidden = true;
+        if (!this.valueUtils.isNullOrUndefined(sup)) {
+          this.authorsLabelHidden = false;
+        }
+      }
+      this.manageSupervisorVisibility(sup);
+    });
   }
 
   manageSupervisorVisibility(result: User) {

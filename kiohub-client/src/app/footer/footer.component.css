@@ -21,10 +21,11 @@
 
 #text-copyright {
     text-align: right;
-    width: 100%;
+    margin-left: auto; 
+    margin-right: 0;
 }
 
-#text-copyright-kio {
+.text-url {
     color: var(--color-blue);
     display: inline-block;
     font-weight: bold;
@@ -33,4 +34,10 @@
 #logo_pg {
     height: 25px;
     margin-right: 20px;
+}
+
+#rules {
+    text-align: center;
+    margin-left: auto; 
+    margin-right: 0;
 }
