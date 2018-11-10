@@ -273,6 +273,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
   ngOnInit() {
     const projectId = this.getParametersFromRouter();
+    this.semestersHidden = false;
     this.getDataFromLocalStorage();
 
     this.projectService.getProjectById(projectId).subscribe(result => {
@@ -283,6 +284,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       result.semesters.forEach(semester => {
         this.semesterChooser.chooseSemester(semester);
       });
+      this.semestersHidden = result.semesters.length > 0 ? true : false;
       result.attachments.forEach(at => {
         switch (at.type) {
           case AttachmentType.THESIS: {
