@@ -12,7 +12,13 @@
                 <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <label *ngIf="!isUserSupervisor()">Status projektu: {{editedProject?.projectStatus?.name}}</label>
+        <mat-form-field class="wrapper-right" *ngIf="!isUserSupervisor()">
+            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" 
+                [disabled]="true"
+                placeholder="Status projektu*">
+                <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
         <app-error-info #projectStatusError errorText="{{validation.errorStringStatus}}" errorType="ERROR"></app-error-info>
     </div>
     <form>
