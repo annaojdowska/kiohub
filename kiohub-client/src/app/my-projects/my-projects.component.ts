@@ -51,6 +51,7 @@ export class MyProjectsComponent implements OnInit {
   checkedClosed: boolean;
   checkedProblematic: boolean;
   projectStatuses: ProjectStatus[];
+  isLoggedAndSupervisor = false;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp; this.assignPaginatorToDataSource();
   }
@@ -73,6 +74,7 @@ export class MyProjectsComponent implements OnInit {
     this.checkedInProgress = false;
     this.checkedProblematic = false;
     this.projectStatusService.getStatuses().subscribe(result => this.projectStatuses = result);
+    this.userService.isLoggedAndSupervisor().subscribe(result => this.isLoggedAndSupervisor = result);
     this.userService.getCurrentUser().subscribe(user => {
       this.currentUser = user;
       if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
@@ -227,5 +229,9 @@ export class MyProjectsComponent implements OnInit {
     this.displayedProjects = this.projects;
     this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
     this.sortAndSetByPinned();
+  }
+
+  isUserSupervisor(): boolean {
+    return this.isLoggedAndSupervisor;
   }
 }

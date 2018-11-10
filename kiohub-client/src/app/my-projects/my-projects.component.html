@@ -1,4 +1,4 @@
-<button type="button" mat-stroked-button id="add-project-button" mat-stroked-button (click)="navigateToAddProjectPage()">
+<button *ngIf="isUserSupervisor()" type="button" mat-stroked-button id="add-project-button" mat-stroked-button (click)="navigateToAddProjectPage()">
     Dodaj nowy projekt
 </button>
 
