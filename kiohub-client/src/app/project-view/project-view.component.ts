@@ -151,18 +151,6 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
     }
   }
 
-  manageAuthorsLabelVisibility() {
-    console.log(this.collaborators);
-    console.log(this.supervisor);
-    if (this.collaborators.filter(p => p.user.firstName !== '' && p.user.lastName !== '').length === 0
-        && this.valueUtils.isNullOrUndefined(this.supervisor)) {
-      this.authorsLabelHidden = true;
-    } else {
-      this.authorsLabelHidden = false;
-      alert('siema');
-    }
-  }
-
   manageVisibility(project: Project) {
     if (project.descriptionEng) {
       this.descriptionHidden = false;
