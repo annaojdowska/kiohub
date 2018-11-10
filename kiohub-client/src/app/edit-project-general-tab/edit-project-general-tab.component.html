@@ -4,9 +4,10 @@
     <app-error-info #updateResult></app-error-info>
     <app-error-info #publishResult></app-error-info>
     <app-spinner-update-project #uploadInfoSpinner></app-spinner-update-project>
-    <div *ngIf="isUserSupervisor()">
+    <div>
         <mat-form-field class="wrapper-right">
-            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*"
+            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" [disabled]="isUserSupervisor()" 
+                placeholder="Status projektu*"
                 (selectionChange)="onProjectStatusChange($event)">
                 <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
             </mat-select>

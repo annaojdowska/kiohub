@@ -312,6 +312,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
         }
       });
     });
+    this.semestersHidden = this.editedProject.semesters.length > 0;
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
