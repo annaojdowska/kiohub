@@ -18,6 +18,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   @Input() project: Project;
   @Input() allowPin = false;
   @Input() allowEdit = false;
+  @Input() showIfPublished: boolean;
   @ViewChild('tagsList') tagsList: InputListComponent;
   @ViewChild('options') options: SearchResultSingleProjectOptionsComponent;
   private descriptionToDisplay: string;
@@ -99,6 +100,22 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
       } else {
       this.descriptionToDisplay = this.project.description;
       }
+    }
+  }
+
+  displayPublished(): boolean {
+    if (this.showIfPublished) {
+      return this.showIfPublished;
+    } else {
+      return false;
+    }
+  }
+
+  displayPublicationState(): string {
+    if (this.project) {
+      return this.project.published ? '(opublikowany)' : '(nieopublikowany)';
+    } else {
+      return '';
     }
   }
 }

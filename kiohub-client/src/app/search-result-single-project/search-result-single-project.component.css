@@ -31,5 +31,12 @@ p {
 }
 
 .title {
-    padding-right: 60px;
+    padding-right: 15px;
+}
+
+h2 {
+    display: inline;  
+}
+h3 {
+    display: inline;
 }
