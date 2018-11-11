@@ -1,5 +1,5 @@
 <div id="project_result_container">
-    <app-search-result-single-project-options #options *ngIf="allowPin || allowEdit" (pinOptionsUpdate)="pinUpdate()" [allowPin]="allowPin" [allowEdit]="allowEdit" class="options" [projectId]="project.id"></app-search-result-single-project-options>
+    <app-search-result-single-project-options #options *ngIf="allowPin || allowEdit" (pinOptionsUpdate)="pinOptionsUpdate()" [allowPin]="allowPin" [allowEdit]="allowEdit" class="options" [projectId]="project.id"></app-search-result-single-project-options>
   <div id="inner_content" (click)="navigateToDetails()">
     <img class="project_image" *ngIf="!showDefault; else noImageFound" [src]="mainPhoto">
   <ng-template #noImageFound>
