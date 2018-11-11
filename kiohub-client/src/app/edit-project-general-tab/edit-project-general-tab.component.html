@@ -27,6 +27,7 @@
             <mat-form-field class="wrapper-width">
                 <input matInput ngModel #titlePl name="titlePl" (ngModelChange)="onTitlePlChange($event)" pattern="{{getTitlePlPattern()}}"
                     value="{{editedProject?.title}}">
+                 <mat-hint class="maxlength" align="end">{{titlePl.value.length}} / {{MAX_LENGTH_TITLE_PL}}</mat-hint>
             </mat-form-field>
             <app-error-info #titlePlError errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
             <br />
@@ -37,6 +38,7 @@
             <mat-form-field class="wrapper-width">
                 <textarea matInput ngModel #descriptionPl id="wrapper-height" name="descriptionPl" (ngModelChange)="onDescriptionPlChange($event)"
                     value="{{editedProject?.description}}"></textarea>
+                    <mat-hint class="maxlength" align="end">{{descriptionPl.value.length}} / {{MAX_LENGTH_DESCRIPTION_PL}}</mat-hint>
             </mat-form-field>
             <app-error-info #descriptionPlError errorText="{{validation.errorStringDescriptionPl}}" errorType="ERROR"></app-error-info>
             <br />
@@ -47,6 +49,7 @@
             <mat-form-field class="wrapper-width">
                 <input matInput #titleEn name="titleEn" (ngModelChange)="onTitleEnChange($event)" pattern="{{getString(0, 255)}}"
                     value="{{editedProject?.titleEng}}" ngModel>
+                    <mat-hint class="maxlength" align="end">{{titleEn.value.length}} / {{MAX_LENGTH_TITLE_EN}}</mat-hint>
             </mat-form-field>
             <app-error-info #titleEnError errorText="{{validation.errorStringTitleEn}}" errorType="ERROR"></app-error-info>
             <br />
@@ -57,6 +60,7 @@
             <mat-form-field class="wrapper-width">
                 <textarea matInput ngModel #descriptionEn id="wrapper-height" name="descriptionEn" (ngModelChange)="onDescriptionEnChange($event)"
                     value="{{editedProject?.descriptionEng}}"></textarea>
+                    <mat-hint class="maxlength" align="end">{{descriptionEn.value.length}} / {{MAX_LENGTH_DESCRIPTION_EN}}</mat-hint>
             </mat-form-field>
             <app-error-info #descriptionEnError errorText="{{validation.errorStringDescriptionEn}}" errorType="ERROR"></app-error-info>
             <br />

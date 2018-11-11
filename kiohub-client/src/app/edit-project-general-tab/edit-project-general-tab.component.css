@@ -100,3 +100,7 @@ img, .verticalMiddle {
 #tooltipImg {
     vertical-align: initial;
 }
+
+.maxlength {
+    font-size: var(--small-font-size);
+}

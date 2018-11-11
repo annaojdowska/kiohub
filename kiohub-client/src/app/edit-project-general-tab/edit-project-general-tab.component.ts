@@ -80,6 +80,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('manualUsageStartupError') manualUsageStartupError: ErrorInfoComponent;
   @ViewChild('otherFileError') otherFileError: ErrorInfoComponent;
 
+  // valueS from database
+  MAX_LENGTH_TITLE_PL = 255;
+  MAX_LENGTH_DESCRIPTION_PL = 2000;
+  MAX_LENGTH_TITLE_EN = 255;
+  MAX_LENGTH_DESCRIPTION_EN = 2000;
+
+
   editedProject: Project;
   statuses: Status[];
   licences: Licence[];

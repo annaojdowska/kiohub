@@ -156,6 +156,7 @@ export class MyProjectsComponent implements OnInit {
 
   clearQuickFiltering() {
     this.checkButton(false, false, false);
+    this.lastFilteredStatus = null;
     this.displayedProjects = this.filteredProjects;
     this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
     this.sortAndSetByPinned();
