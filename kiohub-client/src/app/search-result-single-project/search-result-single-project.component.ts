@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, AfterContentInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Inject, AfterContentInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Project } from '../model/project.interface';
 import { Router } from '@angular/router';
 import { AttachmentService } from '../services/attachment.service';
@@ -32,6 +32,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
    @Inject(AttachmentService) private attachmentService: AttachmentService,
    @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
    @Inject(LoginService) private loginService: LoginService) { }
+   @Output() pinUpdate = new EventEmitter();
 
   ngOnInit() {
     this.showDefault = true;
@@ -54,6 +55,10 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
     this.getImageFromService();
     this.initializeDescriptionDisplay();
     this.project.tags.forEach(tag => this.tagsList.add({name: tag.name}));
+  }
+
+  pinOptionsUpdate() {
+    this.pinUpdate.emit();
   }
 
   navigateToDetails() {

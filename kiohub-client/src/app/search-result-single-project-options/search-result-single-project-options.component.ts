@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Input, Inject, AfterContentInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '../../../node_modules/@angular/router';
 import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
 import { UserService } from '../services/user.service';
@@ -16,6 +16,7 @@ export class SearchResultSingleProjectOptionsComponent {
   @Input() allowEdit = true;
   @Input() allowPin = true;
   @Input() projectId: number;
+  @Output() pinOptionsUpdate = new EventEmitter();
 
   PIN = 'PIN';
   EDIT = 'EDIT';
@@ -47,12 +48,14 @@ export class SearchResultSingleProjectOptionsComponent {
               this.userPinnedProjects.unPin(userId, this.projectId).subscribe(data => {
                 this.pinned = false;
                 this.pinnedTextRefresh();
+                this.pinOptionsUpdate.emit();
               console.log('ok pinnded:' + this.pinned);
               });
             } else {
               this.userPinnedProjects.pin(userId, this.projectId).subscribe(data => {
                 this.pinned = true;
                 this.pinnedTextRefresh();
+                this.pinOptionsUpdate.emit();
               console.log('ok pinnded:' + this.pinned);
               });
             }
