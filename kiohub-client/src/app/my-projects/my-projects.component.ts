@@ -211,7 +211,7 @@ export class MyProjectsComponent implements OnInit {
       if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
         this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
         .subscribe(results => {
-          this.displayedProjects = this.projects;
+          this.displayedProjects = results;
           this.filterByStatus(this.lastFilteredStatus);
           this.applySorting(this.lastSortingRule);
           this.sortAndSetByPinned();
