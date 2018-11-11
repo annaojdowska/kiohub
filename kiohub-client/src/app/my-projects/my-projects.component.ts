@@ -129,27 +129,29 @@ export class MyProjectsComponent implements OnInit {
   }
 
   filterByStatus(statusName: string) {
-    this.lastFilteredStatus = statusName;
-    if (statusName === this.statusInProgress) {
-      if (this.checkedInProgress) {
-        this.clearQuickFiltering();
-        return;
+    if (statusName) {
+      this.lastFilteredStatus = statusName;
+      if (statusName === this.statusInProgress) {
+        if (this.checkedInProgress) {
+          this.clearQuickFiltering();
+          return;
+        }
+        this.checkButton(true, false, false);
+      } else if (statusName === this.statusClosed) {
+        if (this.checkedClosed) {
+          this.clearQuickFiltering();
+          return;
+        }
+        this.checkButton(false, true, false);
+      } else {
+        if (this.checkedProblematic) {
+          this.clearQuickFiltering();
+          return;
+        }
+        this.checkButton(false, false, true);
       }
-      this.checkButton(true, false, false);
-    } else if (statusName === this.statusClosed) {
-      if (this.checkedClosed) {
-        this.clearQuickFiltering();
-        return;
-      }
-      this.checkButton(false, true, false);
-    } else {
-      if (this.checkedProblematic) {
-        this.clearQuickFiltering();
-        return;
-      }
-      this.checkButton(false, false, true);
+    this.executeFilterByStatus(statusName);
     }
-   this.executeFilterByStatus(statusName);
   }
 
   clearQuickFiltering() {
@@ -218,9 +220,7 @@ export class MyProjectsComponent implements OnInit {
   }
 
   sortAndSetByPinned() {
-    this.loginService.getLogged().subscribe(user => {
-      if (user) {
-        this.userPinnedProjectsService.allPinned(user.id).subscribe(pinneds => {
+        this.userPinnedProjectsService.allPinned(this.currentUser.id).subscribe(pinneds => {
           if (!this.valueUtils.isNullOrUndefined(this.displayedProjects)) {
           this.displayedProjects = this.displayedProjects
           .sort((a, b) => this.sortingService.sortByPinned(pinneds.includes(a.id), pinneds.includes(b.id)));
@@ -228,14 +228,6 @@ export class MyProjectsComponent implements OnInit {
           this.assignPaginatorToDataSource();
           this.handleNoResults(this.displayedProjects.length === 0);
         }});
-      } else {
-        this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
-        this.assignPaginatorToDataSource();
-        this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
-      }
-    }, error => {
-      this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
-   });
   }
 
   removeFilters() {
