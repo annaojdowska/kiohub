@@ -45,6 +45,8 @@ export class MyProjectsComponent implements OnInit {
   displayedColumns: string[] = ['results'];
   paginator: MatPaginator;
   sortingRules: string[];
+  lastSortingRule: string;
+  lastFilteredStatus: string;
   valueUtils = new ValueUtils();
   currentUser: User;
   checkedInProgress: boolean;
@@ -127,6 +129,7 @@ export class MyProjectsComponent implements OnInit {
   }
 
   filterByStatus(statusName: string) {
+    this.lastFilteredStatus = statusName;
     if (statusName === this.statusInProgress) {
       if (this.checkedInProgress) {
         this.clearQuickFiltering();
@@ -182,6 +185,7 @@ export class MyProjectsComponent implements OnInit {
   }
 
   applySorting(sortingRule: string) {
+    this.lastSortingRule = sortingRule;
     if (sortingRule === this.sortingService.alphabeticallyAZ) {
       this.displayedProjects = this.displayedProjects
         .sort((a, b) => this.sortingService.sortAlphabeticallyAZ(a.title, b.title));
@@ -198,6 +202,19 @@ export class MyProjectsComponent implements OnInit {
     } else {
       return this.displayedProjects.length;
     }
+  }
+
+  // For resorting when unpin project
+  refreshSortAndFilter() {
+      if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
+        this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
+        .subscribe(results => {
+          this.displayedProjects = this.projects;
+          this.filterByStatus(this.lastFilteredStatus);
+          this.applySorting(this.lastSortingRule);
+          this.sortAndSetByPinned();
+        });
+      }
   }
 
   sortAndSetByPinned() {
