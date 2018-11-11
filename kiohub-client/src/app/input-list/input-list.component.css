@@ -16,6 +16,7 @@
 .chip-list-wrapper {
     display: block !important;
     margin: 4px;
+    overflow: hidden;
 }
 
 .chip-text {
@@ -26,9 +27,10 @@
     margin-right: 10px !important;
 }
 
-.chip-remove {
+img.chip-remove {
     opacity: 0.95 !important;
     float: right;
+    margin-right: 10px;
 }
 
 .chip-visibility {
@@ -70,4 +72,8 @@
 .chip-input-angular {
     width: 100%;
     margin: 0;
+}
+
+.right-elements {
+    float: right;
 }

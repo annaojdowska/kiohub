@@ -11,7 +11,7 @@
     </div>
 </div>
 <div *ngIf="showFilters" [@fadeInOut]>
-    <app-my-projects-search-form id="searchForm" (pinUpdate)="sortAndSetByPinned()" (removeFilters)="removeFilters()"></app-my-projects-search-form>
+    <app-my-projects-search-form id="searchForm" (removeFilters)="removeFilters()"></app-my-projects-search-form>
 </div>
 
 <div id="quick-filter-buttons-container">
@@ -38,7 +38,7 @@
             <th mat-header-cell *matHeaderCellDef [hidden]="true"> Wyniki wyszukiwania </th>
             <td mat-cell *matCellDef="let project">
                 <a>
-                    <app-search-result-single-project [project]="project" 
+                    <app-search-result-single-project [project]="project" (pinUpdate)="sortAndSetByPinned()"
                     [allowPin]="true" [allowEdit]="true" [showIfPublished]="true"></app-search-result-single-project>
                 </a>
             </td>
