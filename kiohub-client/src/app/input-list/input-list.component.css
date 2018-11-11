@@ -27,10 +27,9 @@
     margin-right: 10px !important;
 }
 
-img.chip-remove {
+.chip-remove {
     opacity: 0.95 !important;
     float: right;
-    margin-right: 10px;
 }
 
 .chip-visibility {
@@ -76,4 +75,5 @@ img.chip-remove {
 
 .right-elements {
     float: right;
+    margin-right: 20px;
 }
