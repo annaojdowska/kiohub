@@ -34,7 +34,7 @@ export class Validation {
     readonly errorStringDescriptionEn = 'Opis powinien mieć maksymalnie' + this.MAX_SIZE_DESCRIPTION_EN + ' znaków.';
     readonly errorStringEmail = 'Podaj poprawny adres email. Akceptowanymi identyfikatorami są: s<nr_albumu>@student.pg.edu.pl.';
     readonly errorStringEmails = 'Podaj co najmniej jednego autora projektu.';
-    readonly errorStringDatesOrder = 'Data publikacji "od" powinna być starsza od daty "do".';
+    readonly errorStringDatesOrder = 'Data publikacji w serwisie "od" powinna być starsza od daty "do".';
     readonly errorStringSendingInvitations = 'Wysłanie zaproszeń do studentów nie powiodło się.';
     // attachment
     readonly errorStringThesis = this.WRONG_EXTENSION + this.fileUtils.getThesisExtensions() + '.';

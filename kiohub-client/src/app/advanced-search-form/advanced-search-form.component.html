@@ -33,7 +33,7 @@
             <mat-icon matPrefix><img class="tooltip-img" matTooltip="{{descriptionTooltip}}" src="../../assets/question.png"></mat-icon>
         </mat-form-field>
 
-        <label class="center">Data publikacji:</label>
+        <label class="center">Data publikacji w serwisie:</label>
         <mat-form-field class="leftLabel">
             <input matInput ngModel #dateInput1  [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="formVal.dateFromChanged('change', $event)"
                 disabled>
