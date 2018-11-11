@@ -19,6 +19,7 @@ export class InputListComponent implements OnInit {
   @Input() placeholder = 'Kolejne adresy e-mail rozdziel przecinkami, spacjami lub wciśnij enter';
   @Input() selectable = false;
   @Output() elementRemoved = new EventEmitter<InputListElement>();
+  @Input() allowLoggedUsers = true;
 
   focusedStyle = '';
   elements: InputListElement[] = [];
