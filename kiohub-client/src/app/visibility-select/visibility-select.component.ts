@@ -20,11 +20,13 @@ export class VisibilitySelectComponent implements OnInit {
 
 
   constructor() {
-    console.log('constructor ' + this.selected);
+    console.log('Przed z sie' + this.selected);
+    this.selected = this.selected ? this.selected : Visibility.EVERYONE;
+    console.log('Zmien sie' + this.selected);
   }
 
   ngOnInit() {
-    console.log('ngOnInit ' + this.selected);
+    console.log('ngOnInit' + this.selected);
     }
 
   selectChange(value: Visibility) {
