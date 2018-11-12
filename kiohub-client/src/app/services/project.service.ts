@@ -68,7 +68,9 @@ export class ProjectService {
     return this.http.post<Project>(address + '/project/set-related/' + id , relatedProjects, this.httpOptions);
   }
 
-  isProjectPublishedOrUserIsCollaborator(id: number) {
-    return this.http.post<boolean>(address + '/security/isProjectPublishedOrUserIsCollaborator/' + id, this.httpOptions);
+  isProjectPublishedOrUserIsCollaborator(projectId: number) {
+    const params = new HttpParams()
+    .set('projectId', projectId.toString());
+    return this.http.post<boolean>(address + '/security/isProjectPublishedOrUserIsCollaborator', params, this.httpOptions);
   }
 }
