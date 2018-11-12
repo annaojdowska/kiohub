@@ -11,14 +11,13 @@ import { LoggedGuard } from './guards/logged.guard';
 import { CollaboratorGuard } from './guards/collaborator.guard';
 import { PublishedGuard } from './guards/published.guard';
 import { RulesComponent } from './rules/rules.component';
-import { OrGuard } from './guards/or.guard';
 
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
   { path: 'add-project', component: AddProjectComponent, canActivate: [SupervisorGuard] },
   { path: 'edit-project/:id', component: EditProjectTabComponent, canActivate: [CollaboratorGuard] },
   { path: 'projects-base', component: AdvancedSearchComponent },
-  { path: 'details/:id', component: ProjectViewComponent, canActivate: [new OrGuard(PublishedGuard, CollaboratorGuard)] },
+  { path: 'details/:id', component: ProjectViewComponent, canActivate: [PublishedGuard] },
   { path: 'my-projects', component: MyProjectsComponent, canActivate: [LoggedGuard] },
   { path: 'rules', component: RulesComponent },
   { path: '**', component: UnloggedSearchComponent }
