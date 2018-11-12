@@ -22,11 +22,16 @@ export class PublishedGuard implements CanActivate {
       const editedProjectId: number = Number.parseInt(next.url[1].toString());
       if (editedProjectId && !Number.isNaN(editedProjectId)) {
         return this.projectService.isProjectPublishedOrUserIsCollaborator(editedProjectId).pipe<boolean>(map(response => {
-          return response;
+          if (response) {
+            return true;
+          } else {
+            this.router.navigate(['/home']);
+            return false;
+          }
         }));
       } else {
         this.router.navigate(['/home']);
-        return false; // błąd w adresie
+        return false;
       }
   }
 }
