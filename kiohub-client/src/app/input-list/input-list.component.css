@@ -31,7 +31,7 @@
 }
 
 .chip-margin1 {
-    margin-right: 50px !important;
+    margin-right: 10px !important;
 }
 
 .chip-margin2 {
@@ -87,4 +87,8 @@
 .right-elements-vertical {
     float: right;
     margin-right: 20px;
+}
+
+.right-elements-horizontal {
+    float: right;
 }
