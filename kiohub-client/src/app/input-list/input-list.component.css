@@ -20,11 +20,12 @@
 }
 
 .chip-text {
-    display: inline-block;
+    display: inline;
     font-size: 15px;
     font-family: var(--main-font-name), sans-serif;
     margin-left: 10px !important;
-    margin-right: 10px !important;
+    margin-right: 100px !important;
+    cursor: pointer;
 }
 
 .chip-remove {
@@ -45,6 +46,7 @@
 
 .chip-radio {
     margin-bottom: 3px !important;
+    cursor: pointer;
 }
 
 .chip-remove:hover {
@@ -61,7 +63,6 @@
     border-radius: 0px !important;
     padding: 7px;
     margin: 4px;
-    cursor: pointer;
 }
 
 .chip-form-angular {
