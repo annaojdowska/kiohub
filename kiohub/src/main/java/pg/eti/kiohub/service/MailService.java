@@ -16,6 +16,7 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import pg.eti.kiohub.entity.model.Project;
+import pg.eti.kiohub.entity.repository.ProjectRepository;
 
 /**
  *
@@ -41,10 +44,16 @@ public class MailService {
     @Value("${mail.invitation.subject:Zaproszenie do projektu}")
     private String subject; 
     
-    @Value("${mail.invitation.text:Bierzesz udział w projekcie - {projectName}}")
+    @Value("${mail.invitation.text:Bierzesz udział w projekcie - {projectName} {projectLink}}")
     private String text; 
+    
+    @Value("${mail.invitation.address:kiohub.pg.edu.pl/edit-project/{projectId}}")
+    private String address; 
+    
+   @Autowired
+    private ProjectRepository projectRepository;
   
-    public void sendInvitation(String title, List<String> emails) throws AddressException, MessagingException {
+    public void sendInvitation(Long projectId, List<String> emails) throws AddressException, MessagingException {
         
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -58,12 +67,18 @@ public class MailService {
             }
         });
 
+        Project project = projectRepository.getOne(projectId);
+        String link = address.replaceAll("\\{projectId\\}", project.getId().toString());
+        String messageText = text.replaceAll("\\{projectLink\\}", link);
+        messageText = messageText.replaceAll("\\{projectName\\}", project.getTitle());
+        
         for (String email: emails) {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email)); //recipients
             message.setSubject(subject);
-            message.setText(text.replaceAll("\\{projectName\\}", title));
+            
+            message.setText(messageText);
 
             Transport.send(message);     
         }            

@@ -176,7 +176,7 @@ export class EditProjectManagementTabComponent implements OnInit {
             .subscribe(x => {
               this.spinner.addNewCollaboratorSuccess(element.name);
               updatedSuccessCounter++;
-              this.emailInvitationService.send(this.editedProject.title, [element.name])
+              this.emailInvitationService.send(this.editedProject.id, [element.name])
                 .subscribe(sent => {
                   updatedSuccessCounter++;
                   this.spinner.addNewEmailSuccess(element.name);

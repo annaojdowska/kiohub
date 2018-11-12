@@ -31,13 +31,14 @@ public class MailController extends MainController {
     @PostMapping(path = "/sendinvitation")
     @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     public ResponseEntity sendInvitation (
-            @RequestParam("titlePl") String titlePl,
+            @RequestParam("projectId") String projectId,
             @RequestParam("collaborators") String emails,
             HttpServletRequest request) {
-
+        
+        Long _projectId = Long.parseLong(projectId);
         List<String> mails = Arrays.asList(emails.split(", "));
         try {
-            mailService.sendInvitation(titlePl, mails);
+            mailService.sendInvitation(_projectId, mails);
         }
         catch (AddressException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);

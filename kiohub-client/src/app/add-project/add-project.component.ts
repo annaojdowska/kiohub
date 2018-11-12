@@ -102,7 +102,7 @@ export class AddProjectComponent implements OnInit {
           this.spinner.showSpinner('Proszę czekać. Trwa dodawanie projektu oraz wysyłanie zaproszeń do studentów.');
           this.project = data;
           console.log(this.project);
-          this.sendInvitationsAndRedirect(title, this.authorsList.elements.map(e => e.name));
+          this.sendInvitationsAndRedirect(this.project.id, this.authorsList.elements.map(e => e.name));
           this.emailError.setDisplay(false);
         },
         error => {
@@ -115,10 +115,10 @@ export class AddProjectComponent implements OnInit {
     }
   }
 
-  sendInvitationsAndRedirect(title, collaborators: string[]) {
+  sendInvitationsAndRedirect(projectId: number, collaborators: string[]) {
     console.log(this.project);
 
-    this.emailInvitationService.send(title, collaborators)
+    this.emailInvitationService.send(projectId, collaborators)
       .subscribe(
         (response: any) => {
           this.valueUtils.saveToSession(this.valueUtils.invitationsOk, true);
