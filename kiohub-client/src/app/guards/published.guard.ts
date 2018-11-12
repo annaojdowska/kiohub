@@ -3,7 +3,6 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { Observable } from 'rxjs';
 import { ProjectService } from '../services/project.service';
 import { map } from '../../../node_modules/rxjs/operators';
-import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +11,7 @@ export class PublishedGuard implements CanActivate {
 
   constructor(
     @Inject(Router) private router: Router,
-    @Inject(ProjectService) private projectService: ProjectService,
-    @Inject(UserService) private userService: UserService
+    @Inject(ProjectService) private projectService: ProjectService
   ) {}
 
   canActivate(
@@ -23,21 +21,14 @@ export class PublishedGuard implements CanActivate {
       if (editedProjectId && !Number.isNaN(editedProjectId)) {
         return this.projectService.getProjectById(editedProjectId).pipe(map(project => {
           if (project && project.published) {
-            return true; // projekt jest upubliczniony - każdy może do niego wejść
+            return true;
           } else {
-            this.userService.loggedIsCollaborator(editedProjectId).pipe(map(loggedIsCollaborator => {
-              if (loggedIsCollaborator) {
-                return true; // projekt nie jest upubliczniony ale zalogowany to collaborator - może do niego wejść
-              } else {
-                this.router.navigate(['/home']);
-                return false; // projekt nie jest upubliczniony i zalogowany to nie collaborator - nie może do niego wejść
-              }
-          }));
+            this.router.navigate(['/home']);
+            return false;
           }
         }));
       } else {
-        this.router.navigate(['/home']);
-        return false; // błąd w adresie
+        return false;
       }
   }
 }

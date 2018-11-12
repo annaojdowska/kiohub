@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'add-project', component: AddProjectComponent, canActivate: [SupervisorGuard] },
   { path: 'edit-project/:id', component: EditProjectTabComponent, canActivate: [CollaboratorGuard] },
   { path: 'projects-base', component: AdvancedSearchComponent },
-  { path: 'details/:id', component: ProjectViewComponent, canActivate: [PublishedGuard] },
+  { path: 'details/:id', component: ProjectViewComponent, canActivate: [PublishedGuard, CollaboratorGuard] },
   { path: 'my-projects', component: MyProjectsComponent, canActivate: [LoggedGuard] },
   { path: 'rules', component: RulesComponent },
   { path: '**', component: UnloggedSearchComponent }
