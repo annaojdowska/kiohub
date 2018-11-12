@@ -81,7 +81,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
     this.route.params.subscribe(routeParams => {
       this.id = routeParams.id;
       this.getItem(this.id).then(project => {
-        if (project.published) {
+        if (!project.published) {
          this.previewModeInfo.setDisplay(true);
         }
         this.project = project;

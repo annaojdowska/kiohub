@@ -19,13 +19,23 @@
     overflow: hidden;
 }
 
+
+
 .chip-text {
     display: inline;
     font-size: 15px;
     font-family: var(--main-font-name), sans-serif;
     margin-left: 10px !important;
-    margin-right: 100px !important;
+    margin-right: 10px !important;
     cursor: pointer;
+}
+
+.chip-margin1 {
+    margin-right: 50px !important;
+}
+
+.chip-margin2 {
+    margin-right: 100px !important;
 }
 
 .chip-remove {
