@@ -12,6 +12,7 @@ import { UserEmail } from '../model/user-email.interface';
 import { ValueUtils } from '../utils/value-utils';
 import { FileDownloaderView } from '../ui-elements/download-element/file-downloader-view';
 import { SpinnerDownloadAttachmentComponent } from '../ui-elements/spinner/spinner-download-attachment/spinner-download-attachment.component';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
 
 @Component({
   selector: 'app-project-view',
@@ -37,6 +38,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   @ViewChild('downloadOther') downloadOther: DownloadElementComponent;
   @ViewChild('slider') imageSlider: ImageSliderComponent;
   @ViewChild('downloadSpinner') downloadSpinner: SpinnerDownloadAttachmentComponent;
+  @ViewChild('previewModeInfo') previewModeInfo: ErrorInfoComponent;
 
   valueUtils = new ValueUtils();
   supervisor: User;
@@ -79,6 +81,9 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
     this.route.params.subscribe(routeParams => {
       this.id = routeParams.id;
       this.getItem(this.id).then(project => {
+        if (project.published) {
+         this.previewModeInfo.setDisplay(true);
+        }
         this.project = project;
         this.initData(this.project.id);
         this.downloadThesis.attachments = this.project.attachments;

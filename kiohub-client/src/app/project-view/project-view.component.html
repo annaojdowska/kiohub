@@ -1,4 +1,4 @@
-<app-error-info *ngIf="!(project?.published)" [display]="block"  errorText="Ten projekt nie został jeszcze opublikowany. Znajdujesz się w trybie podglądu dostępnym tylko dla współautorów projektu" errorType="SUCCESS"></app-error-info>
+<app-error-info #previewModeInfo errorText="Ten projekt nie został jeszcze opublikowany. Znajdujesz się w trybie podglądu dostępnym tylko dla współautorów projektu" errorType="SUCCESS"></app-error-info>
 
 <h2>{{project?.title}}</h2>
 
