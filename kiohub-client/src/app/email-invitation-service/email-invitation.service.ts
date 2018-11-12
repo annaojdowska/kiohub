@@ -16,7 +16,7 @@ export class EmailInvitationService {
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   send(projectId: number, collaborators: string[]) {
-    const params = new HttpParams().set('titlePl', projectId.toString()).set('collaborators', collaborators.join(', '));
+    const params = new HttpParams().set('projectId', projectId.toString()).set('collaborators', collaborators.join(', '));
     console.log(params);
     return this.http.post(address + '/email/sendinvitation', params);
   }
