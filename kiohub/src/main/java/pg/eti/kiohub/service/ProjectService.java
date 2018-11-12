@@ -36,4 +36,8 @@ public class ProjectService {
                 .filter(project -> project.getPublished())
                 .collect(Collectors.toList());
     }
+    
+    public boolean isProjectPublished(Long projectId){
+        return projectRepository.findById(projectId).get().getPublished();
+    }
 }

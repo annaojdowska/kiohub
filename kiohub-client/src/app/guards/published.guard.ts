@@ -21,19 +21,8 @@ export class PublishedGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
       const editedProjectId: number = Number.parseInt(next.url[1].toString());
       if (editedProjectId && !Number.isNaN(editedProjectId)) {
-        return this.projectService.getProjectById(editedProjectId).pipe<boolean>(map(project => {
-          if (project && project.published) {
-            return true; // projekt jest upubliczniony - każdy może do niego wejść
-          } else {
-            return this.userService.loggedIsCollaborator(editedProjectId).pipe<boolean>(map(loggedIsCollaborator => {
-              if (loggedIsCollaborator) {
-                return true; // projekt nie jest upubliczniony ale zalogowany to collaborator - może do niego wejść
-              } else {
-                this.router.navigate(['/home']);
-                return false; // projekt nie jest upubliczniony i zalogowany to nie collaborator - nie może do niego wejść
-              }
-          }));
-          }
+        return this.projectService.isProjectPublishedOrUserIsCollaborator(editedProjectId).pipe<boolean>(map(response => {
+          return response;
         }));
       } else {
         this.router.navigate(['/home']);

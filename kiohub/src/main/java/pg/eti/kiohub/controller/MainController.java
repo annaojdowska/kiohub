@@ -87,6 +87,9 @@ public class MainController {
     SearchService searchService;
 
     @Autowired
+    protected SecurityService securityService;
+    
+    @Autowired
     AttachmentService attachmentService;
 
 
