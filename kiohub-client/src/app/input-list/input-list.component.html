@@ -13,7 +13,7 @@
           <div [ngClass]="visibilityChangeable ? (removable ? 'chip-margin2 chip-text' : 'chip-margin1 chip-text') : (removable ? 'chip-margin1 chip-text' : 'chip-text')" (click)="select(fruit)">
               {{fruit.name}}
           </div>
-          <div class='right-elements'>
+          <div *ngIf="removable || visibilityChangeable" class="right-elements-{{orientation}}">
             <img matTooltip='{{tooltipDelete}}' src="assets/delete-button-smaller.png" matChipRemove *ngIf="removable" class="chip-remove chip-image"/>
             <app-visibility-select matTooltip='{{tooltipVisibility}}' *ngIf='visibilityChangeable' [selected]="fruit.visibility" [allowPrivate]="false" [allowLoggedUsers]="allowLoggedUsers" (selectionChange)="selectionChange(fruit, $event)" class="chip-image chip-visibility"></app-visibility-select>
           </div>
