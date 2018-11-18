@@ -114,6 +114,11 @@ a:link, a:visited, a:hover, a:active {
     color: inherit;
 }
 
+label {
+    cursor: default !important;
+}
+
+
 *:focus {
     outline: none;
 }
