@@ -288,6 +288,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.publishWarning.setDisplay(true);
 
     this.projectService.getProjectById(projectId).subscribe(result => {
+      this.publishWarning.setDisplay(this.isUserSupervisor() && !this.isProjectAlreadyPublished());
       this.editedProject = result;
       result.tags.forEach(tag => {
         this.tagsList.add({ id: tag.id, name: tag.name });
@@ -645,7 +646,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   isUserSupervisor(): boolean {
-    return this.isLoggedUserSupervisor;; // testy: true
+    return this.isLoggedUserSupervisor; // testy: true
   }
 
   isProjectAlreadyPublished() {
