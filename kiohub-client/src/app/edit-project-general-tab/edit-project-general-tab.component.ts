@@ -288,8 +288,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.publishWarning.setDisplay(false);
 
     this.projectService.getProjectById(projectId).subscribe(result => {
-      this.publishWarning.setDisplay(this.isUserSupervisor() && !this.isProjectAlreadyPublished());
       this.editedProject = result;
+      this.publishWarning.setDisplay(this.isUserSupervisor() && !this.isProjectAlreadyPublished());
 
       
       console.log(this.isUserSupervisor());
