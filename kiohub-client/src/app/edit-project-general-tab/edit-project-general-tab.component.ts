@@ -285,9 +285,11 @@ export class EditProjectGeneralTabComponent implements OnInit {
     const projectId = this.getParametersFromRouter();
     this.semestersHidden = false;
     this.getDataFromLocalStorage();
-    this.publishWarning.setDisplay(true);
+    this.publishWarning.setDisplay(false);
 
     this.projectService.getProjectById(projectId).subscribe(result => {
+      console.log(this.isUserSupervisor());
+      console.log(!this.isProjectAlreadyPublished());
       this.publishWarning.setDisplay(this.isUserSupervisor() && !this.isProjectAlreadyPublished());
       this.editedProject = result;
       result.tags.forEach(tag => {
@@ -634,10 +636,12 @@ export class EditProjectGeneralTabComponent implements OnInit {
           .subscribe(data => {
             infoString = 'Pomyślnie opublikowano projekt na stronie. Zmieniono status projektu na "Zakończony".';
             this.onCompleted(infoString, ErrorType.SUCCESS);
+            this.viewUtils.scrollToTop();
             window.location.reload();
           }, error => {
             infoString = 'Nie udało się opublikować projektu na stronie. ';
             this.onCompleted(infoString, ErrorType.ERROR);
+            this.viewUtils.scrollToTop();
             window.location.reload();
           });
         }
