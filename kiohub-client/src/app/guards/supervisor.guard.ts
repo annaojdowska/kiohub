@@ -3,11 +3,14 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { Observable } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { map } from '../../../node_modules/rxjs/operators';
+import { ValueUtils } from '../utils/value-utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupervisorGuard implements CanActivate {
+  private valueUtils = new ValueUtils();
+
   constructor(
     @Inject(Router) private router: Router,
     @Inject(UserService) private userService: UserService,
@@ -20,6 +23,7 @@ export class SupervisorGuard implements CanActivate {
       if (isLoggedAndSupervisor) {
         return true;
       } else {
+        this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
         this.router.navigate(['/home']);
         return false;
       }

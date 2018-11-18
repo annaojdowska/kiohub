@@ -4,11 +4,13 @@ import { Observable } from 'rxjs';
 import { ProjectService } from '../services/project.service';
 import { map } from '../../../node_modules/rxjs/operators';
 import { UserService } from '../services/user.service';
+import { ValueUtils } from '../utils/value-utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PublishedGuard implements CanActivate {
+  private valueUtils = new ValueUtils();
 
   constructor(
     @Inject(Router) private router: Router,
@@ -25,11 +27,13 @@ export class PublishedGuard implements CanActivate {
           if (response) {
             return true;
           } else {
+            this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
             this.router.navigate(['/home']);
             return false;
           }
         }));
       } else {
+        this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
         this.router.navigate(['/home']);
         return false;
       }

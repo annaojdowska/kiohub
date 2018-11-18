@@ -118,10 +118,11 @@ export class EditProjectManagementTabComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.projectService.deleteProject(this.editedProject.id).subscribe(data => {
+        this.projectService.deleteProject(this.editedProject.id)
+        .subscribe(data => {
+          this.valueUtils.saveToSession(this.valueUtils.deletedProjectBoolean, true);
           this.router.navigate(['home']);
         });
-        window.location.reload();
       }
     });
   }
@@ -231,10 +232,11 @@ export class EditProjectManagementTabComponent implements OnInit {
   }
 
   isUserSupervisor(): boolean {
-    return this.isLoggedAndSupervisor;
+    return this.isLoggedAndSupervisor; // testy: true
   }
 
   isMyself(userId: number): boolean {
-    return this.loggedUser.id === userId;
+    return this.loggedUser.id === userId; // testy: true
   }
+
 }

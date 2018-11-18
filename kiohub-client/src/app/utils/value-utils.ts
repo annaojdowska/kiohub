@@ -1,8 +1,11 @@
 
 export class ValueUtils {
+    createdProjectBoolean = 'createdProject';
     updatedProjectBoolean = 'updatedProject';
     savedNoteBoolean = 'savedNote';
     updatedProjectText = 'updatedProjectText';
+    deletedProjectBoolean = 'deletedProject';
+    unauthorizedBoolean = 'unauthorized';
     // SUCCESS, ERROR, WARNING
     updatedProjectStatus = 'udpatedProjectStatus';
     publishProjectBoolean = 'publishProject';

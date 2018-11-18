@@ -79,6 +79,8 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('manualUsageError') manualUsageError: ErrorInfoComponent;
   @ViewChild('manualUsageStartupError') manualUsageStartupError: ErrorInfoComponent;
   @ViewChild('otherFileError') otherFileError: ErrorInfoComponent;
+  @ViewChild('publishWarning') publishWarning: ErrorInfoComponent;
+  @ViewChild('createdProject') createdProject: ErrorInfoComponent;
 
   // valueS from database
   MAX_LENGTH_TITLE_PL = 255;
@@ -106,7 +108,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   projects: Project[] = [];
   projectAttachmentsUpdatingInProgress: boolean;
   viewUtils = new ViewUtils();
-  isLoggedUserSupervisor = false;
+  isLoggedUserSupervisor = false; // testy: true
 
   tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
     + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
@@ -252,6 +254,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   getDataFromLocalStorage() {
+    this.createdProject.setDisplay(this.valueUtils.getBooleanAndRemoveFromSession(this.valueUtils.createdProjectBoolean));
     // display info about project update
     this.hardlyUpdatedProject = this.valueUtils.getBooleanAndRemoveFromSession(this.valueUtils.updatedProjectBoolean);
     if (this.hardlyUpdatedProject) {
@@ -282,6 +285,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
     const projectId = this.getParametersFromRouter();
     this.semestersHidden = false;
     this.getDataFromLocalStorage();
+    this.publishWarning.setDisplay(true);
 
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
@@ -616,27 +620,35 @@ export class EditProjectGeneralTabComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogConfig = new MatDialogConfig();
-    let infoString;
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
+    if (this.validateAllElements()) {
+      const dialogConfig = new MatDialogConfig();
+      let infoString;
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
 
-    const dialogRef = this.dialog.open(PublishDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
-        this.projectService.publishProject(this.editedProject.id).subscribe(data => {
-          infoString = 'Pomyślnie opublikowano projekt na stronie. Zmieniono status projektu na "Zakończony".';
-          this.onCompleted(infoString, ErrorType.SUCCESS);
-        }, error => {
-          infoString = 'Nie udało się opublikować projektu na stronie. ';
-          this.onCompleted(infoString, ErrorType.ERROR);
-        });
-        window.location.reload();
-      }
-    });
+      const dialogRef = this.dialog.open(PublishDialogComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.projectService.publishProject(this.editedProject.id)
+          .subscribe(data => {
+            infoString = 'Pomyślnie opublikowano projekt na stronie. Zmieniono status projektu na "Zakończony".';
+            this.onCompleted(infoString, ErrorType.SUCCESS);
+            window.location.reload();
+          }, error => {
+            infoString = 'Nie udało się opublikować projektu na stronie. ';
+            this.onCompleted(infoString, ErrorType.ERROR);
+            window.location.reload();
+          });
+        }
+      });
+    }
   }
 
   isUserSupervisor(): boolean {
-    return this.isLoggedUserSupervisor;
+    return this.isLoggedUserSupervisor;; // testy: true
+  }
+
+  isProjectAlreadyPublished() {
+    return this.editedProject.published;
   }
 }

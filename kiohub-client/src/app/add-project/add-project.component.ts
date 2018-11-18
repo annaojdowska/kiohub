@@ -92,26 +92,18 @@ export class AddProjectComponent implements OnInit {
     const title = this.titleInput.nativeElement.value;
     if (this.validateAllElements()) {
       console.log(title);
-      // console.log('Próbuję dodać projekt.');
-      // const httpStatus = this.projectService.getTitleUnique(title).subscribe(res => {
-      //   if (res !== 409) {
       console.log('Dodaję projekt.');
       const httpStatus2 = this.projectService.addProject(title, this.authorsList.elements.map(e => e.name))
         .subscribe((data: Project) => {
           this.errorInfo.setDisplay(false);
           this.spinner.showSpinner('Proszę czekać. Trwa dodawanie projektu oraz wysyłanie zaproszeń do studentów.');
           this.project = data;
-          console.log(this.project);
-          this.sendInvitationsAndRedirect(this.project.id, this.authorsList.elements.map(e => e.name));
           this.emailError.setDisplay(false);
+          this.sendInvitationsAndRedirect(this.project.id, this.authorsList.elements.map(e => e.name));
         },
         error => {
           this.errorInfo.setDisplay(true);
         });
-      // } else {
-      //   console.log('ERROR: Istnieje już projekt o takim projekcie.');
-      // }
-      // });
     }
   }
 
@@ -122,12 +114,12 @@ export class AddProjectComponent implements OnInit {
       .subscribe(
         (response: any) => {
           this.valueUtils.saveToSession(this.valueUtils.invitationsOk, true);
-          console.log('udało się wysłać zaproszenia');
+          this.valueUtils.saveToSession(this.valueUtils.createdProjectBoolean, true);
           this.router.navigate(['/edit-project', this.project.id]);
         },
         error => {
           this.valueUtils.saveToSession(this.valueUtils.invitationsOk, false);
-          console.log('nie udało się wysłać zaproszeń :(');
+          this.valueUtils.saveToSession(this.valueUtils.createdProjectBoolean, true);
           this.router.navigate(['/edit-project', this.project.id]);
         }
       );
