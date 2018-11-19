@@ -50,6 +50,8 @@ import pg.eti.kiohub.utils.FileUtils;
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {
 
+    private static final int MAX_ATTACHMENT_SIZE_IN_BYTES = 100000000;
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -66,61 +68,65 @@ public class AttachmentControler extends MainController {
             @RequestParam("MainPhoto") String mainPhoto,
             HttpServletRequest request) {
 
-        log.info("_____________________________ NEW REQUEST ________________________________");
-        Attachment attachment = new Attachment();
+        if (multipartFile.getSize() < MAX_ATTACHMENT_SIZE_IN_BYTES) {
+            log.info("_____________________________ NEW REQUEST ________________________________");
+            Attachment attachment = new Attachment();
 
-        try {
-            Project project = super.projectRepository.getOne(Long.parseLong(projectId));
-            String filename = new File(multipartFile.getOriginalFilename()).getName();
-            attachment.setFileName(filename);
-            attachment.setFileSize(multipartFile.getSize());
-            attachment.setType(AttachmentType.valueOf(type));
-            attachment.setProject(project);
-            attachment.setVisibility(Visibility.valueOf(visibility));
-            attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
-        } catch (NumberFormatException ex) {
-            return ExceptionHandlingUtils.handleException(ex);
-        }
-
-        try {
-            attachment = attachmentRepository.saveAndFlush(attachment);
-        } catch (Exception ex) {
-            attachmentService.rollbackSaveAttachment(attachment);
-            return ExceptionHandlingUtils.handleException(ex);
-        }
-
-        try {
-            log.info("SAVED ATTACHMENT WITH ID " + attachment.getId() + ", FILE SIZE = " + attachment.getFileSize());
-            DataSource ds = (DataSource) appContext.getBean("dataSource");
-            String insertQuery = "INSERT INTO `attachments_files` (attachments_id, file) VALUES (?, ?)";
-
-            try (
-                    Connection connection = ds.getConnection();
-                    PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)
-            ) {
-
-                preparedStatement.setLong(1, attachment.getId());
-                preparedStatement.setBlob(2, multipartFile.getInputStream(), attachment.getFileSize());
-                int affectedRows = preparedStatement.executeUpdate();
-                if (affectedRows == 0) {
-                    log.info("ERROR: affectedRows = 0");
-                    return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
-                }
-                log.info("EVERYTHING OK! SAVED " + affectedRows + " ROWS!");
+            try {
+                Project project = super.projectRepository.getOne(Long.parseLong(projectId));
+                String filename = new File(multipartFile.getOriginalFilename()).getName();
+                attachment.setFileName(filename);
+                attachment.setFileSize(multipartFile.getSize());
+                attachment.setType(AttachmentType.valueOf(type));
+                attachment.setProject(project);
+                attachment.setVisibility(Visibility.valueOf(visibility));
+                attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
+            } catch (NumberFormatException ex) {
+                return ExceptionHandlingUtils.handleException(ex);
             }
-        }
-        catch (Error ex) {
-            attachmentService.rollbackSaveAttachment(attachment);
-            log.info("Error: " + ex.getMessage());
-            return ExceptionHandlingUtils.handleException(ex);
-        }
-        catch (Exception ex) {
-            attachmentService.rollbackSaveAttachment(attachment);
-            log.info("Exception: " + ex.getMessage());
-            return ExceptionHandlingUtils.handleException(ex);
-        }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+            try {
+                attachment = attachmentRepository.saveAndFlush(attachment);
+            } catch (Exception ex) {
+                attachmentService.rollbackSaveAttachment(attachment);
+                return ExceptionHandlingUtils.handleException(ex);
+            }
+
+            try {
+                log.info("SAVED ATTACHMENT WITH ID " + attachment.getId() + ", FILE SIZE = " + attachment.getFileSize());
+                DataSource ds = (DataSource) appContext.getBean("dataSource");
+                String insertQuery = "INSERT INTO `attachments_files` (attachments_id, file) VALUES (?, ?)";
+
+                try (
+                        Connection connection = ds.getConnection();
+                        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)
+                ) {
+
+                    preparedStatement.setLong(1, attachment.getId());
+                    preparedStatement.setBlob(2, multipartFile.getInputStream(), attachment.getFileSize());
+                    int affectedRows = preparedStatement.executeUpdate();
+                    if (affectedRows == 0) {
+                        log.info("ERROR: affectedRows = 0");
+                        return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
+                    }
+                    log.info("EVERYTHING OK! SAVED " + affectedRows + " ROWS!");
+                }
+            } catch (Error ex) {
+                attachmentService.rollbackSaveAttachment(attachment);
+                log.info("Error: " + ex.getMessage());
+                return ExceptionHandlingUtils.handleException(ex);
+            } catch (Exception ex) {
+                attachmentService.rollbackSaveAttachment(attachment);
+                log.info("Exception: " + ex.getMessage());
+                return ExceptionHandlingUtils.handleException(ex);
+            }
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            String error = "Plik nie może być większy niż " + MAX_ATTACHMENT_SIZE_IN_BYTES + " MB.";
+            log.info("Błąd. " + error);
+            return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(path = "/updateMetadata")
@@ -131,7 +137,7 @@ public class AttachmentControler extends MainController {
             @RequestParam("visibility") String visibility,
             @RequestParam("mainPhoto") String mainPhoto,
             HttpServletRequest request) {
-        System.out.println("Aktualizuję ");
+        log.info("Aktualizuję ");
         Attachment attachment = attachmentRepository.getOne(Long.parseLong(attachmentId));
         attachment.setVisibility(Visibility.valueOf(visibility));
         attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));

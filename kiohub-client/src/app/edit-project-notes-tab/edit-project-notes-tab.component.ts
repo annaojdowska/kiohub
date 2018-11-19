@@ -7,6 +7,8 @@ import { User } from '../model/user.interface';
 import { Visibility } from '../model/visibility.enum';
 import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
 import { ViewUtils } from '../utils/view-utils';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { ErrorType } from '../error-info/error-type.enum';
 
 @Component({
   selector: 'app-edit-project-notes-tab',
@@ -38,6 +40,7 @@ export class EditProjectNotesTabComponent implements OnInit {
   @ViewChild('newNoteContent') newNoteContent: any;
   @ViewChild('editNoteContent') editNoteContent: any;
   @ViewChild('spinner') spinner: SpinnerComponent;
+  @ViewChild('info') info: ErrorInfoComponent;
   @Input() visibilityChangeable = true;
 
   getProjectIdFromRouter() {
@@ -87,9 +90,13 @@ export class EditProjectNotesTabComponent implements OnInit {
     const newNoteContent = this.newNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
     this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
-    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId) // testy 437
+    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId) // this.currentUser.id testy: 437
       .subscribe(result => {
         this.downloadNotes();
+        this.info.setComponent(true, ErrorType.SUCCESS, 'Dodano notatkę.');
+      }, error => {
+        this.info.setComponent(true, ErrorType.ERROR, 'Dodawanie notatki nie powiodło się.');
+        this.spinner.setDisplay(false);
       });
   }
 
@@ -97,9 +104,9 @@ export class EditProjectNotesTabComponent implements OnInit {
     this.viewUtils.scrollToTop();
     let editingNote: Note;
     editingNote = this.notes.find(note => note.id === noteId);
-    if (this.currentUser.id === editingNote.ownerId) {
+   if (this.currentUser.id === editingNote.ownerId) { // testy:
       this.showVisibility = true;
-    } else {
+   } else {
       this.showVisibility = false;
     }
     this.inputEditNote = editingNote.content;
@@ -112,6 +119,10 @@ export class EditProjectNotesTabComponent implements OnInit {
     this.noteService.deleteNote(noteId)
       .subscribe(result => {
         this.downloadNotes();
+        this.info.setComponent(true, ErrorType.SUCCESS, 'Usunięto notatkę.');
+      }, error => {
+        this.info.setComponent(true, ErrorType.ERROR, 'Usunięcie notatki nie powiodło się.');
+        this.spinner.setDisplay(false);
       });
   }
 
@@ -124,6 +135,10 @@ export class EditProjectNotesTabComponent implements OnInit {
       .subscribe(result => {
         this.downloadNotes();
         this.noteEditInputShows = false;
+        this.info.setComponent(true, ErrorType.SUCCESS, 'Zaktualizowano notatkę.');
+      }, error => {
+        this.info.setComponent(true, ErrorType.ERROR, 'Nie udało się zaktualizować notatki.');
+        this.spinner.setDisplay(false);
       });
   }
 

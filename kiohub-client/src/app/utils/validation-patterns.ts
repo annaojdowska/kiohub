@@ -19,7 +19,7 @@ export class Validation {
     readonly MAX_SIZE_EMAIL = 30;
 
     readonly MAX_FILENAME_LENGTH = 255;
-    readonly MAX_FILE_SIZE = 2000000000; // in bytes
+    readonly MAX_FILE_SIZE = 100000000; // in bytes
 
     readonly WRONG_EXTENSION = 'Niepoprawny typ pliku lub plik jest zbyt duży (maksymalny rozmiar to ' + this.getMaxFileSizeInMegaBytes() + '). '
                             + 'Podaj plik z jednym z poniższych rozszerzeń: ';
@@ -95,7 +95,8 @@ export class Validation {
     }
 
     getMaxFileSizeInMegaBytes() {
-        return Math.round(this.MAX_FILE_SIZE / (1024 * 1024) * 100) / 100 + ' MB';
+        return 100 + ' MB';
+        // return Math.round(this.MAX_FILE_SIZE / (1024 * 1024) * 100) / 100 + ' MB';
     }
     // ******** REGEX PATTERNS ********
     // creates pattern string allowing to write any character <from,to> times

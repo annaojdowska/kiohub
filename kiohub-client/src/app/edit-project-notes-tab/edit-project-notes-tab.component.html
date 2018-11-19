@@ -3,6 +3,7 @@
 <img id="addImg" (click)="toggleNoteInput()" src="../../assets/add.png" /> <label id="addNoteLabel" (click)="toggleNoteInput()">Dodaj
   nową notatkę</label>
 <app-spinner #spinner></app-spinner>
+<app-error-info #info></app-error-info>
 
 <!-- Formularz dodania notatki -->
 <div *ngIf="noteInputShows != false" class="addNoteDiv">
