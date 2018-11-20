@@ -68,7 +68,6 @@ export class EditProjectManagementTabComponent implements OnInit {
       this.editedProject = result;
       this.userService.getCollaboratorsByProjectId(projectId).subscribe(c => {
         this.collaborators = c.filter(coll => coll.email.includes(this.STUDENT_EMAIL_PATTERN));
-        const projectCollaborators: ProjectCollaborator[] = [];
         this.userService.getCollaboratorsDataByProjectId(projectId).subscribe(pc => {
           this.collaborators.forEach(coll => {
             console.log('ProjeCollab ' + pc.length + ' ' + pc[0].userDataVisible);
@@ -146,7 +145,7 @@ export class EditProjectManagementTabComponent implements OnInit {
         const collaboratorsIds = collaborators.map(c => c.id);
         const authorsListIds = this.authorsList.elements.filter(e => e.id).map(e => e.id);
         collaboratorsIds.forEach(cId => {
-          if (!authorsListIds.includes(cId)) {
+          if (!authorsListIds.includes(cId) && !this.myselfList.elements.find(x => x.id === cId)) {
             toRemoveCollaboratorsIds.push(cId);
             toUpdateCounter++;
           }
