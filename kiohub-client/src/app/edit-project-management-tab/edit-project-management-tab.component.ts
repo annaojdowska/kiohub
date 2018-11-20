@@ -61,6 +61,7 @@ export class EditProjectManagementTabComponent implements OnInit {
 
 
   ngOnInit() {
+    this.authorsList.elements = [];
     this.collaborators = [];
     this.userService.getCurrentUser().subscribe(user => this.loggedUser = user);
     const projectId = this.getProjectIdFromRouter();
@@ -150,7 +151,7 @@ export class EditProjectManagementTabComponent implements OnInit {
             toUpdateCounter++;
           }
         });
-        console.log('authors list in update ' + this.authorsList);
+        console.log('authors list in update ' + this.authorsList.elements);
         this.authorsList.elements.forEach(element => {
           if (!element.id) {
             toAddCollaboratorsElements.push(element);
