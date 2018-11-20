@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UpdatableSpinner } from '../updatable-spinner';
 import { EditProjectGeneralTabComponent } from 'src/app/edit-project-general-tab/edit-project-general-tab.component';
 import { EditProjectManagementTabComponent } from 'src/app/edit-project-management-tab/edit-project-management-tab.component';
+import { ErrorType } from 'src/app/error-info/error-type.enum';
 
 @Component({
   selector: 'app-spinner-update-management',
@@ -14,8 +15,25 @@ export class ProjectManagementSpinnerComponent extends UpdatableSpinner {
 
   protected onUpdateCompleted() {
     const updateResult = this.text;
+    let textToView;
+    let errorType;
     console.log('Zakończono update projektu.');
-    this.viewComponent.onUpdateCompleted(updateResult);
+    if (this.succesList.length > 0) {
+      if (this.failedList.length === 0) {
+        textToView = 'Zapisano.';
+        errorType = ErrorType.SUCCESS;
+      } else {
+        textToView = 'Wystąpił problem z zapisaniem części zmian. Odśwież stronę, by zobaczyć co zostało zmienione.';
+        errorType = ErrorType.WARNING;
+      }
+    } else if (this.failedList.length === 0) {
+      textToView = 'Zapisano.';
+      errorType = ErrorType.SUCCESS;
+    } else {
+      textToView = 'Nie udało się zapisać zmian.';
+      errorType = ErrorType.ERROR;
+    }
+    this.viewComponent.onUpdateCompleted(updateResult, textToView, errorType);
   }
 
   protected setInheritedElements() {

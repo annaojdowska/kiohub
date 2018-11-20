@@ -17,6 +17,7 @@ import { ValueUtils } from '../utils/value-utils';
 import { ProjectManagementSpinnerComponent } from '../ui-elements/spinner/project-management-spinner/project-management-spinner.component';
 import { MatDialogConfig, MatDialog } from '../../../node_modules/@angular/material';
 import { DeleteDialogComponent } from '../ui-elements/delete-dialog/delete-dialog.component';
+import { ErrorType } from '../error-info/error-type.enum';
 
 @Component({
   selector: 'app-edit-project-management-tab',
@@ -42,6 +43,7 @@ export class EditProjectManagementTabComponent implements OnInit {
   @ViewChild('authorInput') authorInput: any;
   @ViewChild('emailError') emailError: ErrorInfoComponent;
   @ViewChild('spinner') spinner: ProjectManagementSpinnerComponent;
+  @ViewChild('updateInfo') updateInfo: ErrorInfoComponent;
 
 
   getProjectIdFromRouter() {
@@ -224,11 +226,14 @@ export class EditProjectManagementTabComponent implements OnInit {
       });
     }
 
-  onUpdateCompleted(updateResult: string) {
+  onUpdateCompleted(updateResult: string, infoToDisplay: string, errorType: ErrorType) {
     // TODO zapisać zmiany do sesji
     // odświeżyć
     console.log('zakończono update! ' + updateResult);
-    window.location.reload();
+    this.spinner.setDisplay(false);
+    this.updateInfo.setComponent(true, errorType, infoToDisplay);
+    this.ngOnInit();
+    // window.location.reload();
   }
 
   isUserSupervisor(): boolean {
