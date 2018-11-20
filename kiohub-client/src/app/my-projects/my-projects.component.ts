@@ -15,6 +15,7 @@ import { UserPinnedProjectsService } from '../services/user-pinned-projects.serv
 import { LoginService } from '../services/login.service';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { ValueUtils } from '../utils/value-utils';
+import { ErrorType } from '../error-info/error-type.enum';
 
 @Component({
   selector: 'app-my-projects',
@@ -23,11 +24,11 @@ import { ValueUtils } from '../utils/value-utils';
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
-        style({height: '0px'}),
-      animate('500ms linear', style({height: '*'}))
+        style({ height: '0px' }),
+        animate('500ms linear', style({ height: '*' }))
       ]),
       transition(':leave', [
-      animate('500ms linear', style({height: '0px'}))
+        animate('500ms linear', style({ height: '0px' }))
       ])
     ])
   ]
@@ -53,6 +54,7 @@ export class MyProjectsComponent implements OnInit {
   checkedClosed: boolean;
   checkedProblematic: boolean;
   projectStatuses: ProjectStatus[];
+  userHasNoProjects: boolean;
   isLoggedAndSupervisor = false;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp; this.assignPaginatorToDataSource();
@@ -60,47 +62,50 @@ export class MyProjectsComponent implements OnInit {
   @ViewChild('noResultsError') noResultsError: ErrorInfoComponent;
 
   constructor(@Inject(Router) private router: Router,
-              @Inject(ProjectService) private projectService: ProjectService,
-              @Inject(UserService) private userService: UserService,
-              @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
-              @Inject(LoginService) private loginService: LoginService,
-              @Inject(SortingService) private sortingService: SortingService,
-              @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
-              @Inject(FilterService) private filterService: FilterService) { }
+    @Inject(ProjectService) private projectService: ProjectService,
+    @Inject(UserService) private userService: UserService,
+    @Inject(ProjectStatusService) private projectStatusService: ProjectStatusService,
+    @Inject(LoginService) private loginService: LoginService,
+    @Inject(SortingService) private sortingService: SortingService,
+    @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
+    @Inject(FilterService) private filterService: FilterService) { }
 
   ngOnInit() {
     this.sortingRules = [this.sortingService.alphabeticallyAZ,
-      this.sortingService.alphabeticallyZA];
+    this.sortingService.alphabeticallyZA];
     this.checkedClosed = false;
     this.checkedInProgress = false;
     this.checkedProblematic = false;
     this.projectStatusService.getStatuses().subscribe(result => this.projectStatuses = result);
     this.userService.isLoggedAndSupervisor().subscribe(result => this.isLoggedAndSupervisor = result);
-    this.userService.getCurrentUser().subscribe(user => {
+
+    this.userService.getCurrentUser().subscribe(user => {  // testy:  this.userService.getUserById(1, 1).subscribe(user => {
       this.currentUser = user;
+
       if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
         this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
-        .subscribe(results => {
-          this.projects = results;
-          this.displayedProjects = this.projects;
-          this.filteredProjects = this.projects;
-          this.sortAndSetByPinned();
-        });
+          .subscribe(results => {
+            this.projects = results;
+            this.userHasNoProjects = results.length === 0;
+            this.displayedProjects = this.projects;
+            this.filteredProjects = this.projects;
+            this.sortAndSetByPinned();
+          });
       } else {
         this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
       }
     }, error => {
-       this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
+      this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
     });
 
     // debug
-      // this.projectService.getProjectsByCollaboratorId(868)
-      // .subscribe(results => {
-      //   this.projects = results;
-      //   this.displayedProjects = this.projects;
-      //   this.filteredProjects = this.projects;
-      //   this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
-      // });
+    // this.projectService.getProjectsByCollaboratorId(868)
+    // .subscribe(results => {
+    //   this.projects = results;
+    //   this.displayedProjects = this.projects;
+    //   this.filteredProjects = this.projects;
+    //   this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+    // });
   }
 
   navigateToAddProjectPage() {
@@ -150,7 +155,7 @@ export class MyProjectsComponent implements OnInit {
         }
         this.checkButton(false, false, true);
       }
-    this.executeFilterByStatus(statusName);
+      this.executeFilterByStatus(statusName);
     }
   }
 
@@ -165,9 +170,13 @@ export class MyProjectsComponent implements OnInit {
   handleNoResults(value: boolean) {
     this.showNoResultsLabel = value;
     if (value) {
-      this.noResultsError.setComponent(true, 'WARNING', 'Nie znaleziono projektów spełniających zadane kryteria.');
+      if (this.userHasNoProjects) {
+        this.noResultsError.setComponent(true, ErrorType.WARNING, 'Nie jesteś przypisany do żadnych projektów.');
+      } else {
+        this.noResultsError.setComponent(true, ErrorType.WARNING, 'Nie znaleziono projektów spełniających zadane kryteria.');
+      }
     } else {
-      this.noResultsError.setComponent(true, 'SUCCESS', 'Znaleziono poniższe projekty.');
+      this.noResultsError.setComponent(true, ErrorType.SUCCESS, 'Znaleziono poniższe projekty.');
     }
   }
 
@@ -209,26 +218,27 @@ export class MyProjectsComponent implements OnInit {
 
   // For resorting when unpin project
   refreshSortAndFilter() {
-      if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
-        this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
+    if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
+      this.projectService.getProjectsByCollaboratorId(this.currentUser.id)
         .subscribe(results => {
           this.displayedProjects = results;
           this.filterByStatus(this.lastFilteredStatus);
           this.applySorting(this.lastSortingRule);
           this.sortAndSetByPinned();
         });
-      }
+    }
   }
 
   sortAndSetByPinned() {
-        this.userPinnedProjectsService.allPinned(this.currentUser.id).subscribe(pinneds => {
-          if (!this.valueUtils.isNullOrUndefined(this.displayedProjects)) {
-          this.displayedProjects = this.displayedProjects
+    this.userPinnedProjectsService.allPinned(this.currentUser.id).subscribe(pinneds => {
+      if (!this.valueUtils.isNullOrUndefined(this.displayedProjects)) {
+        this.displayedProjects = this.displayedProjects
           .sort((a, b) => this.sortingService.sortByPinned(pinneds.includes(a.id), pinneds.includes(b.id)));
-          this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
-          this.assignPaginatorToDataSource();
-          this.handleNoResults(this.displayedProjects.length === 0);
-        }});
+        this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
+        this.assignPaginatorToDataSource();
+        this.handleNoResults(this.displayedProjects.length === 0);
+      }
+    });
   }
 
   removeFilters() {
