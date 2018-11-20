@@ -15,8 +15,7 @@ private currentUser: User;
 constructor(@Inject(HttpClient) private http: HttpClient) { }
 
     getCurrentUser(): Observable<User> {
-        const utils = new ValueUtils();
-            return this.http.get<User>(address + '/login/getLogged', {responseType: 'json'});
+      return this.http.get<User>(address + '/login/getLogged', {responseType: 'json'});
     }
 
     isLogged(): Observable<boolean> {

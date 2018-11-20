@@ -112,11 +112,12 @@ public class ProjectCollaboratorController extends MainController {
     public ResponseEntity addCollaborator (
             @RequestParam("email") String email,
             @RequestParam("visibility") String visibility,
-            @RequestParam("projectId") String projectId) {
+            @RequestParam("projectId") Long projectId) {
 
         User user = userService.createNewUsersAndGetAllByEmails(Arrays.asList(email)).get(0);
-        Project project = projectRepository.getOne(Long.parseLong(projectId));
-        if (project != null) {
+        Project project = projectRepository.getOne(projectId);
+
+        if (project != null && !collaboratorsService.isCollaboratorAlreadyAdded(projectId, email)) {
             collaboratorsService.createAndSaveCollaborator(project, user, false, Visibility.valueOf(visibility));
             return new ResponseEntity<>(HttpStatus.OK);
         }

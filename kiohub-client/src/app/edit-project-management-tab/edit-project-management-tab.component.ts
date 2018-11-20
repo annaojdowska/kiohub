@@ -10,7 +10,6 @@ import { Visibility } from '../model/visibility.enum';
 import { ProjectCollaborator } from '../model/project-collaborator';
 import { Validation } from '../utils/validation-patterns';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { forEach } from '../../../node_modules/@angular/router/src/utils/collection';
 import { EmailInvitationService } from '../email-invitation-service/email-invitation.service';
 import { InputListElement } from '../model/input-list-element';
 import { ValueUtils } from '../utils/value-utils';

@@ -46,4 +46,12 @@ public class CollaboratorsService {
     public Visibility getCollaboratorVisibility(Long projectId, Long userId){
         return projectCollaboratorRepository.getCollaboratorVisibility(projectId, userId);
     }
+
+    public boolean isCollaboratorAlreadyAdded(Long projectId, String email) {
+        List<Object[]> collaborators = projectCollaboratorRepository.getCollaborators(projectId);
+        for(Object[] collaboratorData : collaborators)
+            if(collaboratorData[3].equals(email)) return true;
+
+        return false;
+    }
 }
