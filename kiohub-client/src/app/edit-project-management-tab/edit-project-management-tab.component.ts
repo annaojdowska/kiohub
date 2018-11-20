@@ -150,6 +150,7 @@ export class EditProjectManagementTabComponent implements OnInit {
             toUpdateCounter++;
           }
         });
+        console.log('authors list in update ' + this.authorsList);
         this.authorsList.elements.forEach(element => {
           if (!element.id) {
             toAddCollaboratorsElements.push(element);
@@ -160,7 +161,7 @@ export class EditProjectManagementTabComponent implements OnInit {
           toVisibilityUpdateElements.push(element);
           toUpdateCounter++;
         });
-        if (this.supervisor) {
+        if (this.supervisor.id === this.loggedUser.id) {
           toVisibilityUpdateElements.push({
             name: this.supervisor.firstName,
             id: this.supervisor.id,
