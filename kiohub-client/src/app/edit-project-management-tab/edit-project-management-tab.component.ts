@@ -61,6 +61,7 @@ export class EditProjectManagementTabComponent implements OnInit {
 
 
   ngOnInit() {
+    this.isLoggedAndSupervisor = false;
     this.authorsList.elements = [];
     this.myselfList.elements = [];
     this.collaborators = [];
@@ -89,7 +90,10 @@ export class EditProjectManagementTabComponent implements OnInit {
           });
         });
       });
-      this.userService.getSupervisorByProjectId(projectId).subscribe(s => this.supervisor = s);
+      this.userService.getSupervisorByProjectId(projectId).subscribe(s => {
+        this.supervisor = s;
+        this.isLoggedAndSupervisor = this.loggedUser && this.loggedUser.id === this.supervisor.id;
+      });
       this.userService.getSupervisorDataByProjectId(projectId).subscribe(sd => {
         if (sd && sd.userDataVisible) {
           this.supervisorVisibility = sd.userDataVisible;
@@ -98,7 +102,6 @@ export class EditProjectManagementTabComponent implements OnInit {
         }
       });
     });
-    this.userService.isLoggedAndSupervisor().subscribe(result => this.isLoggedAndSupervisor = result);
   }
 
   checkValidityStudentEmail() {
