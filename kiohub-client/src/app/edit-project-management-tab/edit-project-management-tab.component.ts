@@ -62,6 +62,7 @@ export class EditProjectManagementTabComponent implements OnInit {
 
 
   ngOnInit() {
+    this.collaborators = [];
     this.userService.getCurrentUser().subscribe(user => this.loggedUser = user);
     const projectId = this.getProjectIdFromRouter();
     this.projectService.getProjectById(projectId).subscribe(result => {
