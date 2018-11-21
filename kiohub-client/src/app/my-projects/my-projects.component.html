@@ -11,7 +11,7 @@
     </div>
 </div>
 <div *ngIf="showFilters" [@fadeInOut]>
-    <app-my-projects-search-form id="searchForm" (removeFilters)="removeFilters()"></app-my-projects-search-form>
+    <app-my-projects-search-form id="searchForm" (removeFilters)="removeFilters()" (filtersSubmitted)="getSearchResults($event)"></app-my-projects-search-form>
 </div>
 
 <div id="quick-filter-buttons-container">
