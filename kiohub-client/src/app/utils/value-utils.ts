@@ -19,7 +19,7 @@ export class ValueUtils {
      * For strings
      */
     isNullOrEmpty(value: string) {
-        if (this.isNullOrUndefined(value) || value.length === 0) {
+        if (this.isNullOrUndefined(value) || value.trim().length === 0) {
             return true;
         } else {
             return false;
