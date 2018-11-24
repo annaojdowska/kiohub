@@ -4,7 +4,7 @@ import { User } from './model/user.interface';
 import { ValueUtils } from './utils/value-utils';
 import { Router } from '@angular/router';
 
-const { detect } = require('detect-browser');
+import { detect } from '../../node_modules/detect-browser/index.js'; // require('detect-browser');
 
 @Component({
   selector: 'app-root',
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
       // check if browser check had been done before - than there is no need for another check
       let checkedBrowser = this.valueUtils.getDataFromSessionStorage(this.valueUtils.browserChecked);
       if (this.valueUtils.isNullOrUndefined(checkedBrowser)) {
-        const browser = detect();
+        const browser = detect('detect-browser');
         checkedBrowser = browser.name;
         this.valueUtils.saveToSession(this.valueUtils.browserChecked, checkedBrowser);
       }
