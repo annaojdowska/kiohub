@@ -13,3 +13,27 @@
     border: 1px solid rgba(107, 104, 97, 0.644);
     border-radius: 20px;
 }
+
+@media screen and (max-width: 1450px) {
+    .search-input {
+        width:  200px;
+    }
+}
+
+/* @media screen and (max-width: 1150px) {
+    .search-input {
+        width:  150px;
+    }
+} */
+
+@media screen and (max-width: 1000px) {
+    .search-input {
+        width:  140px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .search-input {
+        width:  120px;
+    }
+}

@@ -50,3 +50,15 @@
     margin-left: 10px;
     margin-top: 2px;
 }
+
+@media screen and (max-width: 1250px) {
+    .menu_label {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #search-input {
+        display: none !important;
+    }
+}
