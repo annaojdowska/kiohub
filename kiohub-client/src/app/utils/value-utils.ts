@@ -19,9 +19,6 @@ export class ValueUtils {
      * For strings
      */
     isNullOrEmpty(value: string) {
-        console.log(value);
-        console.log(value.trim());
-        console.log(value.trim().length);
         if (this.isNullOrUndefined(value) || value.length === 0) {
             return true;
         } else {
