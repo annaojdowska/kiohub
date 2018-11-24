@@ -6,6 +6,7 @@ export class ValueUtils {
     updatedProjectText = 'updatedProjectText';
     deletedProjectBoolean = 'deletedProject';
     unauthorizedBoolean = 'unauthorized';
+    browserChecked = 'browser';
     // SUCCESS, ERROR, WARNING
     updatedProjectStatus = 'udpatedProjectStatus';
     publishProjectBoolean = 'publishProject';
@@ -87,28 +88,31 @@ export class ValueUtils {
         return this.getAndRemoveDataFromSessionStorage(key);
     }
 
+    getBooleanFromSession(key: string) {
+        const value = this.getDataFromSessionStorage(key);
+        return this.getBooleanValueFromObject(value);
+    }
+
     /**
     * Get boolean from session storage
     */
     getBooleanAndRemoveFromSession(key: string): boolean {
-        // console.log('------1-' + key);
         const value = this.getAndRemoveDataFromSessionStorage(key);
+        return this.getBooleanValueFromObject(value);
+    }
+
+    private getBooleanValueFromObject(value) {
         if (this.isNullOrUndefined(value)) {
-            // console.log('------3-false, null!');
             return null;
         }
         const booleanValue = this.getBooleanFromString(value);
         if (typeof (booleanValue) === typeof (true)) {
-            // console.log('------5-to boolean!');
             if (booleanValue) {
-                // console.log('-----6--boolean: true');
                 return true;
             } else {
-                // console.log('-----6--boolean: false');
                 return false;
             }
         } else {
-            // console.log('------5-nie boolean!');
             return false;
         }
     }
@@ -118,10 +122,8 @@ export class ValueUtils {
     */
     getBooleanFromString(value: string): boolean {
         if (value === 'true' || value === '\"true\"') {
-            // console.log('------4-true!');
             return true;
         } else {
-            // console.log('------4-false!');
             return false;
         }
     }
@@ -129,7 +131,10 @@ export class ValueUtils {
     private getAndRemoveDataFromSessionStorage(key: string): string {
         const value = sessionStorage.getItem(key);
         sessionStorage.removeItem(key);
-        // console.log('------2-value: ' + value);
         return value;
+    }
+
+    getDataFromSessionStorage(key: string) {
+       return sessionStorage.getItem(key);
     }
 }

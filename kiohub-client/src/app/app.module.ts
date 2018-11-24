@@ -71,6 +71,7 @@ import { ProjectManagementSpinnerComponent } from './ui-elements/spinner/project
 import { PublishedGuard } from './guards/published.guard';
 import { DeleteDialogComponent } from './ui-elements/delete-dialog/delete-dialog.component';
 import { RulesComponent } from './rules/rules.component';
+import { IEDetectedComponent } from './ie-detected/ie-detected.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import { RulesComponent } from './rules/rules.component';
     SpinnerDownloadAttachmentComponent,
     ProjectManagementSpinnerComponent,
     DeleteDialogComponent,
-    RulesComponent
+    RulesComponent,
+    IEDetectedComponent
   ],
   imports: [
     BrowserModule,

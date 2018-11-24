@@ -1,0 +1,12 @@
+
+
+#container {
+    background-color:  rgb(219, 211, 200);
+    filter: none !important;
+    height: 100vh;
+    width: 100vw;
+}
+
+img {
+    display: block;
+}
