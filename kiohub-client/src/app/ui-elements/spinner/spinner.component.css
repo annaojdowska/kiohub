@@ -3,15 +3,13 @@
     min-height: 30px !important;
     margin-bottom: 20px;
     margin-top: 20px;
-     display: none; /*TODO*/
+    display: none;
 }
-
 
 .mat-spinner::ng-deep circle {
     /*spinner color*/
     stroke: var(--color-orange);
 }
-
 
 .spinner_element {
     display: inline-block;

@@ -16,26 +16,26 @@ export class PublishedGuard implements CanActivate {
     @Inject(Router) private router: Router,
     @Inject(ProjectService) private projectService: ProjectService,
     @Inject(UserService) private userService: UserService
-  ) {}
+  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      const editedProjectId: number = Number.parseInt(next.url[1].toString());
-      if (editedProjectId && !Number.isNaN(editedProjectId)) {
-        return this.projectService.isProjectPublishedOrUserIsCollaborator(editedProjectId).pipe<boolean>(map(response => {
-          if (response) {
-            return true;
-          } else {
-            this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
-            this.router.navigate(['/home']);
-            return false;
-          }
-        }));
-      } else {
-        this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
-        this.router.navigate(['/home']);
-        return false;
-      }
+    const editedProjectId: number = Number.parseInt(next.url[1].toString());
+    if (editedProjectId && !Number.isNaN(editedProjectId)) {
+      return this.projectService.isProjectPublishedOrUserIsCollaborator(editedProjectId).pipe<boolean>(map(response => {
+        if (response) {
+          return true;
+        } else {
+          this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
+          this.router.navigate(['/home']);
+          return false;
+        }
+      }));
+    } else {
+      this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
+      this.router.navigate(['/home']);
+      return false;
+    }
   }
 }

@@ -7,16 +7,13 @@
     <app-spinner-update-project #uploadInfoSpinner></app-spinner-update-project>
     <div>
         <mat-form-field class="wrapper-right" *ngIf="isUserSupervisor()">
-            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" 
-                placeholder="Status projektu*"
+            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*"
                 (selectionChange)="onProjectStatusChange($event)">
                 <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field class="wrapper-right" *ngIf="!isUserSupervisor()">
-            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" 
-                [disabled]="true"
-                placeholder="Status projektu*">
+            <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" [disabled]="true" placeholder="Status projektu*">
                 <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -28,7 +25,7 @@
             <mat-form-field class="wrapper-width">
                 <input matInput ngModel #titlePl name="titlePl" (ngModelChange)="onTitlePlChange($event)" pattern="{{getTitlePlPattern()}}"
                     value="{{editedProject?.title}}">
-                 <mat-hint class="maxlength" align="end">{{titlePl.value.length}} / {{MAX_LENGTH_TITLE_PL}}</mat-hint>
+                <mat-hint class="maxlength" align="end">{{titlePl.value.length}} / {{MAX_LENGTH_TITLE_PL}}</mat-hint>
             </mat-form-field>
             <app-error-info #titlePlError errorText="{{validation.errorStringTitlePl}}" errorType="ERROR"></app-error-info>
             <br />
@@ -39,7 +36,7 @@
             <mat-form-field class="wrapper-width">
                 <textarea matInput ngModel #descriptionPl id="wrapper-height" name="descriptionPl" (ngModelChange)="onDescriptionPlChange($event)"
                     value="{{editedProject?.description}}"></textarea>
-                    <mat-hint class="maxlength" align="end">{{descriptionPl.value.length}} / {{MAX_LENGTH_DESCRIPTION_PL}}</mat-hint>
+                <mat-hint class="maxlength" align="end">{{descriptionPl.value.length}} / {{MAX_LENGTH_DESCRIPTION_PL}}</mat-hint>
             </mat-form-field>
             <app-error-info #descriptionPlError errorText="{{validation.errorStringDescriptionPl}}" errorType="ERROR"></app-error-info>
             <br />
@@ -50,7 +47,7 @@
             <mat-form-field class="wrapper-width">
                 <input matInput #titleEn name="titleEn" (ngModelChange)="onTitleEnChange($event)" pattern="{{getString(0, 255)}}"
                     value="{{editedProject?.titleEng}}" ngModel>
-                    <mat-hint class="maxlength" align="end">{{titleEn.value.length}} / {{MAX_LENGTH_TITLE_EN}}</mat-hint>
+                <mat-hint class="maxlength" align="end">{{titleEn.value.length}} / {{MAX_LENGTH_TITLE_EN}}</mat-hint>
             </mat-form-field>
             <app-error-info #titleEnError errorText="{{validation.errorStringTitleEn}}" errorType="ERROR"></app-error-info>
             <br />
@@ -61,7 +58,7 @@
             <mat-form-field class="wrapper-width">
                 <textarea matInput ngModel #descriptionEn id="wrapper-height" name="descriptionEn" (ngModelChange)="onDescriptionEnChange($event)"
                     value="{{editedProject?.descriptionEng}}"></textarea>
-                    <mat-hint class="maxlength" align="end">{{descriptionEn.value.length}} / {{MAX_LENGTH_DESCRIPTION_EN}}</mat-hint>
+                <mat-hint class="maxlength" align="end">{{descriptionEn.value.length}} / {{MAX_LENGTH_DESCRIPTION_EN}}</mat-hint>
             </mat-form-field>
             <app-error-info #descriptionEnError errorText="{{validation.errorStringDescriptionEn}}" errorType="ERROR"></app-error-info>
             <br />
@@ -84,9 +81,10 @@
         <div>
             <label class="file-upload">
                 <img matTooltip="{{tooltipThesis}}" class="cursor" src="assets/add-attachment.png" />
-                <input  (change)="addThesis($event)" id="file-input" type="file" />
+                <input (change)="addThesis($event)" id="file-input" type="file" />
             </label>
-            <label  matTooltip="{{tooltipThesis}}" (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj pracę
+            <label matTooltip="{{tooltipThesis}}" (change)="addThesis($event)" class="fileContainer verticalMiddle">Dodaj
+                pracę
                 <input type="file" />
             </label>
             <div class="list">
@@ -102,7 +100,8 @@
                 <img matTooltip="{{tooltipSourceCodes}}" class="cursor" src="assets/add-attachment.png" />
                 <input (change)="addProgram($event)" id="file-input" type="file" />
             </label>
-            <label matTooltip="{{tooltipSourceCodes}}" (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj program i/lub kod programu
+            <label matTooltip="{{tooltipSourceCodes}}" (change)="addProgram($event)" class="fileContainer verticalMiddle">Dodaj
+                program i/lub kod programu
                 <input type="file" />
             </label>
             <div class="list">
@@ -115,10 +114,11 @@
         <!-- photo -->
         <div>
             <label class="file-upload">
-                <img matTooltip="{{tooltipPhotos}}"  class="cursor" src="assets/add-photo.png" />
+                <img matTooltip="{{tooltipPhotos}}" class="cursor" src="assets/add-photo.png" />
                 <input (change)="addImage($event)" id="file-input" type="file" />
             </label>
-            <label matTooltip="{{tooltipPhotos}}"  (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj zdjęcia programu
+            <label matTooltip="{{tooltipPhotos}}" (change)="addImage($event)" class="fileContainer verticalMiddle">Dodaj
+                zdjęcia programu
                 <input type="file" />
             </label>
             <div class="list">
@@ -134,7 +134,8 @@
                 <img matTooltip="{{tooltipManualUsages}}" class="cursor" src="assets/add-attachment.png" />
                 <input (change)="addInstruction($event)" id="file-input" type="file" />
             </label>
-            <label matTooltip="{{tooltipManualUsages}}" (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj instrukcję obsługi
+            <label matTooltip="{{tooltipManualUsages}}" (change)="addInstruction($event)" class="fileContainer verticalMiddle">Dodaj
+                instrukcję obsługi
                 programu
                 <input type="file" />
             </label>
@@ -151,7 +152,8 @@
                 <img matTooltip="{{tooltipManualUsageStartups}}" class="cursor" src="assets/add-attachment.png" />
                 <input (change)="addInstructionStart($event)" id="file-input" type="file" />
             </label>
-            <label matTooltip="{{tooltipManualUsageStartups}}" (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj instrukcję
+            <label matTooltip="{{tooltipManualUsageStartups}}" (change)="addInstructionStart($event)" class="fileContainer verticalMiddle">Dodaj
+                instrukcję
                 uruchomienia
                 programu i opis wymaganego środowiska uruchomieniowego
                 <input type="file" />
@@ -169,7 +171,8 @@
                 <img matTooltip="{{tooltipOtherFiles}}" class="cursor" src="assets/add-attachment.png" />
                 <input (change)="addOther($event)" id="file-input" type="file" />
             </label>
-            <label matTooltip="{{tooltipOtherFiles}}" (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj inne załączniki
+            <label matTooltip="{{tooltipOtherFiles}}" (change)="addOther($event)" class="fileContainer verticalMiddle">Dodaj
+                inne załączniki
                 <input type="file" />
             </label>
             <div class="list">
@@ -207,7 +210,7 @@
 
         <div>
             <label>Tagi:</label>
-            <mat-form-field  name="tags">
+            <mat-form-field name="tags">
                 <input #tagsListComponent ngModel matInput type="text" aria-label="Number" [formControl]="tagControl"
                     [matAutocomplete]="autoTags" (keyup)="keyUpTag($event)" pattern="{{getIsLetterOrNumberPattern()}}">
                 <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="tagSelectionChanged($event)">
@@ -223,16 +226,16 @@
                     hideInput="true"></app-input-list>
             </div>
         </div>
-        
+
         <div>
-            <label>Powiązane projekty: <img id="tooltipImg" matTooltip="{{tooltipRelatedTo}}" src="../../assets/question.png"/></label>
+            <label>Powiązane projekty: <img id="tooltipImg" matTooltip="{{tooltipRelatedTo}}" src="../../assets/question.png" /></label>
             <mat-form-field class="wrapper-width-midium" name="relatedTo">
                 <input ngModel matInput type="text" aria-label="Number" [formControl]="relatedToControl"
                     [matAutocomplete]="autoRelatedTo">
                 <mat-autocomplete #autoRelatedTo="matAutocomplete" (optionSelected)="relatedToSelectionChanged($event)">
                     <mat-option *ngFor="let result of relatedToFilteredResults | async" [value]="result">
                         {{ result.title }}
-                      </mat-option>
+                    </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
 
@@ -240,15 +243,17 @@
                 <app-input-list #relatedToList orientation="vertical" removable="true" hideInput="true"></app-input-list>
             </div>
         </div>
-       
+
         <div>
             <div id="button-container">
                 <button type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź
                     zmiany</button>
                 <div id="divider"></div>
-                <button (click)="openDialog()" type="button" *ngIf="isUserSupervisor()"  mat-stroked-button class="submit-button">Publikuj na stronie</button>
+                <button (click)="openDialog()" type="button" *ngIf="isUserSupervisor()" mat-stroked-button class="submit-button">Publikuj
+                    na stronie</button>
             </div>
-            <app-error-info #publishWarning errorText="Jeżeli dokonałeś zmian w danych projektu, pamiętaj aby zatwierdzić je przed opublikowaniem projektu." errorType="WARNING"></app-error-info>
+            <app-error-info #publishWarning errorText="Jeżeli dokonałeś zmian w danych projektu, pamiętaj aby zatwierdzić je przed opublikowaniem projektu."
+                errorType="WARNING"></app-error-info>
         </div>
     </form>
 </div>

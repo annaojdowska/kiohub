@@ -7,11 +7,11 @@
     </div>
     <div id="menu_content" class="child_vertical_position">
       <div id="logout" class="child_vertical_position margin_extreme_right">
-      <a  href="{{addressToLogOut}}" class="child_vertical_position"><img matTooltip="Wyloguj się" src="../../assets/logout.png"/></a>
-    </div>
+        <a href="{{addressToLogOut}}" class="child_vertical_position"><img matTooltip="Wyloguj się" src="../../assets/logout.png" /></a>
+      </div>
       <app-menu-button title="Moje projekty" href="my-projects" class="margin_extreme_right"></app-menu-button>
       <app-menu-button title="Baza projektów" href="projects-base" class="margin_extreme_right"></app-menu-button>
-      <div class="margin_extreme_right"  *ngIf="isUserDefined()">
+      <div class="margin_extreme_right" *ngIf="isUserDefined()">
         <label class="menu_label">{{currentUser.firstName}} {{currentUser.lastName}}</label>
       </div>
       <app-search-input id=search-input></app-search-input>

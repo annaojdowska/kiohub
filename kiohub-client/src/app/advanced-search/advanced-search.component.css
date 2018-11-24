@@ -2,29 +2,28 @@ table {
     float: none;
     display: block;
     overflow: hidden;
-    background-color: transparent;   
+    background-color: transparent;
     margin-top: 30px;
 }
-
 
 td.mat-cell:first-child, td.mat-footer-cell:first-child, th.mat-header-cell:first-child {
     padding: 0;
 }
 
-td{
+td {
     min-width: 60vw;
     display: grid;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-tr{
+tr {
     float: none;
     display: contents;
     overflow: hidden;
 }
 
-mat-paginator{
+mat-paginator {
     background-color: transparent;
 }
 
@@ -52,7 +51,7 @@ label {
     margin-top: 35px;
 }
 
-#sort-bar{
+#sort-bar {
     display: flow-root;
 }
 
@@ -67,18 +66,18 @@ label {
 }
 
 #wrapper:before, #wrapper:after {
-    content:" ";
+    content: " ";
     width: 10rem;
     height: 1px;
     margin: 0 10px 4px;
     background-color: rgba(255, 166, 0, 0.39);
-    display:inline-block;
+    display: inline-block;
 }
 
 #center {
     text-align: center;
 }
 
-img  {
+img {
     margin-right: 15px;
 }

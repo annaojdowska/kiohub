@@ -1,6 +1,7 @@
 /* visibility: hidden; */
+
 .warning, .success, .error {
-    --global-transition-duration: 0.5s; 
+    --global-transition-duration: 0.5s;
 }
 
 .warning {
@@ -10,9 +11,9 @@
 }
 
 .warning:hover {
-    transition: background-color  var(--global-transition-duration);
+    transition: background-color var(--global-transition-duration);
     background-color: var(--color-yellow-strong);
- }
+}
 
 .success {
     color: var(--color-green);
@@ -21,8 +22,8 @@
 }
 
 .success:hover {
-   transition: background-color  var(--global-transition-duration);
-   background-color: var(--color-green-light-2);
+    transition: background-color var(--global-transition-duration);
+    background-color: var(--color-green-light-2);
 }
 
 .error {
@@ -34,5 +35,4 @@
 .error:hover {
     transition: background-color var(--global-transition-duration);
     background-color: var(--color-red-light-2);
- }
- 
+}

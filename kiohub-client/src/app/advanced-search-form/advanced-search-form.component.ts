@@ -1,18 +1,18 @@
-import { Component, OnInit, Inject, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ProjectType } from '../model/project-type.interface';
-import { Licence } from '../model/licence.interface';
-import { ProjectTypeService } from '../services/project-type-service';
-import { LicenceService } from '../services/licence-service';
-import { Semester } from '../model/semester.interface';
-import { MatDatepickerInput, MatDatepickerInputEvent, MatInput } from '@angular/material';
-import { InputListComponent } from '../input-list/input-list.component';
-import { InputListElement } from '../model/input-list-element';
-import { QueryDescription } from '../model/helpers/query-description.class';
+import { Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDatepickerInput, MatInput } from '@angular/material';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { Validation } from '../utils/validation-patterns';
+import { InputListComponent } from '../input-list/input-list.component';
+import { QueryDescription } from '../model/helpers/query-description.class';
+import { InputListElement } from '../model/input-list-element';
+import { Licence } from '../model/licence.interface';
+import { ProjectType } from '../model/project-type.interface';
+import { Semester } from '../model/semester.interface';
 import { AdvancedSearchFormValidation } from '../search/advanced-search-form-validation';
 import { IAdvancedSearchFormValidation } from '../search/iadvanced-search-form';
 import { SearchType } from '../search/search-type.enum';
+import { LicenceService } from '../services/licence-service';
+import { ProjectTypeService } from '../services/project-type-service';
+import { Validation } from '../utils/validation-patterns';
 
 @Component({
   selector: 'app-advanced-search-form',
@@ -197,7 +197,6 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
 
   addLicence() {
     const index = this.licencesList.elements.findIndex(licence => licence.name === this.selectedLicence.name);
-    // co znaczy -1? warto to wrzucić jako stałe pole klasy
     if (index === -1) {
       this.licencesList.add({ name: this.selectedLicence.name });
     }

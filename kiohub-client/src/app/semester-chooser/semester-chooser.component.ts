@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Output, EventEmitter, Input, AfterContentInit } from '@angular/core';
+import { AfterContentInit, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { Semester } from '../model/semester.interface';
 import { SemesterService } from '../services/semester-service';
 
@@ -16,7 +16,7 @@ export class SemesterChooserComponent implements OnInit, AfterContentInit {
   semesters: Semester[];
   chosenSemesters: Semester[];
   pageScope = 12;
-  beginIndex = 4 * 12; // jakieś wyjaśnienie o co chodzi? :D
+  beginIndex = 4 * 12;
   endIndex = this.beginIndex + this.pageScope;
   pathToLeftArrow = '../../assets/left-arrow.png';
   pathToRightArrow = '../../assets/right-arrow.png';

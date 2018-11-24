@@ -1,8 +1,7 @@
-import { Component, OnInit, Input, Inject, AfterContentInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { Router } from '../../../node_modules/@angular/router';
-import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
-import { UserService } from '../services/user.service';
 import { LoginService } from '../services/login.service';
+import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
 
 @Component({
   selector: 'app-search-result-single-project-options',
@@ -21,15 +20,12 @@ export class SearchResultSingleProjectOptionsComponent {
   PIN = 'PIN';
   EDIT = 'EDIT';
 
-
-
   constructor(
     @Inject(UserPinnedProjectsService) private userPinnedProjects: UserPinnedProjectsService,
     @Inject(LoginService) private loginService: LoginService,
     @Inject(Router) private router: Router) { }
 
   pinnedTextRefresh() {
-    console.log('aktualizuje przypiecie tekst ' + this.pinned);
     if (this.pinned) {
       this.pinText = 'Odepnij';
     } else {
@@ -49,14 +45,12 @@ export class SearchResultSingleProjectOptionsComponent {
                 this.pinned = false;
                 this.pinnedTextRefresh();
                 this.pinOptionsUpdate.emit();
-              console.log('ok pinnded:' + this.pinned);
               });
             } else {
               this.userPinnedProjects.pin(userId, this.projectId).subscribe(data => {
                 this.pinned = true;
                 this.pinnedTextRefresh();
                 this.pinOptionsUpdate.emit();
-              console.log('ok pinnded:' + this.pinned);
               });
             }
             break;

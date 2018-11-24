@@ -1,4 +1,3 @@
-
 .footer {
     background-color: var(--color-blue-navy);
     width: 100%;
@@ -7,7 +6,7 @@
     margin-bottom: calc(-1 * var(--page-content-padding));
     text-align: left;
     font: bold 16px sans-serif;
-    padding: var(--page-content-padding) var(--page-content-padding);    
+    padding: var(--page-content-padding) var(--page-content-padding);
     font-family: var(--main-font-name), sans-serif;
     height: var(--footer-main-page);
 }
@@ -49,6 +48,6 @@ h5 {
 }
 
 img {
-    width: 30%; 
+    width: 30%;
     height: 30%;
 }

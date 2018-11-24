@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { UpdatableSpinner } from '../updatable-spinner';
-import { ValueUtils } from 'src/app/utils/value-utils';
+import { Component } from '@angular/core';
 import { ProjectViewComponent } from 'src/app/project-view/project-view.component';
+import { ValueUtils } from 'src/app/utils/value-utils';
+import { UpdatableSpinner } from '../updatable-spinner';
 
 @Component({
   selector: 'app-spinner-download-attachment',
@@ -19,7 +19,6 @@ export class SpinnerDownloadAttachmentComponent extends UpdatableSpinner {
   protected onUpdateCompleted() {
     this.resetSpinner();
     this.viewComponent.onDownloadingCompleted();
-    console.log(this);
   }
 
   protected setInheritedElements() {
@@ -31,7 +30,7 @@ export class SpinnerDownloadAttachmentComponent extends UpdatableSpinner {
 
   begin(view: ProjectViewComponent) {
     if (this.valueUtils.isNullOrUndefined(this.elementsToSave)) {
-        // no files were being downloaded before
+      // no files were being downloaded before
       super.beginUpload(view, 1, '');
     } else {
       // downloading files had been completed

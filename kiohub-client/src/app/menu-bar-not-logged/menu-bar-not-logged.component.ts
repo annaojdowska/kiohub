@@ -12,7 +12,7 @@ export class MenuBarNotLoggedComponent implements OnInit {
   private addresToLogIn = address + '/login';
   constructor() {
     this.pathToLogo = '../../assets/logo/logo4.png';
-   }
+  }
   ngOnInit() {
   }
 }

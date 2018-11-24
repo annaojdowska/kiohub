@@ -18,7 +18,7 @@ export class FooterComponent implements OnInit {
     this.kioUrl = 'https://eti.pg.edu.pl/katedra-inzynierii-oprogramowania';
     this.pgUrl = 'https://pg.edu.pl/';
     this.kiohubRulesUrl = 'http://kiohub.eti.pg.gda.pl/rules';
-   }
+  }
 
   ngOnInit() {
   }

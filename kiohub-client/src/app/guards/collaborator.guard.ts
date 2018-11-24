@@ -14,7 +14,7 @@ export class CollaboratorGuard implements CanActivate {
   constructor(
     @Inject(Router) private router: Router,
     @Inject(UserService) private userService: UserService,
-  ) {}
+  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,

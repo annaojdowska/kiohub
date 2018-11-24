@@ -1,13 +1,13 @@
-import { Component, OnInit, Inject, ViewChild, AfterViewInit, Injectable } from '@angular/core';
-import { SearchService } from '../services/search.service';
-import { trigger, style, animate, transition } from '@angular/animations';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
-import { QueryDescription } from '../model/helpers/query-description.class';
-import { SearchResult } from '../model/helpers/search-result.class';
-import { SortingService } from '../services/sorting-service';
-import { ProjectService } from '../services/project.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { AdvancedSearchFormComponent } from '../advanced-search-form/advanced-search-form.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { QueryDescription } from '../model/helpers/query-description.class';
+import { SearchResult } from '../model/helpers/search-result.class';
+import { ProjectService } from '../services/project.service';
+import { SearchService } from '../services/search.service';
+import { SortingService } from '../services/sorting-service';
 import { ValueUtils } from '../utils/value-utils';
 
 @Component({
@@ -44,9 +44,9 @@ export class AdvancedSearchComponent implements OnInit {
     this.showNoResultsLabel = false;
     this.searchResults = [];
     this.sortingRules = [sortingService.alphabeticallyAZ,
-      sortingService.alphabeticallyZA,
-      sortingService.by_publication_date_descending,
-      sortingService.by_publication_date_ascending];
+    sortingService.alphabeticallyZA,
+    sortingService.by_publication_date_descending,
+    sortingService.by_publication_date_ascending];
   }
 
   ngOnInit() {
@@ -68,9 +68,9 @@ export class AdvancedSearchComponent implements OnInit {
       this.applySorting(this.sortingService.by_relevancy);
       this.handleNoResults(this.searchResults.length === 0);
       this.sortingRules = [this.sortingService.alphabeticallyAZ, this.sortingService.alphabeticallyZA,
-        this.sortingService.by_publication_date_descending,
-        this.sortingService.by_publication_date_ascending,
-        this.sortingService.by_relevancy];
+      this.sortingService.by_publication_date_descending,
+      this.sortingService.by_publication_date_ascending,
+      this.sortingService.by_relevancy];
     });
   }
 

@@ -9,12 +9,12 @@
 }
 
 #wrapper:before, #wrapper:after {
-    content:" ";
+    content: " ";
     width: 10rem;
     height: 1px;
     margin: 0 10px 4px;
     background-color: var(--color-orange-muted);
-    display:inline-block;
+    display: inline-block;
 }
 
 #center {
@@ -32,7 +32,7 @@
     width: 120px;
 }
 
-img  {
+img {
     margin-right: 15px;
 }
 
@@ -41,11 +41,10 @@ img  {
 }
 
 #add-project-button {
-    background: url('../../assets/add-button-orange.png') no-repeat 8px 9px
-    var(--color-blanc-with-opacity);
+    background: url('../../assets/add-button-orange.png') no-repeat 8px 9px var(--color-blanc-with-opacity);
     border-color: var(--color-gray);
     font-family: var(--main-font-name), sans-serif;
-    font-weight: bold;    
+    font-weight: bold;
     width: 210px;
     margin-top: 7px;
     margin-bottom: 20px;
@@ -66,7 +65,7 @@ mat-paginator {
     background-color: var(--color-blue-light);
 }
 
-#number-label{
+#number-label {
     font-family: var(--main-font-name), sans-serif;
     float: right;
     margin-top: 35px;
@@ -79,6 +78,6 @@ mat-paginator {
     float: left;
 }
 
-#sort-bar{
+#sort-bar {
     display: flow-root;
 }

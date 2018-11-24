@@ -1,22 +1,21 @@
-import { Component, OnInit, Inject, ViewChild, Input } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '../../../node_modules/@angular/material';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
-import { ProjectService } from '../services/project.service';
-import { Project } from '../model/project.interface';
-import { UserService } from '../services/user.service';
-import { User } from '../model/user.interface';
-import { InputListComponent } from '../input-list/input-list.component';
-import { UserEmail } from '../model/user-email.interface';
-import { Visibility } from '../model/visibility.enum';
-import { ProjectCollaborator } from '../model/project-collaborator';
-import { Validation } from '../utils/validation-patterns';
-import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { EmailInvitationService } from '../email-invitation-service/email-invitation.service';
-import { InputListElement } from '../model/input-list-element';
-import { ValueUtils } from '../utils/value-utils';
-import { ProjectManagementSpinnerComponent } from '../ui-elements/spinner/project-management-spinner/project-management-spinner.component';
-import { MatDialogConfig, MatDialog } from '../../../node_modules/@angular/material';
-import { DeleteDialogComponent } from '../ui-elements/delete-dialog/delete-dialog.component';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { ErrorType } from '../error-info/error-type.enum';
+import { InputListComponent } from '../input-list/input-list.component';
+import { InputListElement } from '../model/input-list-element';
+import { Project } from '../model/project.interface';
+import { UserEmail } from '../model/user-email.interface';
+import { User } from '../model/user.interface';
+import { Visibility } from '../model/visibility.enum';
+import { ProjectService } from '../services/project.service';
+import { UserService } from '../services/user.service';
+import { DeleteDialogComponent } from '../ui-elements/delete-dialog/delete-dialog.component';
+import { ProjectManagementSpinnerComponent } from '../ui-elements/spinner/project-management-spinner/project-management-spinner.component';
+import { Validation } from '../utils/validation-patterns';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-edit-project-management-tab',
@@ -73,8 +72,6 @@ export class EditProjectManagementTabComponent implements OnInit {
         this.collaborators = c.filter(coll => coll.email.includes(this.STUDENT_EMAIL_PATTERN));
         this.userService.getCollaboratorsDataByProjectId(projectId).subscribe(pc => {
           this.collaborators.forEach(coll => {
-            console.log('ProjeCollab ' + pc.length + ' ' + pc[0].userDataVisible);
-            console.log(coll.id);
             const pcTmp = pc.find(p => p.userId === coll.id);
             if (this.isMyself(pcTmp.userId)) {
               this.myselfList.add({
@@ -125,10 +122,10 @@ export class EditProjectManagementTabComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.projectService.deleteProject(this.editedProject.id)
-        .subscribe(data => {
-          this.valueUtils.saveToSession(this.valueUtils.deletedProjectBoolean, true);
-          this.router.navigate(['home']);
-        });
+          .subscribe(data => {
+            this.valueUtils.saveToSession(this.valueUtils.deletedProjectBoolean, true);
+            this.router.navigate(['home']);
+          });
       }
     });
   }
@@ -155,7 +152,6 @@ export class EditProjectManagementTabComponent implements OnInit {
             toUpdateCounter++;
           }
         });
-        console.log('authors list in update ' + this.authorsList.elements);
         this.authorsList.elements.forEach(element => {
           if (!element.id) {
             toAddCollaboratorsElements.push(element);
@@ -174,8 +170,6 @@ export class EditProjectManagementTabComponent implements OnInit {
           });
           toUpdateCounter++;
         }
-
-        console.log('elementów do zapisu: ' + toUpdateCounter);
         this.spinner.beginUpload(this, toUpdateCounter, '');
 
         /* Send update */
@@ -188,12 +182,10 @@ export class EditProjectManagementTabComponent implements OnInit {
                 .subscribe(sent => {
                   updatedSuccessCounter++;
                   this.spinner.addNewEmailSuccess(element.name);
-                  // dodani współpracownicy + mail
-                  // TODO dodano
+                  // added collaborators + mail
                 }, notSent => {
                   updatedErrorCounter++;
                   this.spinner.addNewEmailFail(element.name);
-                  // TODO nie dodano
                 });
             }, y => {
               updatedErrorCounter++;
@@ -204,13 +196,11 @@ export class EditProjectManagementTabComponent implements OnInit {
           this.userService.removeCollaborator(this.editedProject.id, id)
             .subscribe(x => {
               updatedSuccessCounter++;
-              this.spinner.removeCollaboratorSuccess(id.toString()); // ??
-              // usunięci współpracownicy
-              // TODO DODANO
+              this.spinner.removeCollaboratorSuccess(id.toString());
+              // deleted collaborators
             }, y => {
               updatedErrorCounter++;
-              this.spinner.removeCollaboratorFail(id.toString()); // ??
-              // TODO nie dodano
+              this.spinner.removeCollaboratorFail(id.toString());
             });
         });
         toVisibilityUpdateElements.forEach(element => {
@@ -218,35 +208,27 @@ export class EditProjectManagementTabComponent implements OnInit {
             .subscribe(x => {
               updatedSuccessCounter++;
               this.spinner.addVisibilitySuccess(element.name);
-              // widoczność
-              // TODO dodano
+              // visibility
             }, y => {
               this.spinner.addVisibilityFail(element.name);
               updatedErrorCounter++;
-              // TODO nie dodano
             });
         });
-      }, error => {
-        // TODO obsłużyć błąd i wyświetlić!
       });
-    }
+  }
 
   onUpdateCompleted(updateResult: string, infoToDisplay: string, errorType: ErrorType) {
-    // TODO zapisać zmiany do sesji
-    // odświeżyć
-    console.log('zakończono update! ' + updateResult);
     this.spinner.setDisplay(false);
     this.updateInfo.setComponent(true, errorType, infoToDisplay);
     this.ngOnInit();
-    // window.location.reload();
   }
 
   isUserSupervisor(): boolean {
-    return this.isLoggedAndSupervisor; // testy: true
+    return this.isLoggedAndSupervisor;
   }
 
   isMyself(userId: number): boolean {
-    return this.loggedUser.id === userId; // testy: true
+    return this.loggedUser.id === userId;
   }
 
 }

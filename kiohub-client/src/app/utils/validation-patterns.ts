@@ -22,7 +22,7 @@ export class Validation {
     readonly MAX_FILE_SIZE = 100000000; // in bytes
 
     readonly WRONG_EXTENSION = 'Niepoprawny typ pliku lub plik jest zbyt duży (maksymalny rozmiar to ' + this.getMaxFileSizeInMegaBytes() + '). '
-                            + 'Podaj plik z jednym z poniższych rozszerzeń: ';
+        + 'Podaj plik z jednym z poniższych rozszerzeń: ';
 
     readonly errorStringSupervisor = 'Podane dane promotora muszą być krótsze niż ' + this.MAX_SIZE_SUPERVISOR + ' znaków.';
     readonly errorStringTag = 'Tag nie może zawierać znaków innych niż litery i cyfry. Maksymalna długość to ' + this.MAX_SIZE_TAG + ' znaków.';
@@ -96,8 +96,8 @@ export class Validation {
 
     getMaxFileSizeInMegaBytes() {
         return 100 + ' MB';
-        // return Math.round(this.MAX_FILE_SIZE / (1024 * 1024) * 100) / 100 + ' MB';
     }
+
     // ******** REGEX PATTERNS ********
     // creates pattern string allowing to write any character <from,to> times
     getString(from, to) {
@@ -165,7 +165,7 @@ export class Validation {
     }
 
     validateStudentEmail(emailInput) {
-        return this.validateMandatoryInputWithPattern(emailInput); // && regexp.test(emailInput.nativeElement.value);
+        return this.validateMandatoryInputWithPattern(emailInput);
     }
 
     validateStudentPGEmail(emailInput) {
@@ -175,8 +175,8 @@ export class Validation {
     validateListOfStudentsEmails(list: InputListComponent) {
         return list.elements.length > 0;
     }
-    // ******** COMPONENT TYPE VALIDATION ********
 
+    // ******** COMPONENT TYPE VALIDATION ********
     validateInputWithPattern(element) {
         return element.nativeElement.validity.valid;
     }

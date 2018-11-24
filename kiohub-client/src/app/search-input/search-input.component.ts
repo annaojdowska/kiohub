@@ -1,11 +1,10 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { SearchService } from '../services/search.service';
-import { debounceTime, startWith, map } from 'rxjs/operators';
-import { Project } from '../model/project.interface';
-import { Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs/operators';
+import { Project } from '../model/project.interface';
 import { ProjectService } from '../services/project.service';
 
 @Component({
@@ -20,7 +19,7 @@ export class SearchInputComponent implements OnInit {
   queryField: FormControl = new FormControl();
   proxyValue: any;
 
-  constructor(@Inject(ProjectService) private projectService: ProjectService, @Inject(Router) private router: Router) {}
+  constructor(@Inject(ProjectService) private projectService: ProjectService, @Inject(Router) private router: Router) { }
 
   ngOnInit() {
     this.projectService.getPublishedProjects().subscribe(res => this.results = res);

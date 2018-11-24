@@ -1,4 +1,4 @@
-#container{
+#container {
     max-width: 70vw;
     display: inline-grid;
     width: 55%;
@@ -19,13 +19,12 @@ mat-grid-list {
     margin-right: 20px;
     margin-left: 20px;
     padding: 20px;
-   
 }
 
-mat-grid-tile{
+mat-grid-tile {
     padding: 0px;
     margin: 0px;
-    width:auto;
+    width: auto;
     border-style: solid;
     border-color: var(--color-black);
     border-width: 1px;
@@ -39,9 +38,10 @@ h5 {
 }
 
 #arrows {
-    margin-top:1vw;
+    margin-top: 1vw;
     margin-bottom: 0;
 }
+
 #arrows:hover {
     cursor: pointer;
 }

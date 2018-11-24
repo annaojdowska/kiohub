@@ -1,7 +1,7 @@
-import { ErrorType } from 'src/app/error-info/error-type.enum';
 import { Component } from '@angular/core';
-import { UpdatableSpinner } from '../updatable-spinner';
 import { EditProjectGeneralTabComponent } from 'src/app/edit-project-general-tab/edit-project-general-tab.component';
+import { ErrorType } from 'src/app/error-info/error-type.enum';
+import { UpdatableSpinner } from '../updatable-spinner';
 
 @Component({
   selector: 'app-spinner-update-project',
@@ -32,7 +32,6 @@ export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
 
   protected onUpdateCompleted() {
     const updateResult = this.getUpdateResult();
-    console.log('Zakończono update projektu.');
     this.viewComponent.onCompleted(updateResult.text, updateResult.type);
   }
 
@@ -54,7 +53,6 @@ export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
   addMetadata() {
     this.savedMetadata++;
     this.updateSpinner();
-    console.log('Zapisano metadata: ' + this.savedMetadata + ' / ' + this.metatadaToSave);
   }
 
   private getUpdateResult() {
@@ -80,7 +78,6 @@ export class SpinnerUpdateProjectComponent extends UpdatableSpinner {
         text = this.infoString + 'Zapisano ' + (this.elementsToSave - errorAmount) + ' załączników.';
       }
     }
-    console.log(this.text);
     return { type: errorType, text: text };
   }
 

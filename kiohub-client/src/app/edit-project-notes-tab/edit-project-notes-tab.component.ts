@@ -1,14 +1,14 @@
-import { Component, OnInit, Inject, ViewChild, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
-import { Note } from '../model/note.interface';
-import { NoteService } from '../services/note.service';
-import { UserService } from '../services/user.service';
-import { User } from '../model/user.interface';
-import { Visibility } from '../model/visibility.enum';
-import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
-import { ViewUtils } from '../utils/view-utils';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { ErrorType } from '../error-info/error-type.enum';
+import { Note } from '../model/note.interface';
+import { User } from '../model/user.interface';
+import { Visibility } from '../model/visibility.enum';
+import { NoteService } from '../services/note.service';
+import { UserService } from '../services/user.service';
+import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
+import { ViewUtils } from '../utils/view-utils';
 
 @Component({
   selector: 'app-edit-project-notes-tab',
@@ -76,8 +76,6 @@ export class EditProjectNotesTabComponent implements OnInit {
               this.mapNotesUsers.set(note, owner);
             }
             );
-          console.log('Notatka');
-          console.log(note);
         }));
     this.noteInputShows = false;
     this.noteEditInputShows = false;
@@ -90,7 +88,7 @@ export class EditProjectNotesTabComponent implements OnInit {
     const newNoteContent = this.newNoteContent.nativeElement.value;
     const visibility = this.noteVisibility === 'PRIVATE' ? 1 : 0;
     this.userService.getCurrentUser().subscribe(user => this.currentUser = user);
-    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId) // this.currentUser.id testy: 437
+    this.noteService.addNote(newNoteContent, visibility, this.currentUser.id, this.projectId)
       .subscribe(result => {
         this.downloadNotes();
         this.info.setComponent(true, ErrorType.SUCCESS, 'Dodano notatkę.');
@@ -104,9 +102,9 @@ export class EditProjectNotesTabComponent implements OnInit {
     this.viewUtils.scrollToTop();
     let editingNote: Note;
     editingNote = this.notes.find(note => note.id === noteId);
-   if (this.currentUser.id === editingNote.ownerId) { // testy:
+    if (this.currentUser.id === editingNote.ownerId) {
       this.showVisibility = true;
-   } else {
+    } else {
       this.showVisibility = false;
     }
     this.inputEditNote = editingNote.content;

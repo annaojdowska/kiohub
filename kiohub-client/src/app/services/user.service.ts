@@ -1,12 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../model/user.interface';
-import { address } from './project.service';
 import { ProjectCollaborator } from '../model/project-collaborator';
 import { UserEmail } from '../model/user-email.interface';
+import { User } from '../model/user.interface';
 import { Visibility } from '../model/visibility.enum';
-import { ValueUtils } from '../utils/value-utils';
+import { address } from './project.service';
 
 @Injectable()
 export class UserService {

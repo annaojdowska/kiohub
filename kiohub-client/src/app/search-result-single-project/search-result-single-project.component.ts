@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, Inject, AfterContentInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { Project } from '../model/project.interface';
+import { AfterContentInit, Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AttachmentService } from '../services/attachment.service';
 import { Observable } from 'rxjs';
-import { Tag } from '../model/tag.interface';
 import { InputListComponent } from '../input-list/input-list.component';
+import { Project } from '../model/project.interface';
 import { SearchResultSingleProjectOptionsComponent } from '../search-result-single-project-options/search-result-single-project-options.component';
-import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
+import { AttachmentService } from '../services/attachment.service';
 import { LoginService } from '../services/login.service';
+import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
 
 @Component({
   selector: 'app-search-result-single-project',
@@ -29,10 +28,10 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   private start: string;
   private end: string;
   constructor(@Inject(Router) private router: Router,
-   @Inject(AttachmentService) private attachmentService: AttachmentService,
-   @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
-   @Inject(LoginService) private loginService: LoginService) { }
-   @Output() pinUpdate = new EventEmitter();
+    @Inject(AttachmentService) private attachmentService: AttachmentService,
+    @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
+    @Inject(LoginService) private loginService: LoginService) { }
+  @Output() pinUpdate = new EventEmitter();
 
   ngOnInit() {
     this.showDefault = true;
@@ -54,7 +53,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   ngAfterContentInit(): void {
     this.getImageFromService();
     this.initializeDescriptionDisplay();
-    this.project.tags.forEach(tag => this.tagsList.add({name: tag.name}));
+    this.project.tags.forEach(tag => this.tagsList.add({ name: tag.name }));
   }
 
   pinOptionsUpdate() {
@@ -67,12 +66,11 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
 
   getImageFromService() {
     const id = this.getMainPhotoId();
-    console.log(id);
     if (id !== -1) {
       this.attachmentService.getPhotoAttachment(id).subscribe(data => {
-      this.createImageFromBlob(data);
-      this.showDefault = false;
-      }, error => console.log('No such file on server'));
+        this.createImageFromBlob(data);
+        this.showDefault = false;
+      });
     }
   }
 
@@ -89,7 +87,6 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
 
   private getMainPhotoId(): number {
     const mainPhoto = this.project.attachments.find(attachment => attachment.mainPhoto === true);
-    console.log(this.project.attachments);
     if (mainPhoto === undefined) {
       return -1;
     } else {
@@ -103,7 +100,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
         this.descriptionToDisplay = this.project.description.slice(0, this.numberOfCharsToDisplay);
         this.descriptionToDisplay += '...';
       } else {
-      this.descriptionToDisplay = this.project.description;
+        this.descriptionToDisplay = this.project.description;
       }
     }
   }

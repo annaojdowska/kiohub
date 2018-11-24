@@ -14,6 +14,7 @@ export class ValueUtils {
     publishProjectStatus = 'publishProjectStatus';
     // invitations
     invitationsOk = 'invitationsOk';
+
     /**
      * For strings
      */
@@ -135,6 +136,6 @@ export class ValueUtils {
     }
 
     getDataFromSessionStorage(key: string) {
-       return sessionStorage.getItem(key);
+        return sessionStorage.getItem(key);
     }
 }

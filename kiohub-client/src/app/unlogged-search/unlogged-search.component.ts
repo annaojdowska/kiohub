@@ -24,12 +24,12 @@ export class UnloggedSearchComponent implements OnInit {
   }
 
   getDataFromLocalStorage() {
-      if (this.valueUtils.getAndRemoveFromSession(this.valueUtils.deletedProjectBoolean)) {
-        this.info.setComponent(true, ErrorType.SUCCESS, 'Usunięto projekt.');
-      } else if (this.valueUtils.getAndRemoveFromSession(this.valueUtils.unauthorizedBoolean)) {
-        this.info.setComponent(true, ErrorType.ERROR, 'Nie masz uprawnień do wyświetlenia tego zasobu lub podana strona nie istnieje.');
-      } else {
-        this.info.setDisplay(false);
-      }
+    if (this.valueUtils.getAndRemoveFromSession(this.valueUtils.deletedProjectBoolean)) {
+      this.info.setComponent(true, ErrorType.SUCCESS, 'Usunięto projekt.');
+    } else if (this.valueUtils.getAndRemoveFromSession(this.valueUtils.unauthorizedBoolean)) {
+      this.info.setComponent(true, ErrorType.ERROR, 'Nie masz uprawnień do wyświetlenia tego zasobu lub podana strona nie istnieje.');
+    } else {
+      this.info.setDisplay(false);
+    }
   }
 }

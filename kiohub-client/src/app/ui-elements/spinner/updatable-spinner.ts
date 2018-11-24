@@ -28,7 +28,6 @@ export abstract class UpdatableSpinner extends SpinnerComponent {
     protected abstract setViewComponent(view);
 
     beginUpload(view, attachmentsToSave: number, infoString: string) {
-        console.log('zapisze ' + attachmentsToSave + ' elementów.');
         this.setViewComponent(view);
         this.savedElements = 0;
         this.elementsToSave = attachmentsToSave;

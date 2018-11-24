@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, ElementRef, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { InputListElement } from '../model/input-list-element';
 import { VisibilitySelectComponent } from '../visibility-select/visibility-select.component';
 import { Visibility } from '../model/visibility.enum';
@@ -31,7 +31,7 @@ export class InputListComponent implements OnInit {
   tooltipChooseMainPhoto = 'Wybierz zdjęcie jako zdjęcie główne projektu.';
   tooltipMainPhotoSelected = 'Te zdjęcie jest zdjęciem głównym projektu.';
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
   }

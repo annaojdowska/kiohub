@@ -1,8 +1,8 @@
 <div id="center">
     <div id="container">
         <mat-grid-list cols="4" rowHeight="3:1">
-            <mat-grid-tile mat-stroked-button *ngFor="let semester of getSemestersToDisplay(beginIndex, endIndex)" (click)="chooseSemester(semester)"
-                [style.background]="getColor(semester)">
+            <mat-grid-tile mat-stroked-button *ngFor="let semester of getSemestersToDisplay(beginIndex, endIndex)"
+                (click)="chooseSemester(semester)" [style.background]="getColor(semester)">
                 <h5>{{semester.name}}</h5>
             </mat-grid-tile>
         </mat-grid-list>
@@ -14,7 +14,8 @@
         </mat-grid-tile-footer>
         <div>
             <a (click)="confirmSemesters()">
-                <button type="button" id="save-semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź wybór</button>
+                <button type="button" id="save-semesters" mat-flat-button [color]="transparent" disabled>Zatwierdź
+                    wybór</button>
             </a>
         </div>
     </div>

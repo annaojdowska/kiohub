@@ -1,21 +1,21 @@
-import { Component, OnInit, Inject, ViewChild, EventEmitter, Output } from '@angular/core';
-import { trigger, transition, animate, style } from '../../../node_modules/@angular/animations';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { animate, style, transition, trigger } from '../../../node_modules/@angular/animations';
+import { MatPaginator, MatTableDataSource } from '../../../node_modules/@angular/material';
 import { Router } from '../../../node_modules/@angular/router';
-import { Project } from '../model/project.interface';
-import { MatTableDataSource, MatPaginator } from '../../../node_modules/@angular/material';
-import { ProjectService } from '../services/project.service';
-import { UserService } from '../services/user.service';
-import { User } from '../model/user.interface';
-import { ProjectStatusService } from '../services/project-status-service';
-import { ProjectStatus } from '../model/project-status.interface';
-import { SortingService } from '../services/sorting-service';
-import { QueryDescription } from '../model/helpers/query-description.class';
-import { FilterService } from '../services/filter.service';
-import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
-import { LoginService } from '../services/login.service';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { ValueUtils } from '../utils/value-utils';
 import { ErrorType } from '../error-info/error-type.enum';
+import { QueryDescription } from '../model/helpers/query-description.class';
+import { ProjectStatus } from '../model/project-status.interface';
+import { Project } from '../model/project.interface';
+import { User } from '../model/user.interface';
+import { FilterService } from '../services/filter.service';
+import { LoginService } from '../services/login.service';
+import { ProjectStatusService } from '../services/project-status-service';
+import { ProjectService } from '../services/project.service';
+import { SortingService } from '../services/sorting-service';
+import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
+import { UserService } from '../services/user.service';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-my-projects',
@@ -79,7 +79,7 @@ export class MyProjectsComponent implements OnInit {
     this.projectStatusService.getStatuses().subscribe(result => this.projectStatuses = result);
     this.userService.isLoggedAndSupervisor().subscribe(result => this.isLoggedAndSupervisor = result);
 
-    this.userService.getCurrentUser().subscribe(user => {  // testy:  this.userService.getUserById(1, 1).subscribe(user => {
+    this.userService.getCurrentUser().subscribe(user => {
       this.currentUser = user;
 
       if (!this.valueUtils.isNullOrUndefined(this.currentUser)) {
@@ -97,15 +97,6 @@ export class MyProjectsComponent implements OnInit {
     }, error => {
       this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
     });
-
-    // debug
-    // this.projectService.getProjectsByCollaboratorId(868)
-    // .subscribe(results => {
-    //   this.projects = results;
-    //   this.displayedProjects = this.projects;
-    //   this.filteredProjects = this.projects;
-    //   this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);
-    // });
   }
 
   navigateToAddProjectPage() {
@@ -188,7 +179,6 @@ export class MyProjectsComponent implements OnInit {
   }
 
   getSearchResults(query: QueryDescription) {
-    console.log('SUBMIT in get search results');
     this.filteredProjects = this.filterService.filterBasedOnQuery(query, this.projects);
     this.displayedProjects = this.filteredProjects;
     this.dataSource = new MatTableDataSource<Project>(this.displayedProjects);

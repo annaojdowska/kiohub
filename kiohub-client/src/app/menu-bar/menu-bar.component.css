@@ -1,17 +1,17 @@
-#menu_bar{
+#menu_bar {
     width: 100%;
     height: var(--menu-bar-height);
     background-color: var(--color-orange);
 }
 
-#menu_bar_content{
+#menu_bar_content {
     width: var(--page-content-width);
     margin-left: auto;
-    margin-right:auto;
+    margin-right: auto;
     display: table;
 }
 
-#search-input{   
+#search-input {
     float: left;
     margin-left: var(--margin-bar-elements);
 }

@@ -29,7 +29,7 @@ img, a {
     display: inline-block;
 }
 
-th, .description_content, label { 
+th, .description_content, label {
     margin-top: 10px;
 }
 
@@ -94,7 +94,7 @@ table>*:first-child:not(thead) th:nth-child(2), .description_content, li {
 }
 
 #list {
-   margin-top: 5px; 
+    margin-top: 5px;
 }
 
 #bullet-character {

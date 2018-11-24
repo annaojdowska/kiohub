@@ -1,7 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { InputListElement } from '../model/input-list-element';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Visibility } from '../model/visibility.enum';
-import { utils } from '../../../node_modules/protractor';
 import { ValueUtils } from '../utils/value-utils';
 
 @Component({
@@ -22,9 +20,7 @@ export class VisibilitySelectComponent implements OnInit {
   constructor() {  }
 
   ngOnInit() {
-    console.log('Przed z sie' + this.selected);
     this.selected = this.selected ? this.selected : Visibility.EVERYONE;
-    console.log('Zmien sie' + this.selected);
     }
 
   selectChange(value: Visibility) {

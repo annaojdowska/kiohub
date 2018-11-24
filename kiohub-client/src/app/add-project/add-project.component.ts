@@ -1,15 +1,14 @@
-import { Component, OnInit, Inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmailInvitationService } from '../email-invitation-service/email-invitation.service';
-import { ProjectService } from '../services/project.service';
-import { Project } from '../model/project.interface';
-import { InputListComponent } from '../input-list/input-list.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { Validation } from '../utils/validation-patterns';
+import { InputListComponent } from '../input-list/input-list.component';
+import { Project } from '../model/project.interface';
 import { LoginService } from '../services/login.service';
-import { ValueUtils } from '../utils/value-utils';
+import { ProjectService } from '../services/project.service';
 import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
-import { ErrorType } from '../error-info/error-type.enum';
+import { Validation } from '../utils/validation-patterns';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-add-project',
@@ -91,8 +90,6 @@ export class AddProjectComponent implements OnInit {
     this.errorInput = 'tekst przykładowy';
     const title = this.titleInput.nativeElement.value;
     if (this.validateAllElements()) {
-      console.log(title);
-      console.log('Dodaję projekt.');
       const httpStatus2 = this.projectService.addProject(title, this.authorsList.elements.map(e => e.name))
         .subscribe((data: Project) => {
           this.errorInfo.setDisplay(false);
@@ -108,9 +105,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   sendInvitationsAndRedirect(projectId: number, collaborators: string[]) {
-    console.log(this.project);
-
-    this.emailInvitationService.send(projectId, collaborators)
+     this.emailInvitationService.send(projectId, collaborators)
       .subscribe(
         (response: any) => {
           this.valueUtils.saveToSession(this.valueUtils.invitationsOk, true);

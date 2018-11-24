@@ -26,20 +26,20 @@ label {
     width: 80%;
 }
 
-.file-upload > input {
+.file-upload>input {
     display: none;
 }
 
 #content {
     /* \n as new line */
-        white-space: pre-line;
+    white-space: pre-line;
 }
 
 #button-container {
     text-align: center;
     margin-top: 50px;
 }
-  
+
 #divider {
     width: 50px;
     height: auto;
@@ -54,7 +54,6 @@ label {
     color: var(--color-blue-navy);
     font-weight: bold;
     font-family: var(--main-font-name), sans-serif;
-
 }
 
 .fileContainer [type=file] {

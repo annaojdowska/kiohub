@@ -1,38 +1,37 @@
-import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
+import { Component, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map, debounceTime } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent, MatDialog, MatDialogConfig } from '@angular/material';
-import { Licence } from '../model/licence.interface';
-import { ProjectType } from '../model/project-type.interface';
-import { Status } from '../model/status.interface';
-import { ProjectTypeService } from '../services/project-type-service';
-import { LicenceService } from '../services/licence-service';
-import { ProjectStatusService } from '../services/project-status-service';
-import { ProjectService } from '../services/project.service';
-import { Project } from '../model/project.interface';
-import { InputListElement } from '../model/input-list-element';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs/operators';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { ErrorType } from '../error-info/error-type.enum';
 import { InputListComponent } from '../input-list/input-list.component';
 import { AttachmentType } from '../model/attachment-type.enum';
-import { AttachmentService } from '../services/attachment.service';
-import { Visibility } from '../model/visibility.enum';
-import { TagService } from '../services/tag.service';
-import { Tag } from '../model/tag.interface';
-import { ActivatedRoute } from '@angular/router';
+import { InputListElement } from '../model/input-list-element';
+import { Licence } from '../model/licence.interface';
+import { ProjectType } from '../model/project-type.interface';
+import { Project } from '../model/project.interface';
 import { Semester } from '../model/semester.interface';
+import { Status } from '../model/status.interface';
+import { Tag } from '../model/tag.interface';
+import { Visibility } from '../model/visibility.enum';
 import { SemesterChooserComponent } from '../semester-chooser/semester-chooser.component';
-import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { Validation } from '../utils/validation-patterns';
-import { ErrorType } from '../error-info/error-type.enum';
-import { SpinnerComponent } from '../ui-elements/spinner/spinner.component';
-import { FileUtils } from '../utils/file-utils';
-import { PublishDialogComponent } from '../ui-elements/publish-dialog/publish-dialog.component';
+import { AttachmentService } from '../services/attachment.service';
+import { LicenceService } from '../services/licence-service';
+import { ProjectStatusService } from '../services/project-status-service';
+import { ProjectTypeService } from '../services/project-type-service';
+import { ProjectService } from '../services/project.service';
 import { SearchService } from '../services/search.service';
-import { ViewUtils } from '../utils/view-utils';
-import { ValueUtils } from '../utils/value-utils';
-import { SpinnerUpdateProjectComponent } from '../ui-elements/spinner/spinner-update-project/spinner-update-project.component';
+import { TagService } from '../services/tag.service';
 import { UserService } from '../services/user.service';
+import { PublishDialogComponent } from '../ui-elements/publish-dialog/publish-dialog.component';
+import { SpinnerUpdateProjectComponent } from '../ui-elements/spinner/spinner-update-project/spinner-update-project.component';
+import { FileUtils } from '../utils/file-utils';
+import { Validation } from '../utils/validation-patterns';
+import { ValueUtils } from '../utils/value-utils';
+import { ViewUtils } from '../utils/view-utils';
 
 @Component({
   selector: 'app-edit-project-general-tab',
@@ -82,7 +81,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   @ViewChild('publishWarning') publishWarning: ErrorInfoComponent;
   @ViewChild('createdProject') createdProject: ErrorInfoComponent;
 
-  // valueS from database
+  // values from database
   MAX_LENGTH_TITLE_PL = 255;
   MAX_LENGTH_DESCRIPTION_PL = 2000;
   MAX_LENGTH_TITLE_EN = 255;
@@ -108,7 +107,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   projects: Project[] = [];
   projectAttachmentsUpdatingInProgress: boolean;
   viewUtils = new ViewUtils();
-  isLoggedUserSupervisor = false; // testy: true
+  isLoggedUserSupervisor = false;
 
   tooltipThesis = 'Dopuszczalne rozszerzenia to: ' + this.fileUtils.getThesisExtensions()
     + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
@@ -195,8 +194,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
     validationOk = this.checkValidityStatus() && validationOk;
     validationOk = this.checkValidityType() && validationOk;
     this.scrollToTopIfValidationError(validationOk);
-    // validationOk = this.validation.validateElementAndHandleError(this.semesterChooserError, this.validateSemesterChooser()) && validationOk;
-    // no tag validation - every successfully added tag had been already validated
 
     return validationOk;
   }
@@ -267,7 +264,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
   setInvitationErrorIfOccured() {
     const invitationsOk = this.valueUtils.getBooleanAndRemoveFromSession(this.valueUtils.invitationsOk);
     let showError;
-    // dont change line below, invitationsOk returns sth different than (invitationsOk === true)
     if (this.valueUtils.isNullOrUndefined(invitationsOk) || invitationsOk === true) {
       showError = false;
     } else {
@@ -291,9 +287,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
       this.editedProject = result;
       this.publishWarning.setDisplay(this.isUserSupervisor() && !this.isProjectAlreadyPublished());
 
-      
-      console.log(this.isUserSupervisor());
-      console.log(!this.isProjectAlreadyPublished());
       result.tags.forEach(tag => {
         this.tagsList.add({ id: tag.id, name: tag.name });
       });
@@ -378,7 +371,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
       case SPACE:
       case COMMA: {
         if (this.checkValidityTag()) {
-          const value = (<HTMLInputElement>event.target).value; // .replace(/[^a-zA-Z0-9]/g, ''); niepotrzebne, jest walidacja
+          const value = (<HTMLInputElement>event.target).value;
           (<HTMLInputElement>event.target).value = '';
           this.addTag(value);
         }
@@ -488,7 +481,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
         projectStatus: status,
         projectType: type,
         licence: { id: this.licence.value, name: '' },
-        attachments: [], // send later
+        attachments: [], // are being saved later
         relatedToProjects: this.getRelatedProjects(),
         tags: this.tagsList.elements.map(tag => <Tag>{ id: tag.id, name: tag.name }),
         semesters: this.semestersList.elements.map(semester => <Semester>{ id: semester.id, name: semester.name }),
@@ -500,7 +493,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
       const attachmentsToSaveAmount = this.getAttachmentsToSaveAmount();
       const metadataToSend = this.getMetadataToSaveAmount();
-      console.log('metadane do zapisu: ' + metadataToSend);
 
       this.updateResult.setDisplay(false);
       this.viewUtils.scrollToTop();
@@ -605,11 +597,9 @@ export class EditProjectGeneralTabComponent implements OnInit {
   private updateMetadata(th: InputListElement) {
     this.attachmentService.updateMetadata(this.editedProject.id, th.id, th.visibility ? th.visibility : Visibility.EVERYONE, th.selected ? th.selected : false)
       .subscribe(data => {
-        console.log('Pomyślnie zaktualizowano załącznik ' + th.name + '. ');
         this.uploadInfoSpinner.addMetadata();
       },
         error => {
-          console.log('Wystąpił błąd aktualizacji załącznika ' + th.name + '. ' + error);
           this.uploadInfoSpinner.addMetadata();
         });
   }
@@ -635,24 +625,24 @@ export class EditProjectGeneralTabComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result === true) {
           this.projectService.publishProject(this.editedProject.id)
-          .subscribe(data => {
-            infoString = 'Pomyślnie opublikowano projekt na stronie. Zmieniono status projektu na "Zakończony".';
-            this.onCompleted(infoString, ErrorType.SUCCESS);
-            this.viewUtils.scrollToTop();
-            window.location.reload();
-          }, error => {
-            infoString = 'Nie udało się opublikować projektu na stronie. ';
-            this.onCompleted(infoString, ErrorType.ERROR);
-            this.viewUtils.scrollToTop();
-            window.location.reload();
-          });
+            .subscribe(data => {
+              infoString = 'Pomyślnie opublikowano projekt na stronie. Zmieniono status projektu na "Zakończony".';
+              this.onCompleted(infoString, ErrorType.SUCCESS);
+              this.viewUtils.scrollToTop();
+              window.location.reload();
+            }, error => {
+              infoString = 'Nie udało się opublikować projektu na stronie. ';
+              this.onCompleted(infoString, ErrorType.ERROR);
+              this.viewUtils.scrollToTop();
+              window.location.reload();
+            });
         }
       });
     }
   }
 
   isUserSupervisor(): boolean {
-    return this.isLoggedUserSupervisor; // testy: true
+    return this.isLoggedUserSupervisor;
   }
 
   isProjectAlreadyPublished() {

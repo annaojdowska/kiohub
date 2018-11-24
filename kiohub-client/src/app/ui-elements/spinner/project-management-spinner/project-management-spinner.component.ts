@@ -17,7 +17,6 @@ export class ProjectManagementSpinnerComponent extends UpdatableSpinner {
     const updateResult = this.text;
     let textToView;
     let errorType;
-    console.log('Zakończono update projektu.');
     if (this.succesList.length > 0) {
       if (this.failedList.length === 0) {
         textToView = 'Zapisano.';
@@ -51,42 +50,34 @@ export class ProjectManagementSpinnerComponent extends UpdatableSpinner {
   }
 
   addNewCollaboratorSuccess(student: string) {
-    this.dbg('+ dodanie współpracownika ' + student);
     this.addSuccess('dodanie współpracownika ' + student);
   }
 
   addNewCollaboratorFail(student: string) {
-    this.dbg('- dodanie współpracownika ' + student);
     this.addFail('dodanie współpracownika ' + student);
   }
 
   addNewEmailSuccess(studentEmail: string) {
-    this.dbg('+ wysłanie maila do ' + studentEmail);
     this.addSuccess('wysłanie maila do ' + studentEmail);
   }
 
   addNewEmailFail(studentEmail: string) {
-    this.dbg('- wysłanie maila do ' + studentEmail);
     this.addSuccess('wysłanie maila do ' + studentEmail);
   }
 
   removeCollaboratorSuccess(studentEmail: string) {
-    this.dbg('+ usunięcie użytkownika ' + studentEmail);
     this.addSuccess('usunięcie użytkownika ' + studentEmail);
   }
 
   removeCollaboratorFail(studentEmail: string) {
-    this.dbg('- usunięcie użytkownika ' + studentEmail);
     this.addFail('usunięcie użytkownika ' + studentEmail);
   }
 
   addVisibilitySuccess(elementName: string) {
-    this.dbg('+ zmiana widoczności współpracownika ' + elementName);
     this.addSuccess('zmiana widoczności współpracownika ' + elementName);
   }
 
   addVisibilityFail(elementName: string) {
-    this.dbg('- zmiana widoczności współpracownika ' + elementName);
     this.addFail('zmiana widoczności współpracownika ' + elementName);
   }
 
@@ -94,10 +85,6 @@ export class ProjectManagementSpinnerComponent extends UpdatableSpinner {
   ngOnInit() {
     super.ngOnInit();
     this.setInheritedElements();
-  }
-
-  dbg(text: string) {
-    console.log(text);
   }
 
 }

@@ -31,10 +31,6 @@ export class DownloadElementComponent implements OnInit {
     if (attachments !== null) {
       this.attachments = attachments;
       this.manageVisibility();
-      // this.container.nativeElement.style.add = 'elo ziomeczki co tam!';
-      // console.log(this.container);
-    } else {
-      console.log('null!');
     }
   }
 

@@ -97,13 +97,13 @@ ul li {
     float: left;
 }
 
-ul li a:hover,ul li a:focus{
+ul li a:hover, ul li a:focus {
     -webkit-transform: scale(1.05);
     -moz-transform: scale(1.05);
     -o-transform: scale(1.05);
-    position:relative;
-    z-index:5;
-  }
+    position: relative;
+    z-index: 5;
+}
 
 .align-right {
     float: right;

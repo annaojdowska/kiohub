@@ -12,7 +12,7 @@ export class ImageDialogComponent {
     @Inject(MatDialogRef) public dialogRef: MatDialogRef<ImageDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string) {
 
-    }
+  }
 
   onClick(): void {
     this.dialogRef.close();

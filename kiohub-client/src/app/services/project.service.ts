@@ -21,7 +21,6 @@ export class ProjectService {
 
   addProject(titlePl: string, collaborators: string[]) {
     const params = new HttpParams().set('titlePl', titlePl).set('collaborators', collaborators.join(', '));
-    console.log(params);
     return this.http.post(address + '/project/add', params);
   }
 

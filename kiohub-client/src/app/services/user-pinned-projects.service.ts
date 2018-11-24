@@ -21,7 +21,6 @@ export class UserPinnedProjectsService {
     const params = new HttpParams()
     .set('projectId', projectId.toString())
     .set('userId', userId.toString());
-    console.log('wyslalo');
     return this.http.post(address + '/userpinnedproject/pin', params, this.httpOptions);
   }
 

@@ -29,8 +29,6 @@ export class LoginService {
     return this.http.get<User>(address + '/login/getLogged', { responseType: 'json' });
   }
 
-
-
   authenticate(credentials, callback) {
     const headers = new HttpHeaders(credentials ? {
       authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
@@ -50,12 +48,6 @@ export class LoginService {
 @Injectable()
 export class KiohubHttpInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // const customReq = request.clone({
-    //   headers: request.headers.set('app-language', 'it')
-    // });
-    // console.log(request);
-    // console.log(request.body);
-
     return next.handle(request);
   }
 }

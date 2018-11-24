@@ -8,10 +8,10 @@ import { MatDatepickerInput } from '@angular/material';
  * Interface allowing advanced search component to be validated.
  */
 export interface IAdvancedSearchFormValidation {
-    errorSupervisor: ErrorInfoComponent; //
+    errorSupervisor: ErrorInfoComponent;
     errorTag: ErrorInfoComponent;
     errorTitle: ErrorInfoComponent;
-    errorDescription: ErrorInfoComponent; //
+    errorDescription: ErrorInfoComponent;
     errorDate: ErrorInfoComponent;
     searchError: ErrorInfoComponent;
 

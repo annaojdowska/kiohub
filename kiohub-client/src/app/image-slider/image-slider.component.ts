@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { AttachmentService } from '../services/attachment.service';
-import { Attachment } from '../model/attachment.interface';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { IImage } from 'ng-simple-slideshow/src/app/modules/slideshow/IImage';
 import { MatDialog } from '../../../node_modules/@angular/material';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
+import { Attachment } from '../model/attachment.interface';
+import { AttachmentService } from '../services/attachment.service';
 import { ValueUtils } from '../utils/value-utils';
 
 @Component({
@@ -19,25 +19,27 @@ export class ImageSliderComponent implements OnInit {
   hidden;
 
   constructor(@Inject(AttachmentService) private attachmentService: AttachmentService,
-              @Inject(MatDialog) private dialog: MatDialog) {
+    @Inject(MatDialog) private dialog: MatDialog) {
     this.images = [];
     this.hidden = true;
   }
+
   ngOnInit() {
     this.images = [];
   }
 
   setImages(attachments: Attachment[]) {
+    this.images = [];
     let loadedImages = 0;
     const imagesToLoad = attachments.length;
 
     for (const attachment of attachments) {
       this.attachmentService.getAttachment(attachment.id).subscribe((image: Blob) => {
-        // zamiana bloba na obrazek do wyświetlenia w base64
+        // blob -> image in base64
         const reader = new FileReader();
         reader.addEventListener('load', () => {
           const imageToShow = reader.result;
-          // dodanie obrazka do tablicy obrazków do wyświetlenia
+          // adding image to array of elements to be displayed
           let iImage;
           iImage = { url: imageToShow };
           this.images.push(iImage);
@@ -48,9 +50,8 @@ export class ImageSliderComponent implements OnInit {
         if (image) {
           reader.readAsDataURL(image);
         }
-      }, error => console.log('No such file on server'));
+      });
     }
-    // this.manageSliderVisibility(attachments);
   }
 
   setHidden(value: boolean) {
@@ -58,7 +59,6 @@ export class ImageSliderComponent implements OnInit {
   }
 
   manageSliderVisibility(attachments: Attachment[]) {
-    console.log(attachments.length);
     if (attachments.length > 0) {
       this.setHidden(false);
     } else {

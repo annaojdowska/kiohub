@@ -1,18 +1,18 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Project } from '../model/project.interface';
-import { UserService } from '../services/user.service';
-import { User } from '../model/user.interface';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProjectService } from '../services/project.service';
-import { DownloadElementComponent } from '../ui-elements/download-element/download-element.component';
-import { AttachmentType } from '../model/attachment-type.enum';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { ImageSliderComponent } from '../image-slider/image-slider.component';
+import { AttachmentType } from '../model/attachment-type.enum';
+import { Project } from '../model/project.interface';
 import { UserEmail } from '../model/user-email.interface';
-import { ValueUtils } from '../utils/value-utils';
+import { User } from '../model/user.interface';
+import { ProjectService } from '../services/project.service';
+import { UserService } from '../services/user.service';
+import { DownloadElementComponent } from '../ui-elements/download-element/download-element.component';
 import { FileDownloaderView } from '../ui-elements/download-element/file-downloader-view';
 import { SpinnerDownloadAttachmentComponent } from '../ui-elements/spinner/spinner-download-attachment/spinner-download-attachment.component';
-import { ErrorInfoComponent } from '../error-info/error-info.component';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-project-view',
@@ -62,19 +62,19 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
     @Inject(ProjectService) private projectService: ProjectService) {
-      this.collaborators = [];
-      this.descriptionHidden = true;
-      this.filesHidden = true;
-      this.authorsHidden = true;
-      this.supervisorHidden = true;
-      this.tagsHidden = true;
-      this.semestersHidden = true;
-      this.licenceHidden = true;
-      this.relatedProjectsHidden = true;
-      this.publicationDateHidden = true;
-      this.projectTypeHidden = true;
-      this.detailsHidden = true;
-      this.authorsLabelHidden = true;
+    this.collaborators = [];
+    this.descriptionHidden = true;
+    this.filesHidden = true;
+    this.authorsHidden = true;
+    this.supervisorHidden = true;
+    this.tagsHidden = true;
+    this.semestersHidden = true;
+    this.licenceHidden = true;
+    this.relatedProjectsHidden = true;
+    this.publicationDateHidden = true;
+    this.projectTypeHidden = true;
+    this.detailsHidden = true;
+    this.authorsLabelHidden = true;
   }
 
   ngOnInit(): void {
@@ -82,14 +82,11 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
       this.id = routeParams.id;
       this.getItem(this.id).then(project => {
         if (!project.published) {
-         this.previewModeInfo.setDisplay(true);
+          this.previewModeInfo.setDisplay(true);
         }
         this.project = project;
         this.initData(this.project.id);
         this.downloadThesis.attachments = this.project.attachments;
-
-        // console.log(this.project.attachments.filter(
-        //   attachment => attachment.type === AttachmentType.PHOTO).;
 
         this.imageSlider.setImages(this.project.attachments.filter(
           attachment => attachment.type === AttachmentType.PHOTO)
@@ -112,7 +109,6 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
         this.manageVisibility(project);
       });
     });
-    // FIXME a co jak error?
     this.setDownloadElements();
   }
 
@@ -169,7 +165,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
     }
     if (project.tags.length > 0 || project.semesters.length > 0 || project.licence && project.licence.name !== 'Brak'
       || project.publicationDate || project.projectType) {
-        this.detailsHidden = false;
+      this.detailsHidden = false;
       if (project.tags.length > 0) {
         this.tagsHidden = false;
       } else {

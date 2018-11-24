@@ -1,7 +1,8 @@
 <div id="advanced-search">
   <div class="form">
     <mat-form-field class="leftLabel">
-      <input matInput ngModel #titleInput placeholder="Tytuł" (keyup.enter)="addTitle()" (ngModelChange)="formVal.onTitlePlChange($event)" pattern="{{formVal.getTitlePattern()}}">
+      <input matInput ngModel #titleInput placeholder="Tytuł" (keyup.enter)="addTitle()" (ngModelChange)="formVal.onTitlePlChange($event)"
+        pattern="{{formVal.getTitlePattern()}}">
       <mat-icon matPrefix><img class="tooltip-img" matTooltip="{{titleTooltip}}" src="../../assets/question.png"></mat-icon>
     </mat-form-field>
 
@@ -30,26 +31,26 @@
 
     <label class="center">Data publikacji w serwisie:</label>
     <mat-form-field class="leftLabel">
-        <input matInput ngModel #dateInput1  [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="formVal.dateFromChanged('change', $event)"
-            disabled>
-        <mat-datepicker-toggle matSuffix [for]="datePicker1"></mat-datepicker-toggle>
-        <mat-datepicker #datePicker1 disabled="false"></mat-datepicker>
-        <mat-icon matSuffix><img *ngIf='dateInput1.value' (click)="clearDatePicker1()" class="date-picker-img" src="../../assets/clear.png"></mat-icon>
+      <input matInput ngModel #dateInput1 [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="formVal.dateFromChanged('change', $event)"
+        disabled>
+      <mat-datepicker-toggle matSuffix [for]="datePicker1"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker1 disabled="false"></mat-datepicker>
+      <mat-icon matSuffix><img *ngIf='dateInput1.value' (click)="clearDatePicker1()" class="date-picker-img" src="../../assets/clear.png"></mat-icon>
     </mat-form-field>
     <mat-form-field class="leftLabel paddingLeft">
-        <input matInput ngModel #dateInput2 [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="formVal.dateToChanged('change', $event)"
-            disabled>
-        <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
-        <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
-        <mat-icon matSuffix><img *ngIf='dateInput2.value' (click)="clearDatePicker2()" class="date-picker-img" src="../../assets/clear.png"></mat-icon>
+      <input matInput ngModel #dateInput2 [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="formVal.dateToChanged('change', $event)"
+        disabled>
+      <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
+      <mat-icon matSuffix><img *ngIf='dateInput2.value' (click)="clearDatePicker2()" class="date-picker-img" src="../../assets/clear.png"></mat-icon>
     </mat-form-field>
 
     <label class="rightLabel" id="center">Semestry wytwarzania: &nbsp;
-        <img  matTooltip="{{semesterTooltip}}" src='assets/calendar.png' (click)="toggleSemesters()" />
+      <img matTooltip="{{semesterTooltip}}" src='assets/calendar.png' (click)="toggleSemesters()" />
     </label>
     <div class=paddingTop id="semesterContainer">
-        <app-semester-chooser *ngIf="semestersHidden != false" [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
-            (semesterRemoved)="removeAddedSemester($event)" (confirm)="toggleSemesters($event)" #semesterChooser></app-semester-chooser>
+      <app-semester-chooser *ngIf="semestersHidden != false" [semestersFromParent]="chosenSemesters" (semesterAdded)="showAddedSemester($event)"
+        (semesterRemoved)="removeAddedSemester($event)" (confirm)="toggleSemesters($event)" #semesterChooser></app-semester-chooser>
     </div>
 
     <app-error-info #errorSupervisor errorText="{{validation.errorStringSupervisor}}" errorType="ERROR"></app-error-info>
@@ -93,15 +94,15 @@
         </td>
       </tr>
       <tr>
-          <tr>
-              <td>
-                <label class="inputListLabel" *ngIf="statusesList.elements.length > 0">Statusy: </label>
-              </td>
-              <td>
-                <app-input-list #statusesList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
-              </td>
-            </tr>
-            <tr>
+      <tr>
+        <td>
+          <label class="inputListLabel" *ngIf="statusesList.elements.length > 0">Statusy: </label>
+        </td>
+        <td>
+          <app-input-list #statusesList orientation="horizontal" removable="true" hideInput="true"></app-input-list>
+        </td>
+      </tr>
+      <tr>
         <td>
           <label class="inputListLabel" *ngIf="semestersList.elements.length > 0">Semestry: </label>
         </td>
@@ -112,7 +113,8 @@
     </table>
     <div id="buttonsContainer">
       <button mat-stroked-button class="submit-button" (click)="submit()">Zastosuj filtry</button>
-      <button mat-stroked-button class="submit-button" (click)="clearFilters()" disabled="{{!canExecuteClearFilters()}}">Usuń filtry</button>
+      <button mat-stroked-button class="submit-button" (click)="clearFilters()" disabled="{{!canExecuteClearFilters()}}">Usuń
+        filtry</button>
     </div>
 
   </div>

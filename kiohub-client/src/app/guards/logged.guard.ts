@@ -15,7 +15,7 @@ export class LoggedGuard implements CanActivate {
   constructor(
     @Inject(Router) private router: Router,
     @Inject(UserService) private userService: UserService,
-  ) {}
+  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -29,6 +29,6 @@ export class LoggedGuard implements CanActivate {
         return false;
       }
     }
-  ));
+    ));
   }
 }

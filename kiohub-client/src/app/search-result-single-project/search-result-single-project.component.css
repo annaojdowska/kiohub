@@ -6,25 +6,26 @@
 
 #info {
     display: grid;
-    margin-right:45px;
+    margin-right: 45px;
 }
+
 #project_result_container {
     display: block;
     background-color: transparent;
-    min-height: 17vh;    
+    min-height: 17vh;
     min-width: 58vw;
     overflow: hidden;
     flex-wrap: wrap;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
 }
 
-#project_result_container:hover{
+#project_result_container:hover {
     background-color: var(--color-blanc-with-opacity);
     cursor: pointer;
 }
 
 #inner_content {
-    min-height: 17vh;    
+    min-height: 17vh;
     min-width: 58vw;
 }
 
@@ -41,8 +42,9 @@ p {
 }
 
 h2 {
-    display: inline;  
+    display: inline;
 }
+
 h3 {
     display: inline;
 }

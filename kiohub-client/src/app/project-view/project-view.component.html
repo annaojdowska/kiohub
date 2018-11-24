@@ -1,4 +1,5 @@
-<app-error-info #previewModeInfo errorText="Ten projekt nie został jeszcze opublikowany. Znajdujesz się w trybie podglądu dostępnym tylko dla współautorów projektu" errorType="WARNING"></app-error-info>
+<app-error-info #previewModeInfo errorText="Ten projekt nie został jeszcze opublikowany. Znajdujesz się w trybie podglądu dostępnym tylko dla współautorów projektu"
+    errorType="WARNING"></app-error-info>
 
 <h2>{{project?.title}}</h2>
 
@@ -8,17 +9,19 @@
         <div class="description_content">{{project?.description}}</div>
         <div [hidden]="descriptionHidden" id="wrapper-padding-top">
             <img id="img-show" (click)="show = !show" [src]="show ? 'assets/up-arrow.png' :'assets/down-arrow.png'" />
-            <label (click)="show = !show"> {{ show ? 'Zwiń opis w języku angielskim' : 'Pokaż opis w języku angielskim' }}</label>
+            <label (click)="show = !show"> {{ show ? 'Zwiń opis w języku angielskim' : 'Pokaż opis w języku angielskim'
+                }}</label>
         </div>
         <div *ngIf="show" [@fadeInOut]>
             <div id="content" class="description-english">
-            <h3>{{project?.titleEng}}</h3>
-            <div class="description_content">
-                {{project?.descriptionEng}}
+                <h3>{{project?.titleEng}}</h3>
+                <div class="description_content">
+                    {{project?.descriptionEng}}
+                </div>
             </div>
         </div>
-        </div>
-        <div [hidden]="authorsLabelHidden" class="{{authorsLabelHidden ? 'component' : 'wrapper_width_element component'}}" id="{{authorsLabelHidden ? '' : 'wrapper-padding-top'}}" >
+        <div [hidden]="authorsLabelHidden" class="{{authorsLabelHidden ? 'component' : 'wrapper_width_element component'}}"
+            id="{{authorsLabelHidden ? '' : 'wrapper-padding-top'}}">
             <img src="assets/authors.png" />
             <h4>Autorzy</h4>
             <table>
@@ -103,7 +106,7 @@
             <h4>Powiązane projekty</h4>
             <div id="list">
                 <li *ngFor="let relatedProject of relatedProjects">
-                    <img id="bullet-character" src="../../assets/bullet-character.png"/>
+                    <img id="bullet-character" src="../../assets/bullet-character.png" />
                     <a [routerLink]="['/details/', relatedProject?.id]">{{relatedProject?.title}}</a>
                 </li>
             </div>
@@ -113,7 +116,6 @@
             <img src="assets/download.png" />
             <h4>Pliki do pobrania</h4>
             <app-spinner-download-attachment #downloadSpinner></app-spinner-download-attachment>
-
             <app-download-element #downloadThesis title="Praca dyplomowa"></app-download-element>
             <app-download-element #downloadSourceCode title="Program i/lub kod programu"></app-download-element>
             <app-download-element #downloadUsage title="Instrukcja obsługi programu"></app-download-element>

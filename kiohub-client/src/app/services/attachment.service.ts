@@ -45,22 +45,19 @@ export class AttachmentService {
 
   remove(projectId: number, attachments: number[]) {
     return this.http.post(address + '/attachment/remove', attachments,
-    { headers: this.httpOptions.headers, params : {'projectId' : projectId.toString()}});
+      { headers: this.httpOptions.headers, params: { 'projectId': projectId.toString() } });
   }
 
   removeAttachments(editedProject: Project, attachmentList: InputListComponent, type: AttachmentType) {
     this.remove(editedProject.id, editedProject.attachments.filter(att => att.type === type)
       .map(att => att.id).filter(id => !attachmentList.elements.filter(el => el.id).map(el => el.id).includes(id))).subscribe(data => { },
         error => {
-          console.log('ERROR: Wystąpił błąd usunięcia załącznika.');
         });
   }
 
   getPhotoAttachment(id: number) {
     const params = new HttpParams().set('id', id.toString());
-    //  const params106 = new HttpParams().set('id', '106');
     return this.http.get(address + '/attachment/downloadPhoto', { responseType: 'blob', params: params });
-    //  return this.http.get('http://localhost:8080/attachment/downloadPhoto?id=106', {responseType: 'blob', params: params106});
   }
 
   getAttachment(id: number) {

@@ -1,6 +1,6 @@
 .example-chip-list {
     width: 100%;
-  }
+}
 
 .chip-vertical {
     display: inline-block;
@@ -18,8 +18,6 @@
     margin: 4px;
     overflow: hidden;
 }
-
-
 
 .chip-text {
     display: inline;
