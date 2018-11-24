@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pg.eti.kiohub;
 
 import pg.eti.kiohub.entity.enums.AttachmentType;
@@ -26,7 +22,6 @@ import pg.eti.kiohub.utils.DateUtills;
  *
  * @author Aleksander Kania <kania>
  */
-//TODO usuwanie encji po teście
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DAOTest {
@@ -88,22 +83,6 @@ public class DAOTest {
 
         Assert.assertFalse(exceptionThrown);
     }
-    
-    @Test
-    public void saveComplexProject() {
-//        findNewEntityIds();
-//
-//        project = createProject();
-//        project2 = new Project();
-//        project2.setTitle("Kolejny taki projekt");
-//
-//        List<User> users = createUsers();
-//        ProjectCollaborator projectCollaborator = createProjectCollaborators();
-//        List<Note> notes = createNotes();
-//
-//        persistEntities(users, projectCollaborator, notes);
-//        assertEntities();
-    }
 
     private void assertEntities() {
         Optional<Project> savedProject = projectRepository.findById(projectId);
@@ -121,7 +100,6 @@ public class DAOTest {
     private void persistEntities(List<User> users, ProjectCollaborator projectCollaborator, List<Note> notes) {
         projectRepository.save(project);
         projectRepository.save(project2);
-        //project2.addRelationWithProject(project);
 
         userRepository.saveAll(users);
         userPinnedProjectRepository.save(new UserPinnedProject(userId1, projectId));
@@ -217,21 +195,11 @@ public class DAOTest {
         users.add(user1);
         users.add(user2);
 
-        // zapisz userów, a dopiero potem dodaj maile
-        // FIXME
-        //UserEmail userEmail1 = new UserEmail("jan.kow@o2.pl", user1);
-        //UserEmail userEmail2 = new UserEmail("ewcia2@gmail.com", user2`);
-
-       // userEmailRepository.saveAll(Arrays.asList(userEmail1, userEmail2));
         return users;
     }
 
     private List<Note> createNotes() {
         List<Note> notes = new ArrayList<>();
-//        Note note1 = new Note(userId1, projectId, "Login: root, haslo: admin", DateUtills.getDate(2018, 04, 11), Boolean.TRUE);
-//        Note note2 = new Note(userId1, projectId, "Nie zapomnieć zmienić hasła admina!!", DateUtills.getDate(2018, 07, 15), Boolean.TRUE);
-//        Note note3 = new Note(userId2, projectId, "www.java.pl - dobry tutorial", DateUtills.getDate(2018, 07, 14), Boolean.TRUE);
-//        notes.addAll(Arrays.asList(note1, note2, note3));
         return notes;
     }
 
@@ -259,7 +227,6 @@ public class DAOTest {
     private List<Tag> createSaveTags() {
         List<Tag> tags = new ArrayList<>();
         Tag tag1 = new Tag("spring");
-        //tag1.addProject(project);
         Tag tag2 = new Tag("web-app");
         tags.addAll(Arrays.asList(tag1, tag2));
 

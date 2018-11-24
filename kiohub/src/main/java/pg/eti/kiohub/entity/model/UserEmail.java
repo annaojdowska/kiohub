@@ -35,16 +35,10 @@ public class UserEmail {
     }
     
     public Boolean isStudentMail() {
-        if (email.contains(STUDENT_EMAIL)) {
-            return true;
-        }
-        return false;
+        return (email.contains(STUDENT_EMAIL));
     }
     
     public Boolean isPGEduMail() {
-        if (email.contains(PG_EDU_EMAIL)) {
-            return true;
-        }
-        return false;
+        return (email.contains(PG_EDU_EMAIL));
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pg.eti.kiohub.controller;
 
 import org.springframework.http.HttpStatus;
@@ -52,9 +47,8 @@ public class LoginController extends MainController {
     @RequestMapping(path = "/login/getLogged")
     @PreAuthorize("@securityService.isLogged(#request)")
     public ResponseEntity<User> getLogged(HttpServletRequest request) throws Exception {
-       User user = loginService.getLoggedUser(request);
-//       return new ResponseEntity<>(userRepository.getOne(437l), HttpStatus.OK); - testy
-       return new ResponseEntity<>(user, HttpStatus.OK); // THIS
+        User user = loginService.getLoggedUser(request);
+        return new ResponseEntity<>(user, HttpStatus.OK); // THIS
     }
 
     @RequestMapping(path = "/login/logout")
@@ -71,14 +65,7 @@ public class LoginController extends MainController {
 
     @RequestMapping(path = "/login")
     public String login(HttpServletRequest request) throws Exception {
-        //dodać if request.isLogin()
         User user = loginService.userToLogIn(request);
-
-        // ustawienie, że użytkownik jest zalogowany
-//        Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
-//                AuthorityUtils.createAuthorityList("ROLE_USER"));
-//        SecurityContextHolder.getContext().setAuthentication(auth);
-//        return "OK";
         return "redirect:http://kiohub.eti.pg.gda.pl";
     }
 }

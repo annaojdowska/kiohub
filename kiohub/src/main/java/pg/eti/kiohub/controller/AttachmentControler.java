@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pg.eti.kiohub.controller;
 
 
@@ -59,7 +54,6 @@ public class AttachmentControler extends MainController {
     private ApplicationContext appContext;
 
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    //@PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
             @RequestParam("Type") String type,
@@ -69,7 +63,6 @@ public class AttachmentControler extends MainController {
             HttpServletRequest request) {
 
         if (multipartFile.getSize() < MAX_ATTACHMENT_SIZE_IN_BYTES) {
-            log.info("_____________________________ NEW REQUEST ________________________________");
             Attachment attachment = new Attachment();
 
             try {
@@ -137,7 +130,7 @@ public class AttachmentControler extends MainController {
             @RequestParam("visibility") String visibility,
             @RequestParam("mainPhoto") String mainPhoto,
             HttpServletRequest request) {
-        log.info("Aktualizuję ");
+        log.info("Aktualizuje");
         Attachment attachment = attachmentRepository.getOne(Long.parseLong(attachmentId));
         attachment.setVisibility(Visibility.valueOf(visibility));
         attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));

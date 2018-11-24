@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package pg.eti.kiohub.controller;
 
-import java.util.*;
+package pg.eti.kiohub.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +17,8 @@ import pg.eti.kiohub.entity.model.Note;
 import pg.eti.kiohub.entity.model.Project;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.Optional;
 
 @CrossOrigin
 @Controller
@@ -34,19 +30,19 @@ public class NoteController extends MainController {
     @PostAuthorize("@visibilityService.checkProjectNotesVisibility(returnObject, #projectId, #request)")
     public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long projectId,
                                                               HttpServletRequest request) {
-            return new ResponseEntity<>(noteRepository.getNotesByProjectId(projectId), HttpStatus.OK);
+        return new ResponseEntity<>(noteRepository.getNotesByProjectId(projectId), HttpStatus.OK);
     }
 
     @PostMapping(path = "/add")
     @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
-    public ResponseEntity<Note> addNote (
+    public ResponseEntity<Note> addNote(
             @RequestParam("content") String content,
             @RequestParam("isPrivate") String isPrivate,
             @RequestParam("ownerId") String ownerId,
             @RequestParam("projectId") String projectId,
             HttpServletRequest request) {
         Project project = projectRepository.findById(Long.parseLong(projectId)).get();
-        Note noteToAdd = new Note(Long.parseLong(ownerId), project, content, new Date(), Integer.parseInt(isPrivate) == 1 ? true : false);
+        Note noteToAdd = new Note(Long.parseLong(ownerId), project, content, new Date(), Integer.parseInt(isPrivate) == 1);
         noteToAdd = noteRepository.saveAndFlush(noteToAdd);
 
         return new ResponseEntity<>(noteToAdd, HttpStatus.OK);
@@ -60,8 +56,7 @@ public class NoteController extends MainController {
         if (noteToDelete.isPresent()) {
             this.noteRepository.delete(noteToDelete.get());
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        else
+        } else
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
@@ -71,13 +66,13 @@ public class NoteController extends MainController {
             @PathVariable("id") Long id,
             @RequestParam("content") String content,
             @RequestParam("isPrivate") String isPrivate,
-            HttpServletRequest request){
+            HttpServletRequest request) {
         try {
             Note noteToUpdate = noteRepository.findById(id).get();
             noteToUpdate.setContent(content);
             noteToUpdate.setIsPrivate(Integer.parseInt(isPrivate) == 1);
             super.noteRepository.saveAndFlush(noteToUpdate);
-         } catch (Exception ex) {
+        } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);

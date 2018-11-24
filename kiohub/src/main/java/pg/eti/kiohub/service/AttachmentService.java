@@ -24,8 +24,8 @@ public class AttachmentService {
     AttachmentRepository attachmentFileRepository;
 
     public void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt,
-                                          Optional<AttachmentFile> attachmentFileOpt,
-                                          HttpServletResponse response) throws SQLException, IOException {
+                                         Optional<AttachmentFile> attachmentFileOpt,
+                                         HttpServletResponse response) throws SQLException, IOException {
         Attachment attachment = attachmentOpt.get();
         AttachmentFile attachmentFile = attachmentFileOpt.get();
 

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pg.eti.kiohub.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +7,30 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
-import pg.eti.kiohub.entity.repository.*;
+import pg.eti.kiohub.entity.repository.AttachmentFileRepository;
+import pg.eti.kiohub.entity.repository.AttachmentRepository;
+import pg.eti.kiohub.entity.repository.LicenceRepository;
+import pg.eti.kiohub.entity.repository.NoteRepository;
+import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
+import pg.eti.kiohub.entity.repository.ProjectRepository;
+import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
+import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
+import pg.eti.kiohub.entity.repository.SemesterRepository;
+import pg.eti.kiohub.entity.repository.TagRepository;
+import pg.eti.kiohub.entity.repository.UserEmailRepository;
+import pg.eti.kiohub.entity.repository.UserPinnedProjectRepository;
+import pg.eti.kiohub.entity.repository.UserRepository;
 import pg.eti.kiohub.security.SecurityService;
-import pg.eti.kiohub.security.VisibilityService;
-import pg.eti.kiohub.service.*;
-
-import javax.servlet.http.HttpServletRequest;
+import pg.eti.kiohub.service.AttachmentService;
+import pg.eti.kiohub.service.CollaboratorsService;
+import pg.eti.kiohub.service.LoginService;
+import pg.eti.kiohub.service.MailService;
+import pg.eti.kiohub.service.ProjectService;
+import pg.eti.kiohub.service.SearchService;
+import pg.eti.kiohub.service.SemesterService;
+import pg.eti.kiohub.service.TagService;
+import pg.eti.kiohub.service.UserService;
 
 @Controller
 public class MainController {
@@ -103,11 +115,9 @@ public class MainController {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/index.html", "/", "/home", "/login").permitAll()
                     .antMatchers("/project/**").permitAll()
                 .anyRequest().permitAll()
                     .and().csrf().disable();
-                    //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         }
     }
 

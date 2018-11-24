@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pg.eti.kiohub.entity.model;
 
 import java.io.Serializable;
@@ -15,7 +11,6 @@ import lombok.NoArgsConstructor;
  *
  * @author Aleksander Kania
  */
-//@Embeddable
 @NoArgsConstructor
 public class UserProjectPK implements Serializable {
 

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pg.eti.kiohub.entity.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,9 +20,6 @@ import java.util.List;
  */
 @Repository
 public interface ProjectCollaboratorRepository extends JpaRepository<ProjectCollaborator, Long>{
-//    @Query("SELECT u FROM ProjectCollaborator pc " +
-//            "LEFT JOIN User u ON u.id = pc.userId " +
-//            "WHERE pc.projectId = :id AND pc.isSupervisor = false")
     @Query(value = "SELECT u.user_id, u.first_name, u.last_name, ue.email " +
             "FROM project_collaborators pc " +
             "LEFT JOIN users u ON u.user_id = pc.user_id " +

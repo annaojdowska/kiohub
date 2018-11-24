@@ -21,36 +21,36 @@ public class CollaboratorsService {
             createAndSaveCollaborator(project, user, Boolean.FALSE, Visibility.EVERYONE);
         }
     }
-    
-        public void createAndSaveCollaborator(Project project, User user, Boolean isSupervisor, Visibility userDataVisible) {
-            ProjectCollaborator collaborator = new ProjectCollaborator();
-            collaborator.setUserId(user.getId());
-            collaborator.setProjectId(project.getId());
-            collaborator.setIsSupervisor(isSupervisor);
-            collaborator.setUserDataVisible(userDataVisible);
-            projectCollaboratorRepository.saveAndFlush(collaborator);
+
+    public void createAndSaveCollaborator(Project project, User user, Boolean isSupervisor, Visibility userDataVisible) {
+        ProjectCollaborator collaborator = new ProjectCollaborator();
+        collaborator.setUserId(user.getId());
+        collaborator.setProjectId(project.getId());
+        collaborator.setIsSupervisor(isSupervisor);
+        collaborator.setUserDataVisible(userDataVisible);
+        projectCollaboratorRepository.saveAndFlush(collaborator);
     }
 
-    public boolean isProjectCollaborator(long userId, long projectId){
+    public boolean isProjectCollaborator(long userId, long projectId) {
         List<Long> collaboratorsIds = projectCollaboratorRepository.getListOfProjectCollaboratorsIds(projectId);
         return collaboratorsIds.contains(userId);
     }
 
-    public boolean isSupervisorOfProject(long userId, long projectId){
+    public boolean isSupervisorOfProject(long userId, long projectId) {
         User supervisor = projectCollaboratorRepository.getSupervisor(projectId);
-        if(supervisor == null) return false;
+        if (supervisor == null) return false;
 
         return supervisor.getId() == userId;
     }
 
-    public Visibility getCollaboratorVisibility(Long projectId, Long userId){
+    public Visibility getCollaboratorVisibility(Long projectId, Long userId) {
         return projectCollaboratorRepository.getCollaboratorVisibility(projectId, userId);
     }
 
     public boolean isCollaboratorAlreadyAdded(Long projectId, String email) {
         List<Object[]> collaborators = projectCollaboratorRepository.getCollaborators(projectId);
-        for(Object[] collaboratorData : collaborators)
-            if(collaboratorData[3].equals(email)) return true;
+        for (Object[] collaboratorData : collaborators)
+            if (collaboratorData[3].equals(email)) return true;
 
         return false;
     }

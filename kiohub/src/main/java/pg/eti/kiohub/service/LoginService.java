@@ -22,15 +22,15 @@ public class LoginService {
     @Autowired
     UserEmailRepository userEmailRepository;
 
-    public boolean isUserLogged(HttpServletRequest request){
+    public boolean isUserLogged(HttpServletRequest request) {
         return request.isRequestedSessionIdValid();
     }
 
-    public User getLoggedUser(HttpServletRequest request){
+    public User getLoggedUser(HttpServletRequest request) {
         User user = null;
         if (isUserLogged(request)) {
             AttributePrincipal attributePrincipal = ((AttributePrincipal) request.getUserPrincipal());
-            if(attributePrincipal == null) return null;
+            if (attributePrincipal == null) return null;
             Map<String, Object> attributes = attributePrincipal.getAttributes();
             List<String> emails = (LinkedList) attributes.get("mail");
 
@@ -43,7 +43,7 @@ public class LoginService {
         return user;
     }
 
-    public User createAndSaveLoggingUser(List<String> emails, String firstName, String lastName){
+    public User createAndSaveLoggingUser(List<String> emails, String firstName, String lastName) {
         User user = null;
         int i = 0;
         while (i < emails.size() && user == null) {
@@ -75,13 +75,13 @@ public class LoginService {
         return user;
     }
 
-    public User userToLogIn(HttpServletRequest request)  throws Exception {
+    public User userToLogIn(HttpServletRequest request) throws Exception {
         if (isUserLogged(request)) {
-            Map<String, Object> attributes = ((AttributePrincipal)request.getUserPrincipal()).getAttributes();
+            Map<String, Object> attributes = ((AttributePrincipal) request.getUserPrincipal()).getAttributes();
             String firstName = attributes.get("firstName").toString();
             String lastName = attributes.get("lastName").toString();
 
-            List<String> emails = (LinkedList)attributes.get("mail");
+            List<String> emails = (LinkedList) attributes.get("mail");
             User user = createAndSaveLoggingUser(emails, firstName, lastName);
             return user;
         }

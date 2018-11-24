@@ -24,7 +24,6 @@ public class SearchController extends MainController {
     @PostAuthorize("@visibilityService.checkVisibilityOfSearchResults(returnObject, #request)")
     public ResponseEntity<List<SearchResult>> advancedSearch(@RequestBody QueryDescription query,
                                                              HttpServletRequest request){
-        QueryDescription another = query;
         List<SearchResult> projects = searchService.findMatchingProjects(query);
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }

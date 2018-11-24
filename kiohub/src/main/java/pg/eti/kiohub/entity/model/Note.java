@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package pg.eti.kiohub.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -47,7 +43,6 @@ public class Note {
     private Boolean isPrivate;
 
     public Note(Long ownerId, Project project, String content, Date publicationDate, Boolean isPrivate) {
-        this.id = id;
         this.ownerId = ownerId;
         this.project = project;
         this.content = content;
