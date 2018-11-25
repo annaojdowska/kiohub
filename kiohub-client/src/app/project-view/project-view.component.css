@@ -100,3 +100,8 @@ table>*:first-child:not(thead) th:nth-child(2), .description_content, li {
 #bullet-character {
     margin-right: 7px;
 }
+
+.relatedProjectHover:hover {
+    color:var(--color-blue);
+    text-decoration: underline;
+}
