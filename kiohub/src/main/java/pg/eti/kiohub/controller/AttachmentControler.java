@@ -54,6 +54,7 @@ public class AttachmentControler extends MainController {
     private ApplicationContext appContext;
 
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
             @RequestParam("Type") String type,

@@ -102,10 +102,12 @@ public class ProjectCollaboratorController extends MainController {
     }
 
     @PostMapping(path = "/add")
+    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #projectId)")
     public ResponseEntity addCollaborator(
             @RequestParam("email") String email,
             @RequestParam("visibility") String visibility,
-            @RequestParam("projectId") Long projectId) {
+            @RequestParam("projectId") Long projectId,
+            HttpServletRequest request) {
 
         User user = userService.createNewUsersAndGetAllByEmails(Arrays.asList(email)).get(0);
         Project project = projectRepository.getOne(projectId);
@@ -118,9 +120,11 @@ public class ProjectCollaboratorController extends MainController {
     }
 
     @PostMapping(path = "/remove")
+    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #projectId)")
     public ResponseEntity removeCollaborator(
             @RequestParam("collaboratorId") String collaboratorId,
-            @RequestParam("projectId") String projectId) {
+            @RequestParam("projectId") String projectId,
+            HttpServletRequest request) {
         try {
             collaboratorsRepository.deleteCollaborator(Long.parseLong(projectId), Long.parseLong(collaboratorId));
         } catch (Exception e) {
