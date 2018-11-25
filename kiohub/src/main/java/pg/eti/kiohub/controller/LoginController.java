@@ -66,6 +66,6 @@ public class LoginController extends MainController {
     @RequestMapping(path = "/login")
     public String login(HttpServletRequest request) throws Exception {
         User user = loginService.userToLogIn(request);
-        return "redirect:http://kiohub.eti.pg.gda.pl";
+        return "redirect:http://kiohub.eti.pg.gda.pl/my-projects";
     }
 }
