@@ -64,10 +64,11 @@ public class SearchService {
         double totalScore = 0;
         User supervisor = collaboratorRepository.getSupervisor(project.getId());
         if (supervisor != null) {
-            for (Map.Entry<String, Double> entry : scoredDescription.getSupervisors().entrySet())
-                if (supervisor.getFirstName().toLowerCase().contains(entry.getKey().toLowerCase())
-                        || supervisor.getLastName().toLowerCase().contains(entry.getKey().toLowerCase()))
+            for (Map.Entry<String, Double> entry : scoredDescription.getSupervisors().entrySet()) {
+                String wholeName = supervisor.getFirstName().toLowerCase() + " " + supervisor.getLastName().toLowerCase();
+                if (wholeName.contains(entry.getKey().toLowerCase()))
                     totalScore += entry.getValue() * SUPERVISOR_RATE;
+            }
         }
         if (project.getTags() != null) {
             List<String> tagNames = project.getTags().stream().map(tag -> tag.getName().toLowerCase()).collect(Collectors.toList());
