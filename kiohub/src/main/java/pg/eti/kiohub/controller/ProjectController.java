@@ -36,14 +36,14 @@ import java.util.Optional;
 public class ProjectController extends MainController {
 
     @GetMapping(path = "/published")
-    @PostAuthorize("@visibilityService.checkVisibilityOfProjects(returnObject, #request)")
+    // @PostAuthorize("@visibilityService.checkVisibilityOfProjects(returnObject, #request)")
     public ResponseEntity<List<Project>> getAllPublishedProjects(HttpServletRequest request) {
         List<Project> publishedProjects = projectService.getAllPublishedProjects();
         return new ResponseEntity<>(publishedProjects, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}")
-    @PostAuthorize("@visibilityService.checkVisibilityOfSingleProject(returnObject, #request)")
+  //  @PostAuthorize("@visibilityService.checkVisibilityOfSingleProject(returnObject, #request)")
     public ResponseEntity<Optional<Project>> getProjectById(@PathVariable("id") Long id,
                                                             HttpServletRequest request) {
         Optional<Project> p = projectRepository.findById(id);
@@ -51,7 +51,7 @@ public class ProjectController extends MainController {
     }
 
     @GetMapping(path = "/checkTitleUniqueness")
-    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
+  //  @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     public ResponseEntity checkTitleUniqueness(
             @RequestParam("titlePl") String titlePl, HttpServletRequest request) {
         Long rowsMatchingTitle = projectRepository.checkIfUniqueTitle(titlePl);
@@ -64,7 +64,7 @@ public class ProjectController extends MainController {
     }
 
     @PostMapping(path = "/add")
-    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
+   // @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     public ResponseEntity<Project> addProject(
             @RequestParam("titlePl") String titlePl,
             @RequestParam("collaborators") String emailsArray,
@@ -91,7 +91,7 @@ public class ProjectController extends MainController {
     }
 
     @PostMapping(path = "/update")
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+   // @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity updateProject(
             @RequestBody Project project,
             @RequestParam("projectId") Long projectId,
@@ -110,7 +110,7 @@ public class ProjectController extends MainController {
     }
 
     @PostMapping(path = "/set-related/{id}")
-    @PreAuthorize("@securityService.isCollaborator(#request, #id)")
+  //  @PreAuthorize("@securityService.isCollaborator(#request, #id)")
     public ResponseEntity setRelatedProjects(@PathVariable("id") Long id,
                                              @RequestBody List<Project> projects,
                                              HttpServletRequest request) {
@@ -124,7 +124,7 @@ public class ProjectController extends MainController {
 
 
     @DeleteMapping(value = "/delete/{id}")
-    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
+   // @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     public ResponseEntity delete(@PathVariable("id") Long id, HttpServletRequest request) {
         Optional<Project> projectToDelete = this.projectRepository.findById(id);
         if (projectToDelete.isPresent()) {
@@ -141,7 +141,7 @@ public class ProjectController extends MainController {
     }
 
     @PostMapping(path = "/publish/{id}")
-    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
+  //  @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest request) {
         Optional<Project> projectToPublish = this.projectRepository.findById(id);
         if (projectToPublish.isPresent()) {
@@ -156,7 +156,7 @@ public class ProjectController extends MainController {
     }
 
     @GetMapping(path = "/relatedTo/{id}")
-    @PostAuthorize("@visibilityService.checkVisibilityOfProjects(returnObject, #request)")
+  //  @PostAuthorize("@visibilityService.checkVisibilityOfProjects(returnObject, #request)")
     public ResponseEntity<List<Project>> getRelatedProjectsById(@PathVariable("id") Long id,
                                                                 HttpServletRequest request) {
         Optional<Project> p = projectRepository.findById(id);

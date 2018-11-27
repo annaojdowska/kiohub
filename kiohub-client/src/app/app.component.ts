@@ -13,7 +13,7 @@ import { detect } from '../../node_modules/detect-browser/index.js'; // require(
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  isLogged = false;
+  isLogged = true;
   currentUser: User;
   private valueUtils = new ValueUtils();
   public display = 'block';
@@ -24,9 +24,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.isLogged().subscribe(x => {
-      this.isLogged = x;
-    });
+    // this.userService.isLogged().subscribe(x => {
+    //   this.isLogged = x;
+    // });
+    console.log('app-comp');
   }
 
   private detectInternetExplorer() {

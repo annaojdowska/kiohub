@@ -11,7 +11,7 @@
     <div id="info">
       <div>
         <h2 class="title">{{project.title}}</h2>
-        <h3 *ngIf="displayPublished()">{{displayPublicationState()}}</h3>
+        <h3 id="publication-state" *ngIf="displayPublished()">{{displayPublicationState()}}</h3>
       </div>
       <h3>{{project.titleEng}}</h3>
       <p>{{descriptionToDisplay}}</p>

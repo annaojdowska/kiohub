@@ -21,21 +21,22 @@ export class PublishedGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const editedProjectId: number = Number.parseInt(next.url[1].toString());
-    if (editedProjectId && !Number.isNaN(editedProjectId)) {
-      return this.projectService.isProjectPublishedOrUserIsCollaborator(editedProjectId).pipe<boolean>(map(response => {
-        if (response) {
-          return true;
-        } else {
-          this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
-          this.router.navigate(['/home']);
-          return false;
-        }
-      }));
-    } else {
-      this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
-      this.router.navigate(['/home']);
-      return false;
-    }
+      return true;
+    // const editedProjectId: number = Number.parseInt(next.url[1].toString());
+    // if (editedProjectId && !Number.isNaN(editedProjectId)) {
+    //   return this.projectService.isProjectPublishedOrUserIsCollaborator(editedProjectId).pipe<boolean>(map(response => {
+    //     if (response) {
+    //       return true;
+    //     } else {
+    //       this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
+    //       this.router.navigate(['/home']);
+    //       return false;
+    //     }
+    //   }));
+    // } else {
+    //   this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
+    //   this.router.navigate(['/home']);
+    //   return false;
+    // }
   }
 }

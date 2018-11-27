@@ -21,7 +21,7 @@ import javax.ws.rs.Path;
 public class SearchController extends MainController {
 
     @PostMapping(path = "/advanced")
-    @PostAuthorize("@visibilityService.checkVisibilityOfSearchResults(returnObject, #request)")
+  //  @PostAuthorize("@visibilityService.checkVisibilityOfSearchResults(returnObject, #request)")
     public ResponseEntity<List<SearchResult>> advancedSearch(@RequestBody QueryDescription query,
                                                              HttpServletRequest request){
         List<SearchResult> projects = searchService.findMatchingProjects(query);

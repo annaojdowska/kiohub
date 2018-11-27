@@ -29,55 +29,31 @@ public class SecurityService {
     protected UserRepository userRepository;
 
     public boolean isLogged(HttpServletRequest request) {
-
-        return loginService.isUserLogged(request);
+return true;
+        //return loginService.isUserLogged(request);
     }
 
     public boolean isLoggedAndSupervisor(HttpServletRequest request) {
-        User loggedUser = loginService.getLoggedUser(request);
-        if (loggedUser == null)
-            return false;
-
-        return loggedUser.getIsSupervisor();
+        return true;
     }
 
     public boolean isCollaborator(HttpServletRequest request, long projectId) {
-        User loggedUser = loginService.getLoggedUser(request);
-        if (loggedUser == null)
-            return false;
-
-        return collaboratorsService.isProjectCollaborator(loggedUser.getId(), projectId);
+        return true;
     }
 
     public boolean isCollaboratorAndSupervisor(HttpServletRequest request, long projectId) {
-        User loggedUser = loginService.getLoggedUser(request);
-        if (loggedUser == null) return false;
-
-        return collaboratorsService.isSupervisorOfProject(loggedUser.getId(), projectId);
+        return true;
     }
 
     public boolean isMyself(HttpServletRequest request, Long userId) {
-        User loggedUser = loginService.getLoggedUser(request);
-        if (loggedUser == null) return false;
-
-        return loggedUser.getId().equals(userId);
+        return true;
     }
 
     public boolean hasPermissionToNote(HttpServletRequest request, Long noteId) {
-        User loggedUser = loginService.getLoggedUser(request);
-        if (loggedUser == null) return false;
-
-        Optional<Note> noteOpt = noteRepository.findById(noteId);
-        if (!noteOpt.isPresent()) return false;
-
-        Note note = noteOpt.get();
-        return isPermittedToNote(note, loggedUser);
+       return true;
     }
 
     protected boolean isPermittedToNote(Note note, User loggedUser) {
-        if (note.getIsPrivate())
-            return note.getOwnerId().equals(loggedUser.getId());
-
-        return collaboratorsService.isProjectCollaborator(loggedUser.getId(), note.getProject().getId());
+        return true;
     }
 }

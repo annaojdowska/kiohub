@@ -26,7 +26,7 @@ import java.util.Optional;
 public class NoteController extends MainController {
 
     @GetMapping(path = "/project/{id}")
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+   // @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     @PostAuthorize("@visibilityService.checkProjectNotesVisibility(returnObject, #projectId, #request)")
     public ResponseEntity<Iterable<Note>> getNotesByProjectId(@PathVariable("id") Long projectId,
                                                               HttpServletRequest request) {
@@ -34,7 +34,7 @@ public class NoteController extends MainController {
     }
 
     @PostMapping(path = "/add")
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+  //  @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity<Note> addNote(
             @RequestParam("content") String content,
             @RequestParam("isPrivate") String isPrivate,
@@ -49,7 +49,7 @@ public class NoteController extends MainController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    @PreAuthorize("@securityService.hasPermissionToNote(#request, #id)")
+  //  @PreAuthorize("@securityService.hasPermissionToNote(#request, #id)")
     public ResponseEntity delete(@PathVariable("id") Long id,
                                  HttpServletRequest request) {
         Optional<Note> noteToDelete = this.noteRepository.findById(id);
@@ -61,7 +61,7 @@ public class NoteController extends MainController {
     }
 
     @PostMapping(path = "/update/{id}")
-    @PreAuthorize("@securityService.hasPermissionToNote(#request, #id)")
+  //  @PreAuthorize("@securityService.hasPermissionToNote(#request, #id)")
     public ResponseEntity update(
             @PathVariable("id") Long id,
             @RequestParam("content") String content,

@@ -78,9 +78,14 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(routeParams => {
+    console.log('1');
+    this.route.params.subscribe(routeParams => {    console.log('2');
+
       this.id = routeParams.id;
+      console.log(this.id);
       this.getItem(this.id).then(project => {
+           console.log('3');
+
         if (!project.published) {
           this.previewModeInfo.setDisplay(true);
         }
@@ -107,6 +112,8 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
           attachment => attachment.type === AttachmentType.OTHER)
         );
         this.manageVisibility(project);
+      }, error => {
+        console.log('error');
       });
     });
     this.setDownloadElements();

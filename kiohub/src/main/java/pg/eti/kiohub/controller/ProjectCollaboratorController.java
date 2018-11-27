@@ -29,7 +29,7 @@ import java.util.List;
 public class ProjectCollaboratorController extends MainController {
 
     @GetMapping(path = "/project/{id}")
-    @PostAuthorize("@visibilityService.checkCollaboratorsVisibilityByEmail(returnObject, #id, #request)")
+   // @PostAuthorize("@visibilityService.checkCollaboratorsVisibilityByEmail(returnObject, #id, #request)")
     public ResponseEntity<Iterable<UserEmail>> getProjectCollaboratorsByProjectId(@PathVariable("id") Long id,
                                                                                   HttpServletRequest request) {
         List<Object[]> pc = collaboratorsRepository.getCollaborators(id);
@@ -54,28 +54,28 @@ public class ProjectCollaboratorController extends MainController {
     }
 
     @GetMapping(path = "/supervisor/project/{id}")
-    @PostAuthorize("@visibilityService.checkUserAsCollaboratorVisibility(returnObject, #id, #request)")
+  //  @PostAuthorize("@visibilityService.checkUserAsCollaboratorVisibility(returnObject, #id, #request)")
     public ResponseEntity<User> getProjectSupervisorByProjectId(@PathVariable("id") Long id,
                                                                 HttpServletRequest request) {
         return new ResponseEntity<>(collaboratorsRepository.getSupervisor(id), HttpStatus.OK);
     }
 
     @GetMapping(path = "data/project/{id}")
-    @PostAuthorize("@visibilityService.checkCollaboratorsVisibility(returnObject, #id, #request)")
+  //  @PostAuthorize("@visibilityService.checkCollaboratorsVisibility(returnObject, #id, #request)")
     public ResponseEntity<Iterable<ProjectCollaborator>> getProjectCollaboratorsDataByProjectId(@PathVariable("id") Long id,
                                                                                                 HttpServletRequest request) {
         return new ResponseEntity<>(collaboratorsRepository.getCollaboratorsData(id), HttpStatus.OK);
     }
 
     @GetMapping(path = "data/supervisor/project/{id}")
-    @PostAuthorize("@visibilityService.checkSingleCollaboratorVisibility(returnObject, #id, #request)")
+ //   @PostAuthorize("@visibilityService.checkSingleCollaboratorVisibility(returnObject, #id, #request)")
     public ResponseEntity<ProjectCollaborator> getProjectSupervisorDataByProjectId(@PathVariable("id") Long id,
                                                                                    HttpServletRequest request) {
         return new ResponseEntity<>(collaboratorsRepository.getSupervisorData(id), HttpStatus.OK);
     }
 
     @PostMapping(path = "/updateVisibility")
-    @PreAuthorize("@securityService.isMyself(#request, #userId)")
+ //   @PreAuthorize("@securityService.isMyself(#request, #userId)")
     public ResponseEntity updateMetadata(
             @RequestParam("projectId") String projectId,
             @RequestParam("userId") String userId,
@@ -95,14 +95,14 @@ public class ProjectCollaboratorController extends MainController {
     }
 
     @GetMapping(path = "/project/byCollaborator/{id}")
-    @PreAuthorize("@securityService.isMyself(#request, #id)")
+ //   @PreAuthorize("@securityService.isMyself(#request, #id)")
     public ResponseEntity getProjectsByCollaboratorId(@PathVariable("id") Long id,
                                                       HttpServletRequest request) {
         return new ResponseEntity<>(collaboratorsRepository.getListOfCollaboratorsProjects(id), HttpStatus.OK);
     }
 
     @PostMapping(path = "/add")
-    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #projectId)")
+ //   @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #projectId)")
     public ResponseEntity addCollaborator(
             @RequestParam("email") String email,
             @RequestParam("visibility") String visibility,
@@ -120,7 +120,7 @@ public class ProjectCollaboratorController extends MainController {
     }
 
     @PostMapping(path = "/remove")
-    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #projectId)")
+  //  @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #projectId)")
     public ResponseEntity removeCollaborator(
             @RequestParam("collaboratorId") String collaboratorId,
             @RequestParam("projectId") String projectId,

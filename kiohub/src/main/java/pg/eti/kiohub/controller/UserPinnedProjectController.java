@@ -26,7 +26,7 @@ public class UserPinnedProjectController extends MainController {
 
 
     @GetMapping(path = "/user/{userId}")
-    @PreAuthorize("@securityService.isMyself(#request, #userId)")
+  //  @PreAuthorize("@securityService.isMyself(#request, #userId)")
     public ResponseEntity<Iterable<Long>> getUserPinnedProjectsIdsByUserId(@PathVariable("userId") Long userId,
                                                                            HttpServletRequest request) {
         List<UserPinnedProject> pinnedProjects = userPinnedProjectRepository.getPinnedProjects(userId);
@@ -38,7 +38,7 @@ public class UserPinnedProjectController extends MainController {
     }
 
     @PostMapping(path = "/pin")
-    @PreAuthorize("@securityService.isMyself(#request, #userId)")
+  //  @PreAuthorize("@securityService.isMyself(#request, #userId)")
     public ResponseEntity<UserPinnedProject> pin(
             @RequestParam("userId") String userId,
             @RequestParam("projectId") String projectId,
@@ -52,7 +52,7 @@ public class UserPinnedProjectController extends MainController {
     }
 
     @PostMapping(path = "/unpin")
-    @PreAuthorize("@securityService.isMyself(#request, #userId)")
+ //   @PreAuthorize("@securityService.isMyself(#request, #userId)")
     public ResponseEntity<UserPinnedProject> unPin(
             @RequestParam("userId") String userId,
             @RequestParam("projectId") String projectId,
@@ -72,7 +72,7 @@ public class UserPinnedProjectController extends MainController {
 
 
     @PostMapping(path = "/ispinned")
-    @PreAuthorize("@securityService.isMyself(#request, #userId)")
+ //   @PreAuthorize("@securityService.isMyself(#request, #userId)")
     public ResponseEntity<Boolean> isPinned(
             @RequestParam("userId") String userId,
             @RequestParam("projectId") String projectId,

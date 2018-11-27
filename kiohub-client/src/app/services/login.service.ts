@@ -9,11 +9,12 @@ import { User } from '../model/user.interface';
 })
 export class LoginService {
 
-  authenticated: boolean;
+  authenticated = true; // testy
 
   constructor(@Inject(HttpClient) private http: HttpClient) { }
 
   login() {
+    console.log('loguje');
     return this.http.get(address + '/login', { responseType: 'json' });
   }
 
@@ -30,18 +31,19 @@ export class LoginService {
   }
 
   authenticate(credentials, callback) {
-    const headers = new HttpHeaders(credentials ? {
-      authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-    } : {});
+    // const headers = new HttpHeaders(credentials ? {
+    //   authorization: 'Basic ' + btoa(credentials.username + ':' + credentials.password)
+    // } : {});
 
-    this.isLogged().subscribe(response => {
-      if (response['name']) {
-        this.authenticated = true;
-      } else {
-        this.authenticated = false;
-      }
-      return callback && callback();
-    });
+    // this.isLogged().subscribe(response => {
+    //   if (response['name']) {
+    //     this.authenticated = true;
+    //   } else {
+    //     this.authenticated = false;
+    //   }
+    //   return callback && callback();
+    // });
+    return true;
   }
 }
 

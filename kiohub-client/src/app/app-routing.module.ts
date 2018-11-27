@@ -11,18 +11,16 @@ import { LoggedGuard } from './guards/logged.guard';
 import { CollaboratorGuard } from './guards/collaborator.guard';
 import { PublishedGuard } from './guards/published.guard';
 import { RulesComponent } from './rules/rules.component';
-import { IEDetectedComponent } from './ie-detected/ie-detected.component';
 
 const routes: Routes = [
   { path: 'home', component: UnloggedSearchComponent },
-  { path: 'add-project', component: AddProjectComponent, canActivate: [SupervisorGuard] },
-  { path: 'edit-project/:id', component: EditProjectTabComponent, canActivate: [CollaboratorGuard] },
+  { path: 'add-project', component: AddProjectComponent }, // dcanActivate: [SupervisorGuard] },
+  { path: 'edit-project/:id', component: EditProjectTabComponent}, // canActivate: [CollaboratorGuard] },
   { path: 'projects-base', component: AdvancedSearchComponent },
-  { path: 'details/:id', component: ProjectViewComponent, canActivate: [PublishedGuard] },
-  { path: 'my-projects', component: MyProjectsComponent, canActivate: [LoggedGuard] },
+  { path: 'details/:id', component: ProjectViewComponent }, // canActivate: [PublishedGuard] },
+  { path: 'my-projects', component: MyProjectsComponent }, // canActivate: [LoggedGuard] },
   { path: 'rules', component: RulesComponent },
-  { path: 'ie-detected', component: IEDetectedComponent },
-  { path: '**', component: UnloggedSearchComponent }
+  // { path: '**', component: UnloggedSearchComponent }
 ];
 
 

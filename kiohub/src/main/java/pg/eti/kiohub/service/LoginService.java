@@ -23,24 +23,26 @@ public class LoginService {
     UserEmailRepository userEmailRepository;
 
     public boolean isUserLogged(HttpServletRequest request) {
-        return request.isRequestedSessionIdValid();
+        return true;
+//        return request.isRequestedSessionIdValid();
     }
 
     public User getLoggedUser(HttpServletRequest request) {
-        User user = null;
-        if (isUserLogged(request)) {
-            AttributePrincipal attributePrincipal = ((AttributePrincipal) request.getUserPrincipal());
-            if (attributePrincipal == null) return null;
-            Map<String, Object> attributes = attributePrincipal.getAttributes();
-            List<String> emails = (LinkedList) attributes.get("mail");
+//        User user = null;
+//        if (isUserLogged(request)) {
+//            AttributePrincipal attributePrincipal = ((AttributePrincipal) request.getUserPrincipal());
+//            if (attributePrincipal == null) return null;
+//            Map<String, Object> attributes = attributePrincipal.getAttributes();
+//            List<String> emails = (LinkedList) attributes.get("mail");
+//
+//            int i = 0;
+//            while (i < emails.size() && user == null) {
+//                user = userRepository.findUserByEmail(emails.get(i));
+//                i++;
+//            }
+//        }
 
-            int i = 0;
-            while (i < emails.size() && user == null) {
-                user = userRepository.findUserByEmail(emails.get(i));
-                i++;
-            }
-        }
-        return user;
+        return userRepository.getOne(142L);
     }
 
     public User createAndSaveLoggingUser(List<String> emails, String firstName, String lastName) {

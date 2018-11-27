@@ -19,15 +19,16 @@ export class SupervisorGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.userService.isLoggedAndSupervisor().pipe(map(isLoggedAndSupervisor => {
-      if (isLoggedAndSupervisor) {
-        return true;
-      } else {
-        this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
-        this.router.navigate(['/home']);
-        return false;
-      }
-    }
-    ));
+    return true;
+    // return this.userService.isLoggedAndSupervisor().pipe(map(isLoggedAndSupervisor => {
+    //   if (isLoggedAndSupervisor) {
+    //     return true;
+    //   } else {
+    //     this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
+    //     this.router.navigate(['/home']);
+    //     return false;
+    //   }
+    // }
+    // ));
   }
 }

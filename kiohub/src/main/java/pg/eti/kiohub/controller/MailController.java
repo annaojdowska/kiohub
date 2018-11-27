@@ -21,7 +21,7 @@ import java.util.List;
 public class MailController extends MainController {
 
     @PostMapping(path = "/sendinvitation")
-    @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
+   // @PreAuthorize("@securityService.isLoggedAndSupervisor(#request)")
     public ResponseEntity sendInvitation(
             @RequestParam("projectId") String projectId,
             @RequestParam("collaborators") String emails,

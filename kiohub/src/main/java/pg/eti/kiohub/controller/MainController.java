@@ -8,19 +8,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.stereotype.Controller;
-import pg.eti.kiohub.entity.repository.AttachmentFileRepository;
-import pg.eti.kiohub.entity.repository.AttachmentRepository;
-import pg.eti.kiohub.entity.repository.LicenceRepository;
-import pg.eti.kiohub.entity.repository.NoteRepository;
-import pg.eti.kiohub.entity.repository.ProjectCollaboratorRepository;
-import pg.eti.kiohub.entity.repository.ProjectRepository;
-import pg.eti.kiohub.entity.repository.ProjectStatusRepository;
-import pg.eti.kiohub.entity.repository.ProjectTypeRepository;
-import pg.eti.kiohub.entity.repository.SemesterRepository;
-import pg.eti.kiohub.entity.repository.TagRepository;
-import pg.eti.kiohub.entity.repository.UserEmailRepository;
-import pg.eti.kiohub.entity.repository.UserPinnedProjectRepository;
-import pg.eti.kiohub.entity.repository.UserRepository;
+import pg.eti.kiohub.entity.repository.*;
 import pg.eti.kiohub.security.SecurityService;
 import pg.eti.kiohub.service.AttachmentService;
 import pg.eti.kiohub.service.CollaboratorsService;
@@ -105,20 +93,20 @@ public class MainController {
     AttachmentService attachmentService;
 
 
-    @Configuration
-    @EnableGlobalMethodSecurity(prePostEnabled = true)
-    @Order()
-    protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                    .antMatchers("/project/**").permitAll()
-                .anyRequest().permitAll()
-                    .and().csrf().disable();
-        }
-    }
+//    @Configuration
+//    @EnableGlobalMethodSecurity(prePostEnabled = true)
+//    @Order()
+//    protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+//        @Override
+//        protected void configure(HttpSecurity http) throws Exception {
+//            http
+//                .httpBasic()
+//                .and()
+//                .authorizeRequests()
+//                    .antMatchers("/project/**").permitAll()
+//                .anyRequest().permitAll()
+//                    .and().csrf().disable();
+//        }
+//    }
 
 }

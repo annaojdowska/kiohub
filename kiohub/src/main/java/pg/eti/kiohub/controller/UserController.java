@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController extends MainController {
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+  //  @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity<User> getUserById(
             @PathVariable("id") Long id,
             @RequestParam("projectId") Long projectId,

@@ -29,6 +29,10 @@ img, a {
     display: inline-block;
 }
 
+.description_content {
+    white-space: pre-wrap;
+}
+
 th, .description_content, label {
     margin-top: 10px;
 }

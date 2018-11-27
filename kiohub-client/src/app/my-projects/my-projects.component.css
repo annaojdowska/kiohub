@@ -81,3 +81,8 @@ mat-paginator {
 #sort-bar {
     display: flow-root;
 }
+
+#publication-state {
+    font-style: italic;
+    color: var(--color-gray);
+}

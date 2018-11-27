@@ -20,39 +20,35 @@ public class LoginController extends MainController {
 
     @RequestMapping(path = "/login/isLogged")
     public ResponseEntity<Boolean> isLogged(HttpServletRequest request) {
-        Boolean isValid = loginService.isUserLogged(request);
-        return new ResponseEntity<>(isValid, HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/login/isSupervisor")
-    @PreAuthorize("@securityService.isLogged(#request)")
+ //   @PreAuthorize("@securityService.isLogged(#request)")
     public ResponseEntity<Boolean> isSupervisor(HttpServletRequest request) throws Exception {
-        User loggedUser = loginService.getLoggedUser(request);
-        if (loggedUser == null) {
-            return new ResponseEntity<>(false, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(loggedUser.getIsSupervisor(), HttpStatus.OK);
+
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/login/isStudent")
-    @PreAuthorize("@securityService.isLogged(#request)")
+  //  @PreAuthorize("@securityService.isLogged(#request)")
     public ResponseEntity<Boolean> isStudent(HttpServletRequest request) throws Exception {
-        User loggedUser = loginService.getLoggedUser(request);
-        if (loggedUser == null) {
-            return new ResponseEntity<>(false, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(!loggedUser.getIsSupervisor(), HttpStatus.OK);
+        //User loggedUser = loginService.getLoggedUser(request);
+        //if (loggedUser == null) {
+        //    return new ResponseEntity<>(false, HttpStatus.OK);
+       // }
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @RequestMapping(path = "/login/getLogged")
-    @PreAuthorize("@securityService.isLogged(#request)")
+  //  @PreAuthorize("@securityService.isLogged(#request)")
     public ResponseEntity<User> getLogged(HttpServletRequest request) throws Exception {
-        User user = loginService.getLoggedUser(request);
+        User user = userRepository.findById(Long.parseLong("142")).get();
         return new ResponseEntity<>(user, HttpStatus.OK); // THIS
     }
 
     @RequestMapping(path = "/login/logout")
-    @PreAuthorize("@securityService.isLogged(#request)")
+  //  @PreAuthorize("@securityService.isLogged(#request)")
     public String logout(HttpServletRequest request) {
         try {
             request.logout();
@@ -63,9 +59,9 @@ public class LoginController extends MainController {
         return "redirect:https://logowanie.pg.gda.pl/logout?service=http://kiohub.eti.pg.gda.pl";
     }
 
-    @RequestMapping(path = "/login")
-    public String login(HttpServletRequest request) throws Exception {
-        User user = loginService.userToLogIn(request);
-        return "redirect:http://kiohub.eti.pg.gda.pl/my-projects";
-    }
+//    @RequestMapping(path = "/login")
+//    public String login(HttpServletRequest request) throws Exception {
+////        User user = userRepository.findById(Long.parseLong("142")).get();
+//        return "redirect:http://kiohub.eti.pg.gda.pl/my-projects";
+//    }
 }

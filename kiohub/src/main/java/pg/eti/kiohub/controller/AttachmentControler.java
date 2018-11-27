@@ -54,7 +54,7 @@ public class AttachmentControler extends MainController {
     private ApplicationContext appContext;
 
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+  //  @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity upload(
             @RequestParam("File") MultipartFile multipartFile,
             @RequestParam("Type") String type,
@@ -124,7 +124,7 @@ public class AttachmentControler extends MainController {
     }
 
     @PostMapping(path = "/updateMetadata")
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+   // @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity updateMetadata(
             @RequestParam("projectId") String projectId,
             @RequestParam("attachmentId") String attachmentId,
@@ -140,7 +140,7 @@ public class AttachmentControler extends MainController {
     }
 
     @PostMapping(path = "/remove")
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+ //   @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity removeAttachment(@RequestBody List<Long> attachmentsToRemove,
                                            @RequestParam("projectId") long projectId,
                                            HttpServletRequest request) {
@@ -156,7 +156,7 @@ public class AttachmentControler extends MainController {
     }
 
     @GetMapping(path = "/download")
-    @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
+  //  @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
     public ResponseEntity downloadAttachment(@RequestParam("id") long id,
                                              HttpServletResponse response,
                                              HttpServletRequest request) {
@@ -174,7 +174,7 @@ public class AttachmentControler extends MainController {
     }
 
     @GetMapping(path = "/downloadPhoto")
-    @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
+   // @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
     public ResponseEntity downloadPhoto(@RequestParam("id") long id,
                                         HttpServletResponse response,
                                         HttpServletRequest request) {
