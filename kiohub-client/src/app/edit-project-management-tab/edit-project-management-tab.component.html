@@ -1,6 +1,6 @@
 <p id="h2">Zarządzanie projektem</p>
 <form>
-  <label class="wrapper-left">Promotor pracy:</label>
+  <label class="wrapper-left">Opiekun:</label>
   <mat-form-field class="wrapper-width">
     <input disabled matInput name="supervisor" value="{{supervisor?.firstName}} {{supervisor?.lastName}}">
   </mat-form-field>
@@ -9,7 +9,7 @@
     class="chip-image"></app-visibility-select>
   <br />
   <form #authors="ngForm" (ngSubmit)="addAuthor()">
-    <label class="wrapper-left">Autorzy pracy: <img *ngIf="isUserSupervisor()" matTooltip="Jeżeli chcesz dodać nowego współtwórcę projektu, wpisz jego adres e-mail i zatwierdź, klikając 'Dodaj'. Akceptowanymi identyfikatorami są: s<nr_albumu>@student.pg.edu.pl."
+    <label class="wrapper-left">Autorzy: <img *ngIf="isUserSupervisor()" matTooltip="Jeżeli chcesz dodać nowego współtwórcę projektu, wpisz jego adres e-mail i zatwierdź, klikając 'Dodaj'. Akceptowanymi identyfikatorami są: s<nr_albumu>@student.pg.edu.pl."
         src="../../assets/question.png" /></label>
     <mat-form-field class="wrapper-width" *ngIf="isUserSupervisor()">
       <input #authorInput name="author" ngModel matInput>

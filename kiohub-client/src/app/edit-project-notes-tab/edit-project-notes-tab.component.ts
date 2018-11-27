@@ -27,6 +27,7 @@ export class EditProjectNotesTabComponent implements OnInit {
   visibilitySelected: string;
   currentUser: User;
   viewUtils = new ViewUtils();
+  inputNewNote = '';
 
   MAX_LENGTH = 500; // value from database
 
@@ -145,6 +146,7 @@ export class EditProjectNotesTabComponent implements OnInit {
       this.noteEditInputShows = false;
     }
     this.noteInputShows = !this.noteInputShows;
+    this.inputNewNote = '';
   }
 
   showEditNoteInput() {
