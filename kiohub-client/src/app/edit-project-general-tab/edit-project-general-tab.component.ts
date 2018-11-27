@@ -123,6 +123,12 @@ export class EditProjectGeneralTabComponent implements OnInit {
     + '. Maksymalny rozmiar pliku to ' + this.validation.getMaxFileSizeInMegaBytes() + '.';
   tooltipSemesters = 'Wybór semestrów, w czasie których wytwarzana była praca.';
   tooltipRelatedTo = 'Wyszukaj projekty, z którymi Twój projekt jest powiązany.';
+  tooltipPublish = 'Po kliknięciu tego przycisku, a następnie zaakceptowaniu regulaminu portalu, projekt i jego elementy będą widoczne '
+  + 'w bazie projektów zgodnie z zaznaczonymi preferencjami widoczności.';
+  tooltipUnpublish = 'Po kliknięciu tego przycisku projekt nie będzie widoczny w bazie projektów.';
+  tooltipConfirmChangesNotPublished = 'Zapisz dane projektu. Projekt i jego elementy nie będą widoczne w bazie projektów dopóki nie zostanie on opublikowany. ';
+  tooltipConfirmChangesPublished = 'Zapisz dane projektu. Projekt i jego elementy automatycznie zaktualizują się w bazie projektów. ';
+
 
   // ******** COMPONENT STATE ********
   hardlySavedNote = false;
