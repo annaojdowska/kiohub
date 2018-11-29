@@ -49,7 +49,7 @@ import pg.eti.kiohub.utils.FileUtils;
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {
 
-    private static final int MAX_ATTACHMENT_SIZE_IN_BYTES = 100000000;
+    private static final int MAX_ATTACHMENT_SIZE_IN_BYTES = 1000000000;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
