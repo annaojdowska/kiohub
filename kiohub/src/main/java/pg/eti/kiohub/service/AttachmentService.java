@@ -1,5 +1,9 @@
 package pg.eti.kiohub.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +16,12 @@ import pg.eti.kiohub.utils.FileUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class AttachmentService {
@@ -49,5 +56,29 @@ public class AttachmentService {
                 attachmentFileRepository.deleteById(attachment.getId());
             }
         }
+    }
+    
+    public boolean saveAttachmentToDisk(InputStream inputStream) throws IOException {
+        try {
+            File targetFile = new File("/home/wyjscie.txt");
+            OutputStream outputStream = new FileOutputStream(targetFile);
+                byte[] buffer = new byte[8 * 1024];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        IOUtils.closeQuietly(inputStream);
+                        IOUtils.closeQuietly(outputStream);
+                        return true;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AttachmentService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(AttachmentService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return true;
     }
 }

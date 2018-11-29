@@ -5,6 +5,8 @@ import java.io.*;
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -189,6 +191,19 @@ public class AttachmentControler extends MainController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    
+    @PostMapping(path = "/uploadfile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity uploadfile            
+        (@RequestParam("File") MultipartFile multipartFile) {
+        try {
+            attachmentService.saveAttachmentToDisk(multipartFile.getInputStream());
+
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (IOException ex) {
+            Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity(ex.getMessage(), HttpStatus.OK);
+        }
+        }
 
 
 }
