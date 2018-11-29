@@ -1,5 +1,6 @@
 .project_image {
     max-width: 8vw;
+    max-height: 15vh;
     float: left;
     margin-right: 1vw;
 }
@@ -12,20 +13,19 @@
 #project_result_container {
     display: block;
     background-color: transparent;
-    min-height: 17vh;
+    min-height: 15vh;
     min-width: 58vw;
     overflow: hidden;
     flex-wrap: wrap;
     text-overflow: ellipsis;
+    margin-bottom: 10px;
 }
-
 #project_result_container:hover {
     background-color: var(--color-blanc-with-opacity);
     cursor: pointer;
 }
 
 #inner_content {
-    min-height: 17vh;
     min-width: 58vw;
 }
 

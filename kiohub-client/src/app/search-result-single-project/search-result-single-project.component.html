@@ -5,9 +5,11 @@
     <div *ngIf="!showDefault; else noImageFound">
       <img class="project_image" *ngIf="mainPhoto" [src]="mainPhoto">
     </div>
-    <ng-template #noImageFound>
-      <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
-    </ng-template>
+    <div id="project_image_container">
+      <ng-template #noImageFound>
+        <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
+      </ng-template>
+    </div>
     <div id="info">
       <div>
         <h2 class="title">{{project.title}}</h2>
