@@ -19,7 +19,7 @@
   </form>
   <app-error-info #emailError errorText="{{validation.errorStringEmail}}" errorType="ERROR"></app-error-info>
   <div class="list">
-    <app-input-list #authorsList removable="isUserSupervisor()" [visibilityChangeable]="false" orientation="vertical"
+    <app-input-list #authorsList removable="{{isLoggedAndSupervisor}}" [visibilityChangeable]="false" orientation="vertical"
       (changeElements)="recieveCollaborators($event)" hideInput="true"></app-input-list>
     <app-input-list #myselfList [visibilityChangeable]="true" [allowLoggedUsers]="false" orientation="vertical"
       (changeElements)="recieveCollaborators($event)" hideInput="true"></app-input-list>
