@@ -60,7 +60,7 @@ public class AttachmentService {
     
     public boolean saveAttachmentToDisk(InputStream inputStream) throws IOException {
         try {
-            File targetFile = new File("/home/wyjscie.txt");
+            File targetFile = new File("/home/attachments/wyjscie.txt");
             OutputStream outputStream = new FileOutputStream(targetFile);
                 byte[] buffer = new byte[8 * 1024];
                     int bytesRead;
