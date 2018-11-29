@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class AttachmentService {
@@ -58,9 +59,9 @@ public class AttachmentService {
         }
     }
     
-    public boolean saveAttachmentToDisk(InputStream inputStream) throws IOException {
+    public boolean saveAttachmentToDisk(InputStream inputStream, String filepath) throws IOException {
         try {
-            File targetFile = new File("/home/attachments/wyjscie.txt");
+            File targetFile = new File(filepath);
             OutputStream outputStream = new FileOutputStream(targetFile);
                 byte[] buffer = new byte[8 * 1024];
                     int bytesRead;
@@ -69,16 +70,29 @@ public class AttachmentService {
                         }
                         IOUtils.closeQuietly(inputStream);
                         IOUtils.closeQuietly(outputStream);
-                        return true;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(AttachmentService.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         } finally {
             try {
                 inputStream.close();
             } catch (IOException ex) {
                 Logger.getLogger(AttachmentService.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
             }
         }
         return true;
+    }
+    
+        public InputStream getAttachmentFromDisk(Attachment attachment) throws FileNotFoundException {
+        String path = "/home/attachments/wyjscie.txt"; // attachment.getFilePath();
+        String name = attachment.getFileName();
+        String extension = FilenameUtils.getExtension(name);
+
+        File fileToDownload = new File(path);
+        File fileNameToDownload = new File(name);
+        fileToDownload.renameTo(fileNameToDownload);
+        InputStream inputStream = new FileInputStream(fileToDownload);
+        return inputStream;
     }
 }
