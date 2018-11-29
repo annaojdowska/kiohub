@@ -3,7 +3,6 @@
     background-position: 10px;
     padding-left: 40px;
     font-size: var(--normal-font-size);
-    width: 350px;
     height: 40px;
     font-family: var(--main-font-name), sans-serif;
     -webkit-box-sizing: border-box;
@@ -14,26 +13,29 @@
     border-radius: 20px;
 }
 
+.non-resizable-input {
+    width: 350px;    
+}
+
+.resizable-input {
+    width: 350px;    
+}
+
 @media screen and (max-width: 1450px) {
-    .search-input {
+    .resizable-input {
         width:  200px;
     }
 }
 
-/* @media screen and (max-width: 1150px) {
-    .search-input {
-        width:  150px;
-    }
-} */
 
-@media screen and (max-width: 1000px) {
-    .search-input {
+@media screen and (max-width: 950px) {
+    .resizable-input {
         width:  140px;
     }
 }
 
-@media screen and (max-width: 850px) {
-    .search-input {
-        width:  120px;
+@media screen and (max-width: 800px) {
+    .resizable-input {
+        display: none !important;
     }
 }

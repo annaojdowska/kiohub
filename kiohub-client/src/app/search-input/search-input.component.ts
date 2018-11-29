@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
 import { Project } from '../model/project.interface';
 import { ProjectService } from '../services/project.service';
+import { isBoolean } from 'util';
 
 @Component({
   selector: 'app-search-input',
@@ -18,10 +19,14 @@ export class SearchInputComponent implements OnInit {
   filteredResults: Observable<Project[]>;
   queryField: FormControl = new FormControl();
   proxyValue: any;
+  @Input() resizable: string;
+  classNames;
 
-  constructor(@Inject(ProjectService) private projectService: ProjectService, @Inject(Router) private router: Router) { }
+  constructor(@Inject(ProjectService) private projectService: ProjectService, @Inject(Router) private router: Router) {
+   }
 
   ngOnInit() {
+    this.setClassNames();
     this.projectService.getPublishedProjects().subscribe(res => this.results = res);
     this.filteredResults = this.queryField.valueChanges
       .pipe(
@@ -29,6 +34,13 @@ export class SearchInputComponent implements OnInit {
         startWith(''),
         map(value => this.filter(value))
       );
+  }
+  setClassNames(): any {
+    if (this.resizable === 'true') {
+      this.classNames = ['resizable-input', 'search-input'];
+    } else {
+      this.classNames = ['non-resizable-input', 'search-input'];
+    }
   }
 
   filter(phrase: string): Project[] {

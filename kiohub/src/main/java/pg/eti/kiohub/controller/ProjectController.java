@@ -148,7 +148,6 @@ public class ProjectController extends MainController {
             Project project = projectToPublish.get();
             project.setPublished(true);
             project.setPublicationDate(new Date());
-            project.setProjectStatus(this.projectStatusRepository.findProjectStatusByName("Zakończony"));
             this.projectRepository.save(project);
             return new ResponseEntity<>(HttpStatus.OK);
         } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
