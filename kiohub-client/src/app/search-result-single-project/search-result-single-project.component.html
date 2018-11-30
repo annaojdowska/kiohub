@@ -1,6 +1,6 @@
 <div id="project_result_container">
-  <app-search-result-single-project-options #options *ngIf="allowPin || allowEdit" (pinOptionsUpdate)="pinOptionsUpdate()"
-    [allowPin]="allowPin" [allowEdit]="allowEdit" class="options" [projectId]="project.id"></app-search-result-single-project-options>
+  <app-search-result-single-project-options #options *ngIf="allowPin || allowEdit || allowCollaboratedIcon" (pinOptionsUpdate)="pinOptionsUpdate()"
+    [allowPin]="allowPin" [allowEdit]="allowEdit" [allowCollaboratedIcon]="allowCollaboratedIcon" class="options" [projectId]="project.id"></app-search-result-single-project-options>
   <div id="inner_content" (click)="navigateToDetails()">
     <div *ngIf="!showDefault; else noImageFound">
       <img class="project_image" *ngIf="mainPhoto" [src]="mainPhoto">

@@ -14,6 +14,8 @@ export class SearchResultSingleProjectOptionsComponent {
   @Input() pinned = false;
   @Input() allowEdit = true;
   @Input() allowPin = true;
+  @Input() allowCollaboratedIcon = true;
+  @Input() collaborated = false;
   @Input() projectId: number;
   @Output() pinOptionsUpdate = new EventEmitter();
 

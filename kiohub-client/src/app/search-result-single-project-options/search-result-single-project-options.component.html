@@ -1,11 +1,14 @@
-<div class="pinwrapper" *ngIf='pinned'>
-  <img src="assets/pin.png" class="pin">
+<div class="left-top-wrapper " *ngIf='pinned'>
+  <img src="assets/pin.png" class="left-top" matTooltip="Przypięty">
+</div>
+<div class="left-top-wrapper " *ngIf='allowCollaboratedIcon && collaborated'>
+  <img src="assets/authprs.png" class="left-top" matTooltip="Przypięty">
 </div>
 <div class="search-result-single-project-options">
   <div *ngIf='allowPin' (click)="selectChange('PIN')" matTooltip="{{pinText}}">
     <img src="assets/pin.png" class="icon-vertical"/>
   </div>
-  <div class="separator-vertical">
+  <div class="separator-vertical"  *ngIf='allowPin && allowEdit'>
 
   </div>
   <div *ngIf='allowEdit' (click)="selectChange('EDIT')" matTooltip="Edytuj">

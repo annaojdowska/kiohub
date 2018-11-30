@@ -6,6 +6,7 @@ import { Project } from '../model/project.interface';
 import { SearchResultSingleProjectOptionsComponent } from '../search-result-single-project-options/search-result-single-project-options.component';
 import { AttachmentService } from '../services/attachment.service';
 import { LoginService } from '../services/login.service';
+import { UserService } from '../services/user.service';
 import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   @Input() project: Project;
   @Input() allowPin = false;
   @Input() allowEdit = false;
+  @Input() allowCollaboratedIcon = false;
   @Input() showIfPublished: boolean;
   @ViewChild('tagsList') tagsList: InputListComponent;
   @ViewChild('options') options: SearchResultSingleProjectOptionsComponent;
@@ -30,6 +32,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   constructor(@Inject(Router) private router: Router,
     @Inject(AttachmentService) private attachmentService: AttachmentService,
     @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
+    @Inject(UserService) private userService: UserService,
     @Inject(LoginService) private loginService: LoginService) { }
   @Output() pinUpdate = new EventEmitter();
 
@@ -45,6 +48,11 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
           });
         }
       });
+    }
+    if (this.allowCollaboratedIcon) {
+      this.userService.loggedIsCollaborator(this.project.id).subscribe(isCollabolator => {
+            this.options.collaborated = <boolean>isCollabolator;
+        });
     }
 
 
