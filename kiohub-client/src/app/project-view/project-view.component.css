@@ -109,3 +109,8 @@ table>*:first-child:not(thead) th:nth-child(2), .description_content, li {
     color:var(--color-blue);
     text-decoration: underline;
 }
+
+.right-top {
+    margin-left: 50px;
+    float: right;
+}
