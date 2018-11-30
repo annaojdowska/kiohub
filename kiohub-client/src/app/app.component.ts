@@ -58,6 +58,9 @@ export class AppComponent implements OnInit {
   }
 
   private isOnUnloggedSearchPage(): boolean {
+    console.log(window.location.pathname);
+    console.log(window.location.pathname === '/**');
+    console.log(window.location.pathname === '/home');
     return (window.location.pathname === '/**' || window.location.pathname === '/home');
   }
 }

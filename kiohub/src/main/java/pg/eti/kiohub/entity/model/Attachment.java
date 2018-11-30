@@ -38,6 +38,9 @@ public class Attachment {
     private Long fileSize;    
     private AttachmentType type;
     private Visibility visibility;
+
+    @Column(name = "file_location")
+    private String fileLocation;
     
     @Column(name = "is_main_photo")
     private Boolean mainPhoto;
