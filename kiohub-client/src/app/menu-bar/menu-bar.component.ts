@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Input } from '@angular/core';
 import { User } from '../model/user.interface';
 import { address } from '../services/project.service';
 import { UserService } from '../services/user.service';
@@ -13,11 +13,24 @@ export class MenuBarComponent implements OnInit {
   pathToLogo: string;
   currentUser: User;
   valueUtils = new ValueUtils();
+  @Input() hideSearch;
+  hideSearchValue: boolean;
+
   private addressToLogOut = address + '/login/logout';
   constructor(@Inject(UserService) private userService: UserService) {
     this.pathToLogo = '../../assets/logo/logo4.png';
   }
+
+  hideSearchIfNecessary(): any {
+    if (this.hideSearch === 'true') {
+      this.hideSearchValue = true;
+    } else {
+      this.hideSearchValue = false;
+    }
+  }
+
   ngOnInit() {
+    this.hideSearchIfNecessary();
     this.userService.getCurrentUser().subscribe(x => this.currentUser = x);
   }
 

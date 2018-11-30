@@ -1,5 +1,5 @@
 <div class="container">
-    <app-menu-bar [style.display]="display" *ngIf="isLogged == true"></app-menu-bar>
+    <app-menu-bar [style.display]="display" *ngIf="isLogged == true" hideSearch={{isOnUnloggedSearch}}></app-menu-bar>
     <app-menu-bar-not-logged [style.display]="display" *ngIf="isLogged == false"></app-menu-bar-not-logged>
     <app-content-container></app-content-container>
     <app-footer [style.display]="display"></app-footer>

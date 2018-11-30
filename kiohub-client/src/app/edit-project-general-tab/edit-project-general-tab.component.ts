@@ -651,13 +651,24 @@ export class EditProjectGeneralTabComponent implements OnInit {
       .subscribe(data => {
         infoString = 'Pomyślnie cofnięto publikację projektu na stronie.';
         this.viewUtils.scrollToTop();
-        this.onCompleted(infoString, ErrorType.SUCCESS);
+        this.onCompletedFIXME(infoString, ErrorType.SUCCESS);
+        console.log(data);
       }, error => {
         infoString = 'Nie udało się cofnąć publikacji projektu na stronie.';
         this.viewUtils.scrollToTop();
-        this.onCompleted(infoString, ErrorType.ERROR);
+        this.onCompletedFIXME(infoString, ErrorType.ERROR);
         console.log(error);
       });
+  }
+
+  onCompletedFIXME(text: string, errorType: ErrorType) { // TODO usunac
+    this.uploadInfoSpinner.setDisplay(false);
+    this.valueUtils.saveToSession(this.valueUtils.updatedProjectBoolean, true);
+    this.valueUtils.saveToSession(this.valueUtils.updatedProjectText, text);
+    this.valueUtils.saveToSession(this.valueUtils.updatedProjectStatus, errorType);
+    this.projectAttachmentsUpdatingInProgress = false;
+
+    // window.location.reload();
   }
 
   isUserSupervisor(): boolean {

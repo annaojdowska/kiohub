@@ -17,10 +17,12 @@ export class AppComponent implements OnInit {
   currentUser: User;
   private valueUtils = new ValueUtils();
   public display = 'block';
+  public isOnUnloggedSearch: boolean;
 
   public constructor(@Inject(UserService) private userService: UserService,
     @Inject(Router) private router: Router) {
     this.detectInternetExplorer();
+    this.isOnUnloggedSearch = this.isOnUnloggedSearchPage();
   }
 
   ngOnInit(): void {
@@ -53,5 +55,9 @@ export class AppComponent implements OnInit {
     return !this.valueUtils.isNullOrUndefined(window.location)
       && !this.valueUtils.isNullOrEmpty(window.location.pathname)
       && window.location.pathname === '/ie-detected';
+  }
+
+  private isOnUnloggedSearchPage(): boolean {
+    return (window.location.pathname === '/**' || window.location.pathname === '/home');
   }
 }
