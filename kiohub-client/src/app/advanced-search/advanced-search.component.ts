@@ -123,12 +123,19 @@ export class AdvancedSearchComponent implements OnInit {
     }
       return sessionStorage.getItem(SEARCH_DATE_FROM) !== 'undefined'
       || sessionStorage.getItem(SEARCH_DATE_TO) !== 'undefined'
-      || sessionStorage.getItem(SEARCH_DESC).length > 0
-      || sessionStorage.getItem(SEARCH_LICENCES).length > 0
-      || sessionStorage.getItem(SEARCH_SEMESTERS).length > 0
-      || sessionStorage.getItem(SEARCH_SUPERVISORS).length > 0
-      || sessionStorage.getItem(SEARCH_TAGS).length > 0
-      || sessionStorage.getItem(SEARCH_TITLES).length > 0
-      || sessionStorage.getItem(SEARCH_TYPES).length > 0;
+      || sessionStorage.getItem(SEARCH_DESC) !== null
+      && sessionStorage.getItem(SEARCH_DESC).length > 0
+      || sessionStorage.getItem(SEARCH_LICENCES) != null
+      && sessionStorage.getItem(SEARCH_LICENCES).length > 0
+      || sessionStorage.getItem(SEARCH_SEMESTERS) !== null
+      && sessionStorage.getItem(SEARCH_SEMESTERS).length > 0
+      || sessionStorage.getItem(SEARCH_SUPERVISORS) !== null
+      && sessionStorage.getItem(SEARCH_SUPERVISORS).length > 0
+      || sessionStorage.getItem(SEARCH_TAGS) !== null
+      && sessionStorage.getItem(SEARCH_TAGS).length > 0
+      || sessionStorage.getItem(SEARCH_TITLES) !== null
+      && sessionStorage.getItem(SEARCH_TITLES).length > 0
+      || sessionStorage.getItem(SEARCH_TYPES) !== null
+      && sessionStorage.getItem(SEARCH_TYPES).length > 0;
   }
 }
