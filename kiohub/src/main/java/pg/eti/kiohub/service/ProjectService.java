@@ -2,12 +2,16 @@
 package pg.eti.kiohub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.repository.ProjectRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -33,5 +37,20 @@ public class ProjectService {
 
     public boolean isProjectPublished(Long projectId) {
         return projectRepository.findById(projectId).get().getPublished();
+    }
+
+    public boolean setProjectPublished(Long id, boolean publishProject) {
+        Optional<Project> projectToPublish = this.projectRepository.findById(id);
+        if (projectToPublish.isPresent()) {
+            Project project = projectToPublish.get();
+            project.setPublished(publishProject);
+            if (publishProject) {
+                project.setPublicationDate(new Date());
+            }
+            this.projectRepository.save(project);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

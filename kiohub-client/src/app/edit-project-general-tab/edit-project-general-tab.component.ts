@@ -124,7 +124,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
   tooltipSemesters = 'Wybór semestrów, w czasie których wytwarzana była praca.';
   tooltipRelatedTo = 'Wyszukaj projekty, z którymi Twój projekt jest powiązany.';
   tooltipPublish = 'Po kliknięciu tego przycisku, a następnie zaakceptowaniu regulaminu portalu, projekt i jego elementy będą widoczne '
-  + 'w bazie projektów zgodnie z zaznaczonymi preferencjami widoczności.';
+    + 'w bazie projektów zgodnie z zaznaczonymi preferencjami widoczności.';
   tooltipUnpublish = 'Po kliknięciu tego przycisku projekt nie będzie widoczny w bazie projektów.';
   tooltipConfirmChangesNotPublished = 'Zapisz dane projektu. Projekt i jego elementy nie będą widoczne w bazie projektów dopóki nie zostanie on opublikowany. ';
   tooltipConfirmChangesPublished = 'Zapisz dane projektu. Projekt i jego elementy automatycznie zaktualizują się w bazie projektów. ';
@@ -637,7 +637,7 @@ export class EditProjectGeneralTabComponent implements OnInit {
               this.viewUtils.scrollToTop();
               window.location.reload();
             }, error => {
-              infoString = 'Nie udało się opublikować projektu na stronie. ';
+              infoString = 'Nie udało się opublikować projektu na stronie. (Czy zatwierdziłeś zmiany przed opublikowaniem?)';
               this.onCompleted(infoString, ErrorType.ERROR);
               this.viewUtils.scrollToTop();
               window.location.reload();
@@ -645,6 +645,22 @@ export class EditProjectGeneralTabComponent implements OnInit {
         }
       });
     }
+  }
+
+  unpublishProject() {
+    let infoString;
+    this.projectService.unpublishProject(this.editedProject.id)
+      .subscribe(data => {
+        infoString = 'Pomyślnie cofnięto publikację projektu na stronie.';
+        this.onCompleted(infoString, ErrorType.SUCCESS);
+        this.viewUtils.scrollToTop();
+        window.location.reload();
+      }, error => {
+        infoString = 'Nie udało się cofnąć publikacji projektu na stronie.';
+        this.onCompleted(infoString, ErrorType.ERROR);
+        this.viewUtils.scrollToTop();
+        window.location.reload();
+      });
   }
 
   isUserSupervisor(): boolean {

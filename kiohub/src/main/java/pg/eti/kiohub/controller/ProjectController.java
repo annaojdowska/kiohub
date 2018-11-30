@@ -143,15 +143,13 @@ public class ProjectController extends MainController {
     @PostMapping(path = "/publish/{id}")
     @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
     public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest request) {
-        Optional<Project> projectToPublish = this.projectRepository.findById(id);
-        if (projectToPublish.isPresent()) {
-            Project project = projectToPublish.get();
-            project.setPublished(true);
-            project.setPublicationDate(new Date());
-            this.projectRepository.save(project);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return projectService.setProjectPublished(id, true) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
+    @PostMapping(path = "/unpublish/{id}")
+    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
+    public ResponseEntity unpublishProject(@PathVariable("id") Long id, HttpServletRequest request) {
+        return projectService.setProjectPublished(id, false) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(path = "/relatedTo/{id}")

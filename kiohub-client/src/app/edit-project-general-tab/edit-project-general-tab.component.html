@@ -246,12 +246,13 @@
 
         <div>
             <div id="button-container">
-                <button [matTooltip]="editedProject?.published ? tooltipConfirmChangesPublished : tooltipConfirmChangesNotPublished" type="button" 
-                        mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź zmiany</button>
+                <button [matTooltip]="editedProject?.published ? tooltipConfirmChangesPublished : tooltipConfirmChangesNotPublished"
+                    type="button" mat-stroked-button class="submit-button" (click)="updateProject()">Zatwierdź zmiany</button>
                 <div id="divider"></div>
-                <button matTooltip="{{tooltipPublish}}"
-                        (click)="openDialog()" type="button" *ngIf="isUserSupervisor()" 
-                        mat-stroked-button class="submit-button">Publikuj na stronie</button>
+                <button matTooltip="{{tooltipPublish}}" (click)="openDialog()" type="button" *ngIf="isUserSupervisor() && !isProjectAlreadyPublished()"
+                    mat-stroked-button class="submit-button">Publikuj na stronie</button>
+                <button matTooltip="{{tooltipUnpublish}}" (click)="unpublishProject()" type="button" *ngIf="isUserSupervisor() && isProjectAlreadyPublished()"
+                    mat-stroked-button class="submit-button">Cofnij opublikowanie</button>
             </div>
             <app-error-info #publishWarning errorText="Jeżeli dokonałeś zmian w danych projektu, pamiętaj, aby zatwierdzić je przed opublikowaniem lub odpublikowaniem projektu."
                 errorType="WARNING"></app-error-info>

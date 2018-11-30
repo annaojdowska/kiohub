@@ -55,6 +55,10 @@ export class ProjectService {
     return this.http.post<Project>(address + '/project/publish/' + id, this.httpOptions);
   }
 
+  unpublishProject(id: number): any {
+    return this.http.post<Project>(address + '/project/unpublish/' + id, this.httpOptions);
+  }
+
   getProjectsByCollaboratorId(id: number): Observable<Project[]> {
     return this.http.get<Project[]>(address + '/collaborator/project/byCollaborator/' + id, {responseType: 'json'});
   }
