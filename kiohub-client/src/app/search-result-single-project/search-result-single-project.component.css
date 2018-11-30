@@ -13,12 +13,14 @@
 #project_result_container {
     display: block;
     background-color: transparent;
-    min-height: 15vh;
     min-width: 58vw;
     overflow: hidden;
     flex-wrap: wrap;
     text-overflow: ellipsis;
-    margin-bottom: 10px;
+
+    /* min-height: 15vh; */
+    margin-bottom: 6px;
+    margin-top: 6px;
 }
 #project_result_container:hover {
     background-color: var(--color-blanc-with-opacity);
