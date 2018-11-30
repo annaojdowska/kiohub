@@ -93,6 +93,7 @@ export class MyProjectsComponent implements OnInit {
             this.displayedProjects = this.projects;
             this.filteredProjects = this.projects;
             this.sortAndSetByPinned();
+            console.log('checkIfFilters... ' + this.checkIfFiltersAreInSession());
             this.showFilters = this.checkIfFiltersAreInSession();
           });
       } else {
