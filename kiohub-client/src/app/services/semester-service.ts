@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Semester } from '../model/semester.interface';
+import { Semester } from '../model/semester.class';
 import { address } from './project.service';
 
 @Injectable()

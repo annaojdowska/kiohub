@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { Semester } from '../model/semester.interface';
+import { Semester } from '../model/semester.class';
 import { SemesterService } from '../services/semester-service';
 
 

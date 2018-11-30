@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatSelectChange } from '../../../node_modules/@angular/material';
+import { MatSelectChange } from '@angular/material';
 
 @Component({
   selector: 'app-sort-results',

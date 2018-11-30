@@ -6,15 +6,18 @@ import { ProjectType } from '../model/project-type.interface';
 import { Status } from '../model/status.interface';
 import { ProjectStatusService } from '../services/project-status-service';
 import { InputListComponent } from '../input-list/input-list.component';
-import { Semester } from '../model/semester.interface';
-import { MatDatepickerInputEvent, MatInput, MatDatepickerInput } from '../../../node_modules/@angular/material';
+import { Semester } from '../model/semester.class';
+import { MatDatepickerInputEvent, MatInput, MatDatepickerInput } from '@angular/material';
 import { InputListElement } from '../model/input-list-element';
-import { QueryDescription } from '../model/helpers/query-description.class';
+import { QueryDescription, FILTER_DATE_FROM, FILTER_DATE_TO,
+   FILTER_STATUS, FILTER_LICENCES, FILTER_SEMESTERS, FILTER_TAGS,
+   FILTER_TITLES, FILTER_TYPES } from '../model/helpers/query-description.class';
 import { Validation } from '../utils/validation-patterns';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { IAdvancedSearchFormValidation } from '../search/iadvanced-search-form';
 import { AdvancedSearchFormValidation } from '../search/advanced-search-form-validation';
 import { SearchType } from '../search/search-type.enum';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-my-projects-search-form',
@@ -54,6 +57,8 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   errorDescription = null;
   enteredDateFrom: Date;
   enteredDateTo: Date;
+  sessionDateTo: Date;
+  sessionDateFrom: Date;
 
   chosenSemesters: Semester[];
   selectedType: ProjectType;
@@ -67,6 +72,7 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   semestersHidden: boolean;
   validation = new Validation();
   formVal = new AdvancedSearchFormValidation(this, SearchType.MY_PROJECTS);
+  valueUtils = new ValueUtils();
 
   constructor(@Inject(LicenceService) private licenceService: LicenceService,
     @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
@@ -78,13 +84,29 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
+    this.restoreFromSession();
+    this.filtersSubmitted.emit(this.generateQuery());
   }
 
   submit() {
     this.addTag();
     this.addTitle();
+    this.selectedLicence = undefined;
+    this.selectedType = undefined;
+    this.selectedStatus = undefined;
     if (this.formVal.validateAllElements()) {
-      const query = new QueryDescription();
+      const query = this.generateQuery();
+
+      this.saveToSession(query);
+      this.filtersSubmitted.emit(query);
+      this.searchError.setDisplay(false);
+    } else {
+      this.searchError.setDisplay(true);
+    }
+  }
+
+  generateQuery(): QueryDescription {
+    const query = new QueryDescription();
       this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
       this.titlesList.elements.map(element => element.name).forEach(name => query.titles.push(name));
       query.dateFrom = this.dateFrom;
@@ -99,12 +121,7 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
       this.statuses.filter(status =>
         this.statusesList.elements.map(element => element.name).findIndex(chosen => chosen === status.name) !== -1
       ).forEach(status => query.statusesIds.push(status.id));
-
-      this.filtersSubmitted.emit(query);
-      this.searchError.setDisplay(false);
-    } else {
-      this.searchError.setDisplay(true);
-    }
+      return query;
   }
 
   clearFilters() {
@@ -132,6 +149,15 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.errorDate.setDisplay(false);
     this.errorTag.setDisplay(false);
     this.errorTitle.setDisplay(false);
+
+    this.valueUtils.getAndRemoveFromSession(FILTER_DATE_FROM);
+    this.valueUtils.getAndRemoveFromSession(FILTER_DATE_TO);
+    this.valueUtils.getAndRemoveFromSession(FILTER_STATUS);
+    this.valueUtils.getAndRemoveFromSession(FILTER_LICENCES);
+    this.valueUtils.getAndRemoveFromSession(FILTER_SEMESTERS);
+    this.valueUtils.getAndRemoveFromSession(FILTER_TAGS);
+    this.valueUtils.getAndRemoveFromSession(FILTER_TITLES);
+    this.valueUtils.getAndRemoveFromSession(FILTER_TYPES);
 
     this.removeFilters.emit();
   }
@@ -209,5 +235,59 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
 
   clearDatePicker2() {
     this.dateInput2.value = '';
+  }
+
+  semesterFromString(str: string): Semester {
+    const array = str.split(':');
+    return new Semester(Number(array[0]), array[1]);
+  }
+
+  public semesterToString(semester: Semester): string {
+    return semester.id + ':' + semester.name;
+}
+
+  private saveToSession(query: QueryDescription) {
+    this.valueUtils.saveToSession(FILTER_TITLES, query.titles);
+    this.valueUtils.saveToSession(FILTER_LICENCES, this.licencesList.elements.map(element => element.name));
+    this.valueUtils.saveToSession(FILTER_TAGS, query.tags);
+    this.valueUtils.saveToSession(FILTER_DATE_FROM, query.dateFrom);
+    this.valueUtils.saveToSession(FILTER_DATE_TO, query.dateTo);
+    this.valueUtils.saveToSession(FILTER_STATUS, query.statusesIds);
+    this.valueUtils.saveToSession(FILTER_SEMESTERS, this.chosenSemesters.map(semester => this.semesterToString(semester)));
+  }
+
+  private restoreFromSession() {
+    const titles = this.valueUtils.getDataFromSessionStorage(FILTER_TITLES);
+    if (titles) {
+      titles.split(',').forEach(str => this.titlesList.add({ name: str }));
+    }
+    const status = this.valueUtils.getDataFromSessionStorage(FILTER_STATUS);
+    if (status) {
+      status.split(',').forEach(str => this.statusesList.add({ name: str }));
+    }
+    const tags = this.valueUtils.getDataFromSessionStorage(FILTER_TAGS);
+    if (tags) {
+      tags.split(',').forEach(str => this.tagsList.add({ name: str }));
+    }
+    const licences = this.valueUtils.getDataFromSessionStorage(FILTER_LICENCES);
+    if (licences) {
+      licences.split(',').forEach(str => this.licencesList.add({ name: str }));
+    }
+    const types = this.valueUtils.getDataFromSessionStorage(FILTER_TYPES);
+    if (types) {
+      types.split(',').forEach(str => this.typesList.add({ name: str }));
+    }
+    const semesters = this.valueUtils.getDataFromSessionStorage(FILTER_SEMESTERS);
+    if (semesters) {
+      semesters.split(',').forEach(str => this.showAddedSemester(this.semesterFromString(str)));
+    }
+    const dateFrom = this.valueUtils.getDataFromSessionStorage(FILTER_DATE_FROM);
+    if (dateFrom) {
+      this.sessionDateFrom = new Date(dateFrom);
+    }
+    const dateTo = this.valueUtils.getDataFromSessionStorage(FILTER_DATE_TO);
+    if (dateTo) {
+      this.sessionDateTo = new Date(dateTo);
+    }
   }
 }
