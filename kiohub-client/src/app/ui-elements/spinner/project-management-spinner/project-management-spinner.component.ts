@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UpdatableSpinner } from '../updatable-spinner';
-import { EditProjectGeneralTabComponent } from 'src/app/edit-project-general-tab/edit-project-general-tab.component';
-import { EditProjectManagementTabComponent } from 'src/app/edit-project-management-tab/edit-project-management-tab.component';
-import { ErrorType } from 'src/app/error-info/error-type.enum';
+import { EditProjectGeneralTabComponent } from '../../../edit-project-general-tab/edit-project-general-tab.component';
+import { EditProjectManagementTabComponent } from '../../../edit-project-management-tab/edit-project-management-tab.component';
+import { ErrorType } from '../../../error-info/error-type.enum';
 
 @Component({
   selector: 'app-spinner-update-management',

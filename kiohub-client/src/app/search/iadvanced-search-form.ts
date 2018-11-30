@@ -1,5 +1,5 @@
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { Semester } from '../model/semester.interface';
+import { Semester } from '../model/semester.class';
 import { ProjectType } from '../model/project-type.interface';
 import { Licence } from '../model/licence.interface';
 import { MatDatepickerInput } from '@angular/material';

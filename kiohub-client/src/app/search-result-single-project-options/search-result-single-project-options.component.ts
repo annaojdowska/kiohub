@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 import { LoginService } from '../services/login.service';
 import { UserPinnedProjectsService } from '../services/user-pinned-projects.service';
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ProjectViewComponent } from 'src/app/project-view/project-view.component';
-import { ValueUtils } from 'src/app/utils/value-utils';
+import { ProjectViewComponent } from '../../../project-view/project-view.component';
+import { ValueUtils } from '../../../utils/value-utils';
 import { UpdatableSpinner } from '../updatable-spinner';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { animate, style, transition, trigger } from '../../../node_modules/@angular/animations';
-import { MatPaginator, MatTableDataSource } from '../../../node_modules/@angular/material';
-import { Router } from '../../../node_modules/@angular/router';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { ErrorType } from '../error-info/error-type.enum';
 import { QueryDescription } from '../model/helpers/query-description.class';

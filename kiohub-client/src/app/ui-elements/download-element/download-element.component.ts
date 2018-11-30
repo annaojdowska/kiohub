@@ -3,7 +3,7 @@ import { Attachment } from '../../model/attachment.interface';
 import { AttachmentService } from '../../services/attachment.service';
 import { saveAs } from 'file-saver/FileSaver';
 import { FileDownloaderView } from './file-downloader-view';
-import { ProjectViewComponent } from 'src/app/project-view/project-view.component';
+import { ProjectViewComponent } from '../../project-view/project-view.component';
 import { UpdatableSpinner } from '../spinner/updatable-spinner';
 
 @Component({

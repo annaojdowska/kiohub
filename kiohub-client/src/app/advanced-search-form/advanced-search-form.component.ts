@@ -1,18 +1,20 @@
 import { Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
-import { MatDatepickerInput, MatInput } from '@angular/material';
+import { MatDatepickerInput, MatInput, MatDatepicker } from '@angular/material';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { InputListComponent } from '../input-list/input-list.component';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { InputListElement } from '../model/input-list-element';
 import { Licence } from '../model/licence.interface';
 import { ProjectType } from '../model/project-type.interface';
-import { Semester } from '../model/semester.interface';
+import { Semester } from '../model/semester.class';
 import { AdvancedSearchFormValidation } from '../search/advanced-search-form-validation';
 import { IAdvancedSearchFormValidation } from '../search/iadvanced-search-form';
 import { SearchType } from '../search/search-type.enum';
 import { LicenceService } from '../services/licence-service';
 import { ProjectTypeService } from '../services/project-type-service';
 import { Validation } from '../utils/validation-patterns';
+import { ValueUtils } from '../utils/value-utils';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-advanced-search-form',
@@ -28,6 +30,8 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   @ViewChild('tagInput') tagInput: any;
   @ViewChild('dateInput1') dateInputFrom: MatDatepickerInput<Date>;
   @ViewChild('dateInput2') dateInputTo: MatDatepickerInput<Date>;
+  @ViewChild('datePicker1') datePickerFrom: MatDatepicker<Date>;
+  @ViewChild('dateInput2') datePickerTo: MatDatepicker<Date>;
   @ViewChild('tagsList') tagsList: InputListComponent;
   @ViewChild('supervisorsList') supervisorsList: InputListComponent;
   @ViewChild('titlesList') titlesList: InputListComponent;
@@ -51,6 +55,16 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   descriptionTooltip = 'Wpisz fragment opisu projektu i zatwierdź, klikając "Enter".';
   semesterTooltip = 'Kliknij tu, aby wybrać semestry, w czasie których wytwarzany był projekt.';
 
+  SEARCH_SUPERVISORS = 'searchSupervisors';
+  SEARCH_TITLES = 'searchTitles';
+  SEARCH_TYPES = 'searchTypes';
+  SEARCH_DESC = 'searchDescriptions';
+  SEARCH_TAGS = 'searchTags';
+  SEARCH_LICENCES = 'searchLicences';
+  SEARCH_DATE_FROM = 'searchDateFrom';
+  SEARCH_DATE_TO = 'searchDateTo';
+  SEARCH_SEMESTERS = 'searchSemesters';
+
   chosenSemesters: Semester[];
   selectedType: ProjectType;
   selectedLicence: Licence;
@@ -62,10 +76,12 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   enteredDateTo: Date;
   formVal = new AdvancedSearchFormValidation(this, SearchType.PROJECTS_BASE);
   validation = new Validation();
-
+  valueUtils = new ValueUtils();
   licences: Licence[];
   project_types: ProjectType[];
   semestersHidden: boolean;
+  sessionDateTo: Date;
+  sessionDateFrom: Date;
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
     @Inject(LicenceService) private licenceService: LicenceService) { }
 
@@ -74,6 +90,7 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
     this.semestersHidden = false;
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.licenceService.getLicences().subscribe(result => this.licences = result);
+    this.restoreFromSession();
   }
 
   // ******** OTHER ********
@@ -121,11 +138,65 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
         this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
       ).forEach(type => query.projectTypesIds.push(type.id));
       this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
+
+      this.saveToSession(query);
       this.filtersSubmitted.emit(query);
 
       this.searchError.setDisplay(false);
     } else {
       this.searchError.setDisplay(true);
+    }
+  }
+
+  private saveToSession(query: QueryDescription) {
+    this.valueUtils.saveToSession(this.SEARCH_SUPERVISORS, query.supervisors);
+    this.valueUtils.saveToSession(this.SEARCH_TITLES, query.titles);
+    this.valueUtils.saveToSession(this.SEARCH_TYPES, this.typesList.elements.map(element => element.name));
+    this.valueUtils.saveToSession(this.SEARCH_DESC, query.descriptions);
+    this.valueUtils.saveToSession(this.SEARCH_LICENCES, this.licencesList.elements.map(element => element.name));
+    this.valueUtils.saveToSession(this.SEARCH_TAGS, query.tags);
+    this.valueUtils.saveToSession(this.SEARCH_DATE_FROM, query.dateFrom);
+    this.valueUtils.saveToSession(this.SEARCH_DATE_TO, query.dateTo);
+    this.valueUtils.saveToSession(this.SEARCH_SEMESTERS, this.chosenSemesters.map(semester => this.semesterToString(semester)));
+  }
+
+  private restoreFromSession() {
+    const supervisors = this.valueUtils.getDataFromSessionStorage(this.SEARCH_SUPERVISORS);
+    if (supervisors) {
+      supervisors.split(',').forEach(str => this.supervisorsList.add({ name: str }));
+    }
+    const titles = this.valueUtils.getDataFromSessionStorage(this.SEARCH_TITLES);
+    if (titles) {
+      titles.split(',').forEach(str => this.titlesList.add({ name: str }));
+    }
+    const descriptions = this.valueUtils.getDataFromSessionStorage(this.SEARCH_DESC);
+    if (descriptions) {
+      descriptions.split(',').forEach(str => this.descriptionsList.add({ name: str }));
+    }
+    const tags = this.valueUtils.getDataFromSessionStorage(this.SEARCH_TAGS);
+    if (tags) {
+      tags.split(',').forEach(str => this.tagsList.add({ name: str }));
+    }
+    const licences = this.valueUtils.getDataFromSessionStorage(this.SEARCH_LICENCES);
+    if (licences) {
+      licences.split(',').forEach(str => this.licencesList.add({ name: str }));
+    }
+    const types = this.valueUtils.getDataFromSessionStorage(this.SEARCH_TYPES);
+    if (types) {
+      types.split(',').forEach(str => this.typesList.add({ name: str }));
+    }
+    const semesters = this.valueUtils.getDataFromSessionStorage(this.SEARCH_SEMESTERS);
+    if (semesters) {
+      console.log('sem str ' + semesters);
+      semesters.split(',').forEach(str => this.showAddedSemester(this.semesterFromString(str)));
+    }
+    const dateFrom = this.valueUtils.getDataFromSessionStorage(this.SEARCH_DATE_FROM);
+    if (dateFrom) {
+      this.sessionDateFrom = new Date(dateFrom);
+    }
+    const dateTo = this.valueUtils.getDataFromSessionStorage(this.SEARCH_DATE_TO);
+    if (dateTo) {
+      this.sessionDateTo = new Date(dateTo);
     }
   }
 
@@ -158,6 +229,16 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
     this.errorSupervisor.setDisplay(false);
     this.errorTag.setDisplay(false);
     this.errorTitle.setDisplay(false);
+
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_DATE_FROM);
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_DATE_TO);
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_DESC);
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_LICENCES);
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_SEMESTERS);
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_SUPERVISORS);
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_TAGS);
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_TITLES);
+    this.valueUtils.getAndRemoveFromSession(this.SEARCH_TYPES);
   }
 
   canExecuteClearFilters(): boolean {
@@ -216,4 +297,13 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   clearDatePicker2() {
     this.dateInput2.value = '';
   }
+
+  semesterFromString(str: string): Semester {
+    const array = str.split(':');
+    return new Semester(Number(array[0]), array[1]);
+  }
+
+  public semesterToString(semester: Semester): string {
+    return semester.id + ':' + semester.name;
+}
 }

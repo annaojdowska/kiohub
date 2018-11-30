@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { ValueUtils } from 'src/app/utils/value-utils';
+import { ValueUtils } from '../../utils/value-utils';
 
 @Component({
   selector: 'app-spinner',

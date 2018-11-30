@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '../../../node_modules/@angular/material';
-import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmailInvitationService } from '../email-invitation-service/email-invitation.service';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { ErrorType } from '../error-info/error-type.enum';

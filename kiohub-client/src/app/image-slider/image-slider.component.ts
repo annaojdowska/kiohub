@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { IImage } from 'ng-simple-slideshow/src/app/modules/slideshow/IImage';
-import { MatDialog } from '../../../node_modules/@angular/material';
+import { MatDialog } from '@angular/material';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { Attachment } from '../model/attachment.interface';
 import { AttachmentService } from '../services/attachment.service';

@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpParams } from '../../../node_modules/@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { address } from './project.service';
 import { Project } from '../model/project.interface';
-import { Observable } from '../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
