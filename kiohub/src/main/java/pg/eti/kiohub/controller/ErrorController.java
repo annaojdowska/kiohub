@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ErrorController extends MainController {
     @RequestMapping(path = "/error")
-    public String login() throws Exception {
+    public String error() throws Exception {
         return "redirect:http://kiohub.eti.pg.gda.pl/my-projects";
     }
 }
