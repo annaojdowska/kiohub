@@ -103,7 +103,7 @@ img, .verticalMiddle {
     font-size: var(--small-font-size);
 }
 
-mat-form-field.with-asterix > div > div.mat-form-field-flex > div > span > label:after {
+mat-form-field.with-asterix > div > div.mat-form-field-flex > div > span > label::after {
     content: '*';
     color: red;
 }
