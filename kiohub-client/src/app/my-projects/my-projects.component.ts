@@ -253,11 +253,17 @@ export class MyProjectsComponent implements OnInit {
     }
       return sessionStorage.getItem(FILTER_DATE_FROM) !== 'undefined'
       || sessionStorage.getItem(FILTER_DATE_TO) !== 'undefined'
-      || sessionStorage.getItem(FILTER_LICENCES).length > 0
-      || sessionStorage.getItem(FILTER_SEMESTERS).length > 0
-      || sessionStorage.getItem(FILTER_STATUS).length > 0
-      || sessionStorage.getItem(FILTER_TAGS).length > 0
-      || sessionStorage.getItem(FILTER_TYPES).length > 0
-      || sessionStorage.getItem(FILTER_TITLES).length > 0;
+      || sessionStorage.getItem(FILTER_LICENCES) !== null
+      && sessionStorage.getItem(FILTER_LICENCES).length > 0
+      || sessionStorage.getItem(FILTER_SEMESTERS) !== null
+      &&  sessionStorage.getItem(FILTER_SEMESTERS).length > 0
+      || sessionStorage.getItem(FILTER_STATUS) !== null
+      && sessionStorage.getItem(FILTER_STATUS).length > 0
+      || sessionStorage.getItem(FILTER_TAGS) != null
+      && sessionStorage.getItem(FILTER_TAGS).length > 0
+      || sessionStorage.getItem(FILTER_TYPES) !== null
+      && sessionStorage.getItem(FILTER_TYPES).length > 0
+      || sessionStorage.getItem(FILTER_TITLES) !== null
+      && sessionStorage.getItem(FILTER_TITLES).length > 0;
   }
 }
