@@ -290,8 +290,6 @@ export class EditProjectGeneralTabComponent implements OnInit {
 
     this.projectService.getProjectById(projectId).subscribe(result => {
       this.editedProject = result;
-      this.publishWarning.setDisplay(this.isUserSupervisor());
-
       result.tags.forEach(tag => {
         this.tagsList.add({ id: tag.id, name: tag.name });
       });
@@ -356,7 +354,10 @@ export class EditProjectGeneralTabComponent implements OnInit {
       result.forEach(pr => {
         this.relatedToList.add({ id: pr.id, name: pr.title });
       }));
-    this.userService.isLoggedAndSupervisor().subscribe(result => this.isLoggedUserSupervisor = result);
+    this.userService.isLoggedAndSupervisor().subscribe(result => {
+      this.isLoggedUserSupervisor = result;
+      this.publishWarning.setDisplay(this.isUserSupervisor());
+    });
   }
 
   filter(phrase: string): Tag[] {
