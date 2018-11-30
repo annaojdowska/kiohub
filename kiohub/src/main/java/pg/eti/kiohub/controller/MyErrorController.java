@@ -21,11 +21,11 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 public class MyErrorController implements ErrorController {
 
   @RequestMapping("/error")
-  @ResponseBody
   public String handleError(HttpServletRequest request) {
       return "redirect:http://kiohub.eti.pg.gda.pl/my-projects";
   }
 
+  @Override
   public String getErrorPath() {
       return "/error";
   }
