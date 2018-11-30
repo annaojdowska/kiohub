@@ -14,7 +14,7 @@ export class MenuBarComponent implements OnInit {
   currentUser: User;
   valueUtils = new ValueUtils();
   @Input() hideSearch;
-  hideSearchValue: boolean;
+  displaySearch;
 
   private addressToLogOut = address + '/login/logout';
   constructor(@Inject(UserService) private userService: UserService) {
@@ -28,11 +28,12 @@ export class MenuBarComponent implements OnInit {
     console.log(this.hideSearch === 'false');
     console.log(this.hideSearch === null);
     console.log(this.hideSearch === undefined);
-    if (this.hideSearch === 'true') {
-      this.hideSearchValue = true;
-    } else {
-      this.hideSearchValue = false;
-    }
+    this.displaySearch = this.valueUtils.setDisplay(this.hideSearch !== 'true');
+    // if (this.hideSearch === 'true') {
+    //   this.hideSearchValue = true;
+    // } else {
+    //   this.hideSearchValue = false;
+    // }
   }
 
   ngOnInit() {
