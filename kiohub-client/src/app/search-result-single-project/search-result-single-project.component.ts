@@ -29,6 +29,8 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   private brokenImage = '../../assets/broken-image.png';
   private start: string;
   private end: string;
+  public projectDetailsUrl = 'http://kiohub.eti.pg.gda.pl';
+
   constructor(@Inject(Router) private router: Router,
     @Inject(AttachmentService) private attachmentService: AttachmentService,
     @Inject(UserPinnedProjectsService) private userPinnedProjectsService: UserPinnedProjectsService,
@@ -37,6 +39,7 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
   @Output() pinUpdate = new EventEmitter();
 
   ngOnInit() {
+    this.projectDetailsUrl = 'http://kiohub.eti.pg.gda.pl/details/' + this.project.id;
     this.showDefault = true;
     if (this.allowEdit || this.allowPin) {
       this.loginService.getLogged().subscribe(user => {
@@ -54,8 +57,6 @@ export class SearchResultSingleProjectComponent implements OnInit, AfterContentI
             this.options.collaborated = <boolean>isCollabolator;
         });
     }
-
-
   }
 
   ngAfterContentInit(): void {

@@ -1,6 +1,7 @@
 <div id="project_result_container">
-  <app-search-result-single-project-options #options *ngIf="allowPin || allowEdit || allowCollaboratedIcon" (pinOptionsUpdate)="pinOptionsUpdate()"
-    [allowPin]="allowPin" [allowEdit]="allowEdit" [allowCollaboratedIcon]="allowCollaboratedIcon" class="options" [projectId]="project.id"></app-search-result-single-project-options>
+  <app-search-result-single-project-options #options *ngIf="allowPin || allowEdit || allowCollaboratedIcon"
+    (pinOptionsUpdate)="pinOptionsUpdate()" [allowPin]="allowPin" [allowEdit]="allowEdit" [allowCollaboratedIcon]="allowCollaboratedIcon"
+    class="options" [projectId]="project.id"></app-search-result-single-project-options>
   <div id="inner_content" (click)="navigateToDetails()">
     <div *ngIf="!showDefault; else noImageFound">
       <img class="project_image" *ngIf="mainPhoto" [src]="mainPhoto">
@@ -11,13 +12,15 @@
       </ng-template>
     </div>
     <div id="info">
-      <div>
-        <h2 class="title">{{project.title}}</h2>
-        <h3 id="publication-state" *ngIf="displayPublished()">{{displayPublicationState()}}</h3>
-      </div>
-      <h3>{{project.titleEng}}</h3>
-      <p>{{descriptionToDisplay}}</p>
-      <app-input-list [removable]="false" hideInput="true" #tagsList></app-input-list>
+      <a href={{projectDetailsUrl}}>
+        <div>
+          <h2 class="title">{{project.title}}</h2>
+          <h3 id="publication-state" *ngIf="displayPublished()">{{displayPublicationState()}}</h3>
+        </div>
+        <h3>{{project.titleEng}}</h3>
+        <p>{{descriptionToDisplay}}</p>
+        <app-input-list [removable]="false" hideInput="true" #tagsList></app-input-list>
+      </a>
     </div>
   </div>
 </div>

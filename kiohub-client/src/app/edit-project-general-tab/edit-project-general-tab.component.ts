@@ -633,14 +633,12 @@ export class EditProjectGeneralTabComponent implements OnInit {
           this.projectService.publishProject(this.editedProject.id)
             .subscribe(data => {
               infoString = 'Pomyślnie opublikowano projekt na stronie.';
-              this.onCompleted(infoString, ErrorType.SUCCESS);
               this.viewUtils.scrollToTop();
-              window.location.reload();
+              this.onCompleted(infoString, ErrorType.SUCCESS);
             }, error => {
               infoString = 'Nie udało się opublikować projektu na stronie. (Czy zatwierdziłeś zmiany przed opublikowaniem?)';
-              this.onCompleted(infoString, ErrorType.ERROR);
               this.viewUtils.scrollToTop();
-              window.location.reload();
+              this.onCompleted(infoString, ErrorType.ERROR);
             });
         }
       });
@@ -652,14 +650,13 @@ export class EditProjectGeneralTabComponent implements OnInit {
     this.projectService.unpublishProject(this.editedProject.id)
       .subscribe(data => {
         infoString = 'Pomyślnie cofnięto publikację projektu na stronie.';
-        this.onCompleted(infoString, ErrorType.SUCCESS);
         this.viewUtils.scrollToTop();
-        window.location.reload();
+        this.onCompleted(infoString, ErrorType.SUCCESS);
       }, error => {
         infoString = 'Nie udało się cofnąć publikacji projektu na stronie.';
-        this.onCompleted(infoString, ErrorType.ERROR);
         this.viewUtils.scrollToTop();
-        window.location.reload();
+        this.onCompleted(infoString, ErrorType.ERROR);
+        console.log(error);
       });
   }
 
