@@ -15,6 +15,7 @@ import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { IAdvancedSearchFormValidation } from '../search/iadvanced-search-form';
 import { AdvancedSearchFormValidation } from '../search/advanced-search-form-validation';
 import { SearchType } from '../search/search-type.enum';
+import { ValueUtils } from '../utils/value-utils';
 
 @Component({
   selector: 'app-my-projects-search-form',
@@ -22,6 +23,15 @@ import { SearchType } from '../search/search-type.enum';
   styleUrls: ['./my-projects-search-form.component.css']
 })
 export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFormValidation {
+  FILTER_TITLES = 'filterTitles';
+  FILTER_TYPES = 'filterTypes';
+  FILTER_TAGS = 'filterTags';
+  FILTER_STATUS = 'filterStatus';
+  FILTER_LICENCES = 'filterLicences';
+  FILTER_DATE_FROM = 'filterDateFrom';
+  FILTER_DATE_TO = 'filterDateTo';
+  FILTER_SEMESTERS = 'filterSemesters';
+
   @Output() filtersSubmitted = new EventEmitter<QueryDescription>();
   @Output() removeFilters = new EventEmitter();
   @ViewChild('titleInput') titleInput: any;
@@ -54,6 +64,8 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   errorDescription = null;
   enteredDateFrom: Date;
   enteredDateTo: Date;
+  sessionDateTo: Date;
+  sessionDateFrom: Date;
 
   chosenSemesters: Semester[];
   selectedType: ProjectType;
@@ -67,6 +79,7 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
   semestersHidden: boolean;
   validation = new Validation();
   formVal = new AdvancedSearchFormValidation(this, SearchType.MY_PROJECTS);
+  valueUtils = new ValueUtils();
 
   constructor(@Inject(LicenceService) private licenceService: LicenceService,
     @Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
@@ -78,11 +91,15 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
+    this.restoreFromSession();
   }
 
   submit() {
     this.addTag();
     this.addTitle();
+    this.selectedLicence = undefined;
+    this.selectedType = undefined;
+    this.selectedStatus = undefined;
     if (this.formVal.validateAllElements()) {
       const query = new QueryDescription();
       this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
@@ -100,6 +117,7 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
         this.statusesList.elements.map(element => element.name).findIndex(chosen => chosen === status.name) !== -1
       ).forEach(status => query.statusesIds.push(status.id));
 
+      this.saveToSession(query);
       this.filtersSubmitted.emit(query);
       this.searchError.setDisplay(false);
     } else {
@@ -132,6 +150,15 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.errorDate.setDisplay(false);
     this.errorTag.setDisplay(false);
     this.errorTitle.setDisplay(false);
+
+    this.valueUtils.getAndRemoveFromSession(this.FILTER_DATE_FROM);
+    this.valueUtils.getAndRemoveFromSession(this.FILTER_DATE_TO);
+    this.valueUtils.getAndRemoveFromSession(this.FILTER_STATUS);
+    this.valueUtils.getAndRemoveFromSession(this.FILTER_LICENCES);
+    this.valueUtils.getAndRemoveFromSession(this.FILTER_SEMESTERS);
+    this.valueUtils.getAndRemoveFromSession(this.FILTER_TAGS);
+    this.valueUtils.getAndRemoveFromSession(this.FILTER_TITLES);
+    this.valueUtils.getAndRemoveFromSession(this.FILTER_TYPES);
 
     this.removeFilters.emit();
   }
@@ -209,5 +236,59 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
 
   clearDatePicker2() {
     this.dateInput2.value = '';
+  }
+
+  semesterFromString(str: string): Semester {
+    const array = str.split(':');
+    return new Semester(Number(array[0]), array[1]);
+  }
+
+  public semesterToString(semester: Semester): string {
+    return semester.id + ':' + semester.name;
+}
+
+  private saveToSession(query: QueryDescription) {
+    this.valueUtils.saveToSession(this.FILTER_TITLES, query.titles);
+    this.valueUtils.saveToSession(this.FILTER_LICENCES, this.licencesList.elements.map(element => element.name));
+    this.valueUtils.saveToSession(this.FILTER_TAGS, query.tags);
+    this.valueUtils.saveToSession(this.FILTER_DATE_FROM, query.dateFrom);
+    this.valueUtils.saveToSession(this.FILTER_DATE_TO, query.dateTo);
+    this.valueUtils.saveToSession(this.FILTER_STATUS, query.statusesIds);
+    this.valueUtils.saveToSession(this.FILTER_SEMESTERS, this.chosenSemesters.map(semester => this.semesterToString(semester)));
+  }
+
+  private restoreFromSession() {
+    const titles = this.valueUtils.getDataFromSessionStorage(this.FILTER_TITLES);
+    if (titles) {
+      titles.split(',').forEach(str => this.titlesList.add({ name: str }));
+    }
+    const status = this.valueUtils.getDataFromSessionStorage(this.FILTER_STATUS);
+    if (status) {
+      status.split(',').forEach(str => this.statusesList.add({ name: str }));
+    }
+    const tags = this.valueUtils.getDataFromSessionStorage(this.FILTER_TAGS);
+    if (tags) {
+      tags.split(',').forEach(str => this.tagsList.add({ name: str }));
+    }
+    const licences = this.valueUtils.getDataFromSessionStorage(this.FILTER_LICENCES);
+    if (licences) {
+      licences.split(',').forEach(str => this.licencesList.add({ name: str }));
+    }
+    const types = this.valueUtils.getDataFromSessionStorage(this.FILTER_TYPES);
+    if (types) {
+      types.split(',').forEach(str => this.typesList.add({ name: str }));
+    }
+    const semesters = this.valueUtils.getDataFromSessionStorage(this.FILTER_SEMESTERS);
+    if (semesters) {
+      semesters.split(',').forEach(str => this.showAddedSemester(this.semesterFromString(str)));
+    }
+    const dateFrom = this.valueUtils.getDataFromSessionStorage(this.FILTER_DATE_FROM);
+    if (dateFrom) {
+      this.sessionDateFrom = new Date(dateFrom);
+    }
+    const dateTo = this.valueUtils.getDataFromSessionStorage(this.FILTER_DATE_TO);
+    if (dateTo) {
+      this.sessionDateTo = new Date(dateTo);
+    }
   }
 }

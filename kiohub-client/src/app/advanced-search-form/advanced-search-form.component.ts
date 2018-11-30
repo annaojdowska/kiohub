@@ -119,6 +119,8 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   }
 
   submit() {
+    this.selectedLicence = undefined;
+    this.selectedType = undefined;
     this.addTag();
     this.addSupervisor();
     this.addTitle();
@@ -187,7 +189,6 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
     }
     const semesters = this.valueUtils.getDataFromSessionStorage(this.SEARCH_SEMESTERS);
     if (semesters) {
-      console.log('sem str ' + semesters);
       semesters.split(',').forEach(str => this.showAddedSemester(this.semesterFromString(str)));
     }
     const dateFrom = this.valueUtils.getDataFromSessionStorage(this.SEARCH_DATE_FROM);
