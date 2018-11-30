@@ -6,13 +6,13 @@
     <app-error-info #publishResult></app-error-info>
     <app-spinner-update-project #uploadInfoSpinner></app-spinner-update-project>
     <div>
-        <mat-form-field class="wrapper-right with-asterix" *ngIf="isUserSupervisor()">
+        <mat-form-field class="wrapper-right" *ngIf="isUserSupervisor()">
             <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" placeholder="Status projektu*"
                 (selectionChange)="onProjectStatusChange($event)">
                 <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field class="wrapper-right with-asterix" *ngIf="!isUserSupervisor()">
+        <mat-form-field class="wrapper-right" *ngIf="!isUserSupervisor()">
             <mat-select #projectStatus [value]="editedProject?.projectStatus?.id" [disabled]="true" placeholder="Status projektu*">
                 <mat-option *ngFor="let status of statuses" [value]="status.id">{{status.name}}</mat-option>
             </mat-select>
