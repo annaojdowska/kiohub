@@ -43,6 +43,16 @@
 }
 
 .search-result-single-project-options {
-  width: 54px;
   float: right;
+}
+
+.icon-vertical {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 20px;
+}
+
+.separator-vertical {
+  height: 1px;
+  background-color: #FF9100  /* like pipeline in assets */
 }
