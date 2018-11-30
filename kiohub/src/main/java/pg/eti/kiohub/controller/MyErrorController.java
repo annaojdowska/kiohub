@@ -22,7 +22,7 @@ public class MyErrorController implements ErrorController {
 
   @RequestMapping("/error")
   public String handleError(HttpServletRequest request) {
-      return "redirect:http://kiohub.eti.pg.gda.pl/my-projects";
+      return "redirect:http://kiohub.eti.pg.gda.pl/";
   }
 
   @Override
