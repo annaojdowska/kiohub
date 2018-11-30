@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { LicenceService } from '../services/licence-service';
 import { Licence } from '../model/licence.interface';
 import { ProjectTypeService } from '../services/project-type-service';
@@ -24,7 +24,8 @@ import { ValueUtils } from '../utils/value-utils';
   templateUrl: './my-projects-search-form.component.html',
   styleUrls: ['./my-projects-search-form.component.css']
 })
-export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFormValidation {
+export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFormValidation, AfterViewInit {
+
   @Output() filtersSubmitted = new EventEmitter<QueryDescription>();
   @Output() removeFilters = new EventEmitter();
   @ViewChild('titleInput') titleInput: any;
@@ -84,6 +85,9 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     this.licenceService.getLicences().subscribe(result => this.licences = result);
     this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
     this.projectStatusService.getStatuses().subscribe(result => this.statuses = result);
+  }
+
+  ngAfterViewInit(): void {
     this.restoreFromSession();
     this.filtersSubmitted.emit(this.generateQuery());
   }

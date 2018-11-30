@@ -57,6 +57,7 @@ export class AdvancedSearchComponent implements OnInit {
       this.searchResults = results.map(r => new SearchResult(r, 0));
       this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
       this.showFilters = this.checkIfFiltersAreInSession();
+      console.log('checkIfFilters... ' + this.checkIfFiltersAreInSession());
     });
   }
 
