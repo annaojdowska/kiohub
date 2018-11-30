@@ -2,17 +2,18 @@
   <img src="assets/pin.png" class="left-top" matTooltip="Przypięty">
 </div>
 <div class="left-top-wrapper " *ngIf='allowCollaboratedIcon && collaborated'>
-  <img src="assets/authors.png" class="left-top" matTooltip="Jesteś współautorem tego projektu">
+  <img src="assets/authors.png" class="left-top" matTooltip="Bierzesz udział w tym projekcie ">
 </div>
 <div class="search-result-single-project-options">
-  <div *ngIf='allowPin' (click)="selectChange('PIN')" matTooltip="{{pinText}}">
+  <div *ngIf='allowPin' (click)="pin()" matTooltip="{{pinText}}">
     <img src="assets/pin.png" class="icon-vertical"/>
   </div>
   <div class="separator-vertical"  *ngIf='allowPin && allowEdit'>
 
   </div>
-  <div *ngIf='allowEdit' (click)="selectChange('EDIT')" matTooltip="Edytuj">
-    <img src="assets/edit.png" class="icon-vertical"/>
-    
+  <div *ngIf='allowEdit' matTooltip="Edytuj">
+      <a href="/edit-project/{{project?.id}}" class="icon-vertical">
+        <img src="assets/edit.png">
+        </a>   
   </div>
 </div>

@@ -35,30 +35,22 @@ export class SearchResultSingleProjectOptionsComponent {
     }
   }
 
-  selectChange(value: string) {
+  pin() {
     this.loginService.getLogged().subscribe(user => {
       if (user) {
         const userId = user.id;
-
-        switch (value) {
-          case this.PIN:
-            if (this.pinned) {
-              this.userPinnedProjects.unPin(userId, this.projectId).subscribe(data => {
-                this.pinned = false;
-                this.pinnedTextRefresh();
-                this.pinOptionsUpdate.emit();
-              });
-            } else {
-              this.userPinnedProjects.pin(userId, this.projectId).subscribe(data => {
-                this.pinned = true;
-                this.pinnedTextRefresh();
-                this.pinOptionsUpdate.emit();
-              });
-            }
-            break;
-          case this.EDIT:
-            this.router.navigate(['/edit-project', this.projectId]);
-            break;
+        if (this.pinned) {
+          this.userPinnedProjects.unPin(userId, this.projectId).subscribe(data => {
+            this.pinned = false;
+            this.pinnedTextRefresh();
+            this.pinOptionsUpdate.emit();
+          });
+        } else {
+          this.userPinnedProjects.pin(userId, this.projectId).subscribe(data => {
+            this.pinned = true;
+            this.pinnedTextRefresh();
+            this.pinOptionsUpdate.emit();
+          });
         }
       }
     });
