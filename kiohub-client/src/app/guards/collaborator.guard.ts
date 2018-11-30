@@ -31,6 +31,8 @@ export class CollaboratorGuard implements CanActivate {
         }
       }));
     } else {
+      this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
+      this.router.navigate(['/home']);
       return false;
     }
   }

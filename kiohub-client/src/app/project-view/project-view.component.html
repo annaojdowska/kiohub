@@ -1,7 +1,14 @@
 <app-error-info #previewModeInfo errorText="Ten projekt nie został jeszcze opublikowany. Znajdujesz się w trybie podglądu dostępnym tylko dla współautorów projektu"
     errorType="WARNING"></app-error-info>
 
+    <div class="right-top" *ngIf="loggedIsCollaborator" matTooltip="Edytuj">
+        <a href="/edit-project/{{project?.id}}">
+        <img src="assets/edit.png">
+        </a>
+    </div>
+
 <h2>{{project?.title}}</h2>
+
 
 <div id="wrapper_width">
     <app-image-slider #slider></app-image-slider>

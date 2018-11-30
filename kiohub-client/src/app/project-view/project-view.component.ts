@@ -58,6 +58,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
   projectTypeHidden;
   detailsHidden;
   authorsLabelHidden;
+  loggedIsCollaborator;
 
   constructor(@Inject(UserService) private userService: UserService,
     @Inject(ActivatedRoute) private route: ActivatedRoute,
@@ -75,6 +76,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
     this.projectTypeHidden = true;
     this.detailsHidden = true;
     this.authorsLabelHidden = true;
+    this.loggedIsCollaborator = false;
   }
 
   ngOnInit(): void {
@@ -86,6 +88,7 @@ export class ProjectViewComponent implements OnInit, FileDownloaderView {
         }
         this.project = project;
         this.initData(this.project.id);
+        this.userService.loggedIsCollaborator(this.project.id).subscribe(isCollaborator => this.loggedIsCollaborator = isCollaborator);
         this.downloadThesis.attachments = this.project.attachments;
 
         this.imageSlider.setImages(this.project.attachments.filter(

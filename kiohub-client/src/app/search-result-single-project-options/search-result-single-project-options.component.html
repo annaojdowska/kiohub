@@ -1,15 +1,19 @@
-<div class="pinwrapper" *ngIf='pinned'>
-  <img src="assets/pin.png" class="pin">
+<div class="left-top-wrapper " *ngIf='pinned'>
+  <img src="assets/pin.png" class="left-top" matTooltip="Przypięty">
 </div>
-<mat-form-field class="search-result-single-project-options">
-  <mat-select>
-    <mat-option *ngIf='allowPin' (click)="selectChange('PIN')">
-      <img src="assets/pin.png" class="icon-inline">
-      {{pinText}}
-    </mat-option>
-    <mat-option *ngIf='allowEdit' (click)="selectChange('EDIT')">
-      <img src="assets/edit.png" class="icon-inline">
-      Edytuj
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<div class="left-top-wrapper " *ngIf='allowCollaboratedIcon && collaborated'>
+  <img src="assets/authors.png" class="left-top" matTooltip="Bierzesz udział w tym projekcie ">
+</div>
+<div class="search-result-single-project-options">
+  <div *ngIf='allowPin' (click)="pin()" matTooltip="{{pinText}}">
+    <img src="assets/pin.png" class="icon-vertical"/>
+  </div>
+  <div class="separator-vertical"  *ngIf='allowPin && allowEdit'>
+
+  </div>
+  <div *ngIf='allowEdit' matTooltip="Edytuj">
+      <a href="/edit-project/{{projectId}}">
+        <img src="assets/edit.png" class="icon-vertical">
+        </a>   
+  </div>
+</div>
