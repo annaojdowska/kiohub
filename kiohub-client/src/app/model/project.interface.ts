@@ -1,9 +1,8 @@
 import { ProjectType } from './project-type.interface';
 import { Licence } from './licence.interface';
 import { ProjectStatus } from './project-status.interface';
-import { ProjectSettings } from './project-settings.interface';
 import { Tag } from './tag.interface';
-import { Semester } from './semester.interface';
+import { Semester } from './semester.class';
 import { Attachment } from './attachment.interface';
 
 export interface Project {

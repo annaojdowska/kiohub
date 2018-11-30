@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from '../services/user.service';
-import { map } from '../../../node_modules/rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ValueUtils } from '../utils/value-utils';
 
 @Injectable({
@@ -31,6 +31,8 @@ export class CollaboratorGuard implements CanActivate {
         }
       }));
     } else {
+      this.valueUtils.saveToSession(this.valueUtils.unauthorizedBoolean, true);
+      this.router.navigate(['/home']);
       return false;
     }
   }

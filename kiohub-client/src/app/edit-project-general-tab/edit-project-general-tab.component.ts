@@ -13,7 +13,7 @@ import { InputListElement } from '../model/input-list-element';
 import { Licence } from '../model/licence.interface';
 import { ProjectType } from '../model/project-type.interface';
 import { Project } from '../model/project.interface';
-import { Semester } from '../model/semester.interface';
+import { Semester } from '../model/semester.class';
 import { Status } from '../model/status.interface';
 import { Tag } from '../model/tag.interface';
 import { Visibility } from '../model/visibility.enum';

@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { animate, style, transition, trigger } from '../../../node_modules/@angular/animations';
-import { MatPaginator, MatTableDataSource } from '../../../node_modules/@angular/material';
-import { Router } from '../../../node_modules/@angular/router';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { ErrorType } from '../error-info/error-type.enum';
-import { QueryDescription } from '../model/helpers/query-description.class';
+import { QueryDescription, FILTER_DATE_FROM, FILTER_DATE_TO, FILTER_LICENCES,
+   FILTER_SEMESTERS, FILTER_STATUS, FILTER_TAGS, FILTER_TYPES,
+   FILTER_TITLES } from '../model/helpers/query-description.class';
 import { ProjectStatus } from '../model/project-status.interface';
 import { Project } from '../model/project.interface';
 import { User } from '../model/user.interface';
@@ -56,6 +58,7 @@ export class MyProjectsComponent implements OnInit {
   projectStatuses: ProjectStatus[];
   userHasNoProjects: boolean;
   isLoggedAndSupervisor = false;
+  showFilters = false;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp; this.assignPaginatorToDataSource();
   }
@@ -90,6 +93,8 @@ export class MyProjectsComponent implements OnInit {
             this.displayedProjects = this.projects;
             this.filteredProjects = this.projects;
             this.sortAndSetByPinned();
+            console.log('checkIfFilters... ' + this.checkIfFiltersAreInSession());
+            this.showFilters = this.checkIfFiltersAreInSession();
           });
       } else {
         this.noResultsError.setComponent(true, 'WARNING', 'Nie udało się odczytać danych zalogowanego użytkownika. (Czy jesteś zalogowany?)');
@@ -240,5 +245,25 @@ export class MyProjectsComponent implements OnInit {
 
   isUserSupervisor(): boolean {
     return this.isLoggedAndSupervisor;
+  }
+
+  checkIfFiltersAreInSession(): boolean {
+    if (sessionStorage.length === 0 ) {
+      return false;
+    }
+      return sessionStorage.getItem(FILTER_DATE_FROM) !== 'undefined'
+      || sessionStorage.getItem(FILTER_DATE_TO) !== 'undefined'
+      || sessionStorage.getItem(FILTER_LICENCES) !== null
+      && sessionStorage.getItem(FILTER_LICENCES).length > 0
+      || sessionStorage.getItem(FILTER_SEMESTERS) !== null
+      &&  sessionStorage.getItem(FILTER_SEMESTERS).length > 0
+      || sessionStorage.getItem(FILTER_STATUS) !== null
+      && sessionStorage.getItem(FILTER_STATUS).length > 0
+      || sessionStorage.getItem(FILTER_TAGS) != null
+      && sessionStorage.getItem(FILTER_TAGS).length > 0
+      || sessionStorage.getItem(FILTER_TYPES) !== null
+      && sessionStorage.getItem(FILTER_TYPES).length > 0
+      || sessionStorage.getItem(FILTER_TITLES) !== null
+      && sessionStorage.getItem(FILTER_TITLES).length > 0;
   }
 }

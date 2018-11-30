@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { ErrorType } from '../error-info/error-type.enum';
 import { Note } from '../model/note.interface';

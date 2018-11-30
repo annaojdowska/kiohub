@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { EditProjectGeneralTabComponent } from 'src/app/edit-project-general-tab/edit-project-general-tab.component';
-import { ErrorType } from 'src/app/error-info/error-type.enum';
+import { EditProjectGeneralTabComponent } from '../../../edit-project-general-tab/edit-project-general-tab.component';
+import { ErrorType } from '../../../error-info/error-type.enum';
 import { UpdatableSpinner } from '../updatable-spinner';
 
 @Component({

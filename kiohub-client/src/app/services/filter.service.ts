@@ -1,7 +1,7 @@
-import { Injectable } from '../../../node_modules/@angular/core';
+import { Injectable } from '@angular/core';
 import { QueryDescription } from '../model/helpers/query-description.class';
 import { Project } from '../model/project.interface';
-import { preserveWhitespacesDefault } from '../../../node_modules/@angular/compiler';
+import { preserveWhitespacesDefault } from '@angular/compiler';
 import { ValueUtils } from '../utils/value-utils';
 
 @Injectable()

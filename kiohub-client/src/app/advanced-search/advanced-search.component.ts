@@ -3,7 +3,9 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { AdvancedSearchFormComponent } from '../advanced-search-form/advanced-search-form.component';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
-import { QueryDescription } from '../model/helpers/query-description.class';
+import { QueryDescription, SEARCH_DATE_FROM, SEARCH_DATE_TO, SEARCH_DESC,
+  SEARCH_LICENCES, SEARCH_SEMESTERS, SEARCH_SUPERVISORS, SEARCH_TAGS, SEARCH_TITLES,
+  SEARCH_TYPES } from '../model/helpers/query-description.class';
 import { SearchResult } from '../model/helpers/search-result.class';
 import { ProjectService } from '../services/project.service';
 import { SearchService } from '../services/search.service';
@@ -34,6 +36,7 @@ export class AdvancedSearchComponent implements OnInit {
   sortingRules: string[];
   paginator: MatPaginator;
   valueUtils = new ValueUtils();
+  showFilters = false;
   @ViewChild('searchForm') searchForm: AdvancedSearchFormComponent;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) { this.paginator = mp; this.assignPaginatorToDataSource(); }
   @ViewChild('noResultsError') noResultsError: ErrorInfoComponent;
@@ -53,6 +56,8 @@ export class AdvancedSearchComponent implements OnInit {
     this.projectService.getPublishedProjects().subscribe(results => {
       this.searchResults = results.map(r => new SearchResult(r, 0));
       this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
+      this.showFilters = this.checkIfFiltersAreInSession();
+      console.log('checkIfFilters... ' + this.checkIfFiltersAreInSession());
     });
   }
 
@@ -110,5 +115,27 @@ export class AdvancedSearchComponent implements OnInit {
     }
     this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
     this.assignPaginatorToDataSource();
+  }
+
+  checkIfFiltersAreInSession(): boolean {
+    if (sessionStorage.length === 0 ) {
+      return false;
+    }
+      return sessionStorage.getItem(SEARCH_DATE_FROM) !== 'undefined'
+      || sessionStorage.getItem(SEARCH_DATE_TO) !== 'undefined'
+      || sessionStorage.getItem(SEARCH_DESC) !== null
+      && sessionStorage.getItem(SEARCH_DESC).length > 0
+      || sessionStorage.getItem(SEARCH_LICENCES) != null
+      && sessionStorage.getItem(SEARCH_LICENCES).length > 0
+      || sessionStorage.getItem(SEARCH_SEMESTERS) !== null
+      && sessionStorage.getItem(SEARCH_SEMESTERS).length > 0
+      || sessionStorage.getItem(SEARCH_SUPERVISORS) !== null
+      && sessionStorage.getItem(SEARCH_SUPERVISORS).length > 0
+      || sessionStorage.getItem(SEARCH_TAGS) !== null
+      && sessionStorage.getItem(SEARCH_TAGS).length > 0
+      || sessionStorage.getItem(SEARCH_TITLES) !== null
+      && sessionStorage.getItem(SEARCH_TITLES).length > 0
+      || sessionStorage.getItem(SEARCH_TYPES) !== null
+      && sessionStorage.getItem(SEARCH_TYPES).length > 0;
   }
 }
