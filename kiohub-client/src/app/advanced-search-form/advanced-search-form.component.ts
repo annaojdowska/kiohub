@@ -2,7 +2,9 @@ import { Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@ang
 import { MatDatepickerInput, MatInput, MatDatepicker } from '@angular/material';
 import { ErrorInfoComponent } from '../error-info/error-info.component';
 import { InputListComponent } from '../input-list/input-list.component';
-import { QueryDescription } from '../model/helpers/query-description.class';
+import { QueryDescription, SEARCH_SUPERVISORS, SEARCH_TITLES, SEARCH_SEMESTERS,
+  SEARCH_DATE_TO, SEARCH_DATE_FROM, SEARCH_TAGS, SEARCH_LICENCES, SEARCH_DESC,
+  SEARCH_TYPES } from '../model/helpers/query-description.class';
 import { InputListElement } from '../model/input-list-element';
 import { Licence } from '../model/licence.interface';
 import { ProjectType } from '../model/project-type.interface';
@@ -14,7 +16,6 @@ import { LicenceService } from '../services/licence-service';
 import { ProjectTypeService } from '../services/project-type-service';
 import { Validation } from '../utils/validation-patterns';
 import { ValueUtils } from '../utils/value-utils';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-advanced-search-form',
@@ -55,16 +56,6 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   descriptionTooltip = 'Wpisz fragment opisu projektu i zatwierdź, klikając "Enter".';
   semesterTooltip = 'Kliknij tu, aby wybrać semestry, w czasie których wytwarzany był projekt.';
 
-  SEARCH_SUPERVISORS = 'searchSupervisors';
-  SEARCH_TITLES = 'searchTitles';
-  SEARCH_TYPES = 'searchTypes';
-  SEARCH_DESC = 'searchDescriptions';
-  SEARCH_TAGS = 'searchTags';
-  SEARCH_LICENCES = 'searchLicences';
-  SEARCH_DATE_FROM = 'searchDateFrom';
-  SEARCH_DATE_TO = 'searchDateTo';
-  SEARCH_SEMESTERS = 'searchSemesters';
-
   chosenSemesters: Semester[];
   selectedType: ProjectType;
   selectedLicence: Licence;
@@ -88,9 +79,14 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   ngOnInit() {
     this.chosenSemesters = [];
     this.semestersHidden = false;
-    this.projectTypeService.getTypes().subscribe(result => this.project_types = result);
-    this.licenceService.getLicences().subscribe(result => this.licences = result);
-    this.restoreFromSession();
+    this.projectTypeService.getTypes().subscribe(result => {
+      this.project_types = result;
+      this.licenceService.getLicences().subscribe(res => {
+        this.licences = res;
+        this.restoreFromSession();
+        this.submit();
+      });
+    });
   }
 
   // ******** OTHER ********
@@ -126,20 +122,7 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
     this.addTitle();
     this.addDescription();
     if (this.formVal.validateAllElements()) {
-      const query = new QueryDescription();
-      this.supervisorsList.elements.map(element => element.name).forEach(name => query.supervisors.push(name));
-      this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
-      this.titlesList.elements.map(element => element.name).forEach(name => query.titles.push(name));
-      this.descriptionsList.elements.map(element => element.name).forEach(name => query.descriptions.push(name));
-      query.dateFrom = this.dateFrom;
-      query.dateTo = this.dateTo;
-      this.licences.filter(licence =>
-        this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
-      ).forEach(licence => query.licencesIds.push(licence.id));
-      this.project_types.filter(type =>
-        this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
-      ).forEach(type => query.projectTypesIds.push(type.id));
-      this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
+      const query = this.generateQuery();
 
       this.saveToSession(query);
       this.filtersSubmitted.emit(query);
@@ -150,52 +133,70 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
     }
   }
 
+  generateQuery(): QueryDescription {
+    const query = new QueryDescription();
+    this.supervisorsList.elements.map(element => element.name).forEach(name => query.supervisors.push(name));
+    this.tagsList.elements.map(element => element.name).forEach(name => query.tags.push(name));
+    this.titlesList.elements.map(element => element.name).forEach(name => query.titles.push(name));
+    this.descriptionsList.elements.map(element => element.name).forEach(name => query.descriptions.push(name));
+    query.dateFrom = this.dateFrom;
+    query.dateTo = this.dateTo;
+    this.licences.filter(licence =>
+      this.licencesList.elements.map(element => element.name).findIndex(chosen => chosen === licence.name) !== -1
+    ).forEach(licence => query.licencesIds.push(licence.id));
+    this.project_types.filter(type =>
+      this.typesList.elements.map(element => element.name).findIndex(chosen => chosen === type.name) !== -1
+    ).forEach(type => query.projectTypesIds.push(type.id));
+    this.chosenSemesters.forEach(semester => query.semestersIds.push(semester.id));
+    return query;
+  }
+
   private saveToSession(query: QueryDescription) {
-    this.valueUtils.saveToSession(this.SEARCH_SUPERVISORS, query.supervisors);
-    this.valueUtils.saveToSession(this.SEARCH_TITLES, query.titles);
-    this.valueUtils.saveToSession(this.SEARCH_TYPES, this.typesList.elements.map(element => element.name));
-    this.valueUtils.saveToSession(this.SEARCH_DESC, query.descriptions);
-    this.valueUtils.saveToSession(this.SEARCH_LICENCES, this.licencesList.elements.map(element => element.name));
-    this.valueUtils.saveToSession(this.SEARCH_TAGS, query.tags);
-    this.valueUtils.saveToSession(this.SEARCH_DATE_FROM, query.dateFrom);
-    this.valueUtils.saveToSession(this.SEARCH_DATE_TO, query.dateTo);
-    this.valueUtils.saveToSession(this.SEARCH_SEMESTERS, this.chosenSemesters.map(semester => this.semesterToString(semester)));
+    this.valueUtils.saveToSession(SEARCH_SUPERVISORS, query.supervisors);
+    this.valueUtils.saveToSession(SEARCH_TITLES, query.titles);
+    this.valueUtils.saveToSession(SEARCH_TYPES, this.typesList.elements.map(element => element.name));
+    this.valueUtils.saveToSession(SEARCH_DESC, query.descriptions);
+    this.valueUtils.saveToSession(SEARCH_LICENCES, this.licencesList.elements.map(element => element.name));
+    this.valueUtils.saveToSession(SEARCH_TAGS, query.tags);
+    this.valueUtils.saveToSession(SEARCH_DATE_FROM, query.dateFrom);
+    this.valueUtils.saveToSession(SEARCH_DATE_TO, query.dateTo);
+    this.valueUtils.saveToSession(SEARCH_SEMESTERS, this.chosenSemesters.map(semester => this.semesterToString(semester)));
   }
 
   private restoreFromSession() {
-    const supervisors = this.valueUtils.getDataFromSessionStorage(this.SEARCH_SUPERVISORS);
+    const supervisors = this.valueUtils.getDataFromSessionStorage(SEARCH_SUPERVISORS);
     if (supervisors) {
       supervisors.split(',').forEach(str => this.supervisorsList.add({ name: str }));
     }
-    const titles = this.valueUtils.getDataFromSessionStorage(this.SEARCH_TITLES);
+    const titles = this.valueUtils.getDataFromSessionStorage(SEARCH_TITLES);
     if (titles) {
       titles.split(',').forEach(str => this.titlesList.add({ name: str }));
     }
-    const descriptions = this.valueUtils.getDataFromSessionStorage(this.SEARCH_DESC);
+    const descriptions = this.valueUtils.getDataFromSessionStorage(SEARCH_DESC);
     if (descriptions) {
       descriptions.split(',').forEach(str => this.descriptionsList.add({ name: str }));
     }
-    const tags = this.valueUtils.getDataFromSessionStorage(this.SEARCH_TAGS);
+    const tags = this.valueUtils.getDataFromSessionStorage(SEARCH_TAGS);
     if (tags) {
       tags.split(',').forEach(str => this.tagsList.add({ name: str }));
     }
-    const licences = this.valueUtils.getDataFromSessionStorage(this.SEARCH_LICENCES);
+    const licences = this.valueUtils.getDataFromSessionStorage(SEARCH_LICENCES);
     if (licences) {
       licences.split(',').forEach(str => this.licencesList.add({ name: str }));
     }
-    const types = this.valueUtils.getDataFromSessionStorage(this.SEARCH_TYPES);
+    const types = this.valueUtils.getDataFromSessionStorage(SEARCH_TYPES);
     if (types) {
       types.split(',').forEach(str => this.typesList.add({ name: str }));
     }
-    const semesters = this.valueUtils.getDataFromSessionStorage(this.SEARCH_SEMESTERS);
+    const semesters = this.valueUtils.getDataFromSessionStorage(SEARCH_SEMESTERS);
     if (semesters) {
       semesters.split(',').forEach(str => this.showAddedSemester(this.semesterFromString(str)));
     }
-    const dateFrom = this.valueUtils.getDataFromSessionStorage(this.SEARCH_DATE_FROM);
+    const dateFrom = this.valueUtils.getDataFromSessionStorage(SEARCH_DATE_FROM);
     if (dateFrom) {
       this.sessionDateFrom = new Date(dateFrom);
     }
-    const dateTo = this.valueUtils.getDataFromSessionStorage(this.SEARCH_DATE_TO);
+    const dateTo = this.valueUtils.getDataFromSessionStorage(SEARCH_DATE_TO);
     if (dateTo) {
       this.sessionDateTo = new Date(dateTo);
     }
@@ -231,15 +232,17 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
     this.errorTag.setDisplay(false);
     this.errorTitle.setDisplay(false);
 
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_DATE_FROM);
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_DATE_TO);
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_DESC);
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_LICENCES);
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_SEMESTERS);
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_SUPERVISORS);
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_TAGS);
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_TITLES);
-    this.valueUtils.getAndRemoveFromSession(this.SEARCH_TYPES);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_DATE_FROM);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_DATE_TO);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_DESC);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_LICENCES);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_SEMESTERS);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_SUPERVISORS);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_TAGS);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_TITLES);
+    this.valueUtils.getAndRemoveFromSession(SEARCH_TYPES);
+
+    this.filtersSubmitted.emit(this.generateQuery());
   }
 
   canExecuteClearFilters(): boolean {
