@@ -4,11 +4,15 @@
     class="options" [projectId]="project.id"></app-search-result-single-project-options>
   <div id="inner_content" (click)="navigateToDetails()">
     <div *ngIf="!showDefault; else noImageFound">
-      <img class="project_image" *ngIf="mainPhoto" [src]="mainPhoto">
+      <div class="img-wrapper">
+          <img class="project_image" *ngIf="mainPhoto" [src]="mainPhoto">
+      </div>
     </div>
     <div id="project_image_container">
       <ng-template #noImageFound>
-        <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
+        <div class="img-wrapper">
+          <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
+        </div>
       </ng-template>
     </div>
     <div id="info">

@@ -2,6 +2,7 @@
 package pg.eti.kiohub.controller;
 
 
+import java.io.IOException;
 import lombok.extern.jbosslog.JBossLog;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import pg.eti.kiohub.entity.model.Attachment;
 
 @JBossLog
 @CrossOrigin
@@ -128,9 +132,15 @@ public class ProjectController extends MainController {
     public ResponseEntity delete(@PathVariable("id") Long id, HttpServletRequest request) {
         Optional<Project> projectToDelete = this.projectRepository.findById(id);
         if (projectToDelete.isPresent()) {
-            projectToDelete.get().getAttachments().forEach((att) -> {
-                this.attachmentFileRepository.deleteById(att.getId());
-            });
+            for (Attachment attachment : projectToDelete.get().getAttachments()) {
+                try {
+                    this.attachmentService.remove(attachment);
+                } catch (IOException ex) {
+                    Logger.getLogger(ProjectController.class.getName()).log(Level.SEVERE, null, ex);
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                }
+                
+            };
             this.collaboratorsRepository.deleteAllCollaborators(id);
             this.userPinnedProjectRepository.deleteAllPinnedProject(id);
             this.projectRepository.deleteAllRelatedProjects(id);

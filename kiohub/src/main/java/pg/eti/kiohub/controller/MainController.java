@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.stereotype.Controller;
-import pg.eti.kiohub.entity.repository.AttachmentFileRepository;
 import pg.eti.kiohub.entity.repository.AttachmentRepository;
 import pg.eti.kiohub.entity.repository.LicenceRepository;
 import pg.eti.kiohub.entity.repository.NoteRepository;
@@ -64,9 +63,6 @@ public class MainController {
 
     @Autowired
     protected AttachmentRepository attachmentRepository;
-
-    @Autowired
-    protected AttachmentFileRepository attachmentFileRepository;
 
     @Autowired
     protected UserEmailRepository userEmailRepository;

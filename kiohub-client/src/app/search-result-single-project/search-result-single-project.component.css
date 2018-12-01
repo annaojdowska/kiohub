@@ -1,8 +1,5 @@
 .project_image {
     max-width: 8vw;
-    max-height: 15vh;
-    float: left;
-    margin-right: 1vw;
 }
 
 #info {
@@ -54,4 +51,13 @@ h3 {
 #publication-state {
     font-style: italic;
     color: var(--color-gray);
+}
+
+.img-wrapper {
+    width: 8vw;
+    display: block;
+    max-height: 15vw;
+    float: left;
+    margin-right: 1vw;
+    text-align: center;
 }

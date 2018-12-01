@@ -2,6 +2,7 @@ package pg.eti.kiohub.controller;
 
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.sql.*;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import javax.sql.rowset.serial.SerialBlob;
+import javax.ws.rs.QueryParam;
 
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.io.FilenameUtils;
@@ -37,7 +39,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.enums.AttachmentType;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Attachment;
-import pg.eti.kiohub.entity.model.AttachmentFile;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 import pg.eti.kiohub.utils.FileUtils;
@@ -60,75 +61,7 @@ public class AttachmentControler extends MainController {
     @Value("${attachments.directory:/home/attachments/}")
     private String attachmentsDirectory;
 
-    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
-    public ResponseEntity upload(
-            @RequestParam("File") MultipartFile multipartFile,
-            @RequestParam("Type") String type,
-            @RequestParam("ProjectId") String projectId,
-            @RequestParam("Visibility") String visibility,
-            @RequestParam("MainPhoto") String mainPhoto,
-            HttpServletRequest request) {
 
-        if (multipartFile.getSize() < MAX_ATTACHMENT_SIZE_IN_BYTES) {
-            Attachment attachment = new Attachment();
-
-            try {
-                Project project = super.projectRepository.getOne(Long.parseLong(projectId));
-                String filename = new File(multipartFile.getOriginalFilename()).getName();
-                attachment.setFileName(filename);
-                attachment.setFileSize(multipartFile.getSize());
-                attachment.setType(AttachmentType.valueOf(type));
-                attachment.setProject(project);
-                attachment.setVisibility(Visibility.valueOf(visibility));
-                attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
-            } catch (NumberFormatException ex) {
-                return ExceptionHandlingUtils.handleException(ex);
-            }
-
-            try {
-                attachment = attachmentRepository.saveAndFlush(attachment);
-            } catch (Exception ex) {
-                attachmentService.rollbackSaveAttachment(attachment);
-                return ExceptionHandlingUtils.handleException(ex);
-            }
-
-            try {
-                log.info("SAVED ATTACHMENT WITH ID " + attachment.getId() + ", FILE SIZE = " + attachment.getFileSize());
-                DataSource ds = (DataSource) appContext.getBean("dataSource");
-                String insertQuery = "INSERT INTO `attachments_files` (attachments_id, file) VALUES (?, ?)";
-
-                try (
-                        Connection connection = ds.getConnection();
-                        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)
-                ) {
-
-                    preparedStatement.setLong(1, attachment.getId());
-                    preparedStatement.setBlob(2, multipartFile.getInputStream(), attachment.getFileSize());
-                    int affectedRows = preparedStatement.executeUpdate();
-                    if (affectedRows == 0) {
-                        log.info("ERROR: affectedRows = 0");
-                        return new ResponseEntity<>("ERROR: PREPARED STATEMENT AFFECTED 0 ROWS", HttpStatus.EXPECTATION_FAILED);
-                    }
-                    log.info("EVERYTHING OK! SAVED " + affectedRows + " ROWS!");
-                }
-            } catch (Error ex) {
-                attachmentService.rollbackSaveAttachment(attachment);
-                log.info("Error: " + ex.getMessage());
-                return ExceptionHandlingUtils.handleException(ex);
-            } catch (Exception ex) {
-                attachmentService.rollbackSaveAttachment(attachment);
-                log.info("Exception: " + ex.getMessage());
-                return ExceptionHandlingUtils.handleException(ex);
-            }
-
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            String error = "Plik nie może być większy niż " + MAX_ATTACHMENT_SIZE_IN_BYTES + " MB.";
-            log.info("Błąd. " + error);
-            return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
-        }
-    }
 
     @PostMapping(path = "/updateMetadata")
     @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
@@ -145,7 +78,7 @@ public class AttachmentControler extends MainController {
         attachmentRepository.save(attachment);
         return new ResponseEntity(HttpStatus.OK);
     }
-
+    
     @PostMapping(path = "/remove")
     @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity removeAttachment(@RequestBody List<Long> attachmentsToRemove,
@@ -153,52 +86,17 @@ public class AttachmentControler extends MainController {
                                            HttpServletRequest request) {
         try {
             for (Long a : attachmentsToRemove) {
-                attachmentFileRepository.deleteById(a);
-                attachmentRepository.deleteById(a);
+                Attachment attachment = attachmentRepository.getOne(a);
+                attachmentService.remove(attachment);
             }
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @GetMapping(path = "/download")
-    @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
-    public ResponseEntity downloadAttachment(@RequestParam("id") long id,
-                                             HttpServletResponse response,
-                                             HttpServletRequest request) {
-        Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
-        Optional<Attachment> attachment = attachmentRepository.findById(id);
-        if (attachmentService.attachmentExists(attachmentFile, attachment)) {
-            try {
-                attachmentService.prepareAndSaveAttachment(attachment, attachmentFile, response);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } catch (Exception ex) {
-                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping(path = "/downloadPhoto")
-    @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
-    public ResponseEntity downloadPhoto(@RequestParam("id") long id,
-                                        HttpServletResponse response,
-                                        HttpServletRequest request) {
-        Optional<AttachmentFile> attachmentFile = attachmentFileRepository.findById(id);
-        Optional<Attachment> attachment = attachmentRepository.findById(id);
-        if (attachmentService.attachmentExists(attachmentFile, attachment) && attachment.get().getType() == AttachmentType.PHOTO) {
-            try {
-                attachmentService.prepareAndSaveAttachment(attachment, attachmentFile, response);
-            } catch (Exception ex) {
-                return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
     
-    @PostMapping(path = "/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    // @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
+    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("@securityService.isCollaborator(#request, #projectId)")
     public ResponseEntity uploadFile(
             @RequestParam("File") MultipartFile multipartFile,
             @RequestParam("Type") String type,
@@ -219,6 +117,7 @@ public class AttachmentControler extends MainController {
                 attachment.setProject(project);
                 attachment.setVisibility(Visibility.valueOf(visibility));
                 attachment.setMainPhoto(Boolean.parseBoolean(mainPhoto));
+                attachment.setFileLocation(attachmentsDirectory);
             } catch (NumberFormatException ex) {
                 return ExceptionHandlingUtils.handleException(ex);
             }
@@ -226,21 +125,20 @@ public class AttachmentControler extends MainController {
             try {
                 attachment = attachmentRepository.saveAndFlush(attachment);
             } catch (Exception ex) {
-                attachmentService.rollbackSaveAttachment(attachment);
                 return ExceptionHandlingUtils.handleException(ex);
             }
-
             try {
-                attachmentService.saveAttachmentToDisk(multipartFile.getInputStream(), attachmentsDirectory + attachment.getId().toString());
+                attachmentService.saveAttachmentToDisk(multipartFile.getInputStream(), attachment.getFullPath());
 
                 return new ResponseEntity(HttpStatus.OK);
             } catch (IOException ex) {
+                attachmentService.rollbackSaveAttachment(attachment);
                 Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
                 return new ResponseEntity(ex.getMessage(), HttpStatus.BAD_REQUEST);
             }
 
         } else {
-            String error = "Plik nie może być większy niż " + MAX_ATTACHMENT_SIZE_IN_BYTES + " MB.";
+            String error = "Plik nie może być większy niż " + MAX_ATTACHMENT_SIZE_IN_BYTES + " bajtów.";
             log.info("Błąd. " + error);
             return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
         }
@@ -248,8 +146,8 @@ public class AttachmentControler extends MainController {
         
         }
     
-        @GetMapping(path = "/downloadFile")
-    //@PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
+    @GetMapping(path = "/download")
+    @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
     public ResponseEntity downloadFile(@RequestParam("id") long id,
                                              HttpServletResponse response,
                                              HttpServletRequest request) {
@@ -258,6 +156,8 @@ public class AttachmentControler extends MainController {
             InputStream inputStream = attachmentService.getAttachmentFromDisk(attachment);
 
             try {
+                response.setContentType(FileUtils.getMimeType(FilenameUtils.getExtension(attachment.getFileName())));
+                response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(attachment.getFileName(),"UTF-8").replace("+", "%20"));
                 IOUtils.copy(inputStream, response.getOutputStream());
             } catch (IOException ex) {
                 Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,7 +175,7 @@ public class AttachmentControler extends MainController {
         }
         return new ResponseEntity(HttpStatus.OK);
     }
-
+    
 
 }
 

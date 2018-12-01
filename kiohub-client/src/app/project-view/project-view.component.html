@@ -1,7 +1,7 @@
-<app-error-info #previewModeInfo errorText="Ten projekt nie został jeszcze opublikowany. Znajdujesz się w trybie podglądu dostępnym tylko dla współautorów projektu"
+<app-error-info #previewModeInfo errorText="Ten projekt nie został jeszcze opublikowany. Znajdujesz się w trybie podglądu dostępnym tylko dla współautorów projektu."
     errorType="WARNING"></app-error-info>
 
-    <div class="right-top" *ngIf="loggedIsCollaborator" matTooltip="Edytuj">
+    <div class="right-top" *ngIf="loggedIsCollaborator">
         <a href="/edit-project/{{project?.id}}" class="submit-button mat-stroked-button edit">
         Edytuj
         </a>
@@ -114,7 +114,7 @@
             <div id="list">
                 <li class="relatedProjectHover" *ngFor="let relatedProject of relatedProjects">
                     <img id="bullet-character" src="../../assets/bullet-character.png" />
-                    <a [routerLink]="['/details/', relatedProject?.id]">{{relatedProject?.title}}</a>
+                    <a href="/details/{{relatedProject?.id}}">{{relatedProject?.title}}</a>
                 </li>
             </div>
         </div>

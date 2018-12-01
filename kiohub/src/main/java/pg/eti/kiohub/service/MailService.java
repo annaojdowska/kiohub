@@ -36,7 +36,7 @@ public class MailService {
     @Value("${mail.invitation.text:Bierzesz udział w projekcie - {projectName} {projectLink}}")
     private String text;
 
-    @Value("${mail.invitation.address:kiohub.pg.edu.pl/edit-project/{projectId}}")
+    @Value("${mail.invitation.address:http://kiohub.eti.pg.gda.pl/edit-project/{projectId}}")
     private String address;
 
     @Autowired
@@ -60,6 +60,7 @@ public class MailService {
         String link = address.replaceAll("\\{projectId\\}", project.getId().toString());
         String messageText = text.replaceAll("\\{projectLink\\}", link);
         messageText = messageText.replaceAll("\\{projectName\\}", project.getTitle());
+        subject = subject.replaceAll("\\{projectName\\}", project.getTitle());
 
         for (String email : emails) {
             Message message = new MimeMessage(session);
@@ -67,7 +68,7 @@ public class MailService {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email)); //recipients
             message.setSubject(subject);
 
-            message.setText(messageText);
+            message.setContent(messageText, "text/html");
 
             Transport.send(message);
         }
