@@ -44,4 +44,8 @@ public class Attachment {
     
     @Column(name = "is_main_photo")
     private Boolean mainPhoto;
+    
+    public String getFullPath() {
+        return fileLocation + id.toString();
+    }
 }

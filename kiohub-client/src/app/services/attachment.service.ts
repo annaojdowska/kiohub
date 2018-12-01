@@ -57,7 +57,7 @@ export class AttachmentService {
 
   getPhotoAttachment(id: number) {
     const params = new HttpParams().set('id', id.toString());
-    return this.http.get(address + '/attachment/downloadPhoto', { responseType: 'blob', params: params });
+    return this.http.get(address + '/attachment/download', { responseType: 'blob', params: params });
   }
 
   getAttachment(id: number) {
