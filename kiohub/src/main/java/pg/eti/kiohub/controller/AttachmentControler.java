@@ -276,7 +276,7 @@ public class AttachmentControler extends MainController {
 
             try {
                 response.setContentType(FileUtils.getMimeType(FilenameUtils.getExtension(attachment.getFileName())));
-                response.setHeader("Content-Disposition", "attachment; filename=UTF-8''" + URLEncoder.encode(attachment.getFileName(),"UTF-8"));
+                response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(attachment.getFileName(),"UTF-8").replace("+", "%20"));
                 IOUtils.copy(inputStream, response.getOutputStream());
             } catch (IOException ex) {
                 Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
