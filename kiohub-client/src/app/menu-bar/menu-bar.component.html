@@ -11,8 +11,8 @@
       </div>
       <app-menu-button title="Moje projekty" href="my-projects" class="margin_extreme_right"></app-menu-button>
       <app-menu-button title="Baza projektów" href="projects-base" class="margin_extreme_right"></app-menu-button>
-      <div class="margin_extreme_right" >
-        <label class="menu_label">Grzegorz Brzęczyszczykiewicz</label>
+      <div class="margin_extreme_right" *ngIf="isUserDefined()">
+        <label class="menu_label">{{currentUser.firstName}} {{currentUser.lastName}}</label>
       </div>
       <app-search-input id=search-input resizable='true' [style.display]="displaySearch"></app-search-input>
     </div>

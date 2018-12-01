@@ -22,18 +22,7 @@ export class MenuBarComponent implements OnInit {
   }
 
   hideSearchIfNecessary(): any {
-    console.log('belka');
-    console.log(this.hideSearch);
-    console.log(this.hideSearch === 'true');
-    console.log(this.hideSearch === 'false');
-    console.log(this.hideSearch === null);
-    console.log(this.hideSearch === undefined);
     this.displaySearch = this.valueUtils.setDisplay(this.hideSearch !== 'true');
-    // if (this.hideSearch === 'true') {
-    //   this.hideSearchValue = true;
-    // } else {
-    //   this.hideSearchValue = false;
-    // }
   }
 
   ngOnInit() {
