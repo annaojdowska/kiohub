@@ -264,7 +264,7 @@ public class AttachmentControler extends MainController {
         
         }
     
-        @GetMapping(path = "/download")
+    @GetMapping(path = "/download")
     @PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
     public ResponseEntity downloadFile(@RequestParam("id") long id,
                                              HttpServletResponse response,
@@ -274,6 +274,7 @@ public class AttachmentControler extends MainController {
             InputStream inputStream = attachmentService.getAttachmentFromDisk(attachment);
 
             try {
+                response.setContentType(FileUtils.getMimeType(FilenameUtils.getExtension(attachment.getFileName())));
                 IOUtils.copy(inputStream, response.getOutputStream());
             } catch (IOException ex) {
                 Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
@@ -292,34 +293,6 @@ public class AttachmentControler extends MainController {
         return new ResponseEntity(HttpStatus.OK);
     }
     
-            @GetMapping(path = "/download2/{id}")
-    //@PreAuthorize("@visibilityService.checkAttachmentVisibility(#request, #id)")
-    public ResponseEntity downloadFile2(@QueryParam("id") long id,
-                                             HttpServletResponse response,
-                                             HttpServletRequest request) {
-        try {
-            Attachment attachment = attachmentRepository.findById(id).get();
-            InputStream inputStream = attachmentService.getAttachmentFromDisk(attachment);
-
-            try {
-                IOUtils.copy(inputStream, response.getOutputStream());
-            } catch (IOException ex) {
-                Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            } finally {
-                try {
-                    inputStream.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } catch (NoSuchElementException | FileNotFoundException ex) {
-            Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
 
 }
 
