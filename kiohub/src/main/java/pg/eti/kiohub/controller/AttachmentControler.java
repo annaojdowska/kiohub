@@ -275,6 +275,7 @@ public class AttachmentControler extends MainController {
 
             try {
                 response.setContentType(FileUtils.getMimeType(FilenameUtils.getExtension(attachment.getFileName())));
+                response.setHeader("Content-Disposition", "attachment; filename=" + attachment.getFileName());
                 IOUtils.copy(inputStream, response.getOutputStream());
             } catch (IOException ex) {
                 Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
