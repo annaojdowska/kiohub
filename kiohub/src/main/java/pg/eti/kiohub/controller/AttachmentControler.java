@@ -37,7 +37,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.enums.AttachmentType;
 import pg.eti.kiohub.entity.enums.Visibility;
 import pg.eti.kiohub.entity.model.Attachment;
-import pg.eti.kiohub.entity.model.AttachmentFile;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 import pg.eti.kiohub.utils.FileUtils;
@@ -170,8 +169,7 @@ public class AttachmentControler extends MainController {
         try {
             for (Long a : attachmentsToRemove) {
                 Attachment attachment = attachmentRepository.getOne(a);
-                attachmentService.deleteAttachmentFromDisk(attachment);
-                attachmentRepository.deleteById(a);
+                attachmentService.remove(attachment);
             }
         } catch (Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);

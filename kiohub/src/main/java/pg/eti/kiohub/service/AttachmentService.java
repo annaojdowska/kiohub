@@ -9,7 +9,6 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pg.eti.kiohub.entity.model.Attachment;
-import pg.eti.kiohub.entity.model.AttachmentFile;
 import pg.eti.kiohub.entity.repository.AttachmentRepository;
 import pg.eti.kiohub.utils.FileUtils;
 
@@ -31,23 +30,9 @@ public class AttachmentService {
     @Autowired
     AttachmentRepository attachmentFileRepository;
 
-    public void prepareAndSaveAttachment(Optional<Attachment> attachmentOpt,
-                                         Optional<AttachmentFile> attachmentFileOpt,
-                                         HttpServletResponse response) throws SQLException, IOException {
-        Attachment attachment = attachmentOpt.get();
-        AttachmentFile attachmentFile = attachmentFileOpt.get();
-
-        String name = attachment.getFileName();
-        String extension = FilenameUtils.getExtension(name);
-        Blob blob = attachmentFile.getFile();
-
-        InputStream in = blob.getBinaryStream();
-        response.setContentType(FileUtils.getMimeType(extension));
-        IOUtils.copy(in, response.getOutputStream());
-    }
-
-    public boolean attachmentExists(Optional<AttachmentFile> attachmentFile, Optional<Attachment> attachment) {
-        return attachmentFile.isPresent() && attachment.isPresent();
+    public boolean attachmentExists(Optional<Attachment> attachment) {
+        Attachment att = attachment.get();
+        return attachment.isPresent() && new File(att.getFullPath()).exists();
     }
 
     public void rollbackSaveAttachment(Attachment attachment) {
@@ -95,12 +80,17 @@ public class AttachmentService {
         return inputStream;
     }
         
-        public void deleteAttachmentFromDisk(Attachment attachment) throws IOException {
+        private void deleteAttachmentFromDisk(Attachment attachment) throws IOException {
             File file = new File(attachment.getFullPath());
             if (!file.delete()) {
                 throw new IOException();
             }
         }
+
+    public void remove(Attachment attachment) throws IOException {
+        deleteAttachmentFromDisk(attachment);
+        attachmentRepository.deleteById(attachment.getId());
+    }
 
         
 
