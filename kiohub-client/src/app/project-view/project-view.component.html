@@ -114,7 +114,7 @@
             <div id="list">
                 <li class="relatedProjectHover" *ngFor="let relatedProject of relatedProjects">
                     <img id="bullet-character" src="../../assets/bullet-character.png" />
-                    <a [routerLink]="['/details/', relatedProject?.id]">{{relatedProject?.title}}</a>
+                    <a href="/details/{{relatedProject?.id}}">{{relatedProject?.title}}</a>
                 </li>
             </div>
         </div>
