@@ -4,7 +4,7 @@
     class="options" [projectId]="project.id"></app-search-result-single-project-options>
   <div id="inner_content" (click)="navigateToDetails()">
     <div *ngIf="!showDefault; else noImageFound">
-      <div class"img-wrapper">
+      <div class="img-wrapper">
           <img class="project_image" *ngIf="mainPhoto" [src]="mainPhoto">
       </div>
     </div>
