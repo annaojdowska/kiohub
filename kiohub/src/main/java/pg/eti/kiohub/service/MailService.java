@@ -67,7 +67,7 @@ public class MailService {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email)); //recipients
             message.setSubject(subject);
 
-            message.setText(messageText);
+            message.setContent(messageText, "text/html");
 
             Transport.send(message);
         }
