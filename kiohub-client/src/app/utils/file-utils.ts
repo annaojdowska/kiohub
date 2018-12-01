@@ -14,6 +14,7 @@ export class FileUtils {
     readonly EXT_ZIP_2 = 'multipart/x-zip';
     readonly EXT_ZIP_3 = 'application/x-zip-compressed';
     readonly EXT_TGZ = 'application/tgz';
+    readonly EXT_GZ = 'application/x-gzip';
     readonly EXT_GIF = 'image/gif';
     readonly EXT_JPG = 'image/jpeg';
     readonly EXT_JPEG = 'image/jpeg';
@@ -21,12 +22,12 @@ export class FileUtils {
     readonly EXT_ODT = 'application/vnd.oasis.opendocument.text';
 
     readonly thesisExtensions = [this.EXT_PDF, this.EXT_DOC, this.EXT_DOCX, this.EXT_TXT, this.EXT_TEX, this.EXT_DVI, this.EXT_ODT];
-    readonly sourceCodeExtensions = [this.EXT_ZIP, this.EXT_ZIP_2, this.EXT_ZIP_3, this.EXT_TGZ];
+    readonly sourceCodeExtensions = [this.EXT_ZIP, this.EXT_ZIP_2, this.EXT_ZIP_3, this.EXT_TGZ, this.EXT_GZ];
     readonly imageExtensions = [this.EXT_GIF, this.EXT_JPG, this.EXT_JPEG, this.EXT_PNG];
     readonly manualExtensions = this.thesisExtensions;
     readonly manualStartupExtensions = this.thesisExtensions;
     readonly otherFileExtensions = [this.EXT_PDF, this.EXT_DOC, this.EXT_DOCX, this.EXT_TXT, this.EXT_TEX, this.EXT_DVI, this.EXT_ZIP, this.EXT_ZIP_2, this.EXT_ZIP_3, this.EXT_ODT,
-    this.EXT_TGZ, this.EXT_GIF, this.EXT_JPG, this.EXT_JPEG, this.EXT_PNG];
+    this.EXT_TGZ, this.EXT_GZ, this.EXT_GIF, this.EXT_JPG, this.EXT_JPEG, this.EXT_PNG];
 
     valueUtils = new ValueUtils();
 
@@ -36,7 +37,7 @@ export class FileUtils {
     }
 
     getSourceCodeExtensions() {
-        return '.zip, .tgz';
+        return '.zip, .gz, .tgz';
     }
 
     getImageExtensions() {
@@ -52,7 +53,7 @@ export class FileUtils {
     }
 
     getOtherFileExtensions() {
-        return '.pdf, .doc, .docx, .txt, .tex, .dvi, .zip, .odt, .tgz, .gif, .jpg, .jpeg, .png';
+        return '.pdf, .doc, .docx, .txt, .tex, .dvi, .zip, .odt, .gz, .tgz, .gif, .jpg, .jpeg, .png';
     }
 
     // ******** CHECK IF ATTACHMENT IS ACCEPTABLE ********
