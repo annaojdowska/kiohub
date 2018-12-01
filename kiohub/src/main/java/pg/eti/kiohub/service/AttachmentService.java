@@ -54,7 +54,6 @@ public class AttachmentService {
         if (attachment != null) {
             if (attachment.getId() != null) {
                 attachmentRepository.deleteById(attachment.getId());
-                attachmentFileRepository.deleteById(attachment.getId());
             }
         }
     }
@@ -85,7 +84,7 @@ public class AttachmentService {
     }
     
         public InputStream getAttachmentFromDisk(Attachment attachment) throws FileNotFoundException {
-        String path = "/home/attachments/wyjscie.txt"; // attachment.getFilePath();
+        String path = attachment.getFullPath();
         String name = attachment.getFileName();
         String extension = FilenameUtils.getExtension(name);
 
@@ -95,4 +94,14 @@ public class AttachmentService {
         InputStream inputStream = new FileInputStream(fileToDownload);
         return inputStream;
     }
+        
+        public void deleteAttachmentFromDisk(Attachment attachment) throws IOException {
+            File file = new File(attachment.getFullPath());
+            if (!file.delete()) {
+                throw new IOException();
+            }
+        }
+
+        
+
 }
