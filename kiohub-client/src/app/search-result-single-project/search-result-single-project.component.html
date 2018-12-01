@@ -10,7 +10,9 @@
     </div>
     <div id="project_image_container">
       <ng-template #noImageFound>
-        <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
+        <div class="img-wrapper">
+          <img class="project_image" [src]="brokenImage" alt="Uszkodzony plik">
+        </div>
       </ng-template>
     </div>
     <div id="info">
