@@ -140,10 +140,13 @@ public class ProjectController extends MainController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(path = "/publish/{id}")
-    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #id)")
-    public ResponseEntity publishProject(@PathVariable("id") Long id, HttpServletRequest request) {
-        return projectService.setProjectPublished(id, true) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @PostMapping(path = "/publish/{projectId}")
+    @PreAuthorize("@securityService.isCollaboratorAndSupervisor(#request, #projectId)")
+    public ResponseEntity publishProject(@PathVariable("projectId") Long projectId,
+                                         HttpServletRequest request) {
+        return projectService.setProjectPublished(projectId, true)
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(path = "/unpublish/{id}")
