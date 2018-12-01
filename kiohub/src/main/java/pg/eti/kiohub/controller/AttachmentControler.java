@@ -2,6 +2,7 @@ package pg.eti.kiohub.controller;
 
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.sql.*;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -275,7 +276,7 @@ public class AttachmentControler extends MainController {
 
             try {
                 response.setContentType(FileUtils.getMimeType(FilenameUtils.getExtension(attachment.getFileName())));
-                response.setHeader("Content-Disposition", "attachment; filename=" + attachment.getFileName());
+                response.setHeader("Content-Disposition", "attachment; filename=UTF-8''" + URLEncoder.encode(attachment.getFileName(),"UTF-8"));
                 IOUtils.copy(inputStream, response.getOutputStream());
             } catch (IOException ex) {
                 Logger.getLogger(AttachmentControler.class.getName()).log(Level.SEVERE, null, ex);
