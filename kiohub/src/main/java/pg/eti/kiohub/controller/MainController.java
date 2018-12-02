@@ -112,8 +112,10 @@ public class MainController {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
+                    .antMatchers("/project/**").permitAll()
                 .anyRequest().permitAll()
-                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                    .and().csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         }
     }
 
