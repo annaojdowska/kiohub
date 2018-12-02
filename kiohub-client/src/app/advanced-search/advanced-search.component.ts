@@ -57,7 +57,6 @@ export class AdvancedSearchComponent implements OnInit {
       this.searchResults = results.map(r => new SearchResult(r, 0));
       this.dataSource = new MatTableDataSource<SearchResult>(this.searchResults);
       this.showFilters = this.checkIfFiltersAreInSession();
-      console.log('checkIfFilters... ' + this.checkIfFiltersAreInSession());
     });
   }
 
@@ -121,21 +120,14 @@ export class AdvancedSearchComponent implements OnInit {
     if (sessionStorage.length === 0 ) {
       return false;
     }
-      return sessionStorage.getItem(SEARCH_DATE_FROM) !== 'undefined'
-      || sessionStorage.getItem(SEARCH_DATE_TO) !== 'undefined'
-      || sessionStorage.getItem(SEARCH_DESC) !== null
-      && sessionStorage.getItem(SEARCH_DESC).length > 0
-      || sessionStorage.getItem(SEARCH_LICENCES) != null
-      && sessionStorage.getItem(SEARCH_LICENCES).length > 0
-      || sessionStorage.getItem(SEARCH_SEMESTERS) !== null
-      && sessionStorage.getItem(SEARCH_SEMESTERS).length > 0
-      || sessionStorage.getItem(SEARCH_SUPERVISORS) !== null
-      && sessionStorage.getItem(SEARCH_SUPERVISORS).length > 0
-      || sessionStorage.getItem(SEARCH_TAGS) !== null
-      && sessionStorage.getItem(SEARCH_TAGS).length > 0
-      || sessionStorage.getItem(SEARCH_TITLES) !== null
-      && sessionStorage.getItem(SEARCH_TITLES).length > 0
-      || sessionStorage.getItem(SEARCH_TYPES) !== null
-      && sessionStorage.getItem(SEARCH_TYPES).length > 0;
+      return (sessionStorage.getItem(SEARCH_DATE_FROM) !== null && sessionStorage.getItem(SEARCH_DATE_FROM) !== 'undefined')
+      || (sessionStorage.getItem(SEARCH_DATE_TO) !== null && sessionStorage.getItem(SEARCH_DATE_TO) !== 'undefined')
+      || (sessionStorage.getItem(SEARCH_DESC) !== null && sessionStorage.getItem(SEARCH_DESC).length > 0)
+      || (sessionStorage.getItem(SEARCH_LICENCES) !== null && sessionStorage.getItem(SEARCH_LICENCES).length > 0)
+      || (sessionStorage.getItem(SEARCH_SEMESTERS) !== null && sessionStorage.getItem(SEARCH_SEMESTERS).length > 0)
+      || (sessionStorage.getItem(SEARCH_SUPERVISORS) !== null && sessionStorage.getItem(SEARCH_SUPERVISORS).length > 0)
+      || (sessionStorage.getItem(SEARCH_TAGS) !== null && sessionStorage.getItem(SEARCH_TAGS).length > 0)
+      || (sessionStorage.getItem(SEARCH_TITLES) !== null && sessionStorage.getItem(SEARCH_TITLES).length > 0)
+      || (sessionStorage.getItem(SEARCH_TYPES) !== null && sessionStorage.getItem(SEARCH_TYPES).length > 0);
   }
 }

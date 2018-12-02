@@ -266,35 +266,35 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
 
   private restoreFromSession() {
     const titles = this.valueUtils.getDataFromSessionStorage(FILTER_TITLES);
-    if (titles) {
+    if (titles && titles.length > 0) {
       titles.split(',').forEach(str => this.titlesList.add({ name: str }));
     }
     const status = this.valueUtils.getDataFromSessionStorage(FILTER_STATUS);
-    if (status) {
+    if (status && status.length > 0) {
       status.split(',').forEach(str => this.statusesList.add({ name: str }));
     }
     const tags = this.valueUtils.getDataFromSessionStorage(FILTER_TAGS);
-    if (tags) {
+    if (tags && tags.length > 0) {
       tags.split(',').forEach(str => this.tagsList.add({ name: str }));
     }
     const licences = this.valueUtils.getDataFromSessionStorage(FILTER_LICENCES);
-    if (licences) {
+    if (licences && licences.length > 0) {
       licences.split(',').forEach(str => this.licencesList.add({ name: str }));
     }
     const types = this.valueUtils.getDataFromSessionStorage(FILTER_TYPES);
-    if (types) {
+    if (types && types.length > 0) {
       types.split(',').forEach(str => this.typesList.add({ name: str }));
     }
     const semesters = this.valueUtils.getDataFromSessionStorage(FILTER_SEMESTERS);
-    if (semesters) {
+    if (semesters && semesters.length > 0) {
       semesters.split(',').forEach(str => this.showAddedSemester(this.semesterFromString(str)));
     }
     const dateFrom = this.valueUtils.getDataFromSessionStorage(FILTER_DATE_FROM);
-    if (dateFrom) {
+    if (dateFrom && dateFrom !== 'undefined') {
       this.dateFrom = new Date(dateFrom);
     }
     const dateTo = this.valueUtils.getDataFromSessionStorage(FILTER_DATE_TO);
-    if (dateTo) {
+    if (dateTo && dateTo !== 'undefined') {
       this.dateTo = new Date(dateTo);
     }
   }
