@@ -2,39 +2,26 @@
 package pg.eti.kiohub.controller;
 
 
-import java.io.IOException;
 import lombok.extern.jbosslog.JBossLog;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pg.eti.kiohub.entity.enums.Visibility;
-import pg.eti.kiohub.entity.model.Project;
-import pg.eti.kiohub.entity.model.Semester;
-import pg.eti.kiohub.entity.model.Tag;
-import pg.eti.kiohub.entity.model.User;
+import pg.eti.kiohub.entity.model.*;
 import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import pg.eti.kiohub.entity.model.Attachment;
 
 @JBossLog
-@CrossOrigin
 @Controller
 @RequestMapping(path = "/project")
 public class ProjectController extends MainController {

@@ -1,22 +1,19 @@
 package pg.eti.kiohub.controller;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import pg.eti.kiohub.entity.search.QueryDescription;
 import pg.eti.kiohub.entity.search.SearchResult;
-import pg.eti.kiohub.service.SearchService;
-import pg.eti.kiohub.entity.model.Project;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
+import java.util.List;
 
 @Controller
-@CrossOrigin
 @RequestMapping(path = "/search")
 public class SearchController extends MainController {
 

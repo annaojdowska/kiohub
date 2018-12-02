@@ -7,6 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import pg.eti.kiohub.entity.repository.AttachmentRepository;
 import pg.eti.kiohub.entity.repository.LicenceRepository;
@@ -111,9 +112,8 @@ public class MainController {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/project/**").permitAll()
                 .anyRequest().permitAll()
-                    .and().csrf().disable();
+                .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         }
     }
 

@@ -1,40 +1,19 @@
 package pg.eti.kiohub.controller;
 
 
-import java.io.*;
-import java.net.URLEncoder;
-import java.sql.*;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.ws.rs.QueryParam;
-
 import lombok.extern.jbosslog.JBossLog;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.glassfish.jersey.internal.util.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pg.eti.kiohub.entity.enums.AttachmentType;
 import pg.eti.kiohub.entity.enums.Visibility;
@@ -43,9 +22,20 @@ import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.utils.ExceptionHandlingUtils;
 import pg.eti.kiohub.utils.FileUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 @JBossLog
-@CrossOrigin
 @Controller
 @RequestMapping(path = "/attachment")
 public class AttachmentControler extends MainController {

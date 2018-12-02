@@ -6,12 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pg.eti.kiohub.entity.model.UserPinnedProject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +15,6 @@ import java.util.List;
 
 @JBossLog
 @Controller
-@CrossOrigin
 @RequestMapping(path = "/userpinnedproject")
 public class UserPinnedProjectController extends MainController {
 
@@ -43,11 +37,9 @@ public class UserPinnedProjectController extends MainController {
             @RequestParam("userId") String userId,
             @RequestParam("projectId") String projectId,
             HttpServletRequest request) {
-        log.info("Przypne " + userId + " " + projectId);
         UserPinnedProject userPinnedProject = new UserPinnedProject(Long.parseLong(userId), Long.parseLong(projectId));
 
         userPinnedProjectRepository.saveAndFlush(userPinnedProject);
-        log.info("Udalo sie przypiac " + userPinnedProject);
         return new ResponseEntity<>(userPinnedProject, HttpStatus.OK);
     }
 
@@ -60,9 +52,7 @@ public class UserPinnedProjectController extends MainController {
 
         Long _userId = Long.parseLong(userId);
         Long _projectId = Long.parseLong(projectId);
-        log.info("OdPrzypne " + _userId + " " + _projectId);
         UserPinnedProject pinToDelete = this.userPinnedProjectRepository.getPinnedProject(_projectId, _userId);
-        log.info("Udalo sie odprzypiac " + pinToDelete);
         if (pinToDelete != null) {
             this.userPinnedProjectRepository.deletePinnedProject(_projectId, _userId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -80,9 +70,7 @@ public class UserPinnedProjectController extends MainController {
 
         Long _userId = Long.parseLong(userId);
         Long _projectId = Long.parseLong(projectId);
-        log.info("Czyprzypie " + _userId + " " + _projectId);
         UserPinnedProject pinned = this.userPinnedProjectRepository.getPinnedProject(_projectId, _userId);
-        log.info("Udalo sie odprzypiac " + pinned);
         if (pinned != null) {
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
