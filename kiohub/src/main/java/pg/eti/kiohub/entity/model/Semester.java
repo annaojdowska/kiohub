@@ -28,6 +28,11 @@ public class Semester {
     @JsonBackReference
     private List<Project> projects = new ArrayList<>();
 
+    public void addProject(Project project) {
+        projects.add(project);
+        project.getSemesters().add(this);
+    }
+
     public Semester(String name) {
         this.name = name;
     }
