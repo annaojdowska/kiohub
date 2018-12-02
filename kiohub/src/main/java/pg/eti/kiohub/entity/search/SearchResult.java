@@ -7,11 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pg.eti.kiohub.entity.model.Project;
 
-/**
- *
- * @author Anna
- */
-
 @Setter
 @Getter
 @NoArgsConstructor

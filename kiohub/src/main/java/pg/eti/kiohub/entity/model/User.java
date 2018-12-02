@@ -1,21 +1,14 @@
 
 package pg.eti.kiohub.entity.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.util.StringUtils;
 
-/**
- *
- * @author Aleksander Kania
- */
+import javax.persistence.*;
+
 @Entity
 @Table(name = "users")
 @Getter

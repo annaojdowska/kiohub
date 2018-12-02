@@ -9,9 +9,6 @@ import pg.eti.kiohub.entity.repository.TagRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Kasia
- */
 @Service
 public class TagService {
     @Autowired

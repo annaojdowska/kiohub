@@ -7,10 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pg.eti.kiohub.entity.model.User;
 
-/**
- *
- * @author Aleksander Kania
- */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT count(*) FROM users u " +

@@ -11,10 +11,6 @@ import pg.eti.kiohub.entity.enums.Visibility;
 
 import javax.persistence.*;
 
-/**
- *
- * @author Aleksander Kania
- */
 @Entity
 @Table(name = "attachments")
 @Getter

@@ -14,10 +14,6 @@ import pg.eti.kiohub.entity.model.User;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- *
- * @author Aleksander Kania
- */
 @Repository
 public interface ProjectCollaboratorRepository extends JpaRepository<ProjectCollaborator, Long>{
     @Query(value = "SELECT u.user_id, u.first_name, u.last_name, ue.email " +

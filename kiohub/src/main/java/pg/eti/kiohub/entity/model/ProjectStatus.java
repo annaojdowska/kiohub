@@ -3,18 +3,13 @@ package pg.eti.kiohub.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.util.List;
-import javax.persistence.*;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author Aleksander Kania <kania>
- */
+import javax.persistence.*;
+import java.util.List;
+
 @Entity
 @Table(name = "project_status")
 @Getter

@@ -8,10 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pg.eti.kiohub.entity.enums.Visibility;
 
-/**
- *
- * @author Aleksander Kania
- */
 @Entity
 @Table(name = "project_collaborators")
 @Getter

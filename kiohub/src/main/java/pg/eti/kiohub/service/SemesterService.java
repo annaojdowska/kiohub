@@ -9,9 +9,6 @@ import pg.eti.kiohub.entity.repository.SemesterRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Kasia
- */
 @Service
 public class SemesterService {
     @Autowired

@@ -1,20 +1,15 @@
 
 package pg.eti.kiohub.entity.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pg.eti.kiohub.entity.model.Project;
 
-/**
- *
- * @author Aleksander Kania
- */
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "semesters")
 @Getter
@@ -32,11 +27,6 @@ public class Semester {
     @ManyToMany(mappedBy = "semesters")
     @JsonBackReference
     private List<Project> projects = new ArrayList<>();
-
-    public void addProject(Project project) {
-        projects.add(project);
-        project.getSemesters().add(this);
-    }
 
     public Semester(String name) {
         this.name = name;

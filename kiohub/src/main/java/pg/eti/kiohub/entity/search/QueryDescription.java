@@ -6,10 +6,6 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- *
- * @author Anna
- */
 @Getter
 @Setter
 public class QueryDescription {    

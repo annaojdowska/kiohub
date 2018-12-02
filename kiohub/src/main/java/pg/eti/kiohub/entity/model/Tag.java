@@ -10,10 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author Aleksander Kania
- */
 @Entity
 @Table(name = "tags")
 @Getter

@@ -1,27 +1,16 @@
 package pg.eti.kiohub.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pg.eti.kiohub.entity.model.Attachment;
 import pg.eti.kiohub.entity.repository.AttachmentRepository;
-import pg.eti.kiohub.utils.FileUtils;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
+import java.io.*;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class AttachmentService {

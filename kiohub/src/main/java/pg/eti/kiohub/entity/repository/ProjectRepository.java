@@ -10,10 +10,6 @@ import pg.eti.kiohub.entity.model.Project;
 
 import javax.transaction.Transactional;
 
-/**
- *
- * @author Aleksander Kania <kania>
- */
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>{
     @Query("select count(p) from Project p where p.title = :titlePl")

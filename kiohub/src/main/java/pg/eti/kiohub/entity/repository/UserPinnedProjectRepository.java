@@ -10,10 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pg.eti.kiohub.entity.model.UserPinnedProject;
 
-/**
- *
- * @author Aleksander Kania
- */
 @Repository
 public interface UserPinnedProjectRepository extends JpaRepository<UserPinnedProject, Long> { 
     @Transactional

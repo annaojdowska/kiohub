@@ -18,9 +18,6 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Properties;
 
-/**
- * @author Tomasz
- */
 @Service
 public class MailService {
 

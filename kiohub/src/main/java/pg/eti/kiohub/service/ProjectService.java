@@ -2,8 +2,6 @@
 package pg.eti.kiohub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pg.eti.kiohub.entity.model.Project;
 import pg.eti.kiohub.entity.repository.ProjectRepository;
@@ -14,9 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * @author Anna
- */
 @Service
 public class ProjectService {
 
