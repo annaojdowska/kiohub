@@ -38,6 +38,12 @@ public class MailService {
 
     @Value("${mail.invitation.address:http://kiohub.eti.pg.gda.pl/edit-project/{projectId}}")
     private String address;
+    
+    @Value("${mail.invitation.host:smtp.gmail.com}")
+    private String host;
+    
+    @Value("${mail.invitation.port:587}")
+    private String port;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -47,8 +53,8 @@ public class MailService {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
 
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
