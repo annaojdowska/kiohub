@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @JBossLog
+@CrossOrigin
 @Controller
 @RequestMapping(path = "/project")
 public class ProjectController extends MainController {
