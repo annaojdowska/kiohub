@@ -113,9 +113,8 @@ public class MainController {
                 .and()
                 .authorizeRequests()
                 .anyRequest()
-                .permitAll();
-                    //.and().csrf().disable();
-                    //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .permitAll()
+                .and().csrf().disable();
         }
     }
 
