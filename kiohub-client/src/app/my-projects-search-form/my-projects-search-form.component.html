@@ -32,14 +32,14 @@
     <label class="center">Data publikacji w serwisie:</label>
     <mat-form-field class="leftLabel">
       <input matInput ngModel #dateInput1 [matDatepicker]="datePicker1" class="dateInput" placeholder="od" (dateChange)="formVal.dateFromChanged('change', $event)"
-        disabled [(ngModel)]="sessionDateFrom">
+        disabled [(ngModel)]="dateFrom">
       <mat-datepicker-toggle matSuffix [for]="datePicker1"></mat-datepicker-toggle>
       <mat-datepicker #datePicker1 disabled="false"></mat-datepicker>
       <mat-icon matSuffix><img *ngIf='dateInput1.value' (click)="clearDatePicker1()" class="date-picker-img" src="../../assets/clear.png"></mat-icon>
     </mat-form-field>
     <mat-form-field class="leftLabel paddingLeft">
       <input matInput ngModel #dateInput2 [matDatepicker]="datePicker2" class="dateInput" placeholder="do" (dateChange)="formVal.dateToChanged('change', $event)"
-        disabled [(ngModel)]="sessionDateTo">
+        disabled [(ngModel)]="dateTo">
       <mat-datepicker-toggle matSuffix [for]="datePicker2"></mat-datepicker-toggle>
       <mat-datepicker #datePicker2 disabled="false"></mat-datepicker>
       <mat-icon matSuffix><img *ngIf='dateInput2.value' (click)="clearDatePicker2()" class="date-picker-img" src="../../assets/clear.png"></mat-icon>

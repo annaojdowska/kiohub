@@ -237,10 +237,12 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
 
   clearDatePicker1() {
     this.dateInput1.value = '';
+    this.dateFrom = undefined;
   }
 
   clearDatePicker2() {
     this.dateInput2.value = '';
+    this.dateTo = undefined;
   }
 
   semesterFromString(str: string): Semester {
@@ -289,11 +291,11 @@ export class MyProjectsSearchFormComponent implements OnInit, IAdvancedSearchFor
     }
     const dateFrom = this.valueUtils.getDataFromSessionStorage(FILTER_DATE_FROM);
     if (dateFrom) {
-      this.sessionDateFrom = new Date(dateFrom);
+      this.dateFrom = new Date(dateFrom);
     }
     const dateTo = this.valueUtils.getDataFromSessionStorage(FILTER_DATE_TO);
     if (dateTo) {
-      this.sessionDateTo = new Date(dateTo);
+      this.dateTo = new Date(dateTo);
     }
   }
 }

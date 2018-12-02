@@ -71,8 +71,6 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
   licences: Licence[];
   project_types: ProjectType[];
   semestersHidden: boolean;
-  sessionDateTo: Date;
-  sessionDateFrom: Date;
   constructor(@Inject(ProjectTypeService) private projectTypeService: ProjectTypeService,
     @Inject(LicenceService) private licenceService: LicenceService) { }
 
@@ -194,11 +192,11 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
     }
     const dateFrom = this.valueUtils.getDataFromSessionStorage(SEARCH_DATE_FROM);
     if (dateFrom) {
-      this.sessionDateFrom = new Date(dateFrom);
+      this.dateFrom = new Date(dateFrom);
     }
     const dateTo = this.valueUtils.getDataFromSessionStorage(SEARCH_DATE_TO);
     if (dateTo) {
-      this.sessionDateTo = new Date(dateTo);
+      this.dateTo = new Date(dateTo);
     }
   }
 
@@ -296,10 +294,12 @@ export class AdvancedSearchFormComponent implements OnInit, IAdvancedSearchFormV
 
   clearDatePicker1() {
     this.dateInput1.value = '';
+    this.dateFrom = undefined;
   }
 
   clearDatePicker2() {
     this.dateInput2.value = '';
+    this.dateTo = undefined;
   }
 
   semesterFromString(str: string): Semester {
