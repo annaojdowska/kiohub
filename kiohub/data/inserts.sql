@@ -18,7 +18,7 @@ TRUNCATE TABLE project_types;
 TRUNCATE TABLE project_status;
 TRUNCATE TABLE licences;
 
-INSERT INTO project_types (name) VALUES ('Praca inżynierska');
+INSERT INTO project_types (name) VALUES ('Praca/projekt inżynierski');
 INSERT INTO project_types (name) VALUES ('Praca magisterska');
 INSERT INTO project_types (name) VALUES ('Projekt grupowy');
 INSERT INTO project_types (name) VALUES ('Inny');

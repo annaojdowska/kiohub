@@ -87,16 +87,12 @@ CREATE TABLE related_projects (
 CREATE TABLE attachments (
     attachment_id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
     file_name NVARCHAR(255) NOT NULL,
+    file_location NVARCHAR(350) NOT NULL,
     file_size BIGINT UNSIGNED NOT NULL,
     type NVARCHAR(30) NOT NULL,
     visibility INT,
     is_main_photo BIT,
     project_id INT NOT NULL REFERENCES projects
-);
-
-CREATE TABLE attachments_files (
-    attachments_id INT UNSIGNED NOT NULL PRIMARY KEY REFERENCES attachments,
-    file LONGBLOB NOT NULL
 );
 
 CREATE TABLE users (
