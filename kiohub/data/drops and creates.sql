@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS user_pinned_projects;
 DROP TABLE IF EXISTS project_collaborators;
 DROP TABLE IF EXISTS users_emails;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS attachments_files;
 DROP TABLE IF EXISTS attachments;
 DROP TABLE IF EXISTS related_projects;
 DROP TABLE IF EXISTS project_semesters;
