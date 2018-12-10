@@ -1,11 +1,6 @@
-import { Component, ElementRef, ViewChild, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { InputListElement } from '../model/input-list-element';
-import { VisibilitySelectComponent } from '../visibility-select/visibility-select.component';
 import { Visibility } from '../model/visibility.enum';
-
-export interface Fruit {
-  name: string;
-}
 
 @Component({
   selector: 'app-input-list',

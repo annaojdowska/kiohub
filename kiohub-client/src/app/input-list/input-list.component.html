@@ -1,20 +1,20 @@
 <mat-chip-list #chipList name="chip-list">
   <div class='chip-list-wrapper'>
-    <mat-chip *ngFor="let fruit of elements" [selectable]="selectable" [removable]="removable" (removed)="remove(fruit)"
-      [disableRipple]="true" class="chip-{{orientation}} chip-{{fruit.selected}} chip">
-      <img matTooltip='{{tooltipMainPhotoSelected}}' src="assets/radio-on-button-smaller.png" (click)="select(fruit)"
-        *ngIf='fruit.selected && selectable' class="chip-image chip-radio" />
-      <img matTooltip='{{tooltipChooseMainPhoto}}' src="assets/radio-off-button-smaller.png" (click)="select(fruit)"
-        *ngIf='!fruit.selected && selectable' class="chip-image chip-radio" />
+    <mat-chip *ngFor="let element of elements" [selectable]="selectable" [removable]="removable" (removed)="remove(element)"
+      [disableRipple]="true" class="chip-{{orientation}} chip-{{element.selected}} chip">
+      <img matTooltip='{{tooltipMainPhotoSelected}}' src="assets/radio-on-button-smaller.png" (click)="select(element)"
+        *ngIf='element.selected && selectable' class="chip-image chip-radio" />
+      <img matTooltip='{{tooltipChooseMainPhoto}}' src="assets/radio-off-button-smaller.png" (click)="select(element)"
+        *ngIf='!element.selected && selectable' class="chip-image chip-radio" />
       <div [ngClass]="visibilityChangeable ? (removable ? 'chip-margin2 chip-text' : 'chip-margin1 chip-text') : (removable ? 'chip-margin1 chip-text' : 'chip-text')"
-        (click)="select(fruit)">
-        {{fruit.name}}
+        (click)="select(element)">
+        {{element.name}}
       </div>
       <div *ngIf="removable || visibilityChangeable" class="right-elements-{{orientation}}">
         <img matTooltip='{{tooltipDelete}}' src="assets/delete-button-smaller.png" matChipRemove *ngIf="removable"
           class="chip-remove chip-image" />
-        <app-visibility-select matTooltip='{{tooltipVisibility}}' *ngIf='visibilityChangeable' [selected]="fruit.visibility"
-          [allowPrivate]="false" [allowLoggedUsers]="allowLoggedUsers" (selectionChange)="selectionChange(fruit, $event)"
+        <app-visibility-select matTooltip='{{tooltipVisibility}}' *ngIf='visibilityChangeable' [selected]="element.visibility"
+          [allowPrivate]="false" [allowLoggedUsers]="allowLoggedUsers" (selectionChange)="selectionChange(element, $event)"
           class="chip-image chip-visibility"></app-visibility-select>
       </div>
     </mat-chip>
